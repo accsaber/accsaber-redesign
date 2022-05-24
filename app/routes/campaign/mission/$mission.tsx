@@ -30,8 +30,9 @@ const MissionView = () => {
     mission: CampaignMission;
   }>();
   return (
-    <div className="prose max-w-none">
-      <table>
+    <div className="prose flex-1 max-w-none">
+      <h1>{mission.name.replace(/<.*?>/g, "").replace(/\[.*?\]/g, "")}</h1>
+      <table className="prose">
         <thead>
           <tr>
             <th>#</th>

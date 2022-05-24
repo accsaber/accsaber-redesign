@@ -96,7 +96,8 @@ const PageHeader: React.FC<{
                     "text-neutral-800 dark:text-neutral-300 px-4 py-2",
                     "flex items-center",
                     "rounded hover:bg-black/5",
-                    route.pathname == href || isCurrent
+                    route.pathname.replace(/\/$/, "") ==
+                      href.replace(/\/$/, "") || isCurrent
                       ? "bg-black/5 dark:bg-black/20"
                       : "",
                   ].join(" ")}
