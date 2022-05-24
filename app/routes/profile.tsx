@@ -1,6 +1,6 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
@@ -56,11 +56,29 @@ const ProfileRoute = () => {
   }>();
   return (
     <>
-      <PageHeader image={profile.avatarUrl} hideTitleUntilScrolled>
+      <PageHeader
+        image={profile.avatarUrl}
+        actionButton={
+          <button className="px-4 py-2 shadow bg-gradient-to-l from-pink-500 dark:from-pink-600 to-red-500 rounded text-white">
+            Set as my profile
+          </button>
+        }
+        navigation={[
+          {
+            href: `/profile/${profile.playerId}/scores`,
+            label: `Scores`,
+            isCurrent: useLocation().pathname == `/profile/${profile.playerId}`,
+          },
+          {
+            href: `/profile/${profile.playerId}/campaign`,
+            label: `Campaign Progress`,
+          },
+        ]}
+      >
         {profile.playerName}&apos;s Profile
       </PageHeader>
       <div className="max-w-screen-lg mx-auto px-4">
-        <div className="flex gap-4 p-8 text-neutral-800 dark:text-neutral-200">
+        <div className="flex gap-4 p-8 text-neutral-800 dark:text-neutral-200 items-center">
           <div className="flex overflow-hidden rounded-full h-32 aspect-square">
             <img
               src={profile.avatarUrl}

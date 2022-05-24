@@ -1,5 +1,5 @@
-import { Link } from "@remix-run/react";
-import { createRef, useEffect, useState } from "react";
+import { Link, useLocation } from "@remix-run/react";
+import { createRef, ReactNode, useEffect, useState } from "react";
 
 const PageHeader: React.FC<{
   image?: string;
@@ -9,9 +9,18 @@ const PageHeader: React.FC<{
     href: string;
     isCurrent?: boolean;
   }[];
-}> = ({ children, image, hideTitleUntilScrolled, navigation }) => {
+  actionButton?: ReactNode;
+}> = ({
+  children,
+  image,
+  hideTitleUntilScrolled,
+  navigation,
+  actionButton,
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const scrollProbe = createRef<HTMLDivElement>();
+
+  const route = useLocation();
 
   useEffect(() => {
     if (!scrollProbe.current) return;
@@ -31,7 +40,7 @@ const PageHeader: React.FC<{
         className={[
           "sticky top-16",
           "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
-          "border-t-[1px] dark:border-t-neutral-700 transition-all",
+          "transition-all",
           hideTitleUntilScrolled ? "-mb-16" : "",
           hideTitleUntilScrolled && !scrolled
             ? "bg-opacity-0 dark:bg-opacity-0"
@@ -59,7 +68,7 @@ const PageHeader: React.FC<{
             <div>{children}</div>
           </div>
           {navigation ? (
-            <nav className="flex gap-2">
+            <nav className="flex flex-1 gap-2">
               {navigation.map(({ label, href, isCurrent }) => (
                 <Link
                   to={`${href}`}
@@ -67,8 +76,10 @@ const PageHeader: React.FC<{
                   className={[
                     "text-neutral-800 dark:text-neutral-300 px-4 py-2",
                     "flex items-center",
-                    "rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700",
-                    isCurrent ? "bg-neutral-100 dark:bg-neutral-900" : "",
+                    "rounded hover:bg-black/5",
+                    route.pathname == href || isCurrent
+                      ? "bg-black/5 dark:bg-black/20"
+                      : "",
                   ].join(" ")}
                 >
                   {label}
@@ -76,8 +87,9 @@ const PageHeader: React.FC<{
               ))}
             </nav>
           ) : (
-            ""
+            <div className="flex-1" />
           )}
+          {actionButton ? <div>{actionButton}</div> : ""}
         </div>
       </div>
     </>
