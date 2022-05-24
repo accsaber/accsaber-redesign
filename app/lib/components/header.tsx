@@ -3,7 +3,7 @@ import logo from "~/lib/logo.png";
 import headerItems from "../headerItems";
 
 const Header = () => (
-  <header className="sticky top-0 bg-gradient-to-l from-blue-600 to-purple-600 text-white z-50">
+  <header className="bg-gradient-to-l from-blue-600 to-purple-600 text-white">
     <nav className="p-2 max-w-screen-lg mx-auto flex items-center">
       <Link
         to={"/"}

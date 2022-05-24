@@ -1,9 +1,10 @@
-import { ErrorBoundaryComponent, json, LoaderFunction } from "@remix-run/node";
+import type { ErrorBoundaryComponent, LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
-import apiFetcher from "~/lib/api/fetcher";
-import { PlayerScore } from "~/lib/interfaces/api/player-score";
+import { get } from "~/lib/api/fetcher";
+import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
 export const ErrorBoundary: ErrorBoundaryComponent = () => {
   return <div>Failed to load scores</div>;
@@ -13,10 +14,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.userId, "Expected User ID");
   const url = new URL(request.url);
 
-  const [{ data: scores }] = await Promise.all([
-    apiFetcher.get<PlayerScore[]>(`/players/${params.userId}/scores`),
-  ]);
-
+  const scores = await get<PlayerScore[]>(`/players/${params.userId}/scores`);
   const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
   const isReversed = url.searchParams.has("reverse");
 
@@ -85,22 +83,23 @@ const SortButton: React.FC<{ name: string; value: string }> = ({
 };
 const Scores = () => {
   const { scores } = useLoaderData<{ scores: PlayerScore[] }>();
+  const columns: [keyof PlayerScore | null, string][] = [
+    ["rank", "Rank"],
+    ["songName", "Song Name"],
+    ["categoryDisplayName", "Category"],
+    ["accuracy", "Accuracy"],
+    ["ap", "AP"],
+    ["timeSet", "Time Set"],
+    [null, "Difficulty"],
+    ["complexity", "Complexity"],
+  ];
   return (
     <div className="prose max-w-none w-full dark:prose-invert">
       <h2>Scores</h2>
       <table>
         <thead>
           <tr>
-            {[
-              ["rank", "Rank"],
-              ["songName", "Song Name"],
-              ["categoryName", "Category"],
-              ["accuracy", "Accuracy"],
-              ["ap", "AP"],
-              ["timeSet", "Time Set"],
-              [null, "Difficulty"],
-              ["complexity", "Complexity"],
-            ].map(([value, friendly]) => (
+            {columns.map(([value, friendly]) => (
               <th key={value}>
                 {value ? (
                   <SortButton name="sortBy" value={value}>

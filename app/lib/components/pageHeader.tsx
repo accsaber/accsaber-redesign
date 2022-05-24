@@ -1,5 +1,7 @@
 import { Link, useLocation } from "@remix-run/react";
-import { createRef, ReactNode, useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { createRef, useEffect, useState } from "react";
+import logo from "~/lib/logo.png";
 
 const PageHeader: React.FC<{
   image?: string;
@@ -38,7 +40,7 @@ const PageHeader: React.FC<{
       <div ref={scrollProbe} />
       <div
         className={[
-          "sticky top-16",
+          "sticky top-0",
           "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
           "transition-all",
           hideTitleUntilScrolled ? "-mb-16" : "",
@@ -48,6 +50,23 @@ const PageHeader: React.FC<{
         ].join(" ")}
       >
         <div className="flex mx-auto max-w-screen-lg px-4 gap-4 items-center">
+          <Link
+            to={"/"}
+            className={[
+              "w-12 h-12 rounded-full aspect-square p-2 flex ",
+              "hover:bg-black/5 dark:hover:bg-black/10 items-center gap-2 font-semibold transition-all",
+              !scrolled ? "-mr-16 opacity-0 pointer-events-none" : "-mr-2",
+            ].join(" ")}
+          >
+            <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
+          </Link>
+          <div
+            className={`transition-all ${
+              scrolled
+                ? `w-px h-10 bg-black/10 dark:bg-white/5 mx-0 -ml-1`
+                : "-mx-2"
+            }`}
+          ></div>
           <div
             className={[
               "flex gap-2 items-center py-4 transition-opacity font-semibold",

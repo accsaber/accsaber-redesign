@@ -2,18 +2,15 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { language } from "~/lib/api/config";
-import apiFetcher from "~/lib/api/fetcher";
+import { get, getLeaderboard } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
-import logo from "~/lib/logo.png";
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const [{ data: categories }, { data: standings }] = await Promise.all([
-    apiFetcher.get<Category[]>(`/categories`),
-    apiFetcher.get<Player[]>(
-      `/categories/${params.category ?? "overall"}/standings`
-    ),
+  const [categories, standings] = await Promise.all([
+    get<Category[]>(`/categories`),
+    getLeaderboard(params.category ?? "overall"),
   ]);
   return json({ categories, standings, current: params.category ?? "overall" });
 };
@@ -27,7 +24,6 @@ const LeaderboardPage = () => {
   return (
     <>
       <PageHeader
-        image={logo}
         navigation={[
           { categoryName: "overall", categoryDisplayName: "Overall" },
           ...categories,

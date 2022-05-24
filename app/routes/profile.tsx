@@ -4,7 +4,7 @@ import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
-import apiFetcher from "~/lib/api/fetcher";
+import { get } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import type { Player } from "~/lib/interfaces/api/player";
@@ -25,18 +25,12 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response("Player Not Found", { status: 404 });
 
   try {
-    const [{ data: profile, status, statusText }, { data: history }] =
-      await Promise.all([
-        apiFetcher.get<Player>(`/players/${params.userId}`, {
-          validateStatus: null,
-        }),
-        apiFetcher.get<{ [date: string]: number }>(
-          `/players/${params.userId}/recent-rank-history`,
-          {
-            validateStatus: null,
-          }
-        ),
-      ]);
+    const [profile, history] = await Promise.all([
+      get<Player>(`/players/${params.userId}`),
+      get<{ [date: string]: number }>(
+        `/players/${params.userId}/recent-rank-history`
+      ),
+    ]);
 
     return json({ profile, history: Object.entries(history) });
   } catch (err) {

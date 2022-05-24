@@ -1,7 +1,7 @@
 import ApiConfig from "../../interfaces/config";
 
 const productionConfig: ApiConfig = {
-  apiURL: "https://accsaber.com/api",
+  apiURL: "https://api.accsaber.com/",
   cdnURL: "https://accsaber.com/cdn",
   imageURL: "https://images.accsaber.com/",
   redisURL:
