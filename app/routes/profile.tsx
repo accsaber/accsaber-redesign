@@ -81,7 +81,7 @@ const ProfileRoute = () => {
         {profile.playerName}&apos;s Profile
       </PageHeader>
       <div className="max-w-screen-lg mx-auto px-4">
-        <div className="flex gap-4 p-8 text-neutral-800 dark:text-neutral-200 items-center">
+        <div className="flex gap-4 py-8 text-neutral-800 dark:text-neutral-200 items-center">
           <div className="flex overflow-hidden rounded-full h-32 aspect-square">
             <img
               src={profile.avatarUrl}
