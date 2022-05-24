@@ -1,9 +1,15 @@
+import { Link } from "@remix-run/react";
 import { createRef, useEffect, useState } from "react";
 
 const PageHeader: React.FC<{
   image?: string;
   hideTitleUntilScrolled?: boolean;
-}> = ({ children, image, hideTitleUntilScrolled }) => {
+  navigation?: {
+    label: string;
+    href: string;
+    isCurrent?: boolean;
+  }[];
+}> = ({ children, image, hideTitleUntilScrolled, navigation }) => {
   const [scrolled, setScrolled] = useState(false);
   const scrollProbe = createRef<HTMLDivElement>();
 
@@ -29,18 +35,18 @@ const PageHeader: React.FC<{
           hideTitleUntilScrolled ? "-mb-16" : "",
           hideTitleUntilScrolled && !scrolled
             ? "bg-opacity-0 dark:bg-opacity-0"
-            : " shadow",
+            : "shadow",
         ].join(" ")}
       >
-        <div className="flex mx-auto max-w-screen-lg p-4">
+        <div className="flex mx-auto max-w-screen-lg px-4 gap-4 items-center">
           <div
             className={[
-              "flex flex-1 gap-2 items-center h-8 transition-opacity",
+              "flex gap-2 items-center py-4 transition-opacity font-semibold",
               hideTitleUntilScrolled && !scrolled ? "opacity-0" : "",
             ].join(" ")}
           >
             {image ? (
-              <div className="h-full">
+              <div className="h-8">
                 <img
                   src={image}
                   alt=""
@@ -52,7 +58,26 @@ const PageHeader: React.FC<{
             )}
             <div>{children}</div>
           </div>
-          <nav></nav>
+          {navigation ? (
+            <nav className="flex gap-2">
+              {navigation.map(({ label, href, isCurrent }) => (
+                <Link
+                  to={`${href}`}
+                  key={href}
+                  className={[
+                    "text-neutral-800 dark:text-neutral-300 px-4 py-2",
+                    "flex items-center",
+                    "rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700",
+                    isCurrent ? "bg-neutral-100 dark:bg-neutral-900" : "",
+                  ].join(" ")}
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>
