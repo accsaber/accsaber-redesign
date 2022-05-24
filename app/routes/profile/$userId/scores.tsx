@@ -1,5 +1,5 @@
 import { ErrorBoundaryComponent, json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
 import apiFetcher from "~/lib/api/fetcher";
@@ -9,16 +9,80 @@ export const ErrorBoundary: ErrorBoundaryComponent = () => {
   return <div>Failed to load scores</div>;
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.userId, "Expected User ID");
+  const url = new URL(request.url);
 
   const [{ data: scores }] = await Promise.all([
-    apiFetcher.get(`/players/${params.userId}/scores?sortBy=rank`),
+    apiFetcher.get<PlayerScore[]>(`/players/${params.userId}/scores`),
   ]);
 
-  return json({ scores });
+  const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
+  const isReversed = url.searchParams.has("reverse");
+
+  const rev = (scores: PlayerScore[]) =>
+    isReversed ? scores.reverse() : scores;
+
+  switch (sortBy) {
+    case "rank":
+    case "accuracy":
+    case "ap":
+    case "complexity":
+      return json({
+        scores: rev(scores.sort((a, b) => a[sortBy] - b[sortBy])),
+      });
+    case "timeSet":
+      return json({
+        scores: rev(
+          scores.sort(
+            (a, b) =>
+              new Date(a.timeSet).getTime() - new Date(b.timeSet).getTime()
+          )
+        ),
+      });
+
+    case "songName":
+    case "categoryDisplayName":
+      return json({
+        scores: rev(scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1))),
+      });
+    default:
+      return json({ scores: rev(scores) });
+  }
 };
 
+const SortButton: React.FC<{ name: string; value: string }> = ({
+  children,
+  name,
+  value,
+}) => {
+  const query = new URLSearchParams(useLocation().search);
+  return (
+    <Form method="get">
+      <input type="hidden" name={name} value={value} />
+      {query.get(name) == value && !query.has("reverse") ? (
+        <input type={"hidden"} name="reverse" />
+      ) : (
+        ""
+      )}
+      <button
+        className="[font:inherit] flex w-full justify-between"
+        type="submit"
+      >
+        {children}
+        <div>
+          {query.get(name) !== value ? (
+            "-"
+          ) : query.has("reverse") ? (
+            <>&uarr;</>
+          ) : (
+            <>&darr;</>
+          )}
+        </div>
+      </button>
+    </Form>
+  );
+};
 const Scores = () => {
   const { scores } = useLoaderData<{ scores: PlayerScore[] }>();
   return (
@@ -27,14 +91,26 @@ const Scores = () => {
       <table>
         <thead>
           <tr>
-            <th>Rank</th>
-            <th>Song</th>
-            <th>Category</th>
-            <th>Accuracy</th>
-            <th>AP</th>
-            <th>Time Set</th>
-            <th>Difficulty</th>
-            <th>Complexity</th>
+            {[
+              ["rank", "Rank"],
+              ["songName", "Song Name"],
+              ["categoryName", "Category"],
+              ["accuracy", "Accuracy"],
+              ["ap", "AP"],
+              ["timeSet", "Time Set"],
+              [null, "Difficulty"],
+              ["complexity", "Complexity"],
+            ].map(([value, friendly]) => (
+              <th key={value}>
+                {value ? (
+                  <SortButton name="sortBy" value={value}>
+                    {friendly}
+                  </SortButton>
+                ) : (
+                  friendly
+                )}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
