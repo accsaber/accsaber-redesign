@@ -1,6 +1,6 @@
 # AccSaber Website Redesign
 
-Uses Remix.js
+Uses <https://remix.run>
 
 ```
 npm run dev
