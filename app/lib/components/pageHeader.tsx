@@ -23,7 +23,7 @@ const PageHeader: React.FC<{
       <div ref={scrollProbe} />
       <div
         className={[
-          "sticky top-14",
+          "sticky top-16",
           "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
           "border-t-[1px] dark:border-t-neutral-700 transition-all",
           hideTitleUntilScrolled ? "-mb-16" : "",

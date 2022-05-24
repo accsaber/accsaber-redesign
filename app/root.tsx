@@ -1,4 +1,5 @@
-import { json, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -14,6 +15,7 @@ import Header from "./lib/components/header";
 
 import styles from "./tailwind.css";
 import rootStyles from "./styles/app.css";
+import logo from "./lib/logo.png";
 
 export async function loader() {
   return json({
@@ -33,6 +35,7 @@ export function links() {
   return [
     { rel: "stylesheet", href: styles },
     { rel: "stylesheet", href: rootStyles },
+    { rel: "shortcut icon", href: logo },
   ];
 }
 
