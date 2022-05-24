@@ -1,16 +1,26 @@
 import { Link } from "@remix-run/react";
 import logo from "~/lib/logo.png";
+import headerItems from "../headerItems";
 
 const Header = () => (
-  <header className="sticky top-0 bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 z-50">
-    <div className="p-2 max-w-screen-lg mx-auto flex">
+  <header className="sticky top-0 bg-gradient-to-l from-blue-600 to-purple-600 text-neutral-200 z-50">
+    <nav className="p-2 max-w-screen-lg mx-auto flex items-center">
       <Link
         to={"/"}
-        className="h-12 rounded p-2 flex hover:bg-neutral-100 items-center gap-2 font-semibold"
+        className="h-12 rounded-full p-2 flex hover:bg-black/10 items-center gap-2 font-semibold"
       >
         <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
       </Link>
-    </div>
+      {headerItems.map(({ href, name }) => (
+        <Link
+          to={href}
+          key={href}
+          className="rounded p-4 py-2 hover:bg-black/10 items-center gap-2"
+        >
+          {name}
+        </Link>
+      ))}
+    </nav>
   </header>
 );
 

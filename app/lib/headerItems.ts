@@ -1,4 +1,4 @@
-import HeaderItem from "./interfaces/components/header/item";
+import type HeaderItem from "./interfaces/components/header/item";
 
 const headerItems: HeaderItem[] = [
   { name: "Leaderboards", href: "/leaderboards/overall", icon: "list" },
