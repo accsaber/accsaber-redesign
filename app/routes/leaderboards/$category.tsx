@@ -62,6 +62,7 @@ const LeaderboardPage = () => {
             <thead>
               <tr>
                 <th>Rank</th>
+                <th></th>
                 <th>Name</th>
                 <th>AP</th>
                 <th>Average Acc</th>
@@ -74,6 +75,13 @@ const LeaderboardPage = () => {
               {standings.map((player) => (
                 <tr key={player.playerId}>
                   <td>#{player.rank}</td>
+                  <td className="relative aspect-square w-10">
+                    <img
+                      src={player.avatarUrl}
+                      alt={`${player.playerName}'s profile`}
+                      className="absolute top-0 left-0 m-0"
+                    />
+                  </td>
                   <td>
                     <Link
                       to={`/profile/${player.playerId}/scores`}
