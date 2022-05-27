@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({
     standings: standings.splice((page - 1) * pageSize, pageSize),
     current: category,
     page,
-    pages: Math.ceil(standings.length / pageSize),
+    pages: Math.ceil(standings.length / pageSize) + 1,
   });
 };
 
