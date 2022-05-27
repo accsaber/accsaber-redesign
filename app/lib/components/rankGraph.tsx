@@ -24,6 +24,9 @@ const RankGraph: React.FC<{
         scales: {
           y: {
             reverse: true,
+            ticks: {
+              precision: 0,
+            },
           },
         },
       }}
