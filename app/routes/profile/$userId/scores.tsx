@@ -5,7 +5,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useLoaderData, useLocation } from "@remix-run/react";
+import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
@@ -163,7 +163,11 @@ const Scores = () => {
                     className="absolute top-0 left-0 m-0"
                   />
                 </td>
-                <td>{score.songName}</td>
+                <td>
+                  <Link to={`/maps/${score.leaderboardId}`}>
+                    {score.songName}
+                  </Link>
+                </td>
                 <td>{score.categoryDisplayName}</td>
                 <td>
                   {(score.accuracy * 100).toLocaleString(language, {
