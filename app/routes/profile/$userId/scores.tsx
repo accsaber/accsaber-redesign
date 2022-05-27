@@ -121,7 +121,7 @@ const Scores = () => {
     pages: number;
   }>();
   const columns: [keyof PlayerScore | null, string][] = [
-    ["rank", "Rank"],
+    ["rank", ""],
     [null, ""],
     ["songName", "Song Name"],
     ["categoryDisplayName", "Category"],
@@ -164,11 +164,8 @@ const Scores = () => {
                     className="absolute top-0 left-0 m-0"
                   />
                 </td>
-                <td>
-                  <Link
-                    to={`/maps/${score.leaderboardId}`}
-                    className="max-w-[12rem] text-ellipsis whitespace-nowrap block overflow-hidden"
-                  >
+                <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
+                  <Link to={`/maps/${score.leaderboardId}`}>
                     {score.songName}
                   </Link>
                 </td>
