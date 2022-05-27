@@ -109,7 +109,7 @@ const MapLeaderboardPage = () => {
                   />
                 </td>
                 <td>
-                  <Link to={`/profile/${score.playerId}`}>
+                  <Link to={`/profile/${score.playerId}/overall/scores`}>
                     {score.playerName}
                   </Link>
                 </td>

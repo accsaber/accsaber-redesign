@@ -72,112 +72,72 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 const ProfileRoute = () => {
-  const { profile, history, categories } = useLoaderData<{
+  const { profile, history } = useLoaderData<{
     profile: Player;
     history: [string, number][];
-    categories: Category[];
   }>();
 
   return (
-    <UserContext.Consumer>
-      {(user) => (
-        <>
-          <PageHeader
-            image={profile.avatarUrl}
-            actionButton={
-              user?.playerId !== profile.playerId ? (
-                <Form
-                  action={`/profile/${profile.playerId}/scores`}
-                  method="post"
-                  replace
-                >
-                  <button
-                    type="submit"
-                    className="px-4 py-2 shadow-md bg-white dark:bg-neutral-700 rounded text-inherit"
-                  >
-                    Set as my profile
-                  </button>
-                </Form>
-              ) : undefined
-            }
-            navigation={[
-              {
-                href: `/profile/${profile.playerId}/overall`,
-                label: `Overall`,
-              },
-              ...categories.map((category) => ({
-                href: `/profile/${profile.playerId}/${category.categoryName}`,
-                label: category.categoryDisplayName,
-              })),
-            ]}
-          >
-            {profile.playerName}&apos;s Profile
-          </PageHeader>
-          <div className="bg-neutral-100 dark:bg-black/20">
-            <div
-              className={[
-                "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
-                "max-w-screen-lg mx-auto px-4",
-              ].join(" ")}
-            >
-              <div className="flex overflow-hidden rounded-full shadow-lg w-32 h-32 aspect-square">
-                <img
-                  src={profile.avatarUrl}
-                  alt={`${profile.playerName}'s avatar`}
-                  className="w-32 h-32 "
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <div className="flex gap-2">
-                  <h1 className="text-2xl font-semibold">
-                    {profile.playerName}
-                  </h1>
-                  <div className="text-2xl flex gap-1">
-                    <div>#{profile.rank.toLocaleString(language)}</div>
+    <>
+      <div className="bg-neutral-100 dark:bg-black/20">
+        <div
+          className={[
+            "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
+            "max-w-screen-lg mx-auto px-4",
+          ].join(" ")}
+        >
+          <div className="flex overflow-hidden rounded-full shadow-lg w-32 h-32 aspect-square">
+            <img
+              src={profile.avatarUrl}
+              alt={`${profile.playerName}'s avatar`}
+              className="w-32 h-32 "
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <div className="flex gap-2">
+              <h1 className="text-2xl font-semibold">{profile.playerName}</h1>
+              <div className="text-2xl flex gap-1">
+                <div>#{profile.rank.toLocaleString(language)}</div>
 
-                    {profile.rankLastWeek !== profile.rank ? (
-                      <div
-                        className={[
-                          profile.rankLastWeek > profile.rank
-                            ? "text-green-600 dark:text-green-400"
-                            : "",
-                          profile.rankLastWeek < profile.rank
-                            ? "text-red-600 dark:text-red-400"
-                            : "",
-                        ]
-                          .join(" ")
-                          .trim()}
-                      >
-                        {profile.rankLastWeek > profile.rank ? "+" : ""}
-                        {profile.rankLastWeek - profile.rank}
-                      </div>
-                    ) : (
-                      ""
-                    )}
+                {profile.rankLastWeek !== profile.rank ? (
+                  <div
+                    className={[
+                      profile.rankLastWeek > profile.rank
+                        ? "text-green-600 dark:text-green-400"
+                        : "",
+                      profile.rankLastWeek < profile.rank
+                        ? "text-red-600 dark:text-red-400"
+                        : "",
+                    ]
+                      .join(" ")
+                      .trim()}
+                  >
+                    {profile.rankLastWeek > profile.rank ? "+" : ""}
+                    {profile.rankLastWeek - profile.rank}
                   </div>
-                </div>
-                <div className="text-xl">
-                  {profile.ap.toLocaleString(language, {
-                    maximumFractionDigits: 2,
-                  })}{" "}
-                  AP
-                </div>
-                <div className="text-xl">
-                  {profile.rankedPlays} ranked plays
-                </div>
-                <div className="text-xl">{profile.hmd}</div>
-              </div>
-              <div className="flex-1 pl-20">
-                <RankGraph history={history} />
+                ) : (
+                  ""
+                )}
               </div>
             </div>
+            <div className="text-xl">
+              {profile.ap.toLocaleString(language, {
+                maximumFractionDigits: 2,
+              })}{" "}
+              AP
+            </div>
+            <div className="text-xl">{profile.rankedPlays} ranked plays</div>
+            <div className="text-xl">{profile.hmd}</div>
           </div>
-          <div className="max-w-screen-lg mx-auto px-4 py-8">
-            <Outlet />
+          <div className="flex-1 pl-20">
+            <RankGraph history={history} />
           </div>
-        </>
-      )}
-    </UserContext.Consumer>
+        </div>
+      </div>
+      <div className="max-w-screen-lg mx-auto px-4 py-8">
+        <Outlet />
+      </div>
+    </>
   );
 };
 
