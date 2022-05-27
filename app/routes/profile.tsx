@@ -81,7 +81,7 @@ const ProfileRoute = () => {
                 >
                   <button
                     type="submit"
-                    className="px-4 py-2 shadow bg-gradient-to-l from-pink-500 dark:from-pink-600 to-red-500 rounded text-white"
+                    className="px-4 py-2 shadow-md bg-white dark:bg-neutral-700 rounded text-inherit"
                   >
                     Set as my profile
                   </button>

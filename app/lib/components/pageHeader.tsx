@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@remix-run/react";
+import { NavLink, Link, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { createRef, useEffect, useState } from "react";
 import logo from "~/lib/logo.png";
@@ -89,21 +89,13 @@ const PageHeader: React.FC<{
           {navigation ? (
             <nav className="flex flex-1 gap-2">
               {navigation.map(({ label, href, isCurrent }) => (
-                <Link
+                <NavLink
                   to={`${href}`}
                   key={href}
-                  className={[
-                    "text-neutral-800 dark:text-neutral-300 px-4 py-2",
-                    "flex items-center",
-                    "rounded hover:bg-black/5",
-                    route.pathname.replace(/\/$/, "") ==
-                      href.replace(/\/$/, "") || isCurrent
-                      ? "bg-black/5 dark:bg-black/20"
-                      : "",
-                  ].join(" ")}
+                  className={["pageNav"].join(" ")}
                 >
                   {label}
-                </Link>
+                </NavLink>
               ))}
             </nav>
           ) : (

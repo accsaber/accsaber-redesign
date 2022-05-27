@@ -58,7 +58,7 @@ const LeaderboardPage = () => {
                 <tr key={player.playerId}>
                   <td>#{player.rank}</td>
                   <td>
-                    <Link to={`/profile/${player.playerId}`}>
+                    <Link to={`/profile/${player.playerId}/scores`}>
                       {player.playerName}
                     </Link>
                   </td>
