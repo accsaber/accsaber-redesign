@@ -11,6 +11,7 @@ const PageHeader: React.FC<{
     href: string;
     isCurrent?: boolean;
   }[];
+  iconRounded?: boolean;
   actionButton?: ReactNode;
 }> = ({
   children,
@@ -18,6 +19,7 @@ const PageHeader: React.FC<{
   hideTitleUntilScrolled,
   navigation,
   actionButton,
+  iconRounded,
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const scrollProbe = createRef<HTMLDivElement>();
@@ -53,12 +55,12 @@ const PageHeader: React.FC<{
           <Link
             to={"/"}
             className={[
-              "w-12 h-12 rounded-full aspect-square p-2 flex ",
+              "w-12 h-12 aspect-square p-2 flex ",
               "hover:bg-black/5 dark:hover:bg-black/10 items-center gap-2 font-semibold transition-all",
               !scrolled ? "-mr-16 opacity-0 pointer-events-none" : "-mr-2",
             ].join(" ")}
           >
-            <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
+            <img src={logo} alt="" className="h-8 aspect-square" />
           </Link>
           <div
             className={`transition-all ${
@@ -78,7 +80,9 @@ const PageHeader: React.FC<{
                 <img
                   src={image}
                   alt=""
-                  className="rounded-full h-full aspect-square"
+                  className={`${
+                    iconRounded ?? true ? "rounded-full" : ""
+                  } h-full aspect-square`}
                 />
               </div>
             ) : (

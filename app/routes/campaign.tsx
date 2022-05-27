@@ -16,6 +16,7 @@ const CampaignRoute = () => {
     <>
       <PageHeader
         image={campaignLogo}
+        iconRounded={false}
         navigation={[
           {
             href: "/campaign/",
