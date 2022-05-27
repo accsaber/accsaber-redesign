@@ -78,6 +78,7 @@ const ProfileRoute = () => {
                 <Form
                   action={`/profile/${profile.playerId}/scores`}
                   method="post"
+                  replace
                 >
                   <button
                     type="submit"
