@@ -1,5 +1,5 @@
 import campaignLogo from "~/lib/images/campaign.png";
-import CampaignIntroBody from "~/lib/campaign-intro.md";
+import CampaignIntroBody from "~/lib/strings/campaign-intro.md";
 import { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => ({

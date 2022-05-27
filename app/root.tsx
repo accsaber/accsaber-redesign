@@ -14,7 +14,7 @@ import {
 import Header from "./lib/components/header";
 
 import styles from "./tailwind.css";
-import logo from "./lib/logo.png";
+import logo from "./lib/images/logo.png";
 import UserContext from "./lib/components/usercontext";
 import { user } from "./cookies";
 import { get } from "./lib/api/fetcher";

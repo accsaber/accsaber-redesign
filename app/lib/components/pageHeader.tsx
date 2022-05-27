@@ -1,7 +1,7 @@
 import { NavLink, Link, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { createRef, useEffect, useState } from "react";
-import logo from "~/lib/logo.png";
+import logo from "~/lib/images/logo.png";
 
 const PageHeader: React.FC<{
   image?: string;
