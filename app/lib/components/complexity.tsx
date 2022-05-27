@@ -14,7 +14,7 @@ const Complexity: React.FC<{ children: number }> = ({ children }) => {
       ].join(" ")}
     >
       <div
-        className="absolute top-0 left-0 h-full"
+        className="absolute top-0 left-0 h-full opacity-70 dark:opacity-100"
         style={{
           backgroundColor: rgbValue,
           width: (children / 15) * 100 + "%",
