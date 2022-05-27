@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import logo from "~/lib/logo.png";
 import headerItems from "../headerItems";
 
@@ -12,13 +12,9 @@ const Header = () => (
         <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
       </Link>
       {headerItems.map(({ href, name }) => (
-        <Link
-          to={href}
-          key={href}
-          className="rounded p-4 py-2 hover:bg-black/10 items-center gap-2"
-        >
+        <NavLink to={href} key={href} className="headerNav">
           {name}
-        </Link>
+        </NavLink>
       ))}
     </nav>
   </header>

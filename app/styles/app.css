@@ -8,3 +8,13 @@ body {
   min-height: 100%;
   margin: 0;
 }
+
+@layer components {
+  .headerNav {
+    @apply rounded p-4 py-2 items-center gap-2;
+  }
+  .headerNav:hover,
+  .headerNav.active {
+    @apply bg-black/10;
+  }
+}

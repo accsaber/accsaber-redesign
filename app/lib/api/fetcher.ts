@@ -5,7 +5,7 @@ import { createClient } from "redis";
 import type { Player } from "../interfaces/api/player";
 import ms from "ms";
 
-const client = createClient({
+export const client = createClient({
   url: config.redisURL,
 });
 
@@ -49,8 +49,5 @@ export const get = async <T>(url: string) => {
 
   return data ?? (await revalidate());
 };
-
-export const getLeaderboard = async (category: string = "overall") =>
-  get(`/categories/${category}/standings`);
 
 export default apiFetcher;

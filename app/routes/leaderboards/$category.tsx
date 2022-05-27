@@ -1,19 +1,23 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
-import { get, getLeaderboard } from "~/lib/api/fetcher";
+import { get } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params: { category } }) => {
+  invariant(category, "Expected Category");
   const [categories, standings] = await Promise.all([
     get<Category[]>(`/categories`),
-    getLeaderboard(params.category ?? "overall"),
+    get(`/categories/${category}/standings`),
   ]);
-  return json({ categories, standings, current: params.category ?? "overall" });
+  return json({ categories, standings, current: category });
 };
+
+export function CatchBoundary() {}
 
 const LeaderboardPage = () => {
   const { categories, standings, current } = useLoaderData<{

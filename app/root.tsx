@@ -14,7 +14,6 @@ import {
 import Header from "./lib/components/header";
 
 import styles from "./tailwind.css";
-import rootStyles from "./styles/app.css";
 import logo from "./lib/logo.png";
 
 export async function loader() {
@@ -34,7 +33,6 @@ export const meta: MetaFunction = () => ({
 export function links() {
   return [
     { rel: "stylesheet", href: styles },
-    { rel: "stylesheet", href: rootStyles },
     { rel: "shortcut icon", href: logo },
   ];
 }
