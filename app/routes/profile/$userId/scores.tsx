@@ -11,6 +11,7 @@ import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
 import { get } from "~/lib/api/fetcher";
+import Complexity from "~/lib/components/complexity";
 import Pagination from "~/lib/components/pagination";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
@@ -139,8 +140,8 @@ const Scores = () => {
         <table>
           <thead>
             <tr>
-              {columns.map(([value, friendly]) => (
-                <th key={value}>
+              {columns.map(([value, friendly], n) => (
+                <th key={n}>
                   {value ? (
                     <SortButton name="sortBy" value={value}>
                       {friendly}
@@ -188,7 +189,9 @@ const Scores = () => {
                   ago
                 </td>
                 <td>{score.difficulty}</td>
-                <td>{score.complexity}</td>
+                <td>
+                  <Complexity>{score.complexity}</Complexity>
+                </td>
               </tr>
             ))}
           </tbody>

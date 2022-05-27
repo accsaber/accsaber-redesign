@@ -9,6 +9,7 @@ import PageHeader from "~/lib/components/pageHeader";
 import ms from "ms";
 import { language } from "~/lib/api/config";
 import Pagination from "~/lib/components/pagination";
+import Complexity from "~/lib/components/complexity";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const url = new URL(request.url);
@@ -58,11 +59,12 @@ const MapLeaderboardPage = () => {
               alt="cover art"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-bold">
               {map.songAuthorName} - {map.songName}
             </h1>
             <h2 className="text-xl">Mapped by {map.levelAuthorName}</h2>
+            <Complexity>{map.complexity}</Complexity>
           </div>
         </div>
       </div>
@@ -72,13 +74,15 @@ const MapLeaderboardPage = () => {
       <div className="prose dark:prose-invert max-w-screen-lg mx-auto p-4">
         <table>
           <thead>
-            <th></th>
-            <th></th>
-            <th>Player Name</th>
-            <th>Time Set</th>
-            <th>Accuracy</th>
-            <th>AP</th>
-            <th>Score</th>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Player Name</th>
+              <th>Time Set</th>
+              <th>Accuracy</th>
+              <th>AP</th>
+              <th>Score</th>
+            </tr>
           </thead>
           <tbody>
             {leaderboard.map((score, i) => (
