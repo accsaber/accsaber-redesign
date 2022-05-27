@@ -83,19 +83,19 @@ const ProfileRoute = () => {
         <div
           className={[
             "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
-            "max-w-screen-lg mx-auto px-4",
+            "max-w-screen-lg mx-auto px-4 h-72",
           ].join(" ")}
         >
-          <div className="flex overflow-hidden rounded-full shadow-lg w-32 h-32 aspect-square">
-            <img
-              src={profile.avatarUrl}
-              alt={`${profile.playerName}'s avatar`}
-              className="w-32 h-32 "
-            />
-          </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex gap-2">
-              <h1 className="text-2xl font-semibold">{profile.playerName}</h1>
+          <img
+            src={profile.avatarUrl}
+            alt={`${profile.playerName}'s avatar`}
+            className="w-32 h-32  rounded-full shadow-lg "
+          />
+          <div className="flex flex-1 flex-col justify-center">
+            <div className="">
+              <h1 className="text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-hidden max-w-[12rem]">
+                {profile.playerName}
+              </h1>
               <div className="text-2xl flex gap-1">
                 <div>#{profile.rank.toLocaleString(language)}</div>
 
@@ -129,7 +129,7 @@ const ProfileRoute = () => {
             <div className="text-xl">{profile.rankedPlays} ranked plays</div>
             <div className="text-xl">{profile.hmd}</div>
           </div>
-          <div className="flex-1 pl-20">
+          <div className="hidden md:flex">
             <RankGraph history={history} />
           </div>
         </div>
