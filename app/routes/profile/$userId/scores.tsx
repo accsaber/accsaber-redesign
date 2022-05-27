@@ -121,6 +121,7 @@ const Scores = () => {
   }>();
   const columns: [keyof PlayerScore | null, string][] = [
     ["rank", "Rank"],
+    [null, ""],
     ["songName", "Song Name"],
     ["categoryDisplayName", "Category"],
     ["accuracy", "Accuracy"],
@@ -154,6 +155,14 @@ const Scores = () => {
             {scores.map((score) => (
               <tr key={score.songHash + score.difficulty}>
                 <td>#{score.rank}</td>
+
+                <td className="relative aspect-square w-10">
+                  <img
+                    src={`https://accsaber.com/cdn/covers/${score.songHash.toUpperCase()}.png`}
+                    alt={``}
+                    className="absolute top-0 left-0 m-0"
+                  />
+                </td>
                 <td>{score.songName}</td>
                 <td>{score.categoryDisplayName}</td>
                 <td>
