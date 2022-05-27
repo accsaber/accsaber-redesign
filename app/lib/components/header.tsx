@@ -5,7 +5,7 @@ import UserContext from "./usercontext";
 
 const Header = () => (
   <header className="bg-gradient-to-l from-blue-600 to-purple-600 text-white">
-    <div className="p-2 max-w-screen-lg mx-auto flex items-center">
+    <div className="p-2 max-w-screen-lg mx-auto flex items-center gap-2">
       <Link
         to={"/"}
         className="h-12 rounded-full p-2 flex hover:bg-black/10 items-center gap-2 font-semibold"
