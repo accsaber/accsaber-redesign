@@ -23,11 +23,14 @@ const MissionListRoute = () => {
     levels: CampaignMission[];
   }>();
   return (
-    <div className="flex max-w-screen-lg mx-auto p-4 flex-1 dark:prose-invert">
+    <div className="flex max-w-screen-lg mx-auto p-4 flex-1">
       <ol className="grid grid-cols-1 w-72 overflow-auto h-full flex-shrink">
         {levels.map((mission, n) => (
           <li key={n}>
-            <Link to={`/campaign/mission/${n}`} style={{}}>
+            <Link
+              to={`/campaign/mission/${n}`}
+              className="dark:text-neutral-300"
+            >
               {mission.name.replace(/<.*?>/g, "")}
             </Link>
           </li>
