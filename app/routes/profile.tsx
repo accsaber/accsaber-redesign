@@ -1,12 +1,19 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+  redirect,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import { Form, Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
+import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
 import { get } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
+import UserContext from "~/lib/components/usercontext";
 import type { Player } from "~/lib/interfaces/api/player";
 
 export const meta: MetaFunction = ({
@@ -57,53 +64,70 @@ const ProfileRoute = () => {
     profile: Player;
     history: [string, number][];
   }>();
+
+  const { pathname } = useLocation();
+
   return (
-    <>
-      <PageHeader
-        image={profile.avatarUrl}
-        actionButton={
-          <button className="px-4 py-2 shadow bg-gradient-to-l from-pink-500 dark:from-pink-600 to-red-500 rounded text-white">
-            Set as my profile
-          </button>
-        }
-        navigation={[
-          {
-            href: `/profile/${profile.playerId}/scores`,
-            label: `Scores`,
-            isCurrent: useLocation().pathname == `/profile/${profile.playerId}`,
-          },
-          {
-            href: `/profile/${profile.playerId}/campaign`,
-            label: `Campaign Progress`,
-          },
-        ]}
-      >
-        {profile.playerName}&apos;s Profile
-      </PageHeader>
-      <div className="max-w-screen-lg mx-auto px-4">
-        <div className="flex gap-4 py-8 text-neutral-800 dark:text-neutral-200 items-center">
-          <div className="flex overflow-hidden rounded-full h-32 aspect-square">
-            <img
-              src={profile.avatarUrl}
-              alt={`${profile.playerName}'s avatar`}
-            />
+    <UserContext.Consumer>
+      {(user) => (
+        <>
+          <PageHeader
+            image={profile.avatarUrl}
+            actionButton={
+              user?.playerId !== profile.playerId ? (
+                <Form
+                  action={`/profile/${profile.playerId}/scores`}
+                  method="post"
+                >
+                  <button
+                    type="submit"
+                    className="px-4 py-2 shadow bg-gradient-to-l from-pink-500 dark:from-pink-600 to-red-500 rounded text-white"
+                  >
+                    Set as my profile
+                  </button>
+                </Form>
+              ) : undefined
+            }
+            navigation={[
+              {
+                href: `/profile/${profile.playerId}/scores`,
+                label: `Scores`,
+                isCurrent: pathname == `/profile/${profile.playerId}`,
+              },
+              {
+                href: `/profile/${profile.playerId}/campaign`,
+                label: `Campaign Progress`,
+              },
+            ]}
+          >
+            {profile.playerName}&apos;s Profile
+          </PageHeader>
+          <div className="max-w-screen-lg mx-auto px-4">
+            <div className="flex gap-4 py-8 text-neutral-800 dark:text-neutral-200 items-center">
+              <div className="flex overflow-hidden rounded-full h-32 aspect-square">
+                <img
+                  src={profile.avatarUrl}
+                  alt={`${profile.playerName}'s avatar`}
+                />
+              </div>
+              <div className="flex flex-col justify-center gap-2 flex-1">
+                <h1 className="text-2xl font-semibold">{profile.playerName}</h1>
+                <h1 className="text-2xl font-semibold">
+                  {profile.ap.toLocaleString(language, {
+                    maximumFractionDigits: 2,
+                  })}
+                  AP
+                </h1>
+              </div>
+              <div className="flex-1 p-4 bg-neutral-100 dark:bg-neutral-800">
+                <RankGraph history={history} />
+              </div>
+            </div>
+            <Outlet />
           </div>
-          <div className="flex flex-col justify-center gap-2 flex-1">
-            <h1 className="text-2xl font-semibold">{profile.playerName}</h1>
-            <h1 className="text-2xl font-semibold">
-              {profile.ap.toLocaleString(language, {
-                maximumFractionDigits: 2,
-              })}
-              AP
-            </h1>
-          </div>
-          <div className="flex-1 p-4 bg-neutral-100 dark:bg-neutral-800">
-            <RankGraph history={history} />
-          </div>
-        </div>
-        <Outlet />
-      </div>
-    </>
+        </>
+      )}
+    </UserContext.Consumer>
   );
 };
 

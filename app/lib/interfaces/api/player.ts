@@ -7,7 +7,7 @@ export interface Player {
   averageAcc: number;
   hmd: string;
   avatarUrl: string;
-  isAccChamp: boolean;
+  accChamp: boolean;
 
   averageApPerMap: number;
   rankedPlays: number;

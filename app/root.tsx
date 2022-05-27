@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -15,14 +15,26 @@ import Header from "./lib/components/header";
 
 import styles from "./tailwind.css";
 import logo from "./lib/logo.png";
+import UserContext from "./lib/components/usercontext";
+import { user } from "./cookies";
+import { get } from "./lib/api/fetcher";
 
-export async function loader() {
+export const loader: LoaderFunction = async ({ request }) => {
+  const cookieHeader = request.headers.get("Cookie");
+  const userCookie: { userId?: string } =
+    (await user.parse(cookieHeader)) || {};
+
+  const currentUser = userCookie.userId
+    ? await get(`/players/${userCookie.userId}`)
+    : null;
+
   return json({
     ENV: {
       NODE_ENV: process.env.NODE_ENV,
     },
+    user: currentUser,
   });
-}
+};
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -40,26 +52,28 @@ export function links() {
 export default function App() {
   const data = useLoaderData();
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.process = {}; window.process.env = ${JSON.stringify(
-              data.ENV
-            )}`,
-          }}
-        />
-      </head>
-      <body className="dark:bg-neutral-900">
-        <Header />
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <UserContext.Provider value={data.user ?? null}>
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.process = {}; window.process.env = ${JSON.stringify(
+                data.ENV
+              )}`,
+            }}
+          />
+        </head>
+        <body className="dark:bg-neutral-900">
+          <Header />
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    </UserContext.Provider>
   );
 }
 

@@ -1,13 +1,29 @@
-import type { ErrorBoundaryComponent, LoaderFunction } from "@remix-run/node";
+import {
+  ActionFunction,
+  ErrorBoundaryComponent,
+  LoaderFunction,
+  redirect,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
 import { get } from "~/lib/api/fetcher";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
 export const ErrorBoundary: ErrorBoundaryComponent = () => {
   return <div>Failed to load scores</div>;
+};
+
+export const action: ActionFunction = async ({ params }) => {
+  invariant(params.userId, "Expected User ID");
+
+  return redirect(`/profile/${params.userId}/scores`, {
+    headers: {
+      "set-cookie": await user.serialize({ userId: params.userId }),
+    },
+  });
 };
 
 export const loader: LoaderFunction = async ({ params, request }) => {
