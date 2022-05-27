@@ -17,7 +17,7 @@ Here are the commands you can use in #campaign-commands:
   <tbody>
     <tr>
       <td>
-        <code>/register &lt;strong&gt;[scoresaber profile]&lt;/strong&gt;</code>
+        <code>/register [scoresaber profile</code>
       </td>
       <td>Sign up with the bot so it knows who you are.</td>
     </tr>
