@@ -3,5 +3,6 @@ import invariant from "tiny-invariant";
 
 export const loader: LoaderFunction = ({ params }) => {
   invariant(params.userId, "Expected User ID");
-  return redirect(`/profile/${params.userId}/overall/scores`, 301);
+  invariant(params.category, "Expected Category");
+  return redirect(`/profile/${params.userId}/${params.category}/scores`, 301);
 };

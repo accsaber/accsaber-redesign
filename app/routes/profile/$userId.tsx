@@ -14,41 +14,50 @@ import { get } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import UserContext from "~/lib/components/usercontext";
+import { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 
-export const meta: MetaFunction = ({
-  data,
-}: {
-  data: { profile?: Player };
-}) => ({
-  title: `${
-    data?.profile?.playerName ?? "Unknown Player"
-  }'s Profile | AccSaber`,
-  "og:title": `${data?.profile?.playerName ?? "Unknown Player"}'s Profile`,
-  "og:description": `Rank#${data.profile?.rank}\nAP: ${data.profile?.ap.toFixed(
-    2
-  )}\n`,
-  "og:image:url": `https://accsaber-image.fly.dev/profile/${data?.profile?.playerId}.png`,
-  "og:image:width": `1120`,
-  "og:image:height": `664`,
-  "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.userId}`,
-  "og:type": "profile.accsaber",
-});
+// export const meta: MetaFunction = ({
+//   data,
+// }: {
+//   data: { profile?: Player };
+// }) => ({
+//   title: `${
+//     data?.profile?.playerName ?? "Unknown Player"
+//   }'s Profile | AccSaber`,
+//   "og:title": `${data?.profile?.playerName ?? "Unknown Player"}'s Profile`,
+//   "og:description": `Rank#${data.profile?.rank}\nAP: ${data.profile?.ap.toFixed(
+//     2
+//   )}\n`,
+//   "og:image:url": `https://accsaber-image.fly.dev/profile/${data?.profile?.playerId}.png`,
+//   "og:image:width": `1120`,
+//   "og:image:height": `664`,
+//   "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.userId}`,
+//   "og:type": "profile.accsaber",
+// });
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.userId, "Expected User ID");
+  const category = params.category ?? "overall";
+
+  const categoryUrl = category == "overall" ? "" : `/${params.category}`;
   if (!/^[0-9]{1,17}$/.test(params.userId))
     throw new Response("Player Not Found", { status: 404 });
 
   try {
-    const [profile, history] = await Promise.all([
-      get<Player>(`/players/${params.userId}`),
+    const [profile, history, categories] = await Promise.all([
+      get<Player>(`/players/${params.userId}${categoryUrl}`),
       get<{ [date: string]: number }>(
-        `/players/${params.userId}/recent-rank-history`
+        `/players/${params.userId}${categoryUrl}/recent-rank-history`
       ),
+      get<Category[]>("/categories"),
     ]);
 
-    return json({ profile, history: Object.entries(history).slice(-30) });
+    return json({
+      profile,
+      history: Object.entries(history).slice(-30),
+      categories,
+    });
   } catch (err) {
     if (err instanceof AxiosError) {
       throw new Response(err.response?.statusText ?? "Error loading player", {
@@ -60,12 +69,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 const ProfileRoute = () => {
-  const { profile, history } = useLoaderData<{
+  const { profile, history, categories } = useLoaderData<{
     profile: Player;
     history: [string, number][];
+    categories: Category[];
   }>();
-
-  const { pathname } = useLocation();
 
   return (
     <UserContext.Consumer>
@@ -91,14 +99,13 @@ const ProfileRoute = () => {
             }
             navigation={[
               {
-                href: `/profile/${profile.playerId}/scores`,
-                label: `Scores`,
-                isCurrent: pathname == `/profile/${profile.playerId}`,
+                href: `/profile/${profile.playerId}/overall`,
+                label: `Overall`,
               },
-              {
-                href: `/profile/${profile.playerId}/campaign`,
-                label: `Campaign Progress`,
-              },
+              ...categories.map((category) => ({
+                href: `/profile/${profile.playerId}/${category.categoryName}`,
+                label: category.categoryDisplayName,
+              })),
             ]}
           >
             {profile.playerName}&apos;s Profile
@@ -114,6 +121,7 @@ const ProfileRoute = () => {
                 <img
                   src={profile.avatarUrl}
                   alt={`${profile.playerName}'s avatar`}
+                  className="w-32 h-32 "
                 />
               </div>
               <div className="flex flex-col justify-center">
