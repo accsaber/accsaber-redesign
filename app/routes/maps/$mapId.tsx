@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
 import type { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-player";
 import { useLoaderData, Link } from "@remix-run/react";
@@ -7,9 +7,22 @@ import invariant from "tiny-invariant";
 import { get } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import ms from "ms";
-import { language } from "~/lib/api/config";
+import config, { language } from "~/lib/api/config";
 import Pagination from "~/lib/components/pagination";
 import Complexity from "~/lib/components/complexity";
+
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: { map?: RankedMap };
+}) => ({
+  title: `${data.map?.songAuthorName} - ${data.map?.songName} | AccSaber`,
+  "og:title": `${data.map?.songAuthorName} - ${data.map?.songName}`,
+  "og:description": `Mapped By SSnowy\nComplexity: ${data.map?.complexity}`,
+  "og:image:url": `${
+    config.cdnURL
+  }/covers/${data.map?.songHash.toUpperCase()}.png`,
+});
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const url = new URL(request.url);
