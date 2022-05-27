@@ -103,7 +103,7 @@ const ProfileRoute = () => {
           >
             {profile.playerName}&apos;s Profile
           </PageHeader>
-          <div className="bg-neutral-100 dark:bg-neutral-800">
+          <div className="bg-neutral-100 dark:bg-black/20">
             <div
               className={[
                 "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
