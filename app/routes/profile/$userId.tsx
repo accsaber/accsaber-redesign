@@ -148,7 +148,7 @@ const ProfileRoute = () => {
                 <div className="text-xl">
                   {profile.ap.toLocaleString(language, {
                     maximumFractionDigits: 2,
-                  })}
+                  })}{" "}
                   AP
                 </div>
                 <div className="text-xl">
