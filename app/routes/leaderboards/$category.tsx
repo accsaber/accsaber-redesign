@@ -5,25 +5,41 @@ import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
 import { get } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
+import Pagination from "~/lib/components/pagination";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 
-export const loader: LoaderFunction = async ({ params: { category } }) => {
+export const loader: LoaderFunction = async ({
+  params: { category },
+  request,
+}) => {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") ?? "1");
+  const pageSize = 50;
+
   invariant(category, "Expected Category");
   const [categories, standings] = await Promise.all([
     get<Category[]>(`/categories`),
-    get(`/categories/${category}/standings`),
+    get<Player[]>(`/categories/${category}/standings`),
   ]);
-  return json({ categories, standings, current: category });
+  return json({
+    categories,
+    standings: standings.splice((page - 1) * pageSize, pageSize),
+    current: category,
+    page,
+    pages: Math.ceil(standings.length / pageSize),
+  });
 };
 
 export function CatchBoundary() {}
 
 const LeaderboardPage = () => {
-  const { categories, standings, current } = useLoaderData<{
+  const { categories, standings, current, page, pages } = useLoaderData<{
     categories: Category[];
     standings: Player[];
     current: string;
+    page: number;
+    pages: number;
   }>();
   return (
     <>
@@ -39,7 +55,8 @@ const LeaderboardPage = () => {
       >
         Leaderboards
       </PageHeader>
-      <main className="p-4 max-w-screen-lg mx-auto">
+      <main className="p-4 max-w-screen-lg mx-auto flex flex-col gap-8">
+        <Pagination currentPage={page} pages={pages} />
         <div className="prose dark:prose-invert max-w-none">
           <table className="w-full overflow-auto">
             <thead>
@@ -85,6 +102,7 @@ const LeaderboardPage = () => {
             </tbody>
           </table>
         </div>
+        <Pagination currentPage={page} pages={pages} />
       </main>
     </>
   );
