@@ -165,7 +165,10 @@ const Scores = () => {
                   />
                 </td>
                 <td>
-                  <Link to={`/maps/${score.leaderboardId}`}>
+                  <Link
+                    to={`/maps/${score.leaderboardId}`}
+                    className="max-w-[12rem] text-ellipsis whitespace-nowrap block overflow-hidden"
+                  >
                     {score.songName}
                   </Link>
                 </td>
