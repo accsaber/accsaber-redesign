@@ -10,6 +10,7 @@ import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
 import { get } from "~/lib/api/fetcher";
+import Pagination from "~/lib/components/pagination";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
 export const ErrorBoundary: ErrorBoundaryComponent = () => {
@@ -29,13 +30,18 @@ export const action: ActionFunction = async ({ params }) => {
 export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.userId, "Expected User ID");
   const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") ?? "1");
+  const pageSize = 50;
 
   const scores = await get<PlayerScore[]>(`/players/${params.userId}/scores`);
   const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
   const isReversed = url.searchParams.has("reverse");
 
   const rev = (scores: PlayerScore[]) =>
-    isReversed ? scores.reverse() : scores;
+    (isReversed ? scores.reverse() : scores).splice(
+      (page - 1) * pageSize,
+      pageSize
+    );
 
   switch (sortBy) {
     case "rank":
@@ -44,6 +50,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     case "complexity":
       return json({
         scores: rev(scores.sort((a, b) => a[sortBy] - b[sortBy])),
+        page,
+        pages: Math.ceil(scores.length / pageSize) + 1,
       });
     case "timeSet":
       return json({
@@ -53,15 +61,23 @@ export const loader: LoaderFunction = async ({ params, request }) => {
               new Date(a.timeSet).getTime() - new Date(b.timeSet).getTime()
           )
         ),
+        page,
+        pages: Math.ceil(scores.length / pageSize) + 1,
       });
 
     case "songName":
     case "categoryDisplayName":
       return json({
         scores: rev(scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1))),
+        page,
+        pages: Math.ceil(scores.length / pageSize) + 1,
       });
     default:
-      return json({ scores: rev(scores) });
+      return json({
+        scores: rev(scores),
+        page,
+        pages: Math.ceil(scores.length / pageSize) + 1,
+      });
   }
 };
 
@@ -98,7 +114,11 @@ const SortButton: React.FC<{ name: string; value: string }> = ({
   );
 };
 const Scores = () => {
-  const { scores } = useLoaderData<{ scores: PlayerScore[] }>();
+  const { scores, page, pages } = useLoaderData<{
+    scores: PlayerScore[];
+    page: number;
+    pages: number;
+  }>();
   const columns: [keyof PlayerScore | null, string][] = [
     ["rank", "Rank"],
     ["songName", "Song Name"],
@@ -110,48 +130,52 @@ const Scores = () => {
     ["complexity", "Complexity"],
   ];
   return (
-    <div className="prose max-w-none w-full dark:prose-invert">
-      <h2>Scores</h2>
-      <table>
-        <thead>
-          <tr>
-            {columns.map(([value, friendly]) => (
-              <th key={value}>
-                {value ? (
-                  <SortButton name="sortBy" value={value}>
-                    {friendly}
-                  </SortButton>
-                ) : (
-                  friendly
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {scores.map((score) => (
-            <tr key={score.songHash + score.difficulty}>
-              <td>#{score.rank}</td>
-              <td>{score.songName}</td>
-              <td>{score.categoryDisplayName}</td>
-              <td>
-                {(score.accuracy * 100).toLocaleString(language, {
-                  maximumFractionDigits: 2,
-                })}
-                %
-              </td>
-              <td>
-                {score.ap.toLocaleString(language, {
-                  maximumFractionDigits: 2,
-                })}
-              </td>
-              <td>{new Date(score.timeSet).toLocaleString(language)}</td>
-              <td>{score.difficulty}</td>
-              <td>{score.complexity}</td>
+    <div className="flex gap-8 flex-col">
+      <Pagination currentPage={page} pages={pages} />
+      <div className="prose max-w-none w-full dark:prose-invert">
+        <h2>Scores</h2>
+        <table>
+          <thead>
+            <tr>
+              {columns.map(([value, friendly]) => (
+                <th key={value}>
+                  {value ? (
+                    <SortButton name="sortBy" value={value}>
+                      {friendly}
+                    </SortButton>
+                  ) : (
+                    friendly
+                  )}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {scores.map((score) => (
+              <tr key={score.songHash + score.difficulty}>
+                <td>#{score.rank}</td>
+                <td>{score.songName}</td>
+                <td>{score.categoryDisplayName}</td>
+                <td>
+                  {(score.accuracy * 100).toLocaleString(language, {
+                    maximumFractionDigits: 2,
+                  })}
+                  %
+                </td>
+                <td>
+                  {score.ap.toLocaleString(language, {
+                    maximumFractionDigits: 2,
+                  })}
+                </td>
+                <td>{new Date(score.timeSet).toLocaleString(language)}</td>
+                <td>{score.difficulty}</td>
+                <td>{score.complexity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Pagination currentPage={page} pages={pages} />
     </div>
   );
 };
