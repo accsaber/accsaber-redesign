@@ -6,6 +6,7 @@ import {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
+import ms from "ms";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
@@ -180,7 +181,12 @@ const Scores = () => {
                     maximumFractionDigits: 2,
                   })}
                 </td>
-                <td>{new Date(score.timeSet).toLocaleString(language)}</td>
+                <td title={new Date(score.timeSet).toLocaleString(language)}>
+                  {ms(Date.now() - new Date(score.timeSet).getTime(), {
+                    long: true,
+                  })}{" "}
+                  ago
+                </td>
                 <td>{score.difficulty}</td>
                 <td>{score.complexity}</td>
               </tr>
