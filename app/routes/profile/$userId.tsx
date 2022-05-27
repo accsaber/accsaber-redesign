@@ -48,7 +48,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       ),
     ]);
 
-    return json({ profile, history: Object.entries(history) });
+    return json({ profile, history: Object.entries(history).slice(-30) });
   } catch (err) {
     if (err instanceof AxiosError) {
       throw new Response(err.response?.statusText ?? "Error loading player", {
@@ -111,7 +111,7 @@ const ProfileRoute = () => {
                   alt={`${profile.playerName}'s avatar`}
                 />
               </div>
-              <div className="flex flex-col justify-center gap-2 flex-1">
+              <div className="flex flex-col justify-center gap-2">
                 <h1 className="text-2xl font-semibold">{profile.playerName}</h1>
                 <h1 className="text-2xl font-semibold">
                   {profile.ap.toLocaleString(language, {
@@ -120,7 +120,7 @@ const ProfileRoute = () => {
                   AP
                 </h1>
               </div>
-              <div className="flex-1 p-4 bg-neutral-100 dark:bg-neutral-800">
+              <div className="flex-1 pl-20">
                 <RankGraph history={history} />
               </div>
             </div>
