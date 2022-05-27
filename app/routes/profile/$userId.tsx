@@ -110,7 +110,7 @@ const ProfileRoute = () => {
                 "max-w-screen-lg mx-auto px-4",
               ].join(" ")}
             >
-              <div className="flex overflow-hidden rounded-full w-32 h-32 aspect-square">
+              <div className="flex overflow-hidden rounded-full shadow-lg w-32 h-32 aspect-square">
                 <img
                   src={profile.avatarUrl}
                   alt={`${profile.playerName}'s avatar`}
