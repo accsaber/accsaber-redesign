@@ -17,24 +17,24 @@ import UserContext from "~/lib/components/usercontext";
 import { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 
-// export const meta: MetaFunction = ({
-//   data,
-// }: {
-//   data: { profile?: Player };
-// }) => ({
-//   title: `${
-//     data?.profile?.playerName ?? "Unknown Player"
-//   }'s Profile | AccSaber`,
-//   "og:title": `${data?.profile?.playerName ?? "Unknown Player"}'s Profile`,
-//   "og:description": `Rank#${data.profile?.rank}\nAP: ${data.profile?.ap.toFixed(
-//     2
-//   )}\n`,
-//   "og:image:url": `https://accsaber-image.fly.dev/profile/${data?.profile?.playerId}.png`,
-//   "og:image:width": `1120`,
-//   "og:image:height": `664`,
-//   "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.userId}`,
-//   "og:type": "profile.accsaber",
-// });
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: { profile?: Player };
+}) => ({
+  title: `${
+    data?.profile?.playerName ?? "Unknown Player"
+  }'s Profile | AccSaber`,
+  "og:title": `${data?.profile?.playerName ?? "Unknown Player"}'s Profile`,
+  "og:description": `Rank#${data.profile?.rank}\nAP: ${data.profile?.ap.toFixed(
+    2
+  )}\n`,
+  "og:image:url": `https://accsaber-image.fly.dev/profile/${data?.profile?.playerId}.png`,
+  "og:image:width": `1120`,
+  "og:image:height": `664`,
+  "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.userId}`,
+  "og:type": "profile.accsaber",
+});
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.userId, "Expected User ID");
@@ -43,6 +43,9 @@ export const loader: LoaderFunction = async ({ params }) => {
   const categoryUrl = category == "overall" ? "" : `/${params.category}`;
   if (!/^[0-9]{1,17}$/.test(params.userId))
     throw new Response("Player Not Found", { status: 404 });
+
+  if (!["overall", "true", "standard", "tech"].includes(category))
+    throw new Response("Category not found", { status: 404 });
 
   try {
     const [profile, history, categories] = await Promise.all([
