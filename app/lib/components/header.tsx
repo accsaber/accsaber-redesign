@@ -23,7 +23,7 @@ const Header = () => (
         {(user) =>
           user ? (
             <NavLink
-              to={`/profile/${user.playerId}`}
+              to={`/profile/${user.playerId}/scores`}
               className="flex rounded-full h-10 aspect-square overflow-auto mx-2"
             >
               <img src={`/profile/${user.playerId}.png`} alt="" />
