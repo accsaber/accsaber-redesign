@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
 import { get } from "~/lib/api/fetcher";
@@ -18,10 +18,17 @@ export const loader: LoaderFunction = async ({
   const pageSize = 50;
 
   invariant(category, "Expected Category");
-  const [categories, standings] = await Promise.all([
+  const [categories, rawStandings] = await Promise.all([
     get<Category[]>(`/categories`),
     get<Player[]>(`/categories/${category}/standings`),
   ]);
+  const filterString = url.searchParams.get("filter");
+  const standings =
+    typeof filterString === "string"
+      ? rawStandings.filter((i) =>
+          i.playerName.toLowerCase().includes(filterString.toLowerCase())
+        )
+      : rawStandings;
   return json({
     categories,
     standings: standings.splice((page - 1) * pageSize, pageSize),
@@ -41,6 +48,10 @@ const LeaderboardPage = () => {
     page: number;
     pages: number;
   }>();
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  console.log(params);
   return (
     <>
       <PageHeader
@@ -56,6 +67,30 @@ const LeaderboardPage = () => {
         Leaderboards
       </PageHeader>
       <main className="p-4 max-w-screen-lg mx-auto flex flex-col gap-8">
+        <Form method="get" className="flex shadow rounded overflow-hidden">
+          <input type="hidden" name="page" value={page} />
+          <input
+            type="search"
+            name="filter"
+            placeholder="Search"
+            className="flex-1 p-2 px-3 focus:outline-none"
+            defaultValue={params.get("filter") ?? ""}
+          />
+          <button type="submit" aria-label="Search" className="p-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </Form>
         <Pagination currentPage={page} pages={pages} />
         <div className="prose dark:prose-invert max-w-none">
           <table className="w-full overflow-auto">
