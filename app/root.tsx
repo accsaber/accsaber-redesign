@@ -9,6 +9,7 @@ import {
   ScrollRestoration,
   useCatch,
   useLoaderData,
+  useTransition,
 } from "@remix-run/react";
 
 import Header from "./lib/components/header";
@@ -51,6 +52,7 @@ export function links() {
 
 export default function App() {
   const data = useLoaderData();
+  const { state } = useTransition();
   return (
     <UserContext.Provider value={data.user ?? null}>
       <html lang="en">
@@ -67,7 +69,13 @@ export default function App() {
         </head>
         <body className="dark:bg-neutral-900">
           <Header />
-          <Outlet />
+          <div
+            className={`transition-opacity ${
+              state === "loading" ? "opacity-50 [transition-delay:0.25s]" : ""
+            }`}
+          >
+            <Outlet />
+          </div>
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
