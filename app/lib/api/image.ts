@@ -8,7 +8,6 @@ const getImage = async (url: string, width: number) => {
 
   if (cachedImage) {
     const [timestamp, image] = cachedImage.split("|");
-    console.log(timestamp);
     if (Date.now() - parseInt(timestamp) < 86400000)
       return new Response(Buffer.from(image, "base64"), {
         headers: {
