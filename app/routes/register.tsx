@@ -1,4 +1,5 @@
-import { ActionFunction, json, redirect } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { user } from "~/cookies";
 
@@ -11,7 +12,6 @@ export const action: ActionFunction = async ({ request }) => {
   let url: URL;
 
   try {
-    console.log(profile);
     url = new URL(profile);
   } catch (err) {
     return json({ error: "Invalid profile url" });

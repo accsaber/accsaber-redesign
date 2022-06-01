@@ -94,7 +94,7 @@ const ProfileRoute = () => {
           ].join(" ")}
         >
           <img
-            src={profile.avatarUrl}
+            src={`/profile/${profile.playerId}.avatar.webp`}
             alt={`${profile.playerName}'s avatar`}
             className="w-32 h-32  rounded-full shadow-lg "
           />

@@ -58,7 +58,6 @@ const LeaderboardPage = () => {
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  console.log(params);
   return (
     <>
       <PageHeader
@@ -123,7 +122,7 @@ const LeaderboardPage = () => {
                   <td>#{player.rank}</td>
                   <td className="relative aspect-square w-10">
                     <img
-                      src={player.avatarUrl}
+                      src={`/profile/${player.playerId}.thumbnail.webp`}
                       alt={`${player.playerName}'s profile`}
                       className="absolute top-0 left-0 m-0"
                     />
