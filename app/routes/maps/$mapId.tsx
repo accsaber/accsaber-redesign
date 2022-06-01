@@ -53,9 +53,7 @@ const MapLeaderboardPage = () => {
 
   return (
     <>
-      <PageHeader
-        image={`https://accsaber.com/cdn/covers/${map.songHash.toUpperCase()}.png`}
-      >
+      <PageHeader image={`/maps/${map.leaderboardId}.thumbnail.webp`}>
         {map.songAuthorName} - {map.songName}
       </PageHeader>
 
@@ -68,7 +66,7 @@ const MapLeaderboardPage = () => {
         >
           <div className="flex overflow-hidden rounded-lg shadow-lg w-32 h-32 aspect-square">
             <img
-              src={`https://accsaber.com/cdn/covers/${map.songHash.toUpperCase()}.png`}
+              src={`/maps/${map.leaderboardId}.cover.webp`}
               alt="cover art"
             />
           </div>
@@ -103,8 +101,9 @@ const MapLeaderboardPage = () => {
                 <td>#{score.rank}</td>
                 <td className="relative aspect-square w-10">
                   <img
-                    src={score.avatarUrl}
+                    src={`/profile/${score.playerId}.thumbnail.webp`}
                     alt={``}
+                    loading="lazy"
                     className="absolute top-0 left-0 m-0"
                   />
                 </td>

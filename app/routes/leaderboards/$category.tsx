@@ -124,6 +124,7 @@ const LeaderboardPage = () => {
                     <img
                       src={`/profile/${player.playerId}.thumbnail.webp`}
                       alt={`${player.playerName}'s profile`}
+                      loading="lazy"
                       className="absolute top-0 left-0 m-0"
                     />
                   </td>

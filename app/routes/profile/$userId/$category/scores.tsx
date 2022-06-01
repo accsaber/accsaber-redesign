@@ -166,8 +166,9 @@ const Scores = () => {
 
                 <td className="relative aspect-square w-10">
                   <img
-                    src={`https://accsaber.com/cdn/covers/${score.songHash.toUpperCase()}.png`}
+                    src={`/maps/${score.leaderboardId}.thumbnail.webp`}
                     alt={``}
+                    loading="lazy"
                     className="absolute top-0 left-0 m-0"
                   />
                 </td>

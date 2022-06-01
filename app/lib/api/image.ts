@@ -11,7 +11,11 @@ const getImage = async (url: string, width: number) => {
     console.log(timestamp);
     if (Date.now() - parseInt(timestamp) < 86400000)
       return new Response(Buffer.from(image, "base64"), {
-        headers: { "content-type": "image/webp" },
+        headers: {
+          "content-type": "image/webp",
+          "cache-control": "public, max-age=604800",
+          "fly-cache-status": "HIT",
+        },
       });
   }
 
@@ -26,6 +30,7 @@ const getImage = async (url: string, width: number) => {
     headers: {
       "content-type": "image/webp",
       "cache-control": "public, max-age=604800",
+      "fly-cache-status": "MISS",
     },
   });
 };

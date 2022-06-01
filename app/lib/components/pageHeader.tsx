@@ -1,7 +1,7 @@
 import { NavLink, Link, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { createRef, useEffect, useState } from "react";
-import logo from "~/lib/images/logo.png";
+import logo from "~/lib/images/logo.webp";
 
 const PageHeader: React.FC<{
   image?: string;
@@ -23,8 +23,6 @@ const PageHeader: React.FC<{
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const scrollProbe = createRef<HTMLDivElement>();
-
-  const route = useLocation();
 
   useEffect(() => {
     if (!scrollProbe.current) return;
