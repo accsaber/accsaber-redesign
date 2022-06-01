@@ -43,7 +43,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
   const isReversed = url.searchParams.has("reverse");
 
-  const scores =
+  let scores =
     params.category == "overall"
       ? rawScores
       : rawScores.filter(
@@ -63,37 +63,30 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     case "accuracy":
     case "ap":
     case "complexity":
-      return json({
-        scores: rev(scores.sort((a, b) => a[sortBy] - b[sortBy])),
-        page,
-        pages: Math.ceil(scores.length / pageSize) + 1,
-      });
+      scores = scores.sort((a, b) => a[sortBy] - b[sortBy]);
+      break;
     case "timeSet":
-      return json({
-        scores: rev(
-          scores.sort(
-            (a, b) =>
-              new Date(a.timeSet).getTime() - new Date(b.timeSet).getTime()
-          )
-        ),
-        page,
-        pages: Math.ceil(scores.length / pageSize) + 1,
-      });
+      scores.sort(
+        (a, b) => new Date(a.timeSet).getTime() - new Date(b.timeSet).getTime()
+      );
+      break;
 
     case "songName":
     case "categoryDisplayName":
-      return json({
-        scores: rev(scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1))),
-        page,
-        pages: Math.ceil(scores.length / pageSize) + 1,
-      });
-    default:
-      return json({
-        scores: rev(scores),
-        page,
-        pages: Math.ceil(scores.length / pageSize) + 1,
-      });
+      scores = scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
   }
+  return json(
+    {
+      scores: rev(scores),
+      page,
+      pages: Math.ceil(scores.length / pageSize) + 1,
+    },
+    {
+      headers: {
+        "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
+      },
+    }
+  );
 };
 
 const SortButton: React.FC<{ name: string; value: string }> = ({

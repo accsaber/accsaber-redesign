@@ -29,13 +29,20 @@ export const loader: LoaderFunction = async ({
           i.playerName.toLowerCase().includes(filterString.toLowerCase())
         )
       : rawStandings;
-  return json({
-    categories,
-    standings: standings.splice((page - 1) * pageSize, pageSize),
-    current: category,
-    page,
-    pages: Math.ceil(standings.length / pageSize) + 1,
-  });
+  return json(
+    {
+      categories,
+      standings: standings.splice((page - 1) * pageSize, pageSize),
+      current: category,
+      page,
+      pages: Math.ceil(standings.length / pageSize) + 1,
+    },
+    {
+      headers: {
+        "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
+      },
+    }
+  );
 };
 
 export function CatchBoundary() {}
@@ -73,10 +80,14 @@ const LeaderboardPage = () => {
             type="search"
             name="filter"
             placeholder="Search"
-            className="flex-1 p-2 px-3 focus:outline-none"
+            className="flex-1 p-2 px-3 focus:outline-none dark:bg-neutral-800 dark:text-white"
             defaultValue={params.get("filter") ?? ""}
           />
-          <button type="submit" aria-label="Search" className="p-2">
+          <button
+            type="submit"
+            aria-label="Search"
+            className="p-2 dark:bg-neutral-800 dark:text-white"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"

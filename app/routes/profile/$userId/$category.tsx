@@ -56,11 +56,18 @@ export const loader: LoaderFunction = async ({ params }) => {
       get<Category[]>("/categories"),
     ]);
 
-    return json({
-      profile,
-      history: Object.entries(history).slice(-30),
-      categories,
-    });
+    return json(
+      {
+        profile,
+        history: Object.entries(history).slice(-30),
+        categories,
+      },
+      {
+        headers: {
+          "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
+        },
+      }
+    );
   } catch (err) {
     if (err instanceof AxiosError) {
       throw new Response(err.response?.statusText ?? "Error loading player", {

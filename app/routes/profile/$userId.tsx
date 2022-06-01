@@ -17,7 +17,14 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     get<Category[]>("/categories"),
   ]);
 
-  return json({ profile, categories });
+  return json(
+    { profile, categories },
+    {
+      headers: {
+        "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
+      },
+    }
+  );
 };
 const UserContainer = () => {
   const { profile, categories } = useLoaderData<{
@@ -52,7 +59,7 @@ const UserContainer = () => {
                 label: `Overall`,
               },
               ...categories.map((category) => ({
-                href: `/profile/${profile.playerId}/${category.categoryName}`,
+                href: `/profile/${profile.playerId}/${category.categoryName}/scores`,
                 label: category.categoryDisplayName,
               })),
             ]}
