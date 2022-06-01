@@ -12,17 +12,22 @@ import type { Player } from "~/lib/interfaces/api/player";
 export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.userId, "Expected User ID");
 
+  const headers = new Headers();
+
+  headers.set(
+    "cache-control",
+    "public, max-age=86400, stale-while-revalidate=86400"
+  );
+
   const [profile, categories] = await Promise.all([
-    get<Player>(`/players/${params.userId}`),
-    get<Category[]>("/categories"),
+    get<Player>(`/players/${params.userId}`, headers),
+    get<Category[]>("/categories", headers),
   ]);
 
   return json(
     { profile, categories },
     {
-      headers: {
-        "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
-      },
+      headers,
     }
   );
 };

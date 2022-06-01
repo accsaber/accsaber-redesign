@@ -16,11 +16,11 @@ export const loader: LoaderFunction = async ({
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") ?? "1");
   const pageSize = 50;
-
+  const headers = new Headers();
   invariant(category, "Expected Category");
   const [categories, rawStandings] = await Promise.all([
-    get<Category[]>(`/categories`),
-    get<Player[]>(`/categories/${category}/standings`),
+    get<Category[]>(`/categories`, headers),
+    get<Player[]>(`/categories/${category}/standings`, headers),
   ]);
   const filterString = url.searchParams.get("filter");
   const standings =
@@ -29,6 +29,11 @@ export const loader: LoaderFunction = async ({
           i.playerName.toLowerCase().includes(filterString.toLowerCase())
         )
       : rawStandings;
+
+  headers.set(
+    "cache-control",
+    `public, max-age=86400, stale-while-revalidate=86400`
+  );
   return json(
     {
       categories,
@@ -36,11 +41,10 @@ export const loader: LoaderFunction = async ({
       current: category,
       page,
       pages: Math.ceil(standings.length / pageSize) + 1,
+      headers,
     },
     {
-      headers: {
-        "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
-      },
+      headers,
     }
   );
 };

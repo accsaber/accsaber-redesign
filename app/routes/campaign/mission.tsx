@@ -6,15 +6,17 @@ import type Campaign from "~/lib/interfaces/campaign/campaign";
 import type CampaignMission from "~/lib/interfaces/campaign/mission";
 
 export const loader: LoaderFunction = async () => {
+  const headers = new Headers();
   const campaignInfo = await get<Campaign>(
-    "https://campaign-data.pages.dev/info.json"
+    "https://campaign-data.pages.dev/info.json",
+    headers
   );
   const levels = await Promise.all(
     campaignInfo.mapPositions.map((map, i) =>
-      get(`https://campaign-data.pages.dev/${i}.json`)
+      get(`https://campaign-data.pages.dev/${i}.json`, headers)
     )
   );
-  return json({ campaignInfo, levels });
+  return json({ campaignInfo, levels }, { headers });
 };
 
 const MissionListRoute = () => {

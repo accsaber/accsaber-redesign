@@ -42,6 +42,11 @@ export const meta: MetaFunction = ({
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.userId, "Expected User ID");
   const category = params.category ?? "overall";
+  const headers = new Headers();
+  headers.set(
+    "cache-control",
+    "public, max-age=86400, stale-while-revalidate=86400"
+  );
 
   const categoryUrl = category == "overall" ? "" : `/${params.category}`;
   if (!/^[0-9]{1,17}$/.test(params.userId))
@@ -52,11 +57,12 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   try {
     const [profile, history, categories] = await Promise.all([
-      get<Player>(`/players/${params.userId}${categoryUrl}`),
+      get<Player>(`/players/${params.userId}${categoryUrl}`, headers),
       get<{ [date: string]: number }>(
-        `/players/${params.userId}${categoryUrl}/recent-rank-history`
+        `/players/${params.userId}${categoryUrl}/recent-rank-history`,
+        headers
       ),
-      get<Category[]>("/categories"),
+      get<Category[]>("/categories", headers),
     ]);
 
     return json(
@@ -66,9 +72,7 @@ export const loader: LoaderFunction = async ({ params }) => {
         categories,
       },
       {
-        headers: {
-          "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
-        },
+        headers,
       }
     );
   } catch (err) {

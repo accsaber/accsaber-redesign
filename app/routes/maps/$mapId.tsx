@@ -30,17 +30,21 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const pageSize = 50;
 
   invariant(params.mapId, "Expected User ID");
+  const headers = new Headers();
   const [map, leaderboard] = await Promise.all([
-    get<RankedMap>(`/ranked-maps/${params.mapId}`),
-    get<MapLeaderboardPlayer[]>(`/map-leaderboards/${params.mapId}`),
+    get<RankedMap>(`/ranked-maps/${params.mapId}`, headers),
+    get<MapLeaderboardPlayer[]>(`/map-leaderboards/${params.mapId}`, headers),
   ]);
 
-  return json({
-    map,
-    leaderboard: leaderboard.splice((page - 1) * pageSize, pageSize),
-    page,
-    pages: Math.ceil(leaderboard.length / pageSize),
-  });
+  return json(
+    {
+      map,
+      leaderboard: leaderboard.splice((page - 1) * pageSize, pageSize),
+      page,
+      pages: Math.ceil(leaderboard.length / pageSize),
+    },
+    { headers }
+  );
 };
 
 const MapLeaderboardPage = () => {

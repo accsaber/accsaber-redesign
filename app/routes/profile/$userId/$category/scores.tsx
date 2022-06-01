@@ -36,9 +36,16 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") ?? "1");
   const pageSize = 50;
+  const headers = new Headers();
+
+  headers.set(
+    "cache-control",
+    "public, max-age=86400, stale-while-revalidate=86400"
+  );
 
   const rawScores = await get<PlayerScore[]>(
-    `/players/${params.userId}/scores`
+    `/players/${params.userId}/scores`,
+    headers
   );
   const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
   const isReversed = url.searchParams.has("reverse");
@@ -82,17 +89,15 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       pages: Math.ceil(scores.length / pageSize) + 1,
     },
     {
-      headers: {
-        "cache-control": `public, max-age=86400, stale-while-revalidate=86400`,
-      },
+      headers,
     }
   );
 };
 
 const SortButton: React.FC<{ name: string; value: string }> = ({
-  children,
   name,
   value,
+  children,
 }) => {
   const query = new URLSearchParams(useLocation().search);
   return (

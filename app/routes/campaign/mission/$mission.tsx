@@ -6,6 +6,13 @@ import CampaignMission from "~/lib/interfaces/campaign/mission";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.mission, "Expected Mission ID");
+
+  const headers = new Headers();
+
+  headers.set(
+    "cache-control",
+    "public, max-age=86400, stale-while-revalidate=86400"
+  );
   const mission = await get<CampaignMission>(
     `https://campaign-data.pages.dev/${params.mission}.json`
   );
@@ -15,7 +22,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       mission.characteristic
     }/${mission.difficulty}?page=0&pageSize=10`
   );
-  return json({ mission, scores });
+  return json({ mission, scores }, { headers });
 };
 
 export const ErrorBoundary = () => (

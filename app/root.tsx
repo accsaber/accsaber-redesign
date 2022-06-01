@@ -24,17 +24,21 @@ export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
   const userCookie: { userId?: string } =
     (await user.parse(cookieHeader)) || {};
+  const headers = new Headers();
 
   const currentUser = userCookie.userId
-    ? await get(`/players/${userCookie.userId}`)
+    ? await get(`/players/${userCookie.userId}`, headers)
     : null;
 
-  return json({
-    ENV: {
-      NODE_ENV: process.env.NODE_ENV,
+  return json(
+    {
+      ENV: {
+        NODE_ENV: process.env.NODE_ENV,
+      },
+      user: currentUser,
     },
-    user: currentUser,
-  });
+    { headers }
+  );
 };
 
 export const meta: MetaFunction = () => ({
