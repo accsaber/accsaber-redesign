@@ -23,7 +23,10 @@ const getImage = async (url: string, width: number) => {
   );
 
   return new Response(converted, {
-    headers: { "content-type": "image/webp" },
+    headers: {
+      "content-type": "image/webp",
+      "cache-control": "public, max-age=604800",
+    },
   });
 };
 

@@ -1,5 +1,5 @@
 import { Link, NavLink } from "@remix-run/react";
-import logo from "~/lib/images/logo.png";
+import logo from "~/lib/images/logo.webp";
 import headerItems from "../headerItems";
 import UserContext from "./usercontext";
 
