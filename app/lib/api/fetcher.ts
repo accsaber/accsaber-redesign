@@ -23,7 +23,14 @@ export const getProfile = async (id: string) => {
 
 export const get = async <T>(url: string, headersObject?: Headers) => {
   const key = `accsaber:${url}`;
-  if (!client.isOpen) await client.connect();
+  if (!client.isOpen) {
+    const connectStart = performance.now();
+    await client.connect();
+    headersObject?.append(
+      "server-timing",
+      `db;desc="db:connect";dur=${performance.now() - connectStart}`
+    );
+  }
   const revalidate = async () => {
     const dataStartTime = performance.now();
     const { data } = await apiFetcher.get<T>(url);
