@@ -2,22 +2,29 @@ import { commandOptions } from "redis";
 import sharp from "sharp";
 import { client } from "./fetcher";
 
-const getImage = async (url: string, width: number) => {
+const getImage = async (
+  url: string,
+  width: number,
+  format: "webp" | "png" | "jpeg" | "avif" = "webp"
+) => {
   const headers = new Headers(
     Object.entries({
-      "content-type": "image/webp",
+      "content-type": `image/${format}`,
       "cache-control": "public, max-age=604800",
+      "x-content-type-options": "nosniff",
     })
   );
 
-  const key = `accsaber:image:${url}:webp:${width}`;
+  const baseKey = `accsaber:image:${url}`;
+  const key = `${baseKey}:${width}`;
 
   if (!client.isOpen) await client.connect();
 
   const readStartTime = performance.now();
-  const cachedImage = await client.get(
+  const cachedImage = await client.hGet(
     commandOptions({ isolated: true, returnBuffers: true }),
-    key
+    key,
+    format
   );
 
   headers?.append(
@@ -33,8 +40,19 @@ const getImage = async (url: string, width: number) => {
   }
 
   const fetchStartTime = performance.now();
-  const response = await fetch(url);
-  const imageData = new Uint8Array(await response.arrayBuffer());
+
+  let baseImage: Buffer | null = await client.get(
+    commandOptions({ returnBuffers: true }),
+    `${baseKey}:raw`
+  );
+
+  if (!baseImage) {
+    baseImage = Buffer.from(await (await fetch(url)).arrayBuffer());
+    await client.set(`${baseKey}:raw`, baseImage);
+    await client.expire(`${baseKey}:raw`, 86400);
+  }
+
+  const imageData = new Uint8Array(baseImage);
   headers?.append(
     "server-timing",
     `fetch;desc="fetch:${url
@@ -42,16 +60,9 @@ const getImage = async (url: string, width: number) => {
       .replace(/\//g, "\\/")}";dur=${performance.now() - fetchStartTime}`
   );
 
-  const conversionStartTime = performance.now();
-  const converted = await sharp(imageData).resize(width).webp().toBuffer();
-  headers?.append(
-    "server-timing",
-    `convert;desc="convert:${response.headers.get("content-type")}:webp";dur=${
-      performance.now() - conversionStartTime
-    }`
-  );
+  const converted = await sharp(imageData).resize(width)[format]().toBuffer();
 
-  await client.set(key, converted);
+  await client.hSet(key, format, converted);
   await client.expire(key, 86400);
 
   return new Response(converted, {
