@@ -1,7 +1,7 @@
 import { Link, NavLink } from "@remix-run/react";
 import logo from "~/lib/images/logo.webp";
 import headerItems from "../headerItems";
-import UserContext from "./usercontext";
+import UserContext from "./userContext";
 
 const Header = () => (
   <header className="bg-gradient-to-l from-blue-600 to-purple-600 text-white">

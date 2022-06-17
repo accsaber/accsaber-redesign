@@ -7,7 +7,7 @@ import { getCategories } from "~/lib/api/category";
 import { getJSON } from "~/lib/api/fetcher";
 import { getPlayer } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
-import UserContext from "~/lib/components/usercontext";
+import UserContext from "~/lib/components/userContext";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 

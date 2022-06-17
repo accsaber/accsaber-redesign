@@ -16,7 +16,7 @@ import Header from "./lib/components/header";
 
 import styles from "./tailwind.css";
 import logo from "./lib/images/logo.png";
-import UserContext from "./lib/components/usercontext";
+import UserContext from "./lib/components/userContext";
 import { user } from "./cookies";
 import { getJSON } from "./lib/api/fetcher";
 
