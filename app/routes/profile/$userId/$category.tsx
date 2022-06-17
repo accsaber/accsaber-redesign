@@ -1,17 +1,14 @@
-import type {
-  LoaderFunction,
-  MetaFunction} from "@remix-run/node";
-import {
-  ActionFunction,
-  redirect,
-} from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { ActionFunction, redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
+import { getCategories } from "~/lib/api/category";
 import { language } from "~/lib/api/config";
 import { getJSON } from "~/lib/api/fetcher";
+import { getPlayer } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import UserContext from "~/lib/components/usercontext";
@@ -58,19 +55,19 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   try {
     const [profile, history, categories] = await Promise.all([
-      getJSON<Player>(`/players/${params.userId}${categoryUrl}`, headers),
+      getPlayer(params.userId, category),
       getJSON<{ [date: string]: number }>(
         `/players/${params.userId}${categoryUrl}/recent-rank-history`,
         headers
       ),
-      getJSON<Category[]>("/categories", headers),
+      getCategories(),
     ]);
 
     return json(
       {
         profile,
         history: Object.entries(history).slice(-30),
-        categories,
+        categories: [...categories.values()],
       },
       {
         headers,

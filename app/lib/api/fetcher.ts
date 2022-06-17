@@ -2,6 +2,7 @@ import axios from "axios";
 import config from "./config";
 import { commandOptions, createClient } from "redis";
 import type { Player } from "../interfaces/api/player";
+import { getPlayer } from "./player";
 
 export const client = createClient({
   url: config.redisURL,
@@ -11,10 +12,7 @@ const apiFetcher = axios.create({
   baseURL: config.apiURL,
 });
 
-export const getProfile = async (id: string) => {
-  const player = await getJSON<Player>(`/players/${id}`);
-  return player;
-};
+export const getProfile = getPlayer;
 
 export const get = async (url: string, expiry = 86400) => {
   if (!client.isOpen) {

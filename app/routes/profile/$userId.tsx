@@ -3,7 +3,9 @@ import { json } from "@remix-run/node";
 import { Form, Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
+import { getCategories } from "~/lib/api/category";
 import { getJSON } from "~/lib/api/fetcher";
+import { getPlayer } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import UserContext from "~/lib/components/usercontext";
 import type { Category } from "~/lib/interfaces/api/category";
@@ -20,12 +22,12 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
 
   const [profile, categories] = await Promise.all([
-    getJSON<Player>(`/players/${params.userId}`, headers),
-    getJSON<Category[]>("/categories", headers),
+    getPlayer(params.userId, params.category),
+    getCategories(),
   ]);
 
   return json(
-    { profile, categories },
+    { profile, categories: [...categories.values()] },
     {
       headers,
     }

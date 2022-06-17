@@ -2,8 +2,10 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { getCategories } from "~/lib/api/category";
 import { language } from "~/lib/api/config";
-import { getJSON } from "~/lib/api/fetcher";
+import { client, getJSON } from "~/lib/api/fetcher";
+import { getStandings } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import Pagination from "~/lib/components/pagination";
 import type { Category } from "~/lib/interfaces/api/category";
@@ -19,16 +21,33 @@ export const loader: LoaderFunction = async ({
   const headers = new Headers();
   invariant(category, "Expected Category");
   const [categories, rawStandings] = await Promise.all([
-    getJSON<Category[]>(`/categories`, headers),
-    getJSON<Player[]>(`/categories/${category}/standings`, headers),
+    getCategories(),
+    getStandings(category, page - 1, pageSize),
   ]);
+
+  const transaction = client.multi();
+
+  for (const id of rawStandings) {
+    transaction.hGet(`accsaber:players:${category}`, id);
+  }
+
+  const unparsedStandings = await transaction.exec(true);
+
+  const unfiltered: Player[] = [];
+
+  for (const rawPlayer of unparsedStandings) {
+    if (typeof rawPlayer === "string") {
+      unfiltered.push(JSON.parse(rawPlayer));
+    }
+  }
+
   const filterString = url.searchParams.get("filter");
   const standings =
     typeof filterString === "string"
-      ? rawStandings.filter((i) =>
+      ? unfiltered.filter((i) =>
           i.playerName.toLowerCase().includes(filterString.toLowerCase())
         )
-      : rawStandings;
+      : unfiltered;
 
   headers.set(
     "cache-control",
@@ -36,11 +55,13 @@ export const loader: LoaderFunction = async ({
   );
   return json(
     {
-      categories,
-      standings: standings.splice((page - 1) * pageSize, pageSize),
+      categories: [...categories.values()],
+      standings: standings,
       current: category,
       page,
-      pages: Math.ceil(standings.length / pageSize) + 1,
+      pages: Math.ceil(
+        (await client.zCard(`accsaber:standings:${category}`)) / pageSize
+      ),
       headers,
     },
     {
@@ -77,7 +98,7 @@ const LeaderboardPage = () => {
         Leaderboards
       </PageHeader>
       <main className="p-4 max-w-screen-lg mx-auto flex flex-col gap-8">
-        <Form method="get" className="flex shadow rounded overflow-hidden">
+        {/* <Form method="get" className="flex shadow rounded overflow-hidden">
           <input type="hidden" name="page" value={page} />
           <input
             type="search"
@@ -104,7 +125,7 @@ const LeaderboardPage = () => {
               />
             </svg>
           </button>
-        </Form>
+        </Form> */}
         {pages > 1 ? <Pagination currentPage={page} pages={pages} /> : ""}
         <div className="prose dark:prose-invert max-w-none">
           <table className="w-full overflow-auto">
