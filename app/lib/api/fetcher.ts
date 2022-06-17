@@ -8,6 +8,8 @@ export const client = createClient({
   url: config.redisURL,
 });
 
+client.connect();
+
 client.on("error", function (err) {
   console.error("Redis error:", err);
 });

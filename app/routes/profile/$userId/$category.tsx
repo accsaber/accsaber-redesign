@@ -8,7 +8,7 @@ import { user } from "~/cookies";
 import { getCategories } from "~/lib/api/category";
 import { language } from "~/lib/api/config";
 import { getJSON } from "~/lib/api/fetcher";
-import { getPlayer } from "~/lib/api/player";
+import { getPlayer, getPlayerRankHistory } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import UserContext from "~/lib/components/userContext";
@@ -56,10 +56,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   try {
     const [profile, history, categories] = await Promise.all([
       getPlayer(params.userId, category),
-      getJSON<{ [date: string]: number }>(
-        `/players/${params.userId}${categoryUrl}/recent-rank-history`,
-        headers
-      ),
+      getPlayerRankHistory(params.userId, category),
       getCategories(),
     ]);
 

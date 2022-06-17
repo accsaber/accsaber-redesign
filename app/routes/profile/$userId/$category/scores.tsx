@@ -12,6 +12,7 @@ import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
 import { getJSON } from "~/lib/api/fetcher";
+import { getPlayerScores } from "~/lib/api/player";
 import Complexity from "~/lib/components/complexity";
 import Pagination from "~/lib/components/pagination";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
@@ -59,14 +60,12 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
   const isReversed = url.searchParams.has("reverse");
 
-  let scores =
-    params.category == "overall"
-      ? rawScores
-      : rawScores.filter(
-          (score) =>
-            // incredibly hacky fix until we have a proper api route
-            score.categoryDisplayName.toLowerCase() == `${category} acc`
-        );
+  let scores = await getPlayerScores(
+    params.userId,
+    params.category,
+    page - 1,
+    pageSize
+  );
 
   const rev = (scores: PlayerScore[]) =>
     (isReversed ? scores.reverse() : scores).splice(
