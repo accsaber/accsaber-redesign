@@ -26,7 +26,21 @@ const Header = () => (
               to={`/profile/${user.playerId}/scores`}
               className="flex rounded-full h-10 aspect-square overflow-auto mx-2"
             >
-              <img src={`/profile/${user.playerId}.png`} alt="" />
+              <picture>
+                <source
+                  srcSet={`/profile/${user.playerId}.thumbnail.avif`}
+                  type="image/avif"
+                />
+                <source
+                  srcSet={`/profile/${user.playerId}.thumbnail.webp`}
+                  type="image/webp"
+                />
+                <img
+                  src={`/profile/${user.playerId}.thumbnail.jpeg`}
+                  alt={`${user.playerName}'s profile`}
+                  loading="lazy"
+                />
+              </picture>
             </NavLink>
           ) : (
             <NavLink to="/register" className="headerNav">
