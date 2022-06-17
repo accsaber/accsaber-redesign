@@ -1,10 +1,9 @@
 import type {
   ActionFunction,
   ErrorBoundaryComponent,
-  LoaderFunction} from "@remix-run/node";
-import {
-  redirect,
+  LoaderFunction,
 } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import ms from "ms";
@@ -26,7 +25,15 @@ export const action: ActionFunction = async ({ params }) => {
 
   return redirect(`/profile/${params.userId}/scores`, {
     headers: {
-      "set-cookie": await user.serialize({ userId: params.userId }),
+      "set-cookie": await user.serialize(
+        { userId: params.userId },
+        {
+          maxAge: 31536000,
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+        }
+      ),
     },
   });
 };
