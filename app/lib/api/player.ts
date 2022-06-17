@@ -6,8 +6,6 @@ import { getCategories } from "./category";
 import apiFetcher, { client } from "./fetcher";
 
 export const updatePlayerCache = async (category = "overall") => {
-  if (!client.isOpen) await client.connect();
-
   try {
     const { data } = await apiFetcher.get<Player[]>(
       `categories/${category}/standings`
@@ -42,8 +40,6 @@ export const getStandings = async (
   page = 0,
   pageSize = 50
 ) => {
-  if (!client.isOpen) await client.connect();
-
   if (!(await client.exists(`accsaber:standings:${category}`)))
     await updatePlayerCache(category);
 
@@ -55,7 +51,6 @@ export const getStandings = async (
 };
 
 export const getPlayer = async (playerId: string, category = "overall") => {
-  if (!client.isOpen) await client.connect();
   invariant(
     category == "overall" || (await getCategories()).has(category),
     "invalid category id"

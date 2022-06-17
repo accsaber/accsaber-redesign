@@ -18,8 +18,6 @@ const getImage = async (
   const baseKey = `accsaber:image:${url}`;
   const key = `${baseKey}:${width}`;
 
-  if (!client.isOpen) await client.connect();
-
   const readStartTime = performance.now();
   const cachedImage = await client.hGet(
     commandOptions({ isolated: true, returnBuffers: true }),

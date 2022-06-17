@@ -8,6 +8,10 @@ export const client = createClient({
   url: config.redisURL,
 });
 
+client.on("error", function (err) {
+  console.error("Redis error:", err);
+});
+
 const apiFetcher = axios.create({
   baseURL: config.apiURL,
 });
@@ -15,10 +19,6 @@ const apiFetcher = axios.create({
 export const getProfile = getPlayer;
 
 export const get = async (url: string, expiry = 86400) => {
-  if (!client.isOpen) {
-    await client.connect();
-  }
-
   const key = `accsaber:cache:${url}`;
 
   const revalidate = async () => {
