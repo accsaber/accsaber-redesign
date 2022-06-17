@@ -32,10 +32,8 @@ export const get = async (url: string, expiry = 86400) => {
   };
 
   let data =
-    (await client.get(
-      commandOptions({ isolated: true, returnBuffers: true }),
-      key
-    )) ?? (await revalidate());
+    (await client.get(commandOptions({ returnBuffers: true }), key)) ??
+    (await revalidate());
 
   return data;
 };

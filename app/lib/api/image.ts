@@ -20,7 +20,7 @@ const getImage = async (
 
   const readStartTime = performance.now();
   const cachedImage = await client.hGet(
-    commandOptions({ isolated: true, returnBuffers: true }),
+    commandOptions({ returnBuffers: true }),
     key,
     format
   );
