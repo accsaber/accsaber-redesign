@@ -7,12 +7,14 @@ import { getPlayer } from "./player";
 export const client = createClient({
   url: config.redisURL,
 });
-
-client.connect();
-
+client.on("connect", () => console.log("Redis connected"));
+client.on("reconnecting", () => console.log("Redis reconnecting"));
+client.on("ready", () => console.log("Redis ready"));
 client.on("error", function (err) {
   console.error("Redis error:", err);
 });
+
+client.connect();
 
 const apiFetcher = axios.create({
   baseURL: config.apiURL,
