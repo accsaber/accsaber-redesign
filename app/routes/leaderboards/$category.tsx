@@ -165,7 +165,7 @@ const LeaderboardPage = () => {
                   </td>
                   <td>
                     <Link
-                      to={`/profile/${player.playerId}/overall/scores`}
+                      to={`/profile/${player.playerId}/${current}/scores`}
                       prefetch="intent"
                     >
                       {player.playerName}
