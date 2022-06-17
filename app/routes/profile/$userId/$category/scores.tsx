@@ -1,7 +1,8 @@
-import {
+import type {
   ActionFunction,
   ErrorBoundaryComponent,
-  LoaderFunction,
+  LoaderFunction} from "@remix-run/node";
+import {
   redirect,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";

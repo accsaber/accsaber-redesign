@@ -1,4 +1,5 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { getJSON } from "~/lib/api/fetcher";
 

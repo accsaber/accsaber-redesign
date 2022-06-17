@@ -1,7 +1,8 @@
+import type {
+  LoaderFunction,
+  MetaFunction} from "@remix-run/node";
 import {
   ActionFunction,
-  LoaderFunction,
-  MetaFunction,
   redirect,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -14,7 +15,7 @@ import { getJSON } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import UserContext from "~/lib/components/usercontext";
-import { Category } from "~/lib/interfaces/api/category";
+import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 
 export const meta: MetaFunction = ({

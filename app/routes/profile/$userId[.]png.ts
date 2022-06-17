@@ -1,7 +1,8 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { getJSON } from "~/lib/api/fetcher";
-import { Player } from "~/lib/interfaces/api/player";
+import type { Player } from "~/lib/interfaces/api/player";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.userId, "Expected User ID");

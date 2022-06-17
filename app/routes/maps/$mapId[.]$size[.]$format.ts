@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 import { getJSON } from "~/lib/api/fetcher";
 import getImage from "~/lib/api/image";
 import type { Player } from "~/lib/interfaces/api/player";
-import { RankedMap } from "~/lib/interfaces/api/ranked-map";
+import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
 
 const sizes = new Map([
   ["thumbnail", 80],

@@ -1,4 +1,4 @@
-import ApiConfig from "../../interfaces/config";
+import type ApiConfig from "../../interfaces/config";
 
 const productionConfig: ApiConfig = {
   apiURL: "https://api.accsaber.com/",

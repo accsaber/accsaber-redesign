@@ -1,8 +1,9 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { getJSON } from "~/lib/api/fetcher";
-import CampaignMission from "~/lib/interfaces/campaign/mission";
+import type CampaignMission from "~/lib/interfaces/campaign/mission";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.mission, "Expected Mission ID");

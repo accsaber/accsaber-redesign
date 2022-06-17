@@ -1,4 +1,5 @@
-import { LoaderFunction, redirect } from "@remix-run/node";
+import type { LoaderFunction} from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 
 export const loader: LoaderFunction = ({ params }) => {
