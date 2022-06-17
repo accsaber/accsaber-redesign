@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import getImage from "~/lib/api/image";
 import type { Player } from "~/lib/interfaces/api/player";
 
@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response("Player Not Found", { status: 404 });
 
   try {
-    const user = (await get(`/players/${params.userId}`)) as Player;
+    const user = (await getJSON(`/players/${params.userId}`)) as Player;
     invariant(user, "Player not found");
 
     return getImage(user.avatarUrl, sizes.get(params.size) ?? 80);

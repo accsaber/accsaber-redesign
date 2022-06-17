@@ -1,19 +1,19 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import type Campaign from "~/lib/interfaces/campaign/campaign";
 import type CampaignMission from "~/lib/interfaces/campaign/mission";
 
 export const loader: LoaderFunction = async () => {
   const headers = new Headers();
-  const campaignInfo = await get<Campaign>(
+  const campaignInfo = await getJSON<Campaign>(
     "https://campaign-data.pages.dev/info.json",
     headers
   );
   const levels = await Promise.all(
     campaignInfo.mapPositions.map((map, i) =>
-      get(`https://campaign-data.pages.dev/${i}.json`, headers)
+      getJSON(`https://campaign-data.pages.dev/${i}.json`, headers)
     )
   );
   return json({ campaignInfo, levels }, { headers });

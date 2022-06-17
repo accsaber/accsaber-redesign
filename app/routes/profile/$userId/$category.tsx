@@ -10,7 +10,7 @@ import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import UserContext from "~/lib/components/usercontext";
@@ -57,12 +57,12 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   try {
     const [profile, history, categories] = await Promise.all([
-      get<Player>(`/players/${params.userId}${categoryUrl}`, headers),
-      get<{ [date: string]: number }>(
+      getJSON<Player>(`/players/${params.userId}${categoryUrl}`, headers),
+      getJSON<{ [date: string]: number }>(
         `/players/${params.userId}${categoryUrl}/recent-rank-history`,
         headers
       ),
-      get<Category[]>("/categories", headers),
+      getJSON<Category[]>("/categories", headers),
     ]);
 
     return json(

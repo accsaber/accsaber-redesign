@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import getImage from "~/lib/api/image";
 import type { Player } from "~/lib/interfaces/api/player";
 import { RankedMap } from "~/lib/interfaces/api/ranked-map";
@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response("Invalid Size", { status: 400 });
 
   try {
-    const map = await get<RankedMap>(`/ranked-maps/${params.mapId}`);
+    const map = await getJSON<RankedMap>(`/ranked-maps/${params.mapId}`);
     invariant(map, "Player not found");
 
     return getImage(

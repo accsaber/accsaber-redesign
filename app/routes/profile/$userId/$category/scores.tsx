@@ -10,7 +10,7 @@ import ms from "ms";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import Complexity from "~/lib/components/complexity";
 import Pagination from "~/lib/components/pagination";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
@@ -43,7 +43,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     "public, max-age=86400, stale-while-revalidate=86400"
   );
 
-  const rawScores = await get<PlayerScore[]>(
+  const rawScores = await getJSON<PlayerScore[]>(
     `/players/${params.userId}/scores`,
     headers
   );

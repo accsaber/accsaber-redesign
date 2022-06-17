@@ -1,7 +1,7 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import CampaignMission from "~/lib/interfaces/campaign/mission";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -13,11 +13,11 @@ export const loader: LoaderFunction = async ({ params }) => {
     "cache-control",
     "public, max-age=86400, stale-while-revalidate=86400"
   );
-  const mission = await get<CampaignMission>(
+  const mission = await getJSON<CampaignMission>(
     `https://campaign-data.pages.dev/${params.mission}.json`
   );
 
-  const scores = await get(
+  const scores = await getJSON(
     `https://campaigns.accsaber.com/leaderboards/${mission.hash.toUpperCase()}/${
       mission.characteristic
     }/${mission.difficulty}?page=0&pageSize=10`

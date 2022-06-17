@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import Pagination from "~/lib/components/pagination";
 import type { Category } from "~/lib/interfaces/api/category";
@@ -19,8 +19,8 @@ export const loader: LoaderFunction = async ({
   const headers = new Headers();
   invariant(category, "Expected Category");
   const [categories, rawStandings] = await Promise.all([
-    get<Category[]>(`/categories`, headers),
-    get<Player[]>(`/categories/${category}/standings`, headers),
+    getJSON<Category[]>(`/categories`, headers),
+    getJSON<Player[]>(`/categories/${category}/standings`, headers),
   ]);
   const filterString = url.searchParams.get("filter");
   const standings =

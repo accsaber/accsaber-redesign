@@ -4,7 +4,7 @@ import type { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-
 import { useLoaderData, Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import ms from "ms";
 import config, { language } from "~/lib/api/config";
@@ -32,8 +32,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.mapId, "Expected User ID");
   const headers = new Headers();
   const [map, leaderboard] = await Promise.all([
-    get<RankedMap>(`/ranked-maps/${params.mapId}`, headers),
-    get<MapLeaderboardPlayer[]>(`/map-leaderboards/${params.mapId}`, headers),
+    getJSON<RankedMap>(`/ranked-maps/${params.mapId}`, headers),
+    getJSON<MapLeaderboardPlayer[]>(
+      `/map-leaderboards/${params.mapId}`,
+      headers
+    ),
   ]);
 
   return json(

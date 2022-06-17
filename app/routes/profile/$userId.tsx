@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { Form, Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import UserContext from "~/lib/components/usercontext";
 import type { Category } from "~/lib/interfaces/api/category";
@@ -20,8 +20,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
 
   const [profile, categories] = await Promise.all([
-    get<Player>(`/players/${params.userId}`, headers),
-    get<Category[]>("/categories", headers),
+    getJSON<Player>(`/players/${params.userId}`, headers),
+    getJSON<Category[]>("/categories", headers),
   ]);
 
   return json(

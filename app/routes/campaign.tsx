@@ -1,5 +1,5 @@
 import { json, LoaderFunction } from "@remix-run/node";
-import { get } from "~/lib/api/fetcher";
+import { getJSON } from "~/lib/api/fetcher";
 import PageHeader from "~/lib/components/pageHeader";
 import Campaign from "~/lib/interfaces/campaign/campaign";
 import campaignLogo from "~/lib/images/campaign.png";
