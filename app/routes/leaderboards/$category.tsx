@@ -105,7 +105,7 @@ const LeaderboardPage = () => {
             </svg>
           </button>
         </Form>
-        <Pagination currentPage={page} pages={pages} />
+        {pages > 1 ? <Pagination currentPage={page} pages={pages} /> : ""}
         <div className="prose dark:prose-invert max-w-none">
           <table className="w-full overflow-auto">
             <thead>
@@ -163,7 +163,7 @@ const LeaderboardPage = () => {
             </tbody>
           </table>
         </div>
-        <Pagination currentPage={page} pages={pages} />
+        {pages > 1 ? <Pagination currentPage={page} pages={pages} /> : ""}
       </main>
     </>
   );
