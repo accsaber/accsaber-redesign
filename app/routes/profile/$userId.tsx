@@ -41,7 +41,7 @@ const UserContainer = () => {
       <UserContext.Consumer>
         {(user) => (
           <PageHeader
-            image={`/profile/${profile.playerId}.thumbnail.webp`}
+            image={`/profile/${profile.playerId}.thumbnail.jpeg`}
             actionButton={
               user?.playerId !== profile.playerId ? (
                 <Form

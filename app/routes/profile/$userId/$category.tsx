@@ -100,11 +100,21 @@ const ProfileRoute = () => {
             "max-w-screen-lg mx-auto px-4 h-72",
           ].join(" ")}
         >
-          <img
-            src={`/profile/${profile.playerId}.avatar.webp`}
-            alt={`${profile.playerName}'s avatar`}
-            className="w-32 h-32  rounded-full shadow-lg "
-          />
+          <picture>
+            <source
+              srcSet={`/profile/${profile.playerId}.avatar.avif`}
+              type="image/avif"
+            />
+            <source
+              srcSet={`/profile/${profile.playerId}.avatar.webp`}
+              type="image/webp"
+            />
+            <img
+              src={`/profile/${profile.playerId}.avatar.jpeg`}
+              alt={`${profile.playerName}'s profile`}
+              className="w-32 h-32  rounded-full shadow-lg "
+            />
+          </picture>
           <div className="flex flex-1 flex-col justify-center">
             <div className="">
               <h1 className="text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-hidden max-w-[12rem]">

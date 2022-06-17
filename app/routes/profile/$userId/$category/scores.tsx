@@ -7,6 +7,7 @@ import {
 import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import ms from "ms";
+import React from "react";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
@@ -94,11 +95,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
 };
 
-const SortButton: React.FC<{ name: string; value: string }> = ({
-  name,
-  value,
-  children,
-}) => {
+const SortButton: React.FC<{
+  name: string;
+  value: string;
+  children: React.ReactNode;
+}> = ({ name, value, children }) => {
   const query = new URLSearchParams(useLocation().search);
   return (
     <Form method="get">
@@ -170,12 +171,22 @@ const Scores = () => {
                 <td>#{score.rank}</td>
 
                 <td className="relative aspect-square w-10">
-                  <img
-                    src={`/maps/${score.leaderboardId}.thumbnail.webp`}
-                    alt={``}
-                    loading="lazy"
-                    className="absolute top-0 left-0 m-0"
-                  />
+                  <picture>
+                    <source
+                      srcSet={`/maps/${score.leaderboardId}.thumbnail.avif`}
+                      type="image/avif"
+                    />
+                    <source
+                      srcSet={`/maps/${score.leaderboardId}.thumbnail.webp`}
+                      type="image/webp"
+                    />
+                    <img
+                      src={`/maps/${score.leaderboardId}.thumbnail.jpeg`}
+                      alt={``}
+                      loading="lazy"
+                      className="absolute top-0 left-0 m-0"
+                    />
+                  </picture>
                 </td>
                 <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
                   <Link to={`/maps/${score.leaderboardId}`}>

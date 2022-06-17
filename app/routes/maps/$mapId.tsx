@@ -60,7 +60,7 @@ const MapLeaderboardPage = () => {
 
   return (
     <>
-      <PageHeader image={`/maps/${map.leaderboardId}.thumbnail.webp`}>
+      <PageHeader image={`/maps/${map.leaderboardId}.thumbnail.jpeg`}>
         {map.songAuthorName} - {map.songName}
       </PageHeader>
 
@@ -72,10 +72,20 @@ const MapLeaderboardPage = () => {
           ].join(" ")}
         >
           <div className="flex overflow-hidden rounded-lg shadow-lg w-32 h-32 aspect-square">
-            <img
-              src={`/maps/${map.leaderboardId}.cover.webp`}
-              alt="cover art"
-            />
+            <picture>
+              <source
+                srcSet={`/maps/${map.leaderboardId}.cover.avif`}
+                type="image/avif"
+              />
+              <source
+                srcSet={`/maps/${map.leaderboardId}.cover.webp`}
+                type="image/webp"
+              />
+              <img
+                src={`/maps/${map.leaderboardId}.cover.jpeg`}
+                alt={`cover art`}
+              />
+            </picture>
           </div>
           <div className="flex flex-col gap-1">
             <h1 className="text-2xl font-bold">
@@ -107,12 +117,22 @@ const MapLeaderboardPage = () => {
               <tr key={score.playerId}>
                 <td>#{score.rank}</td>
                 <td className="relative aspect-square w-10">
-                  <img
-                    src={`/profile/${score.playerId}.thumbnail.webp`}
-                    alt={``}
-                    loading="lazy"
-                    className="absolute top-0 left-0 m-0"
-                  />
+                  <picture>
+                    <source
+                      srcSet={`/profile/${score.playerId}.thumbnail.avif`}
+                      type="image/avif"
+                    />
+                    <source
+                      srcSet={`/profile/${score.playerId}.thumbnail.webp`}
+                      type="image/webp"
+                    />
+                    <img
+                      src={`/profile/${score.playerId}.thumbnail.jpeg`}
+                      alt={`${score.playerName}'s profile`}
+                      loading="lazy"
+                      className="absolute top-0 left-0 m-0"
+                    />
+                  </picture>
                 </td>
                 <td>
                   <Link to={`/profile/${score.playerId}/overall/scores`}>

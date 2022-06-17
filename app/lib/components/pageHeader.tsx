@@ -1,6 +1,6 @@
 import { NavLink, Link, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
-import { createRef, useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import logo from "~/lib/images/logo.webp";
 
 const PageHeader: React.FC<{
@@ -13,6 +13,7 @@ const PageHeader: React.FC<{
   }[];
   iconRounded?: boolean;
   actionButton?: ReactNode;
+  children?: React.ReactNode;
 }> = ({
   children,
   image,
