@@ -18,7 +18,10 @@ export const getCategories = async () => {
     console.log(`refreshing category list`);
     const { data } = await apiFetcher.get<Category[]>("/categories");
     for (const category of data) {
-      await client.hSet(key, category.categoryName, JSON.stringify(category));
+      const transaction = client.multi();
+      transaction.hSet(key, category.categoryName, JSON.stringify(category));
+      transaction.expire(key, 86400);
+      await transaction.execAsPipeline();
       categories.set(category.categoryDisplayName, category);
     }
   }

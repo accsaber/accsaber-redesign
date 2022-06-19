@@ -20,10 +20,12 @@ export const updatePlayerCache = async (category = "overall") => {
         player.playerId,
         JSON.stringify(player)
       );
+      transaction.expire(`accsaber:players:${category}`, 86400);
       transaction.zAdd(`accsaber:standings:${category}`, {
         score: player.rank,
         value: player.playerId,
       });
+      transaction.expire(`accsaber:standings:${category}`, 86400);
     }
     await transaction.exec();
 
@@ -73,12 +75,8 @@ export const getPlayerScores = async (
 
   const transaction = client.multi();
   transaction.zRange(key, page * pageSize, page * pageSize + pageSize);
-
   transaction.zCard(key);
-
   const [rawScoreList, count] = await transaction.exec();
-
-  let scores: PlayerScore[] = [];
 
   if (count === 0) {
     const { data } = await apiFetcher.get<PlayerScore[]>(
