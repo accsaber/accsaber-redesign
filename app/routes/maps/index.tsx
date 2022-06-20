@@ -1,18 +1,18 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import ms from "ms";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { createRef } from "react";
 import { getCategories } from "~/lib/api/category";
-import config, { language } from "~/lib/api/config";
+import config from "~/lib/api/config";
 import { getMapList } from "~/lib/api/map";
 import MapRow from "~/lib/components/mapRow";
 import PageHeader from "~/lib/components/pageHeader";
 import SortButton from "~/lib/components/sortButton";
-import { Category } from "~/lib/interfaces/api/category";
+import type { Category } from "~/lib/interfaces/api/category";
 import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
 
-export const meta = () => ({
+export const meta: MetaFunction = ({ data }) => ({
   title: "Ranked Maps | AccSaber",
+  description: `Every ranked map on AccSaber`,
 });
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -28,8 +28,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const sortBy = searchParams.get("sortBy");
   const isReversed = searchParams.has("reverse");
-
-  const rev = (items: any[]) => (isReversed ? items.reverse() : items);
 
   const difficultyToNumber = (difficulty: string) =>
     ["easy", "normal", "hard", "expert", "expertplus"].indexOf(
@@ -61,7 +59,9 @@ export const loader: LoaderFunction = async ({ request }) => {
       maps.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
   }
 
-  return { maps: rev(maps), categories };
+  if (isReversed) maps.reverse();
+
+  return { maps: maps, categories, count: maps.length };
 };
 
 const RankedMapsPage = () => {

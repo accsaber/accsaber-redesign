@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -10,6 +10,15 @@ import Pagination from "~/lib/components/pagination";
 import PlayerRow from "~/lib/components/playerRow";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
+
+export const meta: MetaFunction = ({ data }) => ({
+  title: `AccSaber ${
+    data?.currentFull?.categoryDisplayName ?? "Overall"
+  } Leaderboard`,
+  description: `${
+    data?.currentFull?.categoryDisplayName ?? "Overall"
+  } on AccSaber, the competitive accuracy leaderboard`,
+});
 
 export const loader: LoaderFunction = async ({
   params: { category },
@@ -61,6 +70,7 @@ export const loader: LoaderFunction = async ({
       categories: [...categories.values()],
       standings: standings,
       current: category,
+      currentFull: categories.get(category),
       page,
       pages: Math.ceil(
         (await client.zCard(`accsaber:standings:${category}`)) / pageSize
