@@ -10,6 +10,10 @@ body {
 }
 
 @layer components {
+  .easy {
+    @apply bg-green-400;
+  }
+
   .headerNav {
     @apply rounded p-4 py-2 items-center gap-2;
   }

@@ -14,7 +14,9 @@ import { language } from "~/lib/api/config";
 import { getJSON } from "~/lib/api/fetcher";
 import { getPlayerScores } from "~/lib/api/player";
 import Complexity from "~/lib/components/complexity";
+import DifficultyLabel from "~/lib/components/difficultyLabel";
 import Pagination from "~/lib/components/pagination";
+import SortButton from "~/lib/components/sortButton";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
 export const ErrorBoundary: ErrorBoundaryComponent = () => {
@@ -73,6 +75,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       pageSize
     );
 
+  const difficultyToNumber = (difficulty: string) =>
+    ["easy", "normal", "hard", "expert", "expertplus"].indexOf(
+      difficulty.toLowerCase()
+    );
+
   switch (sortBy) {
     case "rank":
     case "accuracy":
@@ -83,6 +90,13 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     case "timeSet":
       scores.sort(
         (a, b) => new Date(a.timeSet).getTime() - new Date(b.timeSet).getTime()
+      );
+      break;
+
+    case "difficulty":
+      scores = scores.sort(
+        (a, b) =>
+          difficultyToNumber(a.difficulty) - difficultyToNumber(b.difficulty)
       );
       break;
 
@@ -102,53 +116,20 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
 };
 
-const SortButton: React.FC<{
-  name: string;
-  value: string;
-  children: React.ReactNode;
-}> = ({ name, value, children }) => {
-  const query = new URLSearchParams(useLocation().search);
-  return (
-    <Form method="get">
-      <input type="hidden" name={name} value={value} />
-      {query.get(name) == value && !query.has("reverse") ? (
-        <input type={"hidden"} name="reverse" />
-      ) : (
-        ""
-      )}
-      <button
-        className="[font:inherit] flex w-full justify-between"
-        type="submit"
-      >
-        {children}
-        <div>
-          {query.get(name) !== value ? (
-            "-"
-          ) : query.has("reverse") ? (
-            <>&uarr;</>
-          ) : (
-            <>&darr;</>
-          )}
-        </div>
-      </button>
-    </Form>
-  );
-};
 const Scores = () => {
   const { scores, page, pages } = useLoaderData<{
     scores: PlayerScore[];
     page: number;
     pages: number;
   }>();
-  const columns: [keyof PlayerScore | null, string][] = [
+  const columns: [keyof PlayerScore | null, string, number?][] = [
     ["rank", ""],
-    [null, ""],
-    ["songName", "Song Name"],
+    ["songName", "Song Name", 2],
+    ["difficulty", "Difficulty"],
     ["categoryDisplayName", "Category"],
     ["accuracy", "Accuracy"],
     ["ap", "AP"],
     ["timeSet", "Time Set"],
-    [null, "Difficulty"],
     ["complexity", "Complexity"],
   ];
   return (
@@ -159,8 +140,8 @@ const Scores = () => {
         <table>
           <thead>
             <tr>
-              {columns.map(([value, friendly], n) => (
-                <th key={n}>
+              {columns.map(([value, friendly, colSpan], n) => (
+                <th key={n} colSpan={colSpan}>
                   {value ? (
                     <SortButton name="sortBy" value={value}>
                       {friendly}
@@ -200,6 +181,9 @@ const Scores = () => {
                     {score.songName}
                   </Link>
                 </td>
+                <td>
+                  <DifficultyLabel>{score.difficulty}</DifficultyLabel>
+                </td>
                 <td>{score.categoryDisplayName}</td>
                 <td>
                   {(score.accuracy * 100).toLocaleString(language, {
@@ -218,7 +202,6 @@ const Scores = () => {
                   })}{" "}
                   ago
                 </td>
-                <td>{score.difficulty}</td>
                 <td>
                   <Complexity>{score.complexity}</Complexity>
                 </td>

@@ -97,9 +97,9 @@ export const getPlayerScores = async (
   }
 
   if (!Array.isArray(rawScoreList)) return [];
-  return rawScoreList.map((i) =>
-    typeof i === "string" ? (JSON.parse(i) as PlayerScore) : ""
-  );
+  return rawScoreList
+    .filter((i) => typeof i === "string")
+    .map((i) => JSON.parse(i as string) as PlayerScore);
 };
 
 export const getPlayerRankHistory = async (

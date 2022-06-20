@@ -1,10 +1,8 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
-import { getJSON } from "~/lib/api/fetcher";
 import getImage from "~/lib/api/image";
-import type { Player } from "~/lib/interfaces/api/player";
-import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
+import { getMapInfo } from "~/lib/api/map";
 
 const sizes = new Map([
   ["thumbnail", 80],
@@ -24,8 +22,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response("Invalid Size", { status: 400 });
 
   try {
-    const map = await getJSON<RankedMap>(`/ranked-maps/${params.mapId}`);
-    invariant(map, "Player not found");
+    const map = await getMapInfo(params.mapId);
+    invariant(map, "Map not found");
 
     return getImage(
       `https://cdn.accsaber.com/covers/${map.songHash.toUpperCase()}.png`,
