@@ -14,14 +14,14 @@ import Complexity from "~/lib/components/complexity";
 export const meta: MetaFunction = ({
   data,
 }: {
-  data: { map?: RankedMap };
+  data?: { map?: RankedMap };
 }) => ({
-  title: `${data.map?.songAuthorName} - ${data.map?.songName} | AccSaber`,
-  "og:title": `${data.map?.songAuthorName} - ${data.map?.songName}`,
-  "og:description": `Mapped By SSnowy\nComplexity: ${data.map?.complexity}`,
+  title: `${data?.map?.songAuthorName} - ${data?.map?.songName} | AccSaber`,
+  "og:title": `${data?.map?.songAuthorName} - ${data?.map?.songName}`,
+  "og:description": `Mapped By SSnowy\nComplexity: ${data?.map?.complexity}`,
   "og:image:url": `${
     config.cdnURL
-  }/covers/${data.map?.songHash.toUpperCase()}.png`,
+  }/covers/${data?.map?.songHash?.toUpperCase()}.png`,
 });
 
 export const loader: LoaderFunction = async ({ params, request }) => {
@@ -38,6 +38,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       headers
     ),
   ]);
+
+  console.log(map);
+
+  if ("errorCode" in map || !map || !leaderboard)
+    throw new Response("Map not found", { status: 404 });
 
   return json(
     {

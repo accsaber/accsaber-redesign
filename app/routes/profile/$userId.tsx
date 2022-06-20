@@ -26,6 +26,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     getCategories(),
   ]);
 
+  if (!profile) throw new Response("Player Not Found", { status: 404 });
+
   return json(
     { profile, categories: [...categories.values()] },
     {

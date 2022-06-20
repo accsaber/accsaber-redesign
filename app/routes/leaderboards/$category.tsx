@@ -1,10 +1,9 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
+import { useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
-import { language } from "~/lib/api/config";
-import { client, getJSON } from "~/lib/api/fetcher";
+import { client } from "~/lib/api/fetcher";
 import { getStandings } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import Pagination from "~/lib/components/pagination";
@@ -25,6 +24,9 @@ export const loader: LoaderFunction = async ({
     getCategories(),
     getStandings(category, page - 1, pageSize),
   ]);
+
+  if (!rawStandings)
+    throw new Response("Leaderboard not found", { status: 404 });
 
   const transaction = client.multi();
 
@@ -71,8 +73,6 @@ export const loader: LoaderFunction = async ({
   );
 };
 
-export function CatchBoundary() {}
-
 const LeaderboardPage = () => {
   const { categories, standings, current, page, pages } = useLoaderData<{
     categories: Category[];
@@ -83,13 +83,12 @@ const LeaderboardPage = () => {
   }>();
 
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
   return (
     <>
       <PageHeader
         navigation={[
           { categoryName: "overall", categoryDisplayName: "Overall" },
-          ...categories,
+          ...(categories ?? []),
         ].map(({ categoryDisplayName, categoryName }) => ({
           href: `/leaderboards/${categoryName}`,
           label: categoryDisplayName,
@@ -115,7 +114,7 @@ const LeaderboardPage = () => {
               </tr>
             </thead>
             <tbody>
-              {standings.map((player) => (
+              {standings?.map((player) => (
                 <PlayerRow
                   player={player}
                   key={player.playerId}

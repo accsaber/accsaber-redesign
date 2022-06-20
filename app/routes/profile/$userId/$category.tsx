@@ -18,22 +18,22 @@ import type { Player } from "~/lib/interfaces/api/player";
 export const meta: MetaFunction = ({
   data,
 }: {
-  data: { profile?: Player };
+  data?: { profile?: Player };
 }) => ({
   title: `${
     data?.profile?.playerName ?? "Unknown Player"
   }'s Profile | AccSaber`,
   "og:title": `${data?.profile?.playerName ?? "Unknown Player"}'s Profile`,
-  "og:description": `Rank#${data.profile?.rank}\nAP: ${data.profile?.ap.toFixed(
-    2
-  )}\n`,
-  description: `Rank #${data.profile?.rank}\nAP: ${data.profile?.ap.toFixed(
+  "og:description": `Rank#${
+    data?.profile?.rank
+  }\nAP: ${data?.profile?.ap.toFixed(2)}\n`,
+  description: `Rank #${data?.profile?.rank}\nAP: ${data?.profile?.ap.toFixed(
     2
   )}\n`,
   "og:image:url": `https://accsaber-image.fly.dev/profile/${data?.profile?.playerId}.png`,
   "og:image:width": `1120`,
   "og:image:height": `664`,
-  "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.userId}`,
+  "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.playerId}`,
   "og:type": "profile.accsaber",
 });
 

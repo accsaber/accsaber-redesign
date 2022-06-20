@@ -4,35 +4,29 @@ import type { PlayerScore } from "../interfaces/api/player-score";
 import apiFetcher, { client } from "./fetcher";
 
 export const updatePlayerCache = async (category = "overall") => {
-  try {
-    const { data } = await apiFetcher.get<Player[]>(
-      `categories/${category}/standings`
+  const { data, status } = await apiFetcher.get<Player[]>(
+    `categories/${category}/standings`
+  );
+
+  if (status !== 200) return false;
+
+  const transaction = client.multi();
+  for (const player of data) {
+    transaction.hSet(
+      `accsaber:players:${category}`,
+      player?.playerId ?? "Unknown Player",
+      JSON.stringify(player)
     );
-
-    const transaction = client.multi();
-    for (const player of data) {
-      transaction.hSet(
-        `accsaber:players:${category}`,
-        player.playerId,
-        JSON.stringify(player)
-      );
-      transaction.expire(`accsaber:players:${category}`, 86400);
-      transaction.zAdd(`accsaber:standings:${category}`, {
-        score: player.rank,
-        value: player.playerId,
-      });
-      transaction.expire(`accsaber:standings:${category}`, 86400);
-    }
-    await transaction.exec();
-
-    return true;
-  } catch (err) {
-    if (err instanceof AxiosError) {
-      console.error(err);
-      return false;
-    }
-    throw err;
+    transaction.expire(`accsaber:players:${category}`, 86400);
+    transaction.zAdd(`accsaber:standings:${category}`, {
+      score: player.rank,
+      value: player.playerId,
+    });
+    transaction.expire(`accsaber:standings:${category}`, 86400);
   }
+  await transaction.exec();
+
+  return true;
 };
 
 export const getStandings = async (
@@ -40,8 +34,11 @@ export const getStandings = async (
   page = 0,
   pageSize = 50
 ) => {
-  if (!(await client.exists(`accsaber:standings:${category}`)))
-    await updatePlayerCache(category);
+  if (!(await client.exists(`accsaber:standings:${category}`))) {
+    if (!(await updatePlayerCache(category))) {
+      return null;
+    }
+  }
 
   return client.zRange(
     `accsaber:standings:${category}`,
@@ -56,7 +53,7 @@ export const getPlayer = async (playerId: string, category = "overall") => {
 
   const dbPlayer = await client.hGet(`accsaber:players:${category}`, playerId);
 
-  return dbPlayer ? JSON.parse(dbPlayer) : null;
+  return dbPlayer ? (JSON.parse(dbPlayer) as Player) : null;
 };
 
 export const getPlayerScores = async (
@@ -80,7 +77,10 @@ export const getPlayerScores = async (
 
     transaction.zAdd(
       key,
-      data.map((score) => ({ score: score.ap, value: JSON.stringify(score) }))
+      (data ?? []).map((score) => ({
+        score: score.ap,
+        value: JSON.stringify(score),
+      }))
     );
 
     transaction.expire(key, 86400);
