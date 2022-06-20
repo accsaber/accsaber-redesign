@@ -19,7 +19,8 @@ import Pagination from "~/lib/components/pagination";
 import SortButton from "~/lib/components/sortButton";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
-export const ErrorBoundary: ErrorBoundaryComponent = () => {
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+  console.error(error);
   return <div>Failed to load scores</div>;
 };
 

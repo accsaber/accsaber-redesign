@@ -28,7 +28,7 @@ export const updatePlayerCache = async (category = "overall") => {
     return true;
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(err);
+      console.error(err);
       return false;
     }
     throw err;
@@ -69,10 +69,7 @@ export const getPlayerScores = async (
   const key = `accsaber:scores:player:${playerId}:${category}`;
 
   const count = await client.zCard(key);
-  const rawScoreList = await client.zRange(key, 0, count, {
-    REV: reverse ? true : undefined,
-  });
-  console.log(count, key);
+  const rawScoreList = await client.zRange(key, 0, count);
 
   if (count === 0) {
     const { data } = await apiFetcher.get<PlayerScore[]>(
