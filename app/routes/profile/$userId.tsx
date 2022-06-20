@@ -10,6 +10,7 @@ import PageHeader from "~/lib/components/pageHeader";
 import UserContext from "~/lib/components/userContext";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
+import scoresaberLogo from "~/lib/images/scoresaber.svg";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.userId, "Expected User ID");
@@ -47,20 +48,32 @@ const UserContainer = () => {
           <PageHeader
             image={`/profile/${profile.playerId}.thumbnail.jpeg`}
             actionButton={
-              user?.playerId !== profile.playerId ? (
-                <Form
-                  action={`/profile/${profile.playerId}/overall/scores`}
-                  method="post"
-                  replace
+              <div className="flex gap-2 flex-row-reverse">
+                <a
+                  href={`https://scoresaber.com/u/${profile.playerId}`}
+                  className="hover:bg-neutral-100 dark:hover:bg-neutral-700 block p-2 rounded-full"
                 >
-                  <button
-                    type="submit"
-                    className="px-4 py-2 shadow-md bg-white dark:bg-neutral-700 rounded text-inherit"
+                  <img
+                    src={scoresaberLogo}
+                    alt="Profile on ScoreSaber"
+                    className="h-6"
+                  />
+                </a>
+                {user?.playerId !== profile.playerId ? (
+                  <Form
+                    action={`/profile/${profile.playerId}/overall/scores`}
+                    method="post"
+                    replace
                   >
-                    Set as my profile
-                  </button>
-                </Form>
-              ) : undefined
+                    <button
+                      type="submit"
+                      className="px-4 py-2 shadow-md bg-white dark:bg-neutral-700 rounded text-inherit"
+                    >
+                      Set as my profile
+                    </button>
+                  </Form>
+                ) : undefined}
+              </div>
             }
             navigation={[
               {
