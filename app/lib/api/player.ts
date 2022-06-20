@@ -86,7 +86,7 @@ export const getPlayerScores = async (
     transaction.expire(key, 86400);
 
     await transaction.execAsPipeline();
-    return await getPlayerScores(playerId, category, page, pageSize, reverse);
+    return await getPlayerScores(playerId, category, reverse);
   }
 
   if (!Array.isArray(rawScoreList)) return { scores: [], count: 0 };
