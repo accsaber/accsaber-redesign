@@ -1,10 +1,6 @@
 import { AxiosError } from "axios";
-import { commandOptions } from "redis";
-import { json } from "stream/consumers";
-import invariant from "tiny-invariant";
-import { Player } from "../interfaces/api/player";
-import { PlayerScore } from "../interfaces/api/player-score";
-import { getCategories } from "./category";
+import type { Player } from "../interfaces/api/player";
+import type { PlayerScore } from "../interfaces/api/player-score";
 import apiFetcher, { client } from "./fetcher";
 
 export const updatePlayerCache = async (category = "overall") => {
@@ -66,17 +62,17 @@ export const getPlayer = async (playerId: string, category = "overall") => {
 export const getPlayerScores = async (
   playerId: string,
   category = "overall",
-  page = 0,
-  pageSize = 50
-) => {
-  if (category !== "overall") return [];
+  reverse = true
+): Promise<{ scores: PlayerScore[]; count: number }> => {
+  if (category !== "overall") return { scores: [], count: 0 };
 
   const key = `accsaber:scores:player:${playerId}:${category}`;
 
-  const transaction = client.multi();
-  transaction.zRange(key, page * pageSize, page * pageSize + pageSize);
-  transaction.zCard(key);
-  const [rawScoreList, count] = await transaction.exec();
+  const count = await client.zCard(key);
+  const rawScoreList = await client.zRange(key, 0, count, {
+    REV: reverse ? true : undefined,
+  });
+  console.log(count, key);
 
   if (count === 0) {
     const { data } = await apiFetcher.get<PlayerScore[]>(
@@ -93,13 +89,16 @@ export const getPlayerScores = async (
     transaction.expire(key, 86400);
 
     await transaction.execAsPipeline();
-    return data;
+    return await getPlayerScores(playerId, category, page, pageSize, reverse);
   }
 
-  if (!Array.isArray(rawScoreList)) return [];
-  return rawScoreList
-    .filter((i) => typeof i === "string")
-    .map((i) => JSON.parse(i as string) as PlayerScore);
+  if (!Array.isArray(rawScoreList)) return { scores: [], count: 0 };
+  return {
+    scores: rawScoreList
+      .filter((i) => typeof i === "string")
+      .map((i) => JSON.parse(i as string) as PlayerScore),
+    count,
+  };
 };
 
 export const getPlayerRankHistory = async (

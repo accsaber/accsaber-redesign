@@ -55,19 +55,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     "public, max-age=86400, stale-while-revalidate=86400"
   );
 
-  const rawScores = await getJSON<PlayerScore[]>(
-    `/players/${params.userId}/scores`,
-    headers
-  );
   const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
   const isReversed = url.searchParams.has("reverse");
 
-  let scores = await getPlayerScores(
-    params.userId,
-    params.category,
-    page - 1,
-    pageSize
-  );
+  let { scores, count } = await getPlayerScores(params.userId, params.category);
 
   const rev = (scores: PlayerScore[]) =>
     (isReversed ? scores.reverse() : scores).splice(
@@ -83,8 +74,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   switch (sortBy) {
     case "rank":
     case "accuracy":
-    case "ap":
     case "complexity":
+    case "ap":
       scores = scores.sort((a, b) => a[sortBy] - b[sortBy]);
       break;
     case "timeSet":
@@ -108,7 +99,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     {
       scores: rev(scores),
       page,
-      pages: Math.ceil(scores.length / pageSize) + 1,
+      pages: Math.ceil(count / pageSize),
     },
     {
       headers,
