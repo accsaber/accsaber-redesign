@@ -38,20 +38,27 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   switch (sortBy) {
     case "complexity":
-      maps = maps.sort((a, b) => a[sortBy] - b[sortBy]);
+      maps.sort((a, b) => a[sortBy] - b[sortBy]);
       break;
 
     case "difficulty":
-      maps = maps.sort(
+      maps.sort(
         (a, b) =>
           difficultyToNumber(a.difficulty) - difficultyToNumber(b.difficulty)
+      );
+      break;
+
+    case "dateRanked":
+      maps.sort(
+        (a, b) =>
+          new Date(a.dateRanked).getTime() - new Date(b.dateRanked).getTime()
       );
       break;
 
     case "songName":
     case "categoryDisplayName":
     case "levelAuthorName":
-      maps = maps.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
+      maps.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
   }
 
   return { maps: rev(maps), categories };
@@ -71,6 +78,7 @@ const RankedMapsPage = () => {
     ["levelAuthorName", "Mapper"],
     ["categoryDisplayName", "Category"],
     ["complexity", "Complexity"],
+    ["dateRanked", "Date Ranked"],
   ];
   return (
     <>

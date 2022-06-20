@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import { language } from "../api/config";
 import type { RankedMap } from "../interfaces/api/ranked-map";
 import Complexity from "./complexity";
 import DifficultyLabel from "./difficultyLabel";
@@ -37,6 +38,7 @@ const MapRow = ({ map, padLeft }: { map: RankedMap; padLeft?: boolean }) => (
     <td>
       <Complexity>{map.complexity}</Complexity>
     </td>
+    <td>{new Date(map.dateRanked).toLocaleDateString(language)}</td>
   </tr>
 );
 

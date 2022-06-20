@@ -4,7 +4,7 @@ export interface RankedMap {
   songAuthorName: string;
   levelAuthorName: string;
   complexity: number;
-
+  dateRanked: string;
   difficulty: string;
   leaderboardId: string;
   beatSaverKey: string;
