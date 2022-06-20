@@ -5,6 +5,7 @@ import { language } from "~/lib/api/config";
 import { getMapList } from "~/lib/api/map";
 import Complexity from "~/lib/components/complexity";
 import DifficultyLabel from "~/lib/components/difficultyLabel";
+import MapRow from "~/lib/components/mapRow";
 import PageHeader from "~/lib/components/pageHeader";
 import SortButton from "~/lib/components/sortButton";
 import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
@@ -82,39 +83,7 @@ const RankedMapsPage = () => {
           </thead>
           <tbody>
             {maps.map((map) => (
-              <tr key={map.songHash + map.difficulty}>
-                <td className="relative aspect-square w-10">
-                  <picture>
-                    <source
-                      srcSet={`/maps/${map.leaderboardId}.thumbnail.avif`}
-                      type="image/avif"
-                    />
-                    <source
-                      srcSet={`/maps/${map.leaderboardId}.thumbnail.webp`}
-                      type="image/webp"
-                    />
-                    <img
-                      src={`/maps/${map.leaderboardId}.thumbnail.jpeg`}
-                      alt={``}
-                      loading="lazy"
-                      className="absolute top-0 left-0 m-0"
-                    />
-                  </picture>
-                </td>
-                <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
-                  <Link to={`/maps/${map.leaderboardId}`}>
-                    {map.songAuthorName} - {map.songName}
-                  </Link>
-                </td>
-                <td>
-                  <DifficultyLabel>{map.difficulty}</DifficultyLabel>
-                </td>
-                <td>{map.levelAuthorName}</td>
-                <td>{map.categoryDisplayName}</td>
-                <td>
-                  <Complexity>{map.complexity}</Complexity>
-                </td>
-              </tr>
+              <MapRow map={map} key={map.leaderboardId} />
             ))}
           </tbody>
         </table>

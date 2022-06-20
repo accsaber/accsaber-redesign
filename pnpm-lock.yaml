@@ -15,6 +15,7 @@ specifiers:
   axios: ^0.27.2
   chart.js: ^3.8.0
   eslint: ^8.18.0
+  fuse.js: ^6.6.2
   ms: ^2.1.3
   npm-run-all: ^4.1.5
   react: ^18.2.0
@@ -33,6 +34,7 @@ dependencies:
   '@tailwindcss/typography': 0.5.2_tailwindcss@3.1.3
   axios: 0.27.2
   chart.js: 3.8.0
+  fuse.js: 6.6.2
   ms: 2.1.3
   react: 18.2.0
   react-chartjs-2: 4.2.0_yw232gbma4xqgfjmup6t23g3w4
@@ -5079,6 +5081,11 @@ packages:
 
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+
+  /fuse.js/6.6.2:
+    resolution: {integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /generic-pool/3.8.2:
     resolution: {integrity: sha512-nGToKy6p3PAbYQ7p1UlWl6vSPwfwU6TMSWK7TTu+WUY4ZjyZQGniGGt2oNVvyNSpyZYSB43zMXVLcBm08MTMkg==}
