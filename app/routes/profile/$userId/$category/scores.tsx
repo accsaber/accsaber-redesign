@@ -5,7 +5,14 @@ import type {
 } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useCatch,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
+import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import ms from "ms";
 import React from "react";
 import invariant from "tiny-invariant";
@@ -21,7 +28,26 @@ import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
   console.error(error);
-  return <div>Failed to load scores</div>;
+  return (
+    <div className="prose dark:prose-invert max-w-none">
+      <p>
+        <h1 className="text-red-600 dark:text-red-400">Error loading page</h1>
+        <p>It looks like something's gone wrong.</p>
+        <p>
+          This website is still in development, and there's likely to be a few
+          things broken
+        </p>
+        <p>
+          If you've set this off with something obscure, let a dev know and
+          we'll throw it on the pile
+        </p>
+        <p>
+          If it's something really obvious, please don't, we probably already
+          know {":)"}
+        </p>
+      </p>
+    </div>
+  );
 };
 
 export const action: ActionFunction = async ({ params }) => {

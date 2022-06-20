@@ -70,9 +70,11 @@ export const getPlayerScores = async (
   rawScoreList.reverse();
 
   if (count === 0) {
-    const { data } = await apiFetcher.get<PlayerScore[]>(
+    const { data, status, statusText } = await apiFetcher.get<PlayerScore[]>(
       `players/${playerId}/scores`
     );
+
+    if (status !== 200) throw new Response(statusText, { status, statusText });
 
     const transaction = client.multi();
 
