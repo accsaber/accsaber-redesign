@@ -10,6 +10,10 @@ import SortButton from "~/lib/components/sortButton";
 import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
 import scores from "../profile/$userId/$category/scores";
 
+export const meta = () => ({
+  title: "Ranked Maps | AccSaber",
+});
+
 export const loader: LoaderFunction = async ({ request }) => {
   let maps = await getMapList();
   const { searchParams } = new URL(request.url);
