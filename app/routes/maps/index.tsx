@@ -1,15 +1,15 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import ms from "ms";
-import { language } from "~/lib/api/config";
+import { createRef } from "react";
+import { getCategories } from "~/lib/api/category";
+import config, { language } from "~/lib/api/config";
 import { getMapList } from "~/lib/api/map";
-import Complexity from "~/lib/components/complexity";
-import DifficultyLabel from "~/lib/components/difficultyLabel";
 import MapRow from "~/lib/components/mapRow";
 import PageHeader from "~/lib/components/pageHeader";
 import SortButton from "~/lib/components/sortButton";
+import { Category } from "~/lib/interfaces/api/category";
 import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
-import scores from "../profile/$userId/$category/scores";
 
 export const meta = () => ({
   title: "Ranked Maps | AccSaber",
@@ -17,6 +17,13 @@ export const meta = () => ({
 
 export const loader: LoaderFunction = async ({ request }) => {
   let maps = await getMapList();
+  const categories = [...((await getCategories()).values() ?? [])];
+  categories.unshift({
+    categoryName: "overall",
+    categoryDisplayName: "Overall",
+    countsTowardsOverall: false,
+    description: "Every ranked map on AccSaber",
+  });
   const { searchParams } = new URL(request.url);
 
   const sortBy = searchParams.get("sortBy");
@@ -47,11 +54,16 @@ export const loader: LoaderFunction = async ({ request }) => {
       maps = maps.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
   }
 
-  return { maps: rev(maps) };
+  return { maps: rev(maps), categories };
 };
 
 const RankedMapsPage = () => {
-  const { maps } = useLoaderData<{ maps: RankedMap[] }>();
+  const { maps, categories } = useLoaderData<{
+    maps: RankedMap[];
+    categories: Category[];
+  }>();
+
+  const downloadMenu = createRef<HTMLDialogElement>();
 
   const columns: [keyof RankedMap | null, string, number?][] = [
     ["songName", "Song Name", 2],
@@ -62,7 +74,53 @@ const RankedMapsPage = () => {
   ];
   return (
     <>
-      <PageHeader>Ranked Maps</PageHeader>
+      <PageHeader
+        actionButton={
+          <button onClick={() => downloadMenu.current?.showModal()}>
+            Download Playlist
+          </button>
+        }
+      >
+        Ranked Maps
+      </PageHeader>
+
+      <dialog
+        ref={downloadMenu}
+        className=" bg-white dark:bg-neutral-900 dark:text-neutral-200 p-0 w-full max-w-md rounded-lg shadow-xl"
+      >
+        <div className="flex flex-col">
+          <h2 className="text-2xl bg-neutral-100 dark:bg-neutral-800 px-6 py-4 flex justify-between">
+            Download Playlists
+            <button onClick={() => downloadMenu.current?.close()}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </h2>
+          <div className="flex flex-col p-4 gap-3">
+            {categories.map(({ categoryName, categoryDisplayName }) => (
+              <div key={categoryName}>
+                <a
+                  href={`${config.apiURL}playlists/${categoryName}`}
+                  className="py-2 px-3 block w-max shadow-lg bg-blue-600 text-white rounded shadow-blue-600/50"
+                >
+                  Download {categoryDisplayName} playlist
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </dialog>
+
       <div className="prose w-full dark:prose-invert max-w-screen-lg mx-auto px-4 py-8">
         <h2>Ranked Maps</h2>
         <table>
