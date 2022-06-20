@@ -77,7 +77,7 @@ const UserContainer = () => {
             }
             navigation={[
               {
-                href: `/profile/${profile.playerId}/overall`,
+                href: `/profile/${profile.playerId}/overall/scores`,
                 label: `Overall`,
               },
               ...categories.map((category) => ({
