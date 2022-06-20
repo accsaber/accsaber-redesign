@@ -77,7 +77,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     case "accuracy":
     case "complexity":
     case "ap":
-      scores = scores.sort((a, b) => a[sortBy] - b[sortBy]);
+      scores.sort((a, b) => a[sortBy] - b[sortBy]);
       break;
     case "timeSet":
       scores.sort(
@@ -86,7 +86,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       break;
 
     case "difficulty":
-      scores = scores.sort(
+      scores.sort(
         (a, b) =>
           difficultyToNumber(a.difficulty) - difficultyToNumber(b.difficulty)
       );
@@ -94,7 +94,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
     case "songName":
     case "categoryDisplayName":
-      scores = scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
+      scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
   }
   return json(
     {
