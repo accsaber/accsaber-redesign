@@ -18,6 +18,7 @@ client.connect();
 
 const apiFetcher = axios.create({
   baseURL: config.apiURL,
+  validateStatus: () => true,
 });
 
 export const getProfile = getPlayer;
