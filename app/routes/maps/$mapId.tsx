@@ -10,6 +10,7 @@ import ms from "ms";
 import config, { language } from "~/lib/api/config";
 import Pagination from "~/lib/components/pagination";
 import Complexity from "~/lib/components/complexity";
+import scoresaberLogo from "~/lib/images/scoresaber.svg";
 
 export const meta: MetaFunction = ({
   data,
@@ -39,8 +40,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     ),
   ]);
 
-  console.log(map);
-
   if ("errorCode" in map || !map || !leaderboard)
     throw new Response("Map not found", { status: 404 });
 
@@ -65,7 +64,21 @@ const MapLeaderboardPage = () => {
 
   return (
     <>
-      <PageHeader image={`/maps/${map.leaderboardId}.thumbnail.jpeg`}>
+      <PageHeader
+        image={`/maps/${map.leaderboardId}.thumbnail.jpeg`}
+        actionButton={
+          <a
+            href={`https://scoresaber.com/leaderboard/${map.leaderboardId}`}
+            className="hover:bg-neutral-100 dark:hover:bg-neutral-700 block p-2 rounded-full"
+          >
+            <img
+              src={scoresaberLogo}
+              alt="Map Leaderboard on ScoreSaber"
+              className="h-6"
+            />
+          </a>
+        }
+      >
         {map.songAuthorName} - {map.songName}
       </PageHeader>
 
