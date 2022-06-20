@@ -142,6 +142,7 @@ const SearchPage = () => {
         <input
           type="search"
           name="q"
+          autoFocus
           placeholder="Search"
           className="flex-1 p-2 px-3 focus:outline-none dark:bg-neutral-800 dark:text-white"
           defaultValue={params.get("q") ?? ""}
