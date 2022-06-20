@@ -1,6 +1,7 @@
 export interface PlayerScore {
   rank: number;
   ap: number;
+  weightedAp?: number;
   score: number;
   accuracy: number;
 

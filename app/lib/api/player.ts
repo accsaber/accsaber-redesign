@@ -66,7 +66,7 @@ export const getPlayerScores = async (
   const key = `accsaber:scores:player:${playerId}:${category}`;
 
   const count = await client.zCard(key);
-  const rawScoreList = await client.zRange(key, 0, count);
+  const rawScoreList = await client.zRange(key, 0, count, { REV: true });
 
   if (count === 0) {
     const { data } = await apiFetcher.get<PlayerScore[]>(
@@ -78,7 +78,7 @@ export const getPlayerScores = async (
     transaction.zAdd(
       key,
       (data ?? []).map((score) => ({
-        score: score.ap,
+        score: score.weightedAp ?? score.ap,
         value: JSON.stringify(score),
       }))
     );

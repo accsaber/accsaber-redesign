@@ -77,7 +77,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     case "accuracy":
     case "complexity":
     case "ap":
-      scores.sort((a, b) => a[sortBy] - b[sortBy]);
+    case "weightedAp":
+      scores.sort((a, b) => (a[sortBy] ?? 0) - (b[sortBy] ?? 0));
       break;
     case "timeSet":
       scores.sort(
@@ -121,6 +122,7 @@ const Scores = () => {
     ["categoryDisplayName", "Category"],
     ["accuracy", "Accuracy"],
     ["ap", "AP"],
+    ["weightedAp", "Weighted AP"],
     ["timeSet", "Time Set"],
     ["complexity", "Complexity"],
   ];
@@ -185,6 +187,11 @@ const Scores = () => {
                 </td>
                 <td>
                   {score.ap.toLocaleString(language, {
+                    maximumFractionDigits: 2,
+                  })}
+                </td>
+                <td>
+                  {score.weightedAp?.toLocaleString(language, {
                     maximumFractionDigits: 2,
                   })}
                 </td>
