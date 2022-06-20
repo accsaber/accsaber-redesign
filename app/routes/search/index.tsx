@@ -12,6 +12,18 @@ export const meta = () => ({
   title: "Search | AccSaber",
 });
 
+const fuse = new Fuse<Player | RankedMap>([], {
+  keys: [
+    "playerName",
+    "songName",
+    "songSubName",
+    "songAuthorName",
+    "levelAuthorName",
+  ],
+  minMatchCharLength: 2,
+  threshold: 0.3,
+});
+
 export const loader: LoaderFunction = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("q");
@@ -24,19 +36,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   ]);
   const players = Object.values(playersRaw).map((i) => JSON.parse(i) as Player);
 
-  const fuse = new Fuse([...players, ...maps], {
-    keys: [
-      "playerName",
-      "songName",
-      "songSubName",
-      "songAuthorName",
-      "levelAuthorName",
-    ],
-    minMatchCharLength: 2,
-    threshold: 0.3,
-  });
+  fuse.setCollection([...players, ...maps]);
 
-  return { results: fuse.search(query ?? "") };
+  const results = fuse.search(query ?? "");
+
+  return { results };
 };
 
 const isMap = (i: RankedMap | Player): i is RankedMap => {
