@@ -84,8 +84,11 @@ const RankedMapsPage = () => {
     <>
       <PageHeader
         actionButton={
-          <button onClick={() => downloadMenu.current?.showModal()}>
-            Download Playlist
+          <button
+            onClick={() => downloadMenu.current?.showModal()}
+            className="px-4 py-2 shadow-md bg-white dark:bg-neutral-700 rounded text-inherit"
+          >
+            Download Playlists
           </button>
         }
       >
