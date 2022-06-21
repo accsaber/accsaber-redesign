@@ -4,22 +4,29 @@ import { getCategories } from "~/lib/api/category";
 import { getPlayerScores } from "~/lib/api/player";
 import type { PlayerScore } from "~/lib/interfaces/api/player-score";
 
-function calcSkill(scores: PlayerScore[]): number {
+const applyCurve = (x: number) => {
+  const y1 = 0.1;
+  const x1 = 15;
+  const k = 0.4;
+  const x0 = -((Math.log(((1 - y1) / y1) * Math.pow(Math.E, k * x1)) - 1) / k);
+  return (1 + Math.pow(Math.E, -k * x0)) / (1 + Math.pow(Math.E, k * (x - x0)));
+};
+
+function weightedAverage(scores: PlayerScore[]): number {
   let averageAp = 0,
     size = 0;
 
   for (let i = 0; i < scores.length; ++i) {
-    const scale = 1 / (i + 1);
+    const scale = applyCurve(i);
     size += scale;
     averageAp += scores[i].ap * scale;
   }
 
   averageAp = averageAp / size;
 
-  if (averageAp < 460) {
-    return Math.max(Math.round(averageAp / 46), 0);
-  }
-  return Math.max(Math.round((averageAp - 400) / 6), 0);
+  console.log(averageAp);
+
+  return Math.max(Math.pow(averageAp / 1100, 1.5) * 100, 0) || 0;
 }
 
 export async function getSkills(userId: string) {
@@ -34,8 +41,9 @@ export async function getSkills(userId: string) {
     const categoryScores = scores.filter(
       (score) => score.categoryDisplayName == category.categoryDisplayName
     );
-    skills.push(calcSkill(categoryScores));
+    skills.push(weightedAverage(categoryScores));
   }
+
   return skills;
 }
 
