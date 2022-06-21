@@ -47,6 +47,7 @@ const SkillTriangle: React.FC<{
 
             label: "Skill level",
             borderColor: "#2563eb",
+            backgroundColor: "#2563eb33",
           },
         ],
       }}
