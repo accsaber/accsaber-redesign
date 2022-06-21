@@ -91,7 +91,7 @@ const ProfileRoute = () => {
       <div className="bg-neutral-100 dark:bg-black/20">
         <div
           className={[
-            "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
+            "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4 h-72",
           ].join(" ")}
         >
@@ -148,9 +148,17 @@ const ProfileRoute = () => {
             <div className="text-xl">{profile.rankedPlays} ranked plays</div>
             <div className="text-xl">{profile.hmd}</div>
           </div>
-          <div className="hidden md:flex">
-            <RankGraph history={history} />
-          </div>
+          <img
+            src={`/profile/${profile.playerId}/skills.svg`}
+            className="h-48"
+            alt="Skill Level"
+          />
+        </div>
+      </div>
+
+      <div className="bg-neutral-100 dark:bg-black/20">
+        <div className="max-w-screen-lg mx-auto pb-12">
+          <RankGraph history={history} />
         </div>
       </div>
       <div className="max-w-screen-lg mx-auto px-4 py-8">

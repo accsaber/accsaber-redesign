@@ -19,7 +19,7 @@ const RankGraph: React.FC<{
         datasets: [{ data: history, label: "rank", borderColor: "#2563eb" }],
       }}
       color={"red"}
-      width={500}
+      height={75}
       className={``}
       options={{
         scales: {
