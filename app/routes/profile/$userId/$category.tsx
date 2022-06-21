@@ -11,9 +11,11 @@ import { getJSON } from "~/lib/api/fetcher";
 import { getPlayer, getPlayerRankHistory } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
+import SkillTriangle from "~/lib/components/skillTriangle";
 import UserContext from "~/lib/components/userContext";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
+import { getSkills } from "./skills[.]svg";
 
 export const meta: MetaFunction = ({
   data,
@@ -65,6 +67,7 @@ export const loader: LoaderFunction = async ({ params }) => {
         profile,
         history: Object.entries(history).slice(-30),
         categories: [...categories.values()],
+        skills: await getSkills(params.userId),
       },
       {
         headers,
@@ -81,9 +84,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 const ProfileRoute = () => {
-  const { profile, history } = useLoaderData<{
+  const { profile, history, skills, categories } = useLoaderData<{
     profile: Player;
     history: [string, number][];
+    skills: number[];
+    categories: Category[];
   }>();
 
   return (
@@ -92,7 +97,7 @@ const ProfileRoute = () => {
         <div
           className={[
             "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
-            "max-w-screen-lg mx-auto px-4 h-72",
+            "max-w-screen-lg mx-auto px-4 flex-wrap justify-center",
           ].join(" ")}
         >
           <picture>
@@ -115,7 +120,7 @@ const ProfileRoute = () => {
               <h1 className="text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-hidden max-w-[12rem]">
                 {profile.playerName}
               </h1>
-              <div className="text-2xl flex gap-1">
+              <div className="text-2xl flex gap-1 flex-1">
                 <div>#{profile.rank.toLocaleString(language)}</div>
 
                 {profile.rankLastWeek !== profile.rank ? (
@@ -148,16 +153,14 @@ const ProfileRoute = () => {
             <div className="text-xl">{profile.rankedPlays} ranked plays</div>
             <div className="text-xl">{profile.hmd}</div>
           </div>
-          <img
-            src={`/profile/${profile.playerId}/skills.svg`}
-            className="h-48"
-            alt="Skill Level"
-          />
+          <div className="w-72 h-72">
+            <SkillTriangle categories={categories}>{skills}</SkillTriangle>
+          </div>
         </div>
       </div>
 
       <div className="bg-neutral-100 dark:bg-black/20">
-        <div className="max-w-screen-lg mx-auto pb-12">
+        <div className="max-w-screen-lg mx-auto pb-12 px-8 h-64">
           <RankGraph history={history} />
         </div>
       </div>

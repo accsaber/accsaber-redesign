@@ -22,6 +22,23 @@ function calcSkill(scores: PlayerScore[]): number {
   return Math.max(Math.round((averageAp - 400) / 6), 0);
 }
 
+export async function getSkills(userId: string) {
+  const [categories, { scores }] = await Promise.all([
+    getCategories(),
+    getPlayerScores(userId),
+  ]);
+
+  const skills: number[] = [];
+
+  for (const [, category] of categories) {
+    const categoryScores = scores.filter(
+      (score) => score.categoryDisplayName == category.categoryDisplayName
+    );
+    skills.push(calcSkill(categoryScores));
+  }
+  return skills;
+}
+
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.userId, "Expected User ID");
   if (!/^[0-9]{1,17}$/.test(params.userId))
@@ -30,19 +47,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   const scale = 100;
   const strokeWidth = 2.5;
 
-  const [categories, { scores }] = await Promise.all([
-    getCategories(),
-    getPlayerScores(params.userId),
-  ]);
-
-  const skills: number[] = [];
-
-  for (const [categoryName, category] of categories) {
-    const categoryScores = scores.filter(
-      (score) => score.categoryDisplayName == category.categoryDisplayName
-    );
-    skills.push(calcSkill(categoryScores));
-  }
+  const skills: number[] = await getSkills(params.userId);
 
   const points = skills.map((skill, n) => {
     const angle = 2 * Math.PI * (n / skills.length) - Math.PI / 2;

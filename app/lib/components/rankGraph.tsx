@@ -19,15 +19,35 @@ const RankGraph: React.FC<{
         datasets: [{ data: history, label: "rank", borderColor: "#2563eb" }],
       }}
       color={"red"}
-      height={75}
       className={``}
       options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            intersect: false,
+            mode: "index",
+          },
+        },
+        hover: {
+          intersect: false,
+          mode: "index",
+        },
         scales: {
           y: {
             reverse: true,
             ticks: {
               precision: 0,
             },
+          },
+        },
+        elements: {
+          line: {
+            fill: false,
+          },
+          point: {
+            radius: 0,
           },
         },
       }}
