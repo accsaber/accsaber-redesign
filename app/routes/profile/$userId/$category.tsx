@@ -1,21 +1,16 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { ActionFunction, redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
-import { user } from "~/cookies";
 import { getCategories } from "~/lib/api/category";
 import { language } from "~/lib/api/config";
-import { getJSON } from "~/lib/api/fetcher";
 import { getPlayer, getPlayerRankHistory } from "~/lib/api/player";
-import PageHeader from "~/lib/components/pageHeader";
 import RankGraph from "~/lib/components/rankGraph";
 import SkillTriangle from "~/lib/components/skillTriangle";
-import UserContext from "~/lib/components/userContext";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
-import { getSkills } from "./skills[.]svg";
+import { getSkills } from "~/lib/components/skillTriangle";
 
 export const meta: MetaFunction = ({
   data,
