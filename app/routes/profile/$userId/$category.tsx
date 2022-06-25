@@ -1,6 +1,6 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
@@ -43,10 +43,6 @@ export const loader: LoaderFunction = async ({ params }) => {
     "public, max-age=86400, stale-while-revalidate=86400"
   );
 
-  const categoryUrl = category == "overall" ? "" : `/${params.category}`;
-  if (!/^[0-9]{1,17}$/.test(params.userId))
-    throw new Response("Player Not Found", { status: 404 });
-
   if (!["overall", "true", "standard", "tech"].includes(category))
     throw new Response("Category not found", { status: 404 });
 
@@ -63,6 +59,7 @@ export const loader: LoaderFunction = async ({ params }) => {
         history: Object.entries(history).slice(-30),
         categories: [...categories.values()],
         skills: await getSkills(params.userId),
+        category,
       },
       {
         headers,
@@ -79,11 +76,12 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 const ProfileRoute = () => {
-  const { profile, history, skills, categories } = useLoaderData<{
+  const { profile, history, skills, categories, category } = useLoaderData<{
     profile: Player;
     history: [string, number][];
     skills: number[];
     categories: Category[];
+    category: string;
   }>();
 
   return (
@@ -116,7 +114,15 @@ const ProfileRoute = () => {
                 {profile.playerName}
               </h1>
               <div className="text-2xl flex gap-1 flex-1">
-                <div>#{profile.rank.toLocaleString(language)}</div>
+                <div>
+                  <Link
+                    to={`/leaderboards/${category}?page=${
+                      Math.floor(profile.rank / 50) + 1
+                    }`}
+                  >
+                    #{profile.rank.toLocaleString(language)}
+                  </Link>
+                </div>
 
                 {profile.rankLastWeek !== profile.rank ? (
                   <div
