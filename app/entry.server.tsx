@@ -1,7 +1,6 @@
 import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
-import { gzipSync, brotliCompressSync, deflateSync } from "zlib";
 
 export default function handleRequest(
   request: Request,
@@ -15,17 +14,20 @@ export default function handleRequest(
 
   let output: string | Uint8Array;
 
-  responseHeaders.set("Content-Type", "text/html");
-
-  const supportedEncoding =
-    request.headers.get("accept-encoding")?.split(/, */) ?? [];
+  responseHeaders.set("Content-Type", "text/html; charset=utf-8");
+  responseHeaders.set(
+    "strict-transport-security",
+    "max-age=63072000; includeSubDomains; preload"
+  );
+  responseHeaders.set("x-content-type-options", "nosniff");
+  responseHeaders.set("referrer-policy", "strict-origin");
+  responseHeaders.set(
+    "permissions-policy",
+    "geolocation=(), microphone=(), camera=()"
+  );
+  responseHeaders.set("x-xss-protection", "1; mode=block");
 
   output = markup;
-
-  if (supportedEncoding.includes("br")) {
-    output = brotliCompressSync(markup);
-    responseHeaders.set("content-encoding", "br");
-  }
 
   return new Response(output, {
     status: responseStatusCode,
