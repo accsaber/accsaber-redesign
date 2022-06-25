@@ -27,9 +27,9 @@ export const meta: MetaFunction = ({
   description: `Rank #${data?.profile?.rank}\nAP: ${data?.profile?.ap.toFixed(
     2
   )}\n`,
-  "og:image:url": `https://accsaber-image.fly.dev/profile/${data?.profile?.playerId}.png`,
-  "og:image:width": `1120`,
-  "og:image:height": `664`,
+  "og:image:url": `/profile/${data?.profile?.playerId}.avatar.webp`,
+  "og:image:width": `256`,
+  "og:image:height": `256`,
   "og:url": `https://alpha.accsaber.com/profile/${data?.profile?.playerId}`,
   "og:type": "profile.accsaber",
 });
