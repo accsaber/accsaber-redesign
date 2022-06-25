@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import type { Player } from "../interfaces/api/player";
 import type { PlayerScore } from "../interfaces/api/player-score";
+import { getCategories } from "./category";
 import apiFetcher, { client } from "./fetcher";
 
 export const updatePlayerCache = async (category = "overall") => {
@@ -61,9 +62,12 @@ export const getPlayerScores = async (
   category = "overall",
   reverse = true
 ): Promise<{ scores: PlayerScore[]; count: number }> => {
-  if (category !== "overall") return { scores: [], count: 0 };
-
   const key = `accsaber:scores:player:${playerId}:${category}`;
+
+  const categories = await getCategories();
+
+  if (category !== "overall" && !categories.has(category))
+    return { scores: [], count: 0 };
 
   const count = await client.zCard(key);
   const rawScoreList = await client.zRange(key, 0, count);
@@ -78,9 +82,14 @@ export const getPlayerScores = async (
 
     const transaction = client.multi();
 
+    const scores = (data ?? []).filter(
+      (score) =>
+        score.categoryDisplayName ==
+        categories.get(category)?.categoryDisplayName
+    );
     transaction.zAdd(
       key,
-      (data ?? []).map((score) => ({
+      scores.map((score) => ({
         score: score.weightedAp ?? score.ap,
         value: JSON.stringify(score),
       }))
