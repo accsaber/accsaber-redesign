@@ -80,25 +80,27 @@ export const getPlayerScores = async (
 
     if (status !== 200) throw new Response(statusText, { status, statusText });
 
-    const transaction = client.multi();
-
-    const scores = (data ?? []).filter(
-      (score) =>
-        score.categoryDisplayName ==
-        categories.get(category)?.categoryDisplayName
-    );
-    transaction.zAdd(
-      key,
-      scores.map((score) => ({
-        score: score.weightedAp ?? score.ap,
-        value: JSON.stringify(score),
-      }))
-    );
-
-    transaction.expire(key, 86400);
-
-    await transaction.execAsPipeline();
-    return await getPlayerScores(playerId, category, reverse);
+    const scores =
+      category == "overall"
+        ? data ?? []
+        : (data ?? []).filter(
+            (score) =>
+              score.categoryDisplayName ==
+              categories.get(category)?.categoryDisplayName
+          );
+    if (scores.length > 0) {
+      const transaction = client.multi();
+      transaction.zAdd(
+        key,
+        scores.map((score) => ({
+          score: score.weightedAp ?? score.ap,
+          value: JSON.stringify(score),
+        }))
+      );
+      transaction.expire(key, 86400);
+      await transaction.execAsPipeline();
+      return await getPlayerScores(playerId, category, reverse);
+    } else return { scores: [], count: 0 };
   }
 
   if (!Array.isArray(rawScoreList)) return { scores: [], count: 0 };
