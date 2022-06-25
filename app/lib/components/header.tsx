@@ -8,7 +8,7 @@ const Header = () => (
     <div className="p-2 max-w-screen-lg mx-auto flex items-center gap-2">
       <Link
         to={"/"}
-        className="h-12 rounded-full p-2 flex hover:bg-black/10 items-center gap-2 font-semibold"
+        className="h-12 rounded-full p-2 flex hover:bg-black/10 items-center gap-2 -mr-2 font-semibold"
       >
         <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
       </Link>
