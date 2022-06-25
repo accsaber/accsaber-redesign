@@ -18,6 +18,9 @@ const Header = () => (
             {name}
           </NavLink>
         ))}
+        <a href="https://wiki.accsaber.com" className="headerNav">
+          Wiki
+        </a>
       </nav>
       <NavLink to="/search" className={"headerNav rounded-full"}>
         <svg
