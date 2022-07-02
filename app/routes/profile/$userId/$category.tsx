@@ -86,11 +86,26 @@ const ProfileRoute = () => {
 
   return (
     <>
-      <div className="bg-neutral-100 dark:bg-black/20">
+      <div className="bg-neutral-100 dark:bg-black/20 relative overflow-hidden">
+        <picture>
+          <source
+            srcSet={`/profile/${profile.playerId}.avatar.avif`}
+            type="image/avif"
+          />
+          <source
+            srcSet={`/profile/${profile.playerId}.avatar.webp`}
+            type="image/webp"
+          />
+          <img
+            src={`/profile/${profile.playerId}.avatar.jpeg`}
+            alt={`${profile.playerName}'s profile`}
+            className="absolute top-0 left-0 w-full h-full opacity-20 object-cover blur-3xl"
+          />
+        </picture>
         <div
           className={[
             "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
-            "max-w-screen-lg mx-auto px-4 flex-wrap justify-center",
+            "max-w-screen-lg mx-auto px-4 flex-wrap justify-center relative",
           ].join(" ")}
         >
           <picture>
@@ -158,9 +173,6 @@ const ProfileRoute = () => {
             <SkillTriangle categories={categories}>{skills}</SkillTriangle>
           </div>
         </div>
-      </div>
-
-      <div className="bg-neutral-100 dark:bg-black/20">
         <div className="max-w-screen-lg mx-auto pb-12 px-8 h-64">
           <RankGraph history={history} />
         </div>
