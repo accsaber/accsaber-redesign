@@ -26,7 +26,7 @@ const SkillTriangle: React.FC<{
     Legend
   );
 
-  console.log(skills);
+  const lineColour = "#7e7e7e22";
 
   return (
     <Radar
@@ -39,6 +39,12 @@ const SkillTriangle: React.FC<{
             max: 100,
             min: 0,
             ticks: { display: false },
+            angleLines: {
+              color: lineColour,
+            },
+            grid: {
+              color: lineColour,
+            },
           },
         },
       }}
