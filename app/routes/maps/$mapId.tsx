@@ -82,7 +82,22 @@ const MapLeaderboardPage = () => {
         {map.songAuthorName} - {map.songName}
       </PageHeader>
 
-      <div className="bg-neutral-100 dark:bg-black/20">
+      <div className="bg-neutral-100 dark:bg-black/20 relative overflow-hidden">
+        <picture>
+          <source
+            srcSet={`/maps/${map.leaderboardId}.cover.avif`}
+            type="image/avif"
+          />
+          <source
+            srcSet={`/maps/${map.leaderboardId}.cover.webp`}
+            type="image/webp"
+          />
+          <img
+            src={`/maps/${map.leaderboardId}.cover.jpeg`}
+            alt=""
+            className="absolute top-0 left-0 w-full h-full opacity-20 object-cover blur-3xl"
+          />
+        </picture>
         <div
           className={[
             "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
