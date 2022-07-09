@@ -45,7 +45,7 @@ export const getStandings = async (
   page = 0,
   pageSize = 50
 ) => {
-  updatePlayersIfRequired(category);
+  await updatePlayersIfRequired(category);
 
   return client.zRange(
     `accsaber:standings:${category}`,
