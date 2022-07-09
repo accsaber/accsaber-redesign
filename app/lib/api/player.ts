@@ -79,19 +79,16 @@ export const getPlayerScores = async (
 
   if (count === 0) {
     const { data, status, statusText } = await apiFetcher.get<PlayerScore[]>(
-      `players/${playerId}/scores`
+      `players/${playerId}/${category == "overall" ? "" : `${category}/`}scores`
+    );
+
+    console.log(
+      `players/${playerId}/${category == "overall" ? "" : `${category}/`}scores`
     );
 
     if (status !== 200) throw new Response(statusText, { status, statusText });
 
-    const scores =
-      category == "overall"
-        ? data ?? []
-        : (data ?? []).filter(
-            (score) =>
-              score.categoryDisplayName ==
-              categories.get(category)?.categoryDisplayName
-          );
+    const scores = data ?? [];
     if (scores.length > 0) {
       const transaction = client.multi();
       transaction.zAdd(
