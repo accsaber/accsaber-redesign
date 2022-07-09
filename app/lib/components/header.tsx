@@ -4,15 +4,15 @@ import headerItems from "../headerItems";
 import UserContext from "./userContext";
 
 const Header = () => (
-  <header className="bg-gradient-to-l from-blue-600 to-purple-600 text-white">
-    <div className="p-2 max-w-screen-lg mx-auto flex items-center gap-2">
+  <header className="text-white bg-gradient-to-l from-blue-600 to-purple-600">
+    <div className="flex items-center max-w-screen-lg gap-2 p-2 mx-auto">
       <Link
         to={"/"}
-        className="h-12 rounded-full p-2 flex hover:bg-black/10 items-center gap-2 -mr-2 font-semibold"
+        className="flex items-center h-12 gap-2 p-2 -mr-2 font-semibold rounded-full hover:bg-black/10"
       >
         <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
       </Link>
-      <nav className="flex-1 gap-2 flex">
+      <nav className="flex flex-1 gap-2">
         {headerItems.map(({ href, name }) => (
           <NavLink to={href} key={href} className="headerNav">
             {name}
@@ -22,10 +22,14 @@ const Header = () => (
           Wiki
         </a>
       </nav>
-      <NavLink to="/search" className={"headerNav rounded-full"}>
+      <NavLink
+        to="/search"
+        className={"headerNav rounded-full"}
+        aria-label="Search"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="w-5 h-5"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -41,7 +45,7 @@ const Header = () => (
           user ? (
             <NavLink
               to={`/profile/${user.playerId}/scores`}
-              className="flex rounded-full h-10 aspect-square overflow-auto mx-2"
+              className="flex h-10 mx-2 overflow-auto rounded-full aspect-square"
             >
               <picture>
                 <source

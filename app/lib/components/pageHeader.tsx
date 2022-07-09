@@ -50,7 +50,7 @@ const PageHeader: React.FC<{
             : "shadow",
         ].join(" ")}
       >
-        <div className="flex mx-auto max-w-screen-lg px-4 gap-4 items-center">
+        <div className="flex items-center max-w-screen-lg gap-4 px-4 mx-auto">
           <Link
             to={"/"}
             className={[
@@ -58,8 +58,15 @@ const PageHeader: React.FC<{
               "hover:bg-black/5 dark:hover:bg-black/10 items-center gap-2 font-semibold transition-all",
               !scrolled ? "-mr-16 opacity-0 pointer-events-none" : "-mr-2",
             ].join(" ")}
+            aria-label="Home"
           >
-            <img src={logo} alt="" className="h-8 aspect-square" />
+            <img
+              src={logo}
+              alt="Home"
+              aria-hidden={!scrolled}
+              aria-label="Go Home"
+              className="h-8 aspect-square"
+            />
           </Link>
           <div
             className={`transition-all ${
