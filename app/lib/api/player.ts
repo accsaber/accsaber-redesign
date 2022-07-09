@@ -101,7 +101,7 @@ export const getPlayerScores = async (
           value: JSON.stringify(score),
         }))
       );
-      transaction.expire(key, 86400);
+      transaction.expire(key, 60);
       await transaction.execAsPipeline();
       return await getPlayerScores(playerId, category, reverse);
     } else return { scores: [], count: 0 };
