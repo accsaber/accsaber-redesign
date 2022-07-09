@@ -33,6 +33,6 @@ export const loader: LoaderFunction = async ({ params }) => {
   } catch (err) {
     if (err instanceof AxiosError) {
       throw new Response(err.message, { status: err.response?.status ?? 500 });
-    }
+    } else throw err;
   }
 };
