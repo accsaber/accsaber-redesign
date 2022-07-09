@@ -75,7 +75,7 @@ export default function App() {
           <Header />
           <div
             className={`transition-opacity ${
-              state === "loading" ? "opacity-50 [transition-delay:0.25s]" : ""
+              state !== "idle" ? "opacity-50 [transition-delay:0.25s]" : ""
             }`}
           >
             <Outlet />
@@ -100,7 +100,7 @@ export function CatchBoundary() {
       </head>
       <body className="flex flex-col h-full dark:bg-neutral-900">
         <Header />
-        <div className="text-4xl flex items-center justify-center flex-1">
+        <div className="flex items-center justify-center flex-1 text-4xl">
           <div className="prose prose-xl dark:prose-invert">
             {caught.status == 404 ? (
               <>
