@@ -6,19 +6,15 @@ import type {
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
-  Form,
   Link,
-  useCatch,
   useLoaderData,
-  useLocation,
+  useTransition,
 } from "@remix-run/react";
-import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import ms from "ms";
 import React from "react";
 import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
-import { getJSON } from "~/lib/api/fetcher";
 import { getPlayerScores } from "~/lib/api/player";
 import Complexity from "~/lib/components/complexity";
 import DifficultyLabel from "~/lib/components/difficultyLabel";
@@ -136,6 +132,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 };
 
 const Scores = () => {
+  const { state } = useTransition();
   const { scores, page, pages } = useLoaderData<{
     scores: PlayerScore[];
     page: number;
@@ -153,9 +150,9 @@ const Scores = () => {
     ["complexity", "Complexity"],
   ];
   return (
-    <div className="flex gap-8 flex-col">
+    <div className="flex flex-col gap-8">
       <Pagination currentPage={page} pages={pages} />
-      <div className="prose max-w-none w-full dark:prose-invert">
+      <div className="w-full prose max-w-none dark:prose-invert">
         <h2>Scores</h2>
         <table>
           <thead>
@@ -178,7 +175,7 @@ const Scores = () => {
               <tr key={score.songHash + score.difficulty}>
                 <td>#{score.rank}</td>
 
-                <td className="relative aspect-square w-10">
+                <td className="relative w-10 aspect-square">
                   <picture>
                     <source
                       srcSet={`/maps/${score.leaderboardId}.thumbnail.avif`}

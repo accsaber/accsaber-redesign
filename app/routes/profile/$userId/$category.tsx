@@ -4,7 +4,6 @@ import {
   Link,
   Outlet,
   useCatch,
-  useErr,
   useLoaderData,
 } from "@remix-run/react";
 import { AxiosError } from "axios";

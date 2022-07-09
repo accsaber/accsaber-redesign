@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import { language } from "../api/config";
-import { Player } from "../interfaces/api/player";
+import type { Player } from "../interfaces/api/player";
 
 const PlayerRow = ({
   player,

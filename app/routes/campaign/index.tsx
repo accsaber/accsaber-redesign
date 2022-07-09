@@ -1,4 +1,3 @@
-import campaignLogo from "~/lib/images/campaign.png";
 import CampaignIntroBody from "~/lib/strings/campaign-intro.md";
 import type { MetaFunction } from "@remix-run/node";
 

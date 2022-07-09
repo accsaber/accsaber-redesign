@@ -1,4 +1,4 @@
-import { Line, Radar } from "react-chartjs-2";
+import { Radar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -8,10 +8,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Category } from "../interfaces/api/category";
+import type { Category } from "../interfaces/api/category";
 import { getCategories } from "../api/category";
 import { getPlayerScores } from "../api/player";
-import { PlayerScore } from "../interfaces/api/player-score";
+import type { PlayerScore } from "../interfaces/api/player-score";
 
 const SkillTriangle: React.FC<{
   children: number[];

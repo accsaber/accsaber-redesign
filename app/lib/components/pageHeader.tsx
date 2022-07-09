@@ -1,4 +1,4 @@
-import { NavLink, Link, useLocation } from "@remix-run/react";
+import { NavLink, Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import React, { createRef, useEffect, useState } from "react";
 import logo from "~/lib/images/logo.webp";
