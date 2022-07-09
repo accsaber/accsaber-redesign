@@ -18,12 +18,12 @@ export const updatePlayerCache = async (category = "overall") => {
       player?.playerId ?? "Unknown Player",
       JSON.stringify(player)
     );
-    transaction.expire(`accsaber:players:${category}`, 86400);
+    transaction.expire(`accsaber:players:${category}`, 60);
     transaction.zAdd(`accsaber:standings:${category}`, {
       score: player.rank,
       value: player.playerId,
     });
-    transaction.expire(`accsaber:standings:${category}`, 86400);
+    transaction.expire(`accsaber:standings:${category}`, 60);
   }
   await transaction.exec();
 
