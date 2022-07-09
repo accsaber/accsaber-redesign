@@ -1,6 +1,12 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import {
+  Link,
+  Outlet,
+  useCatch,
+  useErr,
+  useLoaderData,
+} from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
@@ -11,6 +17,42 @@ import SkillTriangle from "~/lib/components/skillTriangle";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 import { getSkills } from "~/lib/components/skillTriangle";
+import type { CatchBoundaryComponent } from "@remix-run/react/routeModules";
+
+export const CatchBoundary: CatchBoundaryComponent = () => {
+  const caught = useCatch();
+  return (
+    <div className="w-full max-w-screen-lg px-4 py-8 mx-auto prose prose-xl dark:prose-invert">
+      {caught.status === 404 ? (
+        <>
+          <h1 className="text-orange-600 dark:text-orange-400">
+            Profile not found
+          </h1>
+          <p>
+            Looks like this player hasn't played anything from this category.
+          </p>
+        </>
+      ) : (
+        <p>
+          <h1 className="text-red-600 dark:text-red-400">Error loading page</h1>
+          <p>It looks like something's gone wrong.</p>
+          <p>
+            This website is still in development, and there's likely to be a few
+            things broken
+          </p>
+          <p>
+            If you've set this off with something obscure, let a dev know and
+            we'll throw it on the pile
+          </p>
+          <p>
+            If it's something really obvious, please don't, we probably already
+            know {":)"}
+          </p>
+        </p>
+      )}
+    </div>
+  );
+};
 
 export const meta: MetaFunction = ({
   data,
@@ -53,6 +95,9 @@ export const loader: LoaderFunction = async ({ params }) => {
       getCategories(),
     ]);
 
+    if (!profile)
+      throw new Response("No profile for this category", { status: 404 });
+
     return json(
       {
         profile,
@@ -86,7 +131,7 @@ const ProfileRoute = () => {
 
   return (
     <>
-      <div className="bg-neutral-100 dark:bg-black/20 relative overflow-hidden">
+      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
         <picture>
           <source
             srcSet={`/profile/${profile.playerId}.avatar.avif`}
@@ -99,7 +144,7 @@ const ProfileRoute = () => {
           <img
             src={`/profile/${profile.playerId}.avatar.jpeg`}
             alt={`${profile.playerName}'s profile`}
-            className="absolute top-0 left-0 w-full h-full opacity-20 object-cover blur-3xl"
+            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
           />
         </picture>
         <div
@@ -120,15 +165,15 @@ const ProfileRoute = () => {
             <img
               src={`/profile/${profile.playerId}.avatar.jpeg`}
               alt={`${profile.playerName}'s profile`}
-              className="w-32 h-32  rounded-full shadow-lg "
+              className="w-32 h-32 rounded-full shadow-lg "
             />
           </picture>
-          <div className="flex flex-1 flex-col justify-center">
+          <div className="flex flex-col justify-center flex-1">
             <div className="">
               <h1 className="text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-hidden max-w-[12rem]">
                 {profile.playerName}
               </h1>
-              <div className="text-2xl flex gap-1 flex-1">
+              <div className="flex flex-1 gap-1 text-2xl">
                 <div>
                   <Link
                     to={`/leaderboards/${category}?page=${
@@ -173,11 +218,11 @@ const ProfileRoute = () => {
             <SkillTriangle categories={categories}>{skills}</SkillTriangle>
           </div>
         </div>
-        <div className="max-w-screen-lg mx-auto pb-12 px-8 h-64">
+        <div className="h-64 max-w-screen-lg px-8 pb-12 mx-auto">
           <RankGraph history={history} />
         </div>
       </div>
-      <div className="max-w-screen-lg mx-auto px-4 py-8">
+      <div className="max-w-screen-lg px-4 py-8 mx-auto">
         <Outlet />
       </div>
     </>

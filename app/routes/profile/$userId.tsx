@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   );
 
   const [profile, categories] = await Promise.all([
-    getPlayer(params.userId, params.category),
+    getPlayer(params.userId),
     getCategories(),
   ]);
 
@@ -48,10 +48,10 @@ const UserContainer = () => {
           <PageHeader
             image={`/profile/${profile.playerId}.thumbnail.jpeg`}
             actionButton={
-              <div className="flex gap-2 flex-row-reverse">
+              <div className="flex flex-row-reverse gap-2">
                 <a
                   href={`https://scoresaber.com/u/${profile.playerId}`}
-                  className="hover:bg-neutral-100 dark:hover:bg-neutral-700 block p-2 rounded-full"
+                  className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
                 >
                   <img
                     src={scoresaberLogo}
@@ -67,7 +67,7 @@ const UserContainer = () => {
                   >
                     <button
                       type="submit"
-                      className="px-4 py-2 shadow-md bg-white dark:bg-neutral-700 rounded text-inherit"
+                      className="px-4 py-2 bg-white rounded shadow-md dark:bg-neutral-700 text-inherit"
                     >
                       Set as my profile
                     </button>
