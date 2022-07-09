@@ -1,6 +1,4 @@
-# fly.toml file generated for accsaber-redesign-test on 2022-05-24T16:35:11+10:00
-
-app = "accsaber-redesign-test"
+app = "accsaber-frontend"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
