@@ -32,16 +32,20 @@ export const updatePlayerCache = async (category = "overall") => {
   return true;
 };
 
+export const updatePlayersIfRequired = async (category: string) => {
+  const ttl = await client.ttl(`accsaber:standings:${category}`);
+
+  if (ttl < 0)
+    await updatePlayerCache(category); // Update cache, wait for completion
+  else if (ttl < playerExpiry - refreshAfter) updatePlayerCache(category);
+};
+
 export const getStandings = async (
   category = "overall",
   page = 0,
   pageSize = 50
 ) => {
-  if (!(await client.exists(`accsaber:standings:${category}`))) {
-    if (!(await updatePlayerCache(category))) {
-      return null;
-    }
-  }
+  updatePlayersIfRequired(category);
 
   return client.zRange(
     `accsaber:standings:${category}`,
@@ -51,11 +55,7 @@ export const getStandings = async (
 };
 
 export const getPlayer = async (playerId: string, category = "overall") => {
-  const ttl = await client.ttl(`accsaber:standings:${category}`);
-
-  if (ttl < 0)
-    await updatePlayerCache(category); // Update cache, wait for completion
-  else if (ttl < playerExpiry - refreshAfter) updatePlayerCache(category); // Update cache in the background
+  await updatePlayersIfRequired(category); // Update cache in the background
   const dbPlayer = await client.hGet(`accsaber:players:${category}`, playerId);
 
   return dbPlayer ? (JSON.parse(dbPlayer) as Player) : null;
