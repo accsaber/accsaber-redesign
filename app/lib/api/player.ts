@@ -1,8 +1,10 @@
-import { AxiosError } from "axios";
 import type { Player } from "../interfaces/api/player";
 import type { PlayerScore } from "../interfaces/api/player-score";
 import { getCategories } from "./category";
 import apiFetcher, { client } from "./fetcher";
+
+export const playerExpiry = 60 * 60; // 1 hour
+export const refreshAfter = 120; // 2 minutes
 
 export const updatePlayerCache = async (category = "overall") => {
   const { data, status } = await apiFetcher.get<Player[]>(
@@ -18,12 +20,12 @@ export const updatePlayerCache = async (category = "overall") => {
       player?.playerId ?? "Unknown Player",
       JSON.stringify(player)
     );
-    transaction.expire(`accsaber:players:${category}`, 60);
+    transaction.expire(`accsaber:players:${category}`, playerExpiry);
     transaction.zAdd(`accsaber:standings:${category}`, {
       score: player.rank,
       value: player.playerId,
     });
-    transaction.expire(`accsaber:standings:${category}`, 60);
+    transaction.expire(`accsaber:standings:${category}`, playerExpiry);
   }
   await transaction.exec();
 
@@ -49,9 +51,11 @@ export const getStandings = async (
 };
 
 export const getPlayer = async (playerId: string, category = "overall") => {
-  if (!(await client.exists(`accsaber:standings:${category}`)))
-    await updatePlayerCache(category);
+  const ttl = await client.ttl(`accsaber:standings:${category}`);
 
+  if (ttl < 0)
+    await updatePlayerCache(category); // Update cache, wait for completion
+  else if (ttl < playerExpiry - refreshAfter) updatePlayerCache(category); // Update cache in the background
   const dbPlayer = await client.hGet(`accsaber:players:${category}`, playerId);
 
   return dbPlayer ? (JSON.parse(dbPlayer) as Player) : null;
