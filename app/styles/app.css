@@ -31,4 +31,8 @@ body {
   .pageNav.active {
     @apply bg-black/5 dark:bg-black/20;
   }
+
+  .prose table tbody tr:nth-child(even) {
+    @apply bg-black/5 dark:bg-white/5;
+  }
 }
