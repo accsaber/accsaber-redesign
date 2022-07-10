@@ -18,7 +18,7 @@ import styles from "./tailwind.css";
 import logo from "./lib/images/logo.png";
 import UserContext from "./lib/components/userContext";
 import { user } from "./cookies";
-import { getJSON } from "./lib/api/fetcher";
+import { getPlayer } from "./lib/api/player";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const headers = new Headers();
 
   const currentUser = userCookie.userId
-    ? await getJSON(`/players/${userCookie.userId}`, headers)
+    ? await getPlayer(userCookie.userId)
     : null;
 
   return json(
