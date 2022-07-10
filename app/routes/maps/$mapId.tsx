@@ -67,22 +67,45 @@ const MapLeaderboardPage = () => {
       <PageHeader
         image={`/maps/${map.leaderboardId}.thumbnail.jpeg`}
         actionButton={
-          <a
-            href={`https://scoresaber.com/leaderboard/${map.leaderboardId}`}
-            className="hover:bg-neutral-100 dark:hover:bg-neutral-700 block p-2 rounded-full"
-          >
-            <img
-              src={scoresaberLogo}
-              alt="Map Leaderboard on ScoreSaber"
-              className="h-6"
-            />
-          </a>
+          <div className="flex">
+            <a
+              href={`https://beatsaver.com/maps/${map.beatSaverKey}`}
+              className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
+              aria-label="Download"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </a>
+            <a
+              href={`https://scoresaber.com/leaderboard/${map.leaderboardId}`}
+              className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
+              aria-label="ScoreSaber"
+            >
+              <img
+                src={scoresaberLogo}
+                alt="Map Leaderboard on ScoreSaber"
+                className="h-6"
+              />
+            </a>
+          </div>
         }
       >
         {map.songAuthorName} - {map.songName}
       </PageHeader>
 
-      <div className="bg-neutral-100 dark:bg-black/20 relative overflow-hidden">
+      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
         <picture>
           <source
             srcSet={`/maps/${map.leaderboardId}.cover.avif`}
@@ -95,7 +118,7 @@ const MapLeaderboardPage = () => {
           <img
             src={`/maps/${map.leaderboardId}.cover.jpeg`}
             alt=""
-            className="absolute top-0 left-0 w-full h-full opacity-20 object-cover blur-3xl"
+            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
           />
         </picture>
         <div
@@ -104,7 +127,7 @@ const MapLeaderboardPage = () => {
             "max-w-screen-lg mx-auto px-4",
           ].join(" ")}
         >
-          <div className="flex overflow-hidden rounded-lg shadow-lg w-32 h-32 aspect-square">
+          <div className="flex w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square">
             <picture>
               <source
                 srcSet={`/maps/${map.leaderboardId}.cover.avif`}
@@ -129,10 +152,10 @@ const MapLeaderboardPage = () => {
           </div>
         </div>
       </div>
-      <div className="max-w-screen-lg mx-auto p-4">
+      <div className="max-w-screen-lg p-4 mx-auto">
         <Pagination pages={pages} currentPage={page} />
       </div>
-      <div className="prose dark:prose-invert max-w-screen-lg mx-auto p-4">
+      <div className="max-w-screen-lg p-4 mx-auto prose dark:prose-invert">
         <table>
           <thead>
             <tr>
@@ -149,7 +172,7 @@ const MapLeaderboardPage = () => {
             {leaderboard.map((score, i) => (
               <tr key={score.playerId}>
                 <td>#{score.rank}</td>
-                <td className="relative aspect-square w-10">
+                <td className="relative w-10 aspect-square">
                   <picture>
                     <source
                       srcSet={`/profile/${score.playerId}.thumbnail.avif`}
@@ -196,7 +219,7 @@ const MapLeaderboardPage = () => {
         </table>
       </div>
 
-      <div className="max-w-screen-lg mx-auto p-4">
+      <div className="max-w-screen-lg p-4 mx-auto">
         <Pagination pages={pages} currentPage={page} />
       </div>
     </>
