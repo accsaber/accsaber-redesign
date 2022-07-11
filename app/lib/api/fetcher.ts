@@ -23,7 +23,7 @@ const apiFetcher = axios.create({
 
 export const getProfile = getPlayer;
 
-export const get = async (url: string, expiry = 86400) => {
+export const get = async (url: string, expiry = 60 * 60) => {
   const key = `accsaber:cache:${url}`;
 
   const revalidate = async () => {
