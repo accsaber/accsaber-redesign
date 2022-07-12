@@ -5,11 +5,7 @@ import type {
 } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  Link,
-  useLoaderData,
-  useTransition,
-} from "@remix-run/react";
+import { Link, useLoaderData, useTransition } from "@remix-run/react";
 import ms from "ms";
 import React from "react";
 import invariant from "tiny-invariant";
@@ -46,13 +42,17 @@ export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
   );
 };
 
-export const action: ActionFunction = async ({ params }) => {
+export const action: ActionFunction = async ({ params, request }) => {
   invariant(params.userId, "Expected User ID");
+
+  const cookieHeader = request.headers.get("Cookie");
+  const userCookie: { userId?: string; dark?: boolean } =
+    (await user.parse(cookieHeader)) || {};
 
   return redirect(`/profile/${params.userId}/scores`, {
     headers: {
       "set-cookie": await user.serialize(
-        { userId: params.userId },
+        { ...userCookie, userId: params.userId },
         {
           maxAge: 31536000,
           httpOnly: true,

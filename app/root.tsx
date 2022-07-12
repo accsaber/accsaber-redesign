@@ -1,4 +1,8 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -19,10 +23,13 @@ import logo from "./lib/images/logo.png";
 import UserContext from "./lib/components/userContext";
 import { user } from "./cookies";
 import { getPlayer } from "./lib/api/player";
+import DarkModeContext from "./lib/components/darkModeContext";
+import { useState } from "react";
+import { Player } from "./lib/interfaces/api/player";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
-  const userCookie: { userId?: string } =
+  const userCookie: { userId?: string; dark?: boolean } =
     (await user.parse(cookieHeader)) || {};
   const headers = new Headers();
 
@@ -30,15 +37,24 @@ export const loader: LoaderFunction = async ({ request }) => {
     ? await getPlayer(userCookie.userId)
     : null;
 
+  console.log({ userCookie });
+
   return json(
     {
       ENV: {
         NODE_ENV: process.env.NODE_ENV,
       },
       user: currentUser,
+      dark: userCookie.dark,
     },
     { headers }
   );
+};
+
+export const action: ActionFunction = (context) => {
+  console.log(context.params);
+
+  return {};
 };
 
 export const meta: MetaFunction = () => ({
@@ -55,37 +71,51 @@ export function links() {
 }
 
 export default function App() {
-  const data = useLoaderData();
+  const data = useLoaderData<{
+    user?: Player;
+    dark?: boolean;
+    env: { NODE_ENV?: string };
+  }>();
   const { state } = useTransition();
+  const [dark, setDarkMode] = useState(data.dark ?? false);
+  console.log({ dark });
+
   return (
-    <UserContext.Provider value={data.user ?? null}>
-      <html lang="en">
-        <head>
-          <Meta />
-          <Links />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.process = {}; window.process.env = ${JSON.stringify(
-                data.ENV
-              )}`,
-            }}
-          />
-        </head>
-        <body className="dark:bg-neutral-900">
-          <Header />
-          <div
-            className={`transition-opacity ${
-              state !== "idle" ? "opacity-50 [transition-delay:0.25s]" : ""
-            }`}
-          >
-            <Outlet />
-          </div>
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-        </body>
-      </html>
-    </UserContext.Provider>
+    <DarkModeContext.Provider
+      value={{
+        dark,
+        setDarkMode,
+      }}
+    >
+      <UserContext.Provider value={data.user ?? null}>
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.process = {}; window.process.env = ${JSON.stringify(
+                  data.ENV
+                )}`,
+              }}
+            />
+          </head>
+          <body className={`${dark ? "dark bg-neutral-900" : ""} `}>
+            <Header />
+            <div
+              className={`transition-opacity ${
+                state !== "idle" ? "opacity-50 [transition-delay:0.25s]" : ""
+              }`}
+            >
+              <Outlet />
+            </div>
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      </UserContext.Provider>
+    </DarkModeContext.Provider>
   );
 }
 
