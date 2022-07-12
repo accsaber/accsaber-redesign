@@ -53,16 +53,22 @@ export const loader: LoaderFunction = async ({ params }) => {
     -corners[1] + Math.max(...guides.map((i) => i.y * scale)) + strokeWidth
   );
 
+  const skillPath = `M ${points
+    .map((point) => `${point.x},${point.y}`)
+    .join("L ")} Z`;
+
   return new Response(
     `<svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="${corners.join(" ")}">
       ${guidePaths.join("")}
-      <path d="M ${points
-        .map((point) => `${point.x},${point.y}`)
-        .join(
-          "L "
-        )} Z" stroke-width="${strokeWidth}" fill="#2563eb55" stroke="#2563eb"/>
+      <path d="${skillPath}" stroke-width="${strokeWidth}" stroke-linejoin="round" fill="#2563eb55" stroke="#2563eb">
+        
+
+    <animate attributeName="d" dur="0.8s"  calcMode="spline" keySplines="0.2 0 0.2 1" values="M ${points
+      .map(() => `0, 0`)
+      .join(" L")} Z; ${skillPath}" />
+    </path>
       
     </svg>`,
     {
