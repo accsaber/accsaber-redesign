@@ -44,6 +44,8 @@ const Header = () => {
             <button
               type="submit"
               className="p-3 headerNav"
+              title={`${dark ? "Light" : "Dark"} mode`}
+              aria-label={`${dark ? "Light" : "Dark"} mode`}
               onClick={() => {
                 const fd = new FormData();
                 setDarkMode(!dark);
