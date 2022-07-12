@@ -15,7 +15,7 @@ const DifficultyLabel: React.FC<{ children: string }> = ({ children }) => {
   ]);
   return (
     <div
-      className={`inline-block rounded px-1 [text-decoration:none] ${
+      className={`inline-block rounded px-[0.25em] [text-decoration:none] ${
         colours.get(children.toLowerCase().trim()) ?? ""
       }`}
     >

@@ -11,6 +11,7 @@ import config, { language } from "~/lib/api/config";
 import Pagination from "~/lib/components/pagination";
 import Complexity from "~/lib/components/complexity";
 import scoresaberLogo from "~/lib/images/scoresaber.svg";
+import DifficultyLabel from "~/lib/components/difficultyLabel";
 
 export const meta: MetaFunction = ({
   data,
@@ -144,8 +145,10 @@ const MapLeaderboardPage = () => {
             </picture>
           </div>
           <div className="flex flex-col gap-1">
-            <h1 className="text-2xl font-bold">
+            <h1 className="flex gap-2 text-2xl font-bold">
               {map.songAuthorName} - {map.songName}
+              {map.songSubName ? <small>{map.songSubName}</small> : ""}
+              <DifficultyLabel>{map.difficulty}</DifficultyLabel>
             </h1>
             <h2 className="text-xl">Mapped by {map.levelAuthorName}</h2>
             <Complexity>{map.complexity}</Complexity>
