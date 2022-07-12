@@ -82,10 +82,6 @@ export const getPlayerScores = async (
       `players/${playerId}/${category == "overall" ? "" : `${category}/`}scores`
     );
 
-    console.log(
-      `players/${playerId}/${category == "overall" ? "" : `${category}/`}scores`
-    );
-
     if (status !== 200) throw new Response(statusText, { status, statusText });
 
     const scores = data ?? [];

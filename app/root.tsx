@@ -25,7 +25,7 @@ import { user } from "./cookies";
 import { getPlayer } from "./lib/api/player";
 import DarkModeContext from "./lib/components/darkModeContext";
 import { useState } from "react";
-import { Player } from "./lib/interfaces/api/player";
+import type { Player } from "./lib/interfaces/api/player";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -36,8 +36,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const currentUser = userCookie.userId
     ? await getPlayer(userCookie.userId)
     : null;
-
-  console.log({ userCookie });
 
   return json(
     {
@@ -52,8 +50,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = (context) => {
-  console.log(context.params);
-
   return {};
 };
 
@@ -78,7 +74,6 @@ export default function App() {
   }>();
   const { state } = useTransition();
   const [dark, setDarkMode] = useState(data.dark ?? false);
-  console.log({ dark });
 
   return (
     <DarkModeContext.Provider

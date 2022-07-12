@@ -86,8 +86,6 @@ function weightedAverage(scores: PlayerScore[]): number {
 
   averageAp = averageAp / size;
 
-  console.log(averageAp);
-
   return Math.max(Math.pow(averageAp / 1100, 1.5) * 100, 0) || 0;
 }
 

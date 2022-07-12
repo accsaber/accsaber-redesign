@@ -11,7 +11,6 @@ export const action: ActionFunction = async ({ request }) => {
   const fd = await request.formData();
   const theme = fd.get("theme");
 
-  console.log(fd);
   invariant(theme, "Expected theme");
 
   return json(
