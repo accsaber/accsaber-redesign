@@ -171,7 +171,7 @@ const ProfileRoute = () => {
               alt={`${profile.playerName}'s profile`}
               className={[
                 "w-32 h-32 rounded-full shadow-lg",
-                campaignStatus && campaignStatus.length > 0 ? "border-8" : "",
+                campaignStatus && campaignStatus.length > 0 ? "border-4" : "",
                 [
                   "border-[#3498db] shadow-[#3498db]/50",
                   "border-[#f1c40f] shadow-[#f1c40f]/50",
