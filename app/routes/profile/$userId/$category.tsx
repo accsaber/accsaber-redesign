@@ -1,11 +1,6 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useCatch,
-  useLoaderData,
-} from "@remix-run/react";
+import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
@@ -217,7 +212,7 @@ const ProfileRoute = () => {
             <SkillTriangle categories={categories}>{skills}</SkillTriangle>
           </div>
         </div>
-        <div className="h-64 max-w-screen-lg px-8 pb-12 mx-auto">
+        <div className="relative h-64 max-w-screen-lg px-8 pb-12 mx-auto">
           <RankGraph history={history} />
         </div>
       </div>
