@@ -3,7 +3,7 @@ import type { PlayerScore } from "../interfaces/api/player-score";
 import { getCategories } from "./category";
 import apiFetcher, { client } from "./fetcher";
 
-export const playerExpiry = 60 * 60; // 1 hour
+export const playerExpiry = 86400; // 1 hour
 export const refreshAfter = 120; // 2 minutes
 
 export const updatePlayerCache = async (category = "overall") => {
