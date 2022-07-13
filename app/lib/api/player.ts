@@ -1,5 +1,6 @@
 import type { Player } from "../interfaces/api/player";
 import type { PlayerScore } from "../interfaces/api/player-score";
+import CampaignStatus from "../interfaces/campaign/campaignStatus";
 import { getCategories } from "./category";
 import apiFetcher, { client } from "./fetcher";
 
@@ -52,6 +53,26 @@ export const getStandings = async (
     page * pageSize,
     page * pageSize + pageSize - 1
   );
+};
+
+export const getPlayerCampaignLevel = async (
+  playerId: string,
+  campaignId = 0
+) => {
+  const key = `accsaber:campaign:${campaignId}:status:${playerId}`;
+  const update = async () => {
+    const { data, status } = await apiFetcher.get<CampaignStatus[]>(
+      `https://campaigns.accsaber.com/${campaignId}/player-campaign-infos/${playerId}`
+    );
+    if (status !== 200) return [];
+    await client.set(key, JSON.stringify(data), { EX: playerExpiry });
+    return data;
+  };
+  const rawData = await client.get(key);
+  if (!rawData) return await update();
+  const ttl = await client.ttl(key);
+  if (ttl < playerExpiry - refreshAfter) update();
+  return JSON.parse(rawData) as CampaignStatus;
 };
 
 export const getPlayer = async (playerId: string, category = "overall") => {

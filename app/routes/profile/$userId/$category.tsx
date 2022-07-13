@@ -5,13 +5,19 @@ import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
 import { language } from "~/lib/api/config";
-import { getPlayer, getPlayerRankHistory } from "~/lib/api/player";
+import {
+  getPlayer,
+  getPlayerCampaignLevel,
+  getPlayerRankHistory,
+} from "~/lib/api/player";
 import RankGraph from "~/lib/components/rankGraph";
 import SkillTriangle from "~/lib/components/skillTriangle";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 import { getSkills } from "~/lib/components/skillTriangle";
 import type { CatchBoundaryComponent } from "@remix-run/react/routeModules";
+import PlayerName, { getHighestLevel } from "~/lib/components/playerName";
+import type CampaignStatus from "~/lib/interfaces/campaign/campaignStatus";
 
 export const CatchBoundary: CatchBoundaryComponent = () => {
   const caught = useCatch();
@@ -83,9 +89,10 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response("Category not found", { status: 404 });
 
   try {
-    const [profile, history, categories] = await Promise.all([
+    const [profile, history, campaignStatus, categories] = await Promise.all([
       getPlayer(params.userId, category),
       getPlayerRankHistory(params.userId, category),
+      getPlayerCampaignLevel(params.userId, 0),
       getCategories(),
     ]);
 
@@ -98,6 +105,7 @@ export const loader: LoaderFunction = async ({ params }) => {
         history: Object.entries(history).slice(-30),
         categories: [...categories.values()],
         skills: await getSkills(params.userId),
+        campaignStatus,
         category,
       },
       {
@@ -115,13 +123,15 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 const ProfileRoute = () => {
-  const { profile, history, skills, categories, category } = useLoaderData<{
-    profile: Player;
-    history: [string, number][];
-    skills: number[];
-    categories: Category[];
-    category: string;
-  }>();
+  const { profile, history, skills, categories, category, campaignStatus } =
+    useLoaderData<{
+      profile: Player;
+      history: [string, number][];
+      skills: number[];
+      categories: Category[];
+      category: string;
+      campaignStatus: CampaignStatus[];
+    }>();
 
   return (
     <>
@@ -159,13 +169,24 @@ const ProfileRoute = () => {
             <img
               src={`/profile/${profile.playerId}.avatar.jpeg`}
               alt={`${profile.playerName}'s profile`}
-              className="w-32 h-32 rounded-full shadow-lg "
+              className={[
+                "w-32 h-32 rounded-full shadow-lg",
+                campaignStatus.length > 0 ? "border-8" : "",
+                [
+                  "border-[#3498db] shadow-[#3498db]/50",
+                  "border-[#f1c40f] shadow-[#f1c40f]/50",
+                  "border-[#1abc9c] shadow-[#1abc9c]/50",
+                  "border-[#9c59b6] shadow-[#9c59b6]/50",
+                ][getHighestLevel(campaignStatus)],
+              ].join(" ")}
             />
           </picture>
           <div className="flex flex-col justify-center flex-1">
             <div className="">
-              <h1 className="text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-hidden max-w-[12rem]">
-                {profile.playerName}
+              <h1 className="text-2xl font-semibold">
+                <PlayerName campaignStatus={campaignStatus}>
+                  {profile.playerName}
+                </PlayerName>
               </h1>
               <div className="flex flex-1 gap-1 text-2xl">
                 <div>
