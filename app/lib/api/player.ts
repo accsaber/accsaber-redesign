@@ -125,7 +125,7 @@ export const getPlayerRankHistory = async (
 
     const transaction = client.multi();
     transaction.hSet(key, category, JSON.stringify(data));
-    transaction.expire(key, 86400);
+    transaction.expire(key, 60 * 60);
     await transaction.execAsPipeline();
     return data;
   } else {
