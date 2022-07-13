@@ -41,6 +41,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     {
       ENV: {
         NODE_ENV: process.env.NODE_ENV,
+        FLY_REGION: process.env.FLY_REGION,
       },
       user: currentUser,
       dark: userCookie.dark,
@@ -70,7 +71,7 @@ export default function App() {
   const data = useLoaderData<{
     user?: Player;
     dark?: boolean;
-    env: { NODE_ENV?: string };
+    ENV: { NODE_ENV?: string };
   }>();
   const { state } = useTransition();
   const [dark, setDarkMode] = useState(data.dark ?? false);
