@@ -50,7 +50,7 @@ export const getStandings = async (
   return client.zRange(
     `accsaber:standings:${category}`,
     page * pageSize,
-    page * pageSize + pageSize
+    page * pageSize + pageSize - 1
   );
 };
 
