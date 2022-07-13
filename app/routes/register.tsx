@@ -18,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Invalid profile url" });
   }
 
-  if (url.host !== "scoresaber.com")
+  if (url.host !== "scoresaber.com" && url.host !== "www.scoresaber.com")
     return json({ error: `Invalid profile url hostname: ${url.hostname}` });
 
   const parsedUrl = /^\/u\/([0-9]+)$/.exec(url.pathname);
@@ -50,9 +50,9 @@ export const action: ActionFunction = async ({ request }) => {
 const RegisterPage: React.FC = () => {
   const { error } = useActionData() ?? {};
   return (
-    <Form className="flex mx-auto flex-col max-w-md gap-4 p-6" method="post">
+    <Form className="flex flex-col max-w-md gap-4 p-6 mx-auto" method="post">
       {error ? (
-        <div className="text-red-800 bg-red-300 py-3 px-4 border-red-600 rounded">
+        <div className="px-4 py-3 text-red-800 bg-red-300 border-red-600 rounded">
           {error}
         </div>
       ) : (
@@ -61,13 +61,13 @@ const RegisterPage: React.FC = () => {
       <input
         type="url"
         name="profile"
-        className="p-2 px-3 rounded border-2"
+        className="p-2 px-3 border-2 rounded"
         placeholder="ScoreSaber profile"
         required
       />
       <button
         type="submit"
-        className="p-2 bg-blue-500 text-white rounded shadow-blue-500/50 shadow-lg flex items-center justify-center"
+        className="flex items-center justify-center p-2 text-white bg-blue-500 rounded shadow-lg shadow-blue-500/50"
       >
         Log In
       </button>
