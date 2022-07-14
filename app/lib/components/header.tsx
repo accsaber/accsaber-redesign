@@ -74,7 +74,7 @@ const Header = () => {
             </a>
           </nav>
           <nav className="hidden md:flex">
-            <ActionSection />
+            <ActionSection onClick={() => setMenu(false)} />
           </nav>
           <div className="flex-1 md:hidden" />
           <button

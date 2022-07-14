@@ -1,7 +1,9 @@
+import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import { NavLink, Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import React, { createRef, useEffect, useState } from "react";
 import logo from "~/lib/images/logo.webp";
+import PopoverMenu from "./popover";
 
 const PageHeader: React.FC<{
   image?: string;
@@ -24,6 +26,7 @@ const PageHeader: React.FC<{
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const scrollProbe = createRef<HTMLDivElement>();
+  const [menuVisible, setMenu] = useState(false);
 
   useEffect(() => {
     if (!scrollProbe.current) return;
@@ -97,8 +100,8 @@ const PageHeader: React.FC<{
             <div>{children}</div>
           </div>
           {navigation ? (
-            <nav className="flex flex-1 gap-2">
-              {navigation.map(({ label, href, isCurrent }) => (
+            <nav className="flex-1 hidden gap-2 md:flex">
+              {navigation.map(({ label, href }) => (
                 <NavLink
                   to={`${href}`}
                   key={href}
@@ -111,9 +114,76 @@ const PageHeader: React.FC<{
           ) : (
             <div className="flex-1" />
           )}
-          {actionButton ? <div>{actionButton}</div> : ""}
+          {actionButton ? (
+            <div className="hidden md:flex">{actionButton}</div>
+          ) : (
+            ""
+          )}
+          <div className="flex-1 md:hidden" />
+          <button
+            onClick={() => setMenu(true)}
+            className="p-3 -mr-2 headerNav md:hidden"
+          >
+            <MenuIcon className="w-5 h-5" />
+          </button>
         </div>
       </div>
+      <PopoverMenu visible={menuVisible}>
+        <div className="flex items-start p-2">
+          <div
+            className={[
+              "flex flex-1 gap-2 items-center p-2 transition-opacity font-semibold",
+              hideTitleUntilScrolled && !scrolled ? "opacity-0" : "",
+            ].join(" ")}
+          >
+            {image ? (
+              <div className="h-8">
+                <img
+                  src={image}
+                  alt=""
+                  className={`${
+                    iconRounded ?? true ? "rounded-full" : ""
+                  } h-full aspect-square`}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+            <div>{children}</div>
+          </div>
+          <button
+            className="p-2 rounded-full headerNav"
+            aria-label="close"
+            onClick={() => setMenu(false)}
+          >
+            <XIcon className="w-4 h-4" />
+          </button>
+        </div>
+        {navigation ? (
+          <nav className="flex flex-col flex-1 gap-2 p-2">
+            {navigation.map(({ label, href }) => (
+              <NavLink
+                to={`${href}`}
+                key={href}
+                className={["pageNav"].join(" ")}
+                onClick={() => setMenu(false)}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+        ) : (
+          <div className="flex-1" />
+        )}
+
+        {actionButton ? (
+          <div className="flex justify-end p-2" onClick={() => setMenu(false)}>
+            {actionButton}
+          </div>
+        ) : (
+          ""
+        )}
+      </PopoverMenu>
     </>
   );
 };
