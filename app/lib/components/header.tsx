@@ -76,7 +76,7 @@ const Header = () => {
           <nav className="hidden md:flex">
             <ActionSection onClick={() => setMenu(false)} />
           </nav>
-          <div className="flex-1 md:hidden" />
+          <div className="flex-1 text-lg md:hidden">AccSaber</div>
           <button
             onClick={() => setMenu(true)}
             className="p-3 headerNav md:hidden"
