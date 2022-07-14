@@ -150,7 +150,9 @@ const MapLeaderboardPage = () => {
               {map.songSubName ? <small>{map.songSubName}</small> : ""}
               <DifficultyLabel>{map.difficulty}</DifficultyLabel>
             </h1>
-            <h2 className="text-xl">Mapped by {map.levelAuthorName}</h2>
+            <h2 className="text-xl">
+              Mapped by <strong>{map.levelAuthorName}</strong>
+            </h2>
             <Complexity>{map.complexity}</Complexity>
           </div>
         </div>
@@ -158,7 +160,7 @@ const MapLeaderboardPage = () => {
       <div className="max-w-screen-lg p-4 mx-auto">
         <Pagination pages={pages} currentPage={page} />
       </div>
-      <div className="max-w-screen-lg p-4 mx-auto prose dark:prose-invert">
+      <div className="max-w-full mx-auto overflow-auto prose md:max-w-screen-lg dark:prose-invert whitespace-nowrap">
         <table>
           <thead>
             <tr>
@@ -175,7 +177,7 @@ const MapLeaderboardPage = () => {
             {leaderboard.map((score, i) => (
               <tr key={score.playerId}>
                 <td>#{score.rank}</td>
-                <td className="relative w-10 aspect-square">
+                <td className="relative w-10 min-w-[2.5rem] aspect-square">
                   <picture>
                     <source
                       srcSet={`/profile/${score.playerId}.thumbnail.avif`}
@@ -198,7 +200,10 @@ const MapLeaderboardPage = () => {
                     {score.playerName}
                   </Link>
                 </td>
-                <td title={new Date(score.timeSet).toLocaleString(language)}>
+                <td
+                  title={new Date(score.timeSet).toLocaleString(language)}
+                  className="whitespace-nowrap"
+                >
                   {ms(Date.now() - new Date(score.timeSet).getTime(), {
                     long: true,
                   })}{" "}
