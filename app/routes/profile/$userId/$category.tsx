@@ -237,7 +237,7 @@ const ProfileRoute = () => {
           <RankGraph history={history} />
         </div>
       </div>
-      <div className="max-w-screen-lg px-4 py-8 mx-auto">
+      <div className="max-w-screen-lg py-8 mx-auto">
         <Outlet />
       </div>
     </>

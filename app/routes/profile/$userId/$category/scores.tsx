@@ -152,9 +152,8 @@ const Scores = () => {
   return (
     <div className="flex flex-col gap-8">
       <Pagination currentPage={page} pages={pages} />
-      <div className="w-full prose max-w-none dark:prose-invert">
-        <h2>Scores</h2>
-        <table>
+      <div className="w-full max-w-full overflow-auto prose dark:prose-invert">
+        <table className="overflow-auto whitespace-nowrap">
           <thead>
             <tr>
               {columns.map(([value, friendly, colSpan], n) => (
@@ -175,7 +174,7 @@ const Scores = () => {
               <tr key={score.songHash + score.difficulty}>
                 <td>#{score.rank}</td>
 
-                <td className="relative w-10 aspect-square">
+                <td className="relative w-10 min-w-[2.5rem] aspect-square">
                   <picture>
                     <source
                       srcSet={`/maps/${score.leaderboardId}.thumbnail.avif`}
