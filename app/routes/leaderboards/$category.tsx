@@ -107,7 +107,7 @@ const LeaderboardPage = () => {
       >
         Leaderboards
       </PageHeader>
-      <main className="p-4 max-w-screen-lg mx-auto flex flex-col gap-8">
+      <main className="flex flex-col max-w-screen-lg gap-8 p-4 mx-auto">
         {pages > 1 ? <Pagination currentPage={page} pages={pages} /> : ""}
         <div className="prose dark:prose-invert max-w-none">
           <table className="w-full overflow-auto">
@@ -117,10 +117,10 @@ const LeaderboardPage = () => {
                 <th></th>
                 <th>Name</th>
                 <th>AP</th>
-                <th>Average Acc</th>
-                <th>Ranked Plays</th>
-                <th>Average AP</th>
-                <th>HMD</th>
+                <th className="hidden md:table-cell">Average Acc</th>
+                <th className="hidden md:table-cell">Ranked Plays</th>
+                <th className="hidden md:table-cell">Average AP</th>
+                <th className="hidden md:table-cell">HMD</th>
               </tr>
             </thead>
             <tbody>

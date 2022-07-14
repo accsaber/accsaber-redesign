@@ -11,7 +11,7 @@ const PlayerRow = ({
 }) => (
   <tr key={player.playerId}>
     <td>#{player.rank}</td>
-    <td className="relative aspect-square w-10">
+    <td className="relative w-10 aspect-square">
       <picture>
         <source
           srcSet={`/profile/${player.playerId}.thumbnail.avif`}
@@ -42,19 +42,19 @@ const PlayerRow = ({
         maximumFractionDigits: 2,
       })}
     </td>
-    <td>
+    <td className="hidden md:table-cell">
       {(player.averageAcc * 100).toLocaleString(language, {
         maximumFractionDigits: 2,
       })}
       %
     </td>
-    <td>{player.rankedPlays}</td>
-    <td>
+    <td className="hidden md:table-cell">{player.rankedPlays}</td>
+    <td className="hidden md:table-cell">
       {player.averageApPerMap.toLocaleString(language, {
         maximumFractionDigits: 2,
       })}
     </td>
-    <td>{player.hmd}</td>
+    <td className="hidden md:table-cell">{player.hmd}</td>
   </tr>
 );
 
