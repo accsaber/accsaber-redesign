@@ -4,5 +4,5 @@ import invariant from "tiny-invariant";
 
 export const loader: LoaderFunction = ({ params }) => {
   invariant(params.id, "expected player id");
-  return redirect(`/profile/${params.id}/scores/overall`, 301);
+  return redirect(`/profile/${params.id}/overall/scores`, 301);
 };
