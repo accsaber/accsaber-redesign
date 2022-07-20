@@ -2,6 +2,7 @@ import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { user } from "~/cookies";
+import config from "~/lib/api/config";
 import apiFetcher from "~/lib/api/fetcher";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -30,33 +31,46 @@ export const action: ActionFunction = async ({ request }) => {
   }>(`https://scoresaber.com/api/player/${parsedUrl[1]}/basic`);
 
   if (status !== 200) return { error: `Invalid ScoreSaber ID` };
+  const payload = {
+    playerName: scoresaberProfile.name,
+    scoresaberLink: scoresaberProfile.id.toString(),
+  };
 
-  await apiFetcher.post("players", {
-    body: {
-      playerName: scoresaberProfile.name,
-      scoresaberLink: scoresaberProfile.id,
+  const res = await fetch(new URL("players", config.apiURL), {
+    credentials: "omit",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
     },
+    referrer: "https://accsaber.com/leaderboard",
+    body: JSON.stringify(payload),
+    method: "POST",
+    mode: "cors",
   });
+
+  const response = new Response(res.body, res);
 
   const userCookie = await user.serialize({ userId: scoresaberProfile.id });
+  response.headers.set("set-cookie", userCookie);
 
-  return redirect(`/profile/${scoresaberProfile.id}`, {
-    headers: {
-      "Set-Cookie": userCookie,
-    },
-  });
+  return response;
 };
 
 const RegisterPage: React.FC = () => {
-  const { error } = useActionData() ?? {};
+  const data = useActionData() ?? {};
   return (
     <Form className="flex flex-col max-w-md gap-4 p-6 mx-auto" method="post">
-      {error ? (
-        <div className="px-4 py-3 text-red-800 bg-red-300 border-red-600 rounded">
-          {error}
+      {data.error ?? data.errorCode ? (
+        <div className="px-4 py-3 text-red-800 bg-red-200 rounded">
+          {data.message ?? data.error}
+        </div>
+      ) : Object.entries(data).length > 0 ? (
+        <div className="px-4 py-3 text-blue-800 bg-blue-200 rounded">
+          Signup successful. It may take up to 2 hours for your profile to
+          appear on the leaderboards {JSON.stringify(Object.entries(data))}
         </div>
       ) : (
-        <></>
+        ""
       )}
       <input
         type="url"
@@ -69,7 +83,7 @@ const RegisterPage: React.FC = () => {
         type="submit"
         className="flex items-center justify-center p-2 text-white bg-blue-500 rounded shadow-lg shadow-blue-500/50"
       >
-        Log In
+        Sign Up
       </button>
     </Form>
   );
