@@ -66,8 +66,8 @@ const RegisterPage: React.FC = () => {
         </div>
       ) : Object.entries(data).length > 0 ? (
         <div className="px-4 py-3 text-blue-800 bg-blue-200 rounded">
-          Signup successful. It may take up to 2 hours for your profile to
-          appear on the leaderboards {JSON.stringify(Object.entries(data))}
+          Signup successful. Please note it may take up to 2 hours for your
+          profile to appear on the leaderboards.
         </div>
       ) : (
         ""
