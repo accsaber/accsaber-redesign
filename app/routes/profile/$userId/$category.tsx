@@ -1,6 +1,6 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
+import { Form, Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
@@ -18,7 +18,10 @@ import { getSkills } from "~/lib/components/skillTriangle";
 import type { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import PlayerName, { getHighestLevel } from "~/lib/components/playerName";
 import type CampaignStatus from "~/lib/interfaces/campaign/campaignStatus";
+import PageHeader from "~/lib/components/pageHeader";
+import UserContext from "~/lib/components/userContext";
 
+import scoresaberLogo from "~/lib/images/scoresaber.svg";
 export const CatchBoundary: CatchBoundaryComponent = () => {
   const caught = useCatch();
   return (
@@ -89,12 +92,14 @@ export const loader: LoaderFunction = async ({ params }) => {
     throw new Response("Category not found", { status: 404 });
 
   try {
+    console.time("get data");
     const [profile, history, campaignStatus, categories] = await Promise.all([
       getPlayer(params.userId, category),
       getPlayerRankHistory(params.userId, category),
       getPlayerCampaignLevel(params.userId, 0),
       getCategories(),
     ]);
+    console.timeEnd("get data");
 
     if (!profile)
       throw new Response("No profile for this category", { status: 404 });
@@ -135,6 +140,53 @@ const ProfileRoute = () => {
 
   return (
     <>
+      <UserContext.Consumer>
+        {(user) => (
+          <PageHeader
+            image={`/profile/${profile.playerId}.thumbnail.jpeg`}
+            actionButton={
+              <div className="flex flex-row-reverse gap-2">
+                <a
+                  href={`https://scoresaber.com/u/${profile.playerId}`}
+                  className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                >
+                  <img
+                    src={scoresaberLogo}
+                    alt="Profile on ScoreSaber"
+                    className="h-6"
+                  />
+                </a>
+                {user?.playerId !== profile.playerId ? (
+                  <Form
+                    action={`/profile/${profile.playerId}/overall/scores`}
+                    method="post"
+                    replace
+                  >
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-white rounded shadow-md dark:bg-neutral-700 text-inherit"
+                    >
+                      Set as my profile
+                    </button>
+                  </Form>
+                ) : undefined}
+              </div>
+            }
+            navigation={[
+              {
+                href: `/profile/${profile.playerId}/overall/scores`,
+                label: `Overall`,
+              },
+              ...categories.map((category) => ({
+                href: `/profile/${profile.playerId}/${category.categoryName}/scores`,
+                label: category.categoryDisplayName,
+              })),
+            ]}
+          >
+            {profile.playerName}&apos;s Profile
+          </PageHeader>
+        )}
+      </UserContext.Consumer>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
         <picture>
           <source
