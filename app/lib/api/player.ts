@@ -36,6 +36,8 @@ export const updatePlayerCache = async (category = "overall") => {
 export const updatePlayersIfRequired = async (category: string) => {
   const ttl = await client.ttl(`accsaber:standings:${category}`);
 
+  if (ttl == -1) return;
+
   if (ttl < 0)
     await updatePlayerCache(category); // Update cache, wait for completion
   else if (ttl < playerExpiry - refreshAfter) updatePlayerCache(category);
@@ -71,7 +73,7 @@ export const getPlayerCampaignLevel = async (
   const rawData = await client.get(key);
   if (!rawData) return await update();
   const ttl = await client.ttl(key);
-  if (ttl < playerExpiry - refreshAfter) update();
+  if (ttl !== -1 && ttl < playerExpiry - refreshAfter) update();
   return JSON.parse(rawData) as CampaignStatus;
 };
 
