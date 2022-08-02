@@ -30,11 +30,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   if (!query) return { results: [] };
 
-  const [maps, playersRaw] = await Promise.all([
+  const [maps, playerIds] = await Promise.all([
     await getMapList(),
-    await client.hGetAll(`accsaber:players:overall`),
+    await client.keys(`accsaber:player:*:overall`),
   ]);
-  const players = Object.values(playersRaw).map((i) => JSON.parse(i) as Player);
+
+  const playersRaw = await client.mGet(playerIds);
+  const players = Object.values(playersRaw)
+    .filter((i) => i != null)
+    .map((i) => JSON.parse(i ?? "{}") as Player);
 
   fuse.setCollection([...players, ...maps]);
 
@@ -73,7 +77,7 @@ const MapResult = ({ map }: { map: RankedMap }) => (
       <img
         src={`/maps/${map.leaderboardId}.cover.jpeg`}
         alt={`cover art`}
-        className="w-20 h-20 rounded-xl shadow-md"
+        className="w-20 h-20 shadow-md rounded-xl"
         loading="lazy"
       />
     </picture>
@@ -81,7 +85,7 @@ const MapResult = ({ map }: { map: RankedMap }) => (
       <div className="text-2xl">
         {map.songAuthorName} - {map.songName} <small>{map.songSubName}</small>
       </div>
-      <div className="text-xl flex gap-2">
+      <div className="flex gap-2 text-xl">
         <DifficultyLabel>{map.difficulty}</DifficultyLabel>
         <span className="opacity-70">{map.levelAuthorName}</span>
       </div>
@@ -137,9 +141,9 @@ const SearchPage = () => {
     results: [],
   };
   return (
-    <main className="p-4 max-w-screen-lg mx-auto flex flex-col gap-4">
+    <main className="flex flex-col max-w-screen-lg gap-4 p-4 mx-auto">
       <Form
-        className="flex shadow rounded overflow-hidden"
+        className="flex overflow-hidden rounded shadow"
         replace
         method="get"
       >
@@ -158,7 +162,7 @@ const SearchPage = () => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+            className="w-5 h-5"
             viewBox="0 0 20 20"
             fill="currentColor"
           >

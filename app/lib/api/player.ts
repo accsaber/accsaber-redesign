@@ -16,12 +16,9 @@ export const updatePlayerCache = async (category = "overall") => {
 
   const transaction = client.multi();
   for (const player of data) {
-    transaction.hSet(
-      `accsaber:players:${category}`,
-      player?.playerId ?? "Unknown Player",
-      JSON.stringify(player)
-    );
-    transaction.expire(`accsaber:players:${category}`, playerExpiry);
+    const key = `accsaber:player:${player.playerId}:${category}`;
+    transaction.set(key, JSON.stringify(player));
+    transaction.expire(key, playerExpiry);
     transaction.zAdd(`accsaber:standings:${category}`, {
       score: player.rank,
       value: player.playerId,
@@ -79,7 +76,7 @@ export const getPlayerCampaignLevel = async (
 
 export const getPlayer = async (playerId: string, category = "overall") => {
   await updatePlayersIfRequired(category); // Update cache in the background
-  const dbPlayer = await client.hGet(`accsaber:players:${category}`, playerId);
+  const dbPlayer = await client.get(`accsaber:player:${playerId}:${category}`);
 
   return dbPlayer ? (JSON.parse(dbPlayer) as Player) : null;
 };

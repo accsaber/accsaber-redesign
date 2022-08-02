@@ -40,7 +40,7 @@ export const loader: LoaderFunction = async ({
   const transaction = client.multi();
 
   for (const id of rawStandings) {
-    transaction.hGet(`accsaber:players:${category}`, id);
+    transaction.get(`accsaber:player:${id}:${category}`);
   }
 
   const unparsedStandings = await transaction.exec(true);
