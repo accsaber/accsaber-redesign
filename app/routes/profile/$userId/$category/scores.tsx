@@ -145,14 +145,14 @@ const Scores = () => {
     ["categoryDisplayName", "Category"],
     ["accuracy", "Accuracy"],
     ["ap", "AP"],
-    ["weightedAp", "Weighted AP"],
+    ["weightedAp", "Weighted"],
     ["timeSet", "Time Set"],
     ["complexity", "Complexity"],
   ];
   return (
     <div className="flex flex-col gap-8">
       <Pagination currentPage={page} pages={pages} />
-      <div className="w-full max-w-full overflow-auto prose dark:prose-invert">
+      <div className="w-full max-w-full overflow-x-auto overflow-y-hidden prose dark:prose-invert">
         <table className="overflow-auto whitespace-nowrap">
           <thead>
             <tr>
@@ -174,7 +174,7 @@ const Scores = () => {
               <tr key={score.songHash + score.difficulty}>
                 <td>#{score.rank}</td>
 
-                <td className="relative w-10 min-w-[2.5rem] aspect-square">
+                <td className="relative min-w-[2.5rem]">
                   <picture>
                     <source
                       srcSet={`/maps/${score.leaderboardId}.thumbnail.avif`}
@@ -192,9 +192,9 @@ const Scores = () => {
                     />
                   </picture>
                 </td>
-                <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
+                <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
                   <Link to={`/maps/${score.leaderboardId}`}>
-                    {score.songName}
+                    {score.songAuthorName} - {score.songName}
                   </Link>
                 </td>
                 <td>

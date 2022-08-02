@@ -11,7 +11,7 @@ const PlayerRow = ({
 }) => (
   <tr key={player.playerId}>
     <td>#{player.rank}</td>
-    <td className="relative w-10 aspect-square">
+    <td className="relative w-10 h-10 min-w-[2.5rem]">
       <picture>
         <source
           srcSet={`/profile/${player.playerId}.thumbnail.avif`}
@@ -25,11 +25,11 @@ const PlayerRow = ({
           src={`/profile/${player.playerId}.thumbnail.jpeg`}
           alt={`${player.playerName}'s profile`}
           loading="lazy"
-          className="absolute top-0 left-0 m-0"
+          className="absolute top-0 left-0 w-10 h-10 m-0"
         />
       </picture>
     </td>
-    <td>
+    <td className="w-full">
       <Link
         to={`/profile/${player.playerId}/${current ?? "overall"}/scores`}
         prefetch="intent"
@@ -54,7 +54,7 @@ const PlayerRow = ({
         maximumFractionDigits: 2,
       })}
     </td>
-    <td className="hidden md:table-cell">{player.hmd}</td>
+    <td className="hidden md:table-cell whitespace-nowrap">{player.hmd}</td>
   </tr>
 );
 
