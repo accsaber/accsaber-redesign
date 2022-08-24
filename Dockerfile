@@ -1,11 +1,10 @@
 # base node image
-FROM node:16-bullseye-slim as base
+FROM node:lts as base
 
 RUN apt-get update && apt-get install -y openssl curl
 
 # Add pnpm
 RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
