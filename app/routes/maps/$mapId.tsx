@@ -150,6 +150,7 @@ const MapLeaderboardPage = () => {
               {map.songSubName ? <small>{map.songSubName}</small> : ""}
               <DifficultyLabel>{map.difficulty}</DifficultyLabel>
             </h1>
+            <h2 className="text-xl">{map.categoryDisplayName}</h2>
             <h2 className="text-xl">
               Mapped by <strong>{map.levelAuthorName}</strong>
             </h2>
