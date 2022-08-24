@@ -11,7 +11,7 @@ const PlayerRow = ({
 }) => (
   <tr key={player.playerId}>
     <td>#{player.rank}</td>
-    <td className="relative w-10 h-10 min-w-[2.5rem]">
+    <td className="relative w-10 min-w-[2.5rem]">
       <picture>
         <source
           srcSet={`/profile/${player.playerId}.thumbnail.avif`}
