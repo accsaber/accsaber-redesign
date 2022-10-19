@@ -1,0 +1,30 @@
+.headerNav {
+  @apply rounded p-4 py-2 items-center gap-2;
+}
+.headerNav:hover,
+.headerNav.active {
+  @apply bg-black/10;
+}
+
+.pageNav:hover {
+  background-color: #0000000d;
+}
+.pageNav {
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  --tw-text-opacity: 1;
+  color: rgb(38 38 38 / var(--tw-text-opacity));
+}
+
+.prose table tbody tr td:first-child {
+  @apply pl-2;
+}
+.prose table tbody tr td:last-child {
+  @apply pr-2;
+}
+
+.prose table tbody tr:nth-child(even) {
+  @apply bg-black/5 dark:bg-white/5;
+}
