@@ -44,7 +44,7 @@ const PageHeader: FunctionComponent<{
 
   return (
     <>
-      <div ref={scrollProbe} />
+      <div ref={scrollProbe} className="h-px -mb-px" />
       <div
         className={[
           "sticky top-0 z-40",
