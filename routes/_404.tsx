@@ -3,7 +3,7 @@ import Layout from "../components/Layout.tsx";
 const NotFoundPage = () => {
   return (
     <Layout>
-      <h1 className="text-red-600 dark:text-orange-400 text-3xl">
+      <h1 className="text-red-600 dark:text-red-400 text-3xl">
         404: Page not found
       </h1>
       <p>
