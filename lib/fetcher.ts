@@ -1,24 +1,10 @@
-import { accSaberCache } from "./cache.ts";
-
 export interface ErrorResponse {
   message: string;
   errorCode: string;
 }
 
-const apiFetch = async (target: string | URL, init?: RequestInit) => {
-  const req = new Request(new URL(target, "https://api.accsaber.com"), init);
-  // Check if there's a matching
-  const cachedResponse = await accSaberCache.match(req.clone());
-
-  console.log(`Cache ${cachedResponse ? "HIT" : "MISS"} for ${target}`);
-
-  const apiRequest = fetch(req).then((response) => {
-    accSaberCache.put(req, response.clone());
-
-    return response;
-  });
-
-  return cachedResponse ?? (await apiRequest);
+const apiFetch = (target: string | URL, init?: RequestInit) => {
+  return fetch(new URL(target, "https://api.accsaber.com"), init);
 };
 
 // deno-lint-ignore no-explicit-any
