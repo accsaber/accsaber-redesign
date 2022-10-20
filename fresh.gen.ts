@@ -9,8 +9,10 @@ import * as $2 from "./routes/leaderboards/[category].tsx";
 import * as $3 from "./routes/leaderboards/index.tsx";
 import * as $4 from "./routes/profile/[userId]/[category]/index.tsx";
 import * as $5 from "./routes/profile/[userId]/[category]/scores.tsx";
+import * as $6 from "./routes/skills/[userId].json.ts";
 import * as $$0 from "./islands/Header.tsx";
 import * as $$1 from "./islands/PageHeader.tsx";
+import * as $$2 from "./islands/PlayerHeader.tsx";
 
 const manifest = {
   routes: {
@@ -20,10 +22,12 @@ const manifest = {
     "./routes/leaderboards/index.tsx": $3,
     "./routes/profile/[userId]/[category]/index.tsx": $4,
     "./routes/profile/[userId]/[category]/scores.tsx": $5,
+    "./routes/skills/[userId].json.ts": $6,
   },
   islands: {
     "./islands/Header.tsx": $$0,
     "./islands/PageHeader.tsx": $$1,
+    "./islands/PlayerHeader.tsx": $$2,
   },
   baseUrl: import.meta.url,
   config,

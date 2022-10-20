@@ -6,6 +6,7 @@ import NavLink from "$components/NavLink.tsx";
 import { useEffect, useState } from "preact/hooks";
 import PopoverMenu from "$components/PopoverMenu.tsx";
 import { ComponentChild, createRef, FunctionComponent } from "preact";
+import Img, { Size } from "$components/Image.tsx";
 
 const logo = "/logo.webp";
 
@@ -71,7 +72,7 @@ const PageHeader: FunctionComponent<{
               alt="Home"
               aria-hidden={!scrolled}
               aria-label="Go Home"
-              className="h-8 aspect-square"
+              className="w-8 h-8"
             />
           </a>
           <div
@@ -89,12 +90,13 @@ const PageHeader: FunctionComponent<{
           >
             {image ? (
               <div className="h-8">
-                <img
+                <Img
                   src={image}
                   alt=""
                   className={`${
                     iconRounded ?? true ? "rounded-full" : ""
-                  } h-full aspect-square`}
+                  } h-full`}
+                  size={Size.THUMBNAIL}
                 />
               </div>
             ) : (

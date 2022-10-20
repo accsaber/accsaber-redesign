@@ -1,4 +1,4 @@
-import { type JSXInternal } from "https://esm.sh/v94/preact@10.10.6/src/jsx.d.ts";
+import { type JSXInternal } from "preact/src/jsx.d.ts";
 import { resize } from "../lib/cdn.ts";
 
 export enum Size {
@@ -18,19 +18,25 @@ interface ImageElementProps
   height?: number;
 }
 const Img = (props: ImageElementProps) => {
-  const formats = ["jpeg", "png", "webp", "avif"];
+  const formats = ["webp", "jpeg", "png"];
+  const ratios = [1, 1.5, 2];
   const width = props.size ? sizes.get(props.size) : props.width;
   const height = props.size ? sizes.get(props.size) : props.height;
   return (
     <picture>
       {formats.map((format) => (
         <source
-          src={resize({
-            url: props.src,
-            width,
-            height,
-            type: format,
-          })}
+          srcSet={ratios
+            .map(
+              (i) =>
+                resize({
+                  url: props.src,
+                  width: width && width * i,
+                  height: height && height * i,
+                  type: format,
+                }) + ` ${i}x`
+            )
+            .join(", ")}
           type={`image/${format}`}
         />
       ))}
