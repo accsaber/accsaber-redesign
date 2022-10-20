@@ -106,8 +106,12 @@ const PageHeader: FunctionComponent<{
           </div>
           {navigation ? (
             <nav className="flex-1 hidden gap-2 md:flex">
-              {navigation.map(({ label, href }) => (
-                <NavLink to={`${href}`} key={href} className="pageNav">
+              {navigation.map(({ label, href, isCurrent }) => (
+                <NavLink
+                  to={href}
+                  key={href}
+                  activeClass={() => (isCurrent ? "bg-opacity-10" : "")}
+                >
                   {label}
                 </NavLink>
               ))}
@@ -162,11 +166,11 @@ const PageHeader: FunctionComponent<{
         </div>
         {navigation ? (
           <nav className="flex flex-col flex-1 gap-2 p-2">
-            {navigation.map(({ label, href }) => (
+            {navigation.map(({ label, href, isCurrent }) => (
               <NavLink
                 to={`${href}`}
                 key={href}
-                className="pageNav"
+                className={`pageNav ${isCurrent ? "active" : ""}`}
                 onClick={() => setMenu(false)}
               >
                 {label}

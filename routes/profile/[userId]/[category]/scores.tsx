@@ -16,6 +16,7 @@ import Complexity from "$components/Complexity.tsx";
 import PlayerHeader from "$islands/PlayerHeader.tsx";
 import Img, { Size } from "$components/Image.tsx";
 import PageHeader from "../../../../islands/PageHeader.tsx";
+import { Category } from "../../../../interfaces/api/category.ts";
 
 interface PlayerPageProps {
   player: Player;
@@ -23,6 +24,7 @@ interface PlayerPageProps {
   page: number;
   pages: number;
   category: string;
+  categories: Category[];
 }
 
 export const handler: Handlers<PlayerPageProps> = {
@@ -38,9 +40,10 @@ export const handler: Handlers<PlayerPageProps> = {
       const sortBy = url.searchParams.get("sortBy") as keyof PlayerScore;
       const isReversed = url.searchParams.has("reverse");
 
-      let [player, scores] = await Promise.all([
+      let [player, scores, categories] = await Promise.all([
         getPlayer(params.userId, params.category),
         getPlayerScores(params.userId, params.category),
+        json<Category[]>("categories"),
       ]);
 
       if ("errorCode" in player || "errorCode" in scores)
@@ -95,6 +98,7 @@ export const handler: Handlers<PlayerPageProps> = {
         page,
         pages: Math.ceil(count / pageSize),
         category,
+        categories,
       });
     }
   },
@@ -113,10 +117,20 @@ const columns: [keyof PlayerScore | null, string, number?][] = [
 ];
 
 const PlayerScoresPage = (props: PageProps<PlayerPageProps>) => {
-  const { player, scores, page, pages, category } = props.data;
+  const { player, scores, page, pages, category, categories } = props.data;
   return (
-    <Layout>
-      <PageHeader image={player.avatarUrl}>
+    <Layout currentRoute={`/profile/${player.playerId}/${category}/scores`}>
+      <PageHeader
+        image={player.avatarUrl}
+        navigation={[
+          { categoryName: "overall", categoryDisplayName: "Overall" },
+          ...(categories ?? []),
+        ].map(({ categoryDisplayName, categoryName }) => ({
+          href: `/profile/${player.playerId}/${categoryName}/scores`,
+          label: categoryDisplayName,
+          isCurrent: categoryName == category,
+        }))}
+      >
         {player.playerName}'
         {player.playerName[player.playerName.length - 1] !== "s" && "s"} Profile
       </PageHeader>

@@ -29,6 +29,7 @@ export default function NavLink(props: NavLinkProps) {
         } else if (active) {
           classList.push("active");
         }
+        delete props.to;
         return <a {...props} href={href} className={classList.join(" ")} />;
       }}
     </CurrentRouteContext.Consumer>
