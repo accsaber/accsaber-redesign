@@ -59,7 +59,7 @@ const MapHeader = ({ mapId }: { mapId: string }) => {
         />
         <div
           className={[
-            "flex gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
+            "flex flex-col md:flex-row gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4",
           ].join(" ")}
         >
@@ -72,7 +72,7 @@ const MapHeader = ({ mapId }: { mapId: string }) => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <h1 className="flex gap-2 text-2xl font-bold">
+            <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row">
               {map.songAuthorName} - {map.songName}
               {map.songSubName ? <small>{map.songSubName}</small> : ""}
               <DifficultyLabel>{map.difficulty}</DifficultyLabel>
