@@ -8,11 +8,13 @@ export interface ErrorResponse {
 }
 
 const apiFetch = async (target: string | URL, init?: RequestInit) => {
-  const apiRequest = new Request(
-    new URL(target, "https://api.accsaber.com"),
-    init
-  );
-  return fetch(apiRequest);
+  const url = new URL(target, "https://api.accsaber.com");
+  console.time(`fetch ${url}`);
+  const apiRequest = new Request(url, init);
+  return fetch(apiRequest).then((response) => {
+    console.timeEnd(`fetch ${url}`);
+    return response;
+  });
 };
 
 // deno-lint-ignore no-explicit-any
