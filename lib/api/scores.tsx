@@ -43,7 +43,7 @@ const getPlayerScores = async (
     case "categoryDisplayName":
       scores.sort((a, b) => (a[sortBy] < b[sortBy] ? -1 : 1));
   }
-  if (reverse) scores.reverse();
+  if (!reverse) scores.reverse();
 
   return scores;
 };
