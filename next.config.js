@@ -6,6 +6,9 @@ const nextConfig = {
   images: {
     domains: ["cdn.scoresaber.com", "cdn.accsaber.com"],
   },
+  async rewrites() {
+    return [{ source: "/leaderboards", destination: "/leaderboards/overall" }];
+  },
 };
 
 module.exports = nextConfig;

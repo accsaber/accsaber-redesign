@@ -12,12 +12,12 @@ export default function MapLeaderboardPage({
   params,
   searchParams,
 }: {
-  params: { mapId?: string } | Record<string, string>;
-  searchParams:
+  params?: { mapId?: string } | Record<string, string>;
+  searchParams?:
     | { page?: string | string[] }
     | Record<string, string | string[]>;
 }) {
-  invariant(params.mapId);
+  invariant(params?.mapId);
 
   const pageSize = 50;
 
@@ -27,7 +27,7 @@ export default function MapLeaderboardPage({
     )
   );
 
-  const page = parseInt(searchParams.page?.toString() ?? "1");
+  const page = parseInt(searchParams?.page?.toString() ?? "1");
   const pages = Math.ceil(allleaderboard.length / pageSize);
 
   const leaderboard =
