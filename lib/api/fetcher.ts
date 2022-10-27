@@ -28,13 +28,4 @@ export const json = <T>(...params: Parameters<typeof apiFetch>) =>
 export const getPlayer = (userId: string, category = "overall") =>
   json<Player>(`players/${encodeURIComponent(userId)}/${category}`);
 
-export const getPlayerScores = async (userId: string, category = "overall") => {
-  const categoryString =
-    category == "overall" ? "" : `/${encodeURIComponent(category)}`;
-  const data = await json<PlayerScore[]>(
-    `players/${encodeURIComponent(userId)}${categoryString}/scores`
-  );
-  return data;
-};
-
 export default apiFetch;

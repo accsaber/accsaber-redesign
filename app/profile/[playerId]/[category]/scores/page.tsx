@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import { use } from "react";
 import Complexity from "~/app/Components/Complexity";
@@ -9,8 +8,9 @@ import { language } from "~/lib/api/config";
 import ms from "ms";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import Image from "next/image";
-import {} from "next";
 import invariant from "tiny-invariant";
+import getPlayerScores from "~/lib/api/scores";
+import { json } from "~/lib/api/fetcher";
 
 export default function PlayerScoresPage({
   params,
@@ -21,9 +21,22 @@ export default function PlayerScoresPage({
 }) {
   invariant(params?.playerId);
   invariant(params?.category);
-  const scores: PlayerScore[] = [];
+  const pageSize = 50;
+
+  const allScores = use(
+    getPlayerScores(
+      params.playerId,
+      params.category,
+      searchParams?.sortBy?.toString() as keyof PlayerScore
+    )
+  );
+
   const page = parseInt(searchParams?.page?.toString() ?? "1");
-  const pages = Math.ceil(scores.length / 50);
+  const pages = Math.ceil(allScores.length / 50);
+  const scores =
+    allScores.length > pageSize
+      ? [...allScores].splice(pageSize * (page - 1), pageSize)
+      : allScores;
 
   const columns: [keyof PlayerScore | null, string, number?][] = [
     ["rank", ""],
@@ -36,6 +49,7 @@ export default function PlayerScoresPage({
     ["timeSet", "Time Set"],
     ["complexity", "Complexity"],
   ];
+
   return (
     <div className="flex flex-col gap-8">
       <Pagination currentPage={page} pages={pages} />

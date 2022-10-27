@@ -1,6 +1,7 @@
 import { Category } from "../interfaces/api/category";
 import { PlayerScore } from "../interfaces/api/player-score";
-import { getPlayerScores, json } from "./fetcher";
+import { json } from "./fetcher";
+import getPlayerScores from "./scores";
 
 function weightedAverage(scores: PlayerScore[]): number {
   let averageAp = 0,

@@ -1,11 +1,8 @@
-import { useRouter } from "next/router";
-
 const SortButton: React.FC<{
   name: string;
   value: string;
   children: React.ReactNode;
 }> = ({ name, value, children }) => {
-  // const query = new URLSearchParams(useRouter().query);
   const query = new URLSearchParams();
   return (
     <form method="get">

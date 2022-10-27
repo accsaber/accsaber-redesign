@@ -10,10 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Category } from "~/lib/interfaces/api/category";
-import { PlayerScore } from "~/lib/interfaces/api/player-score";
-import { getPlayerScores, json } from "~/lib/api/fetcher";
-import { use } from "react";
-
 const SkillTriangle: React.FC<{
   children: number[];
   categories: Category[];
