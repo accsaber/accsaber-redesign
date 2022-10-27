@@ -3,7 +3,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import React, { createRef, useEffect, useState } from "react";
-import logo from "~/lib/images/logo.webp";
+import logo from "~/public/images/logo.webp";
 import PopoverMenu from "./Popover";
 import Image from "next/image";
 
@@ -94,7 +94,7 @@ const PageHeader: React.FC<{
                   src={image}
                   alt=""
                   className={`${
-                    iconRounded ?? true ? "rounded-full" : ""
+                    iconRounded ?? true ? "rounded-full" : "rounded"
                   } h-full aspect-square`}
                   width={32}
                   height={32}

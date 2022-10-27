@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { MouseEventHandler, useState } from "react";
-import logo from "~/lib/images/logo.webp";
+import logo from "~/public/images/logo.webp";
 import headerItems from "../../lib/headerItems";
 import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
@@ -17,6 +18,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
 
 const Header = () => {
   const [menuVisible, setMenu] = useState(false);
+  const route = usePathname();
   return (
     <>
       <header className="text-white bg-gradient-to-l from-blue-600 to-purple-600">
@@ -32,8 +34,12 @@ const Header = () => {
             />
           </Link>
           <nav className="flex-1 hidden gap-2 md:flex">
-            {headerItems.map(({ href, name }) => (
-              <Link href={href} key={href} className="headerNav">
+            {headerItems.map(({ href, name, match }) => (
+              <Link
+                href={href}
+                key={href}
+                className={`headerNav${match?.test(route) ? " active" : ""}`}
+              >
                 {name}
               </Link>
             ))}
@@ -65,11 +71,11 @@ const Header = () => {
           </button>
         </div>
         <nav className="flex flex-col flex-1 gap-2 p-2">
-          {headerItems.map(({ href, name }) => (
+          {headerItems.map(({ href, name, match }) => (
             <Link
               href={href}
               key={href}
-              className="headerNav"
+              className={`headerNav${match?.test(route) ? " active" : ""}`}
               onClick={() => setMenu(false)}
             >
               {name}

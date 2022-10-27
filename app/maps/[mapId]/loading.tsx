@@ -1,9 +1,8 @@
 import BlankBlock from "~/app/Components/BlankBlock";
-import LoadingSpinner from "~/app/Components/LoadingSpinner";
 
-const ScoreLoadingPage = () => {
+const MapLoadingPage = () => {
   return (
-    <div className="w-full max-w-full overflow-x-auto overflow-y-hidden prose dark:prose-invert">
+    <div className="max-w-full mx-auto overflow-auto prose md:max-w-screen-lg dark:prose-invert whitespace-nowrap">
       <table className="overflow-auto whitespace-nowrap">
         <thead>
           <tr>
@@ -52,4 +51,4 @@ const ScoreLoadingPage = () => {
   );
 };
 
-export default ScoreLoadingPage;
+export default MapLoadingPage;
