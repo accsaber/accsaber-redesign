@@ -9,6 +9,7 @@ import Image from "next/image";
 
 const PageHeader: React.FC<{
   image?: string;
+  transparent?: boolean;
   hideTitleUntilScrolled?: boolean;
   navigation?: {
     label: string;
@@ -21,6 +22,7 @@ const PageHeader: React.FC<{
 }> = ({
   children,
   image,
+  transparent,
   hideTitleUntilScrolled,
   navigation,
   actionButton,
@@ -49,8 +51,8 @@ const PageHeader: React.FC<{
           "sticky top-0 z-40",
           "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
           "transition-all",
-          hideTitleUntilScrolled ? "-mb-16" : "",
-          hideTitleUntilScrolled && !scrolled
+          transparent ? "-mb-16" : "",
+          transparent && !scrolled
             ? "bg-opacity-0 dark:bg-opacity-0"
             : "shadow",
         ].join(" ")}
@@ -61,7 +63,10 @@ const PageHeader: React.FC<{
             className={[
               "w-12 h-12 aspect-square p-2 flex ",
               "hover:bg-black/5 dark:hover:bg-black/10 items-center gap-2 font-semibold transition-all",
-              !scrolled ? "-mr-16 opacity-0 pointer-events-none" : "-mr-2",
+              !scrolled && !hideTitleUntilScrolled
+                ? "-mr-16 pointer-events-none"
+                : "-mr-2",
+              !scrolled ? "opacity-0" : "",
             ].join(" ")}
             aria-label="Home"
           >
@@ -77,10 +82,10 @@ const PageHeader: React.FC<{
           </Link>
           <div
             className={`transition-all ${
-              scrolled
+              scrolled || hideTitleUntilScrolled
                 ? `w-px h-10 bg-black/10 dark:bg-white/5 mx-0 -ml-1`
                 : "-mx-2"
-            }`}
+            } ${hideTitleUntilScrolled && !scrolled ? "opacity-0" : ""}`}
           ></div>
           <div
             className={[
@@ -139,7 +144,7 @@ const PageHeader: React.FC<{
           <div
             className={[
               "flex flex-1 gap-2 items-center p-2 transition-opacity font-semibold",
-              hideTitleUntilScrolled && !scrolled ? "opacity-0" : "",
+              transparent && !scrolled ? "opacity-0" : "",
             ].join(" ")}
           >
             {image ? (

@@ -19,6 +19,8 @@ const MapHeader = ({ mapId }: { mapId: string }) => {
       <PageHeader
         image={`https://cdn.accsaber.com/covers/${map.songHash.toUpperCase()}.png`}
         iconRounded={false}
+        transparent
+        hideTitleUntilScrolled
         actionButton={
           <div className="flex">
             <a
@@ -57,7 +59,7 @@ const MapHeader = ({ mapId }: { mapId: string }) => {
         />
         <div
           className={[
-            "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
+            "flex gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4",
           ].join(" ")}
         >

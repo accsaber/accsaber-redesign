@@ -28,6 +28,7 @@ export default function PlayerHeader({
   return (
     <>
       <PageHeader
+        transparent
         image={profile.avatarUrl}
         navigation={[
           {
@@ -45,6 +46,7 @@ export default function PlayerHeader({
         {profile.playerName}&apos;s Profile
       </PageHeader>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
+        <div className="h-16" />
         <Image
           src={profile.avatarUrl}
           className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
@@ -54,7 +56,7 @@ export default function PlayerHeader({
         />
         <div
           className={[
-            "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
+            "flex gap-6 py-4 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4 flex-wrap justify-center relative",
           ].join(" ")}
         >
