@@ -16,11 +16,6 @@ import LoadingSpinner from "~/app/Components/LoadingSpinner";
 
 const MapHeader = ({ mapId }: { mapId: string }) => {
   const map = use(json<RankedMap>(`ranked-maps/${encodeURIComponent(mapId)}`));
-  use(
-    new Promise((resolve) => {
-      setTimeout(() => resolve([]), 3000);
-    })
-  );
 
   return (
     <>
