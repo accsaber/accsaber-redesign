@@ -4,9 +4,7 @@ const productionConfig: ApiConfig = {
   apiURL: "https://api.accsaber.com/",
   cdnURL: "https://accsaber.com/cdn/",
   imageURL: "https://images.accsaber.com/",
-  redisURL: `redis://${
-    "FLY_REGION" in (process?.env ?? {}) ? process?.env?.FLY_REGION + "." : ""
-  }accsaber-redis.internal:6379`,
+  redisURL: process.env?.REDIS_URL ?? "nearest.accsaber-redis.internal",
   defaultLocale: "en-AU",
   isBeta: false,
 };
