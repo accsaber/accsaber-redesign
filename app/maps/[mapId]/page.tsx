@@ -7,6 +7,8 @@ import { json } from "~/lib/api/fetcher";
 import { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-player";
 import Image from "next/image";
 import Pagination from "~/app/Components/Pagination";
+import { notFound } from "next/navigation";
+import MapHeader from "../Components/MapHeader";
 
 export default function MapLeaderboardPage({
   params,
@@ -18,6 +20,8 @@ export default function MapLeaderboardPage({
     | Record<string, string | string[]>;
 }) {
   invariant(params?.mapId);
+
+  if (/[^0-9]/.test(params.mapId)) throw notFound();
 
   const pageSize = 50;
 

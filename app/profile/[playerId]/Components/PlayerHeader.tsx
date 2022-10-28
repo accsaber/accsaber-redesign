@@ -8,11 +8,11 @@ import { getPlayer, json } from "~/lib/api/fetcher";
 import { getSkills } from "~/lib/api/skills";
 import { Category } from "~/lib/interfaces/api/category";
 import RankGraphContainer from "./RankGraphContainer";
-import SkillTriangle from "./SkillTriangle";
 import getCampaignStatus, { getHighestLevel } from "~/lib/api/campaign";
 import PageHeader from "~/app/Components/PageHeader";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import SkillsContainer from "./SkillsContainer";
+import Title from "~/app/Components/Title";
 
 export default function PlayerHeader({
   playerId,
@@ -45,6 +45,7 @@ export default function PlayerHeader({
       >
         {profile.playerName}&apos;s Profile
       </PageHeader>
+      <Title>{`${profile.playerName}'s Profile`}</Title>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
         <div className="h-16" />
         <Image

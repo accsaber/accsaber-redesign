@@ -10,12 +10,21 @@ import {
 import Image from "next/image";
 import DifficultyLabel from "~/app/Components/DifficultyLabel";
 import Complexity from "~/app/Components/Complexity";
+import Title from "~/app/Components/Title";
+import BlankBlock from "~/app/Components/BlankBlock";
+import LoadingSpinner from "~/app/Components/LoadingSpinner";
 
 const MapHeader = ({ mapId }: { mapId: string }) => {
   const map = use(json<RankedMap>(`ranked-maps/${encodeURIComponent(mapId)}`));
+  use(
+    new Promise((resolve) => {
+      setTimeout(() => resolve([]), 3000);
+    })
+  );
 
   return (
     <>
+      <Title>{`${map.songAuthorName} - ${map.songName}`}</Title>
       <PageHeader
         image={`https://cdn.accsaber.com/covers/${map.songHash.toUpperCase()}.png`}
         iconRounded={false}
@@ -88,5 +97,37 @@ const MapHeader = ({ mapId }: { mapId: string }) => {
     </>
   );
 };
+
+export const MapHeaderFallback = () => (
+  <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
+    <div
+      className={[
+        "flex flex-col md:flex-row gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
+        "max-w-screen-lg mx-auto px-4",
+      ].join(" ")}
+    >
+      <div className="flex items-center justify-center w-32 h-32 overflow-hidden rounded-lg bg-neutral-200 dark:bg-neutral-800 aspect-square text">
+        <LoadingSpinner />
+      </div>
+      <div className="flex flex-col gap-1">
+        <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row">
+          <BlankBlock width="20rem" />
+          <BlankBlock width="4rem" />
+        </h1>
+        <div className="text-xl">
+          <BlankBlock width="5em" />
+        </div>
+        <div className="text-xl">
+          <BlankBlock width="16rem" />
+        </div>
+        {/* <div className="w-full h-6 my-1 bg-current rounded opacity-30 animate-pulse" /> */}
+
+        <div className="text-xl">
+          <BlankBlock width="100%" />
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 export default MapHeader;

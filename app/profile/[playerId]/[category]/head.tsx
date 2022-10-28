@@ -11,7 +11,7 @@ export default function PlayerProfileHead({
   const player = use(getPlayer(params?.playerId));
   return (
     <>
-      <title>{`${player.playerName}'s Profile`}</title>
+      <title key="pageTitle">{`${player.playerName}'s Profile`}</title>
     </>
   );
 }

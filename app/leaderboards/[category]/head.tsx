@@ -1,7 +1,7 @@
 export default function LeaderboardHead() {
   return (
     <>
-      <title>{`AccSaber leaderboards`}</title>
+      <title key="pageTitle">{`AccSaber leaderboards`}</title>
     </>
   );
 }

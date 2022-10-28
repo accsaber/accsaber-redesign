@@ -1,5 +1,6 @@
-import React from "react";
-import MapHeader from "../Components/MapHeader";
+import React, { Suspense } from "react";
+import LoadingSpinner from "~/app/Components/LoadingSpinner";
+import MapHeader, { MapHeaderFallback } from "../Components/MapHeader";
 
 const MapLayout = ({
   children,
@@ -10,7 +11,9 @@ const MapLayout = ({
 }) => {
   return (
     <>
-      <MapHeader mapId={params.mapId} />
+      <Suspense fallback={<MapHeaderFallback />}>
+        <MapHeader mapId={params.mapId} />
+      </Suspense>
 
       {children}
     </>
