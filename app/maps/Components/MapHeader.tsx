@@ -13,9 +13,14 @@ import Complexity from "~/app/Components/Complexity";
 import Title from "~/app/Components/Title";
 import BlankBlock from "~/app/Components/BlankBlock";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
+import { notFound } from "next/navigation";
 
 const MapHeader = ({ mapId }: { mapId: string }) => {
-  const map = use(json<RankedMap>(`ranked-maps/${encodeURIComponent(mapId)}`));
+  const map = use(
+    json<RankedMap>(`ranked-maps/${encodeURIComponent(mapId)}`).catch((err) => {
+      throw notFound();
+    })
+  );
 
   return (
     <>

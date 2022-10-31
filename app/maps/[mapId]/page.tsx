@@ -3,7 +3,7 @@ import Link from "next/link";
 import { use } from "react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
-import { json } from "~/lib/api/fetcher";
+import { isErrorResponse, json } from "~/lib/api/fetcher";
 import { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-player";
 import Image from "next/image";
 import Pagination from "~/app/Components/Pagination";
@@ -25,22 +25,23 @@ export default function MapLeaderboardPage({
 
   const pageSize = 50;
 
-  const allleaderboard = use(
+  const allLeaderboard = use(
     json<MapLeaderboardPlayer[]>(
       `map-leaderboards/${encodeURIComponent(params.mapId)}`
     )
   );
 
   const page = parseInt(searchParams?.page?.toString() ?? "1");
-  const pages = Math.ceil(allleaderboard.length / pageSize);
+  const pages = Math.ceil(allLeaderboard.length / pageSize);
 
   const leaderboard =
-    allleaderboard.length > pageSize
-      ? [...allleaderboard].splice(pageSize * (page - 1), pageSize)
-      : allleaderboard;
+    allLeaderboard.length > pageSize
+      ? [...allLeaderboard].splice(pageSize * (page - 1), pageSize)
+      : allLeaderboard;
 
   return (
     <>
+      <MapHeader mapId={params.mapId} />
       <div className="max-w-screen-lg p-4 mx-auto">
         <Pagination pages={pages} currentPage={page} />
       </div>

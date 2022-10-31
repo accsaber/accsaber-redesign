@@ -15,14 +15,14 @@ const apiFetch = async (target: string | URL, init?: RequestInit) => {
   return fetch(apiRequest);
 };
 
-// deno-lint-ignore no-explicit-any
 export const isErrorResponse = (response: any): response is ErrorResponse =>
   typeof response.message == "string" && typeof response.errorCode == "string";
 
 export const json = <T>(...params: Parameters<typeof apiFetch>) =>
-  apiFetch(...params).then((response) => {
-    if ("errorCode" in response) throw response;
-    return response.json() as Promise<T>;
+  apiFetch(...params).then(async (response) => {
+    const data = (await response.json()) as T | ErrorResponse;
+    if (isErrorResponse(data)) throw data;
+    else return data;
   });
 
 export const getPlayer = (userId: string, category = "overall") =>
