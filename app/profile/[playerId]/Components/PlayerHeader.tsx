@@ -13,6 +13,7 @@ import PageHeader from "~/app/Components/PageHeader";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import SkillsContainer from "./SkillsContainer";
 import Title from "~/app/Components/Title";
+import { notFound } from "next/navigation";
 
 export default function PlayerHeader({
   playerId,
@@ -21,7 +22,11 @@ export default function PlayerHeader({
   playerId: string;
   category: string;
 }) {
-  const profile = use(getPlayer(playerId, category));
+  const profile = use(
+    getPlayer(playerId, category).catch((error) => {
+      throw notFound();
+    })
+  );
   const campaignStatus = use(getCampaignStatus(playerId));
   const categories = use(json<Category[]>("categories"));
 

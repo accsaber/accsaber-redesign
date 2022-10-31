@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { use } from "react";
 import invariant from "tiny-invariant";
 import Pagination from "~/app/Components/Pagination";
@@ -17,7 +18,9 @@ const LeaderboardPage = ({
   const pageSize = 50;
 
   const allStandings = use(
-    json<Player[]>(`categories/${params.category}/standings`)
+    json<Player[]>(`categories/${params.category}/standings`).catch(() => {
+      throw notFound();
+    })
   );
 
   const page = parseInt(searchParams.page?.toString() ?? "1");
