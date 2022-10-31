@@ -1,12 +1,8 @@
 import type ApiConfig from "../../interfaces/config";
 
 const productionConfig: ApiConfig = {
-  apiURL: "https://api.accsaber.com/",
-  cdnURL: "https://accsaber.com/cdn/",
-  imageURL: "https://images.accsaber.com/",
-  redisURL: `redis://${
-    "FLY_REGION" in (process?.env ?? {}) ? process?.env?.FLY_REGION + "." : ""
-  }accsaber-redis.internal:6379`,
+  apiURL: "https://api.accsaber-dev.ixsen.de/",
+  cdnURL: "https://cdn.accsaber-dev.ixsen.de/",
   defaultLocale: "en-AU",
   isBeta: false,
 };
