@@ -7,6 +7,7 @@ import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import config from "~/lib/api/config";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
@@ -39,6 +40,13 @@ const Header = () => {
               className="w-8 h-8 aspect-square"
             />
           </Link>
+          <div>
+            {config.isBeta && (
+              <div className="block px-1 font-semibold text-purple-800 uppercase bg-white rounded">
+                Beta
+              </div>
+            )}
+          </div>
           <nav className="flex-1 hidden gap-2 md:flex">
             {headerItems.map(({ href, name, match }) => (
               <Link

@@ -1,4 +1,5 @@
 import type { Player } from "$interfaces/api/player";
+import config from "./config";
 
 export interface ErrorResponse {
   message: string;
@@ -6,10 +7,7 @@ export interface ErrorResponse {
 }
 
 const apiFetch = async (target: string | URL, init?: RequestInit) => {
-  const apiRequest = new Request(
-    new URL(target, "https://api.accsaber.com"),
-    init
-  );
+  const apiRequest = new Request(new URL(target, config.apiURL), init);
   return fetch(apiRequest);
 };
 
