@@ -91,7 +91,7 @@ export default function ScoreHistoryButton({
                     </thead>
                     <tbody>
                       {scoreHistory.map(([date, accuracy]) => (
-                        <tr key={Date.toString()}>
+                        <tr key={date.toString()}>
                           <td title={date.toLocaleString()}>
                             {DateTime.fromJSDate(date).toRelative()}
                           </td>
