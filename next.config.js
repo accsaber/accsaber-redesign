@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: { appDir: true, runtime: "experimental-edge" },
+  experimental: {
+    appDir: true,
+    runtime: "experimental-edge",
+    enableUndici: true,
+  },
   images: {
     domains: ["cdn.scoresaber.com", "cdn.accsaber.com"],
   },
