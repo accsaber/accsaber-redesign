@@ -11,6 +11,7 @@ import Image from "next/image";
 import invariant from "tiny-invariant";
 import getPlayerScores from "~/lib/api/scores";
 import { json } from "~/lib/api/fetcher";
+import ScoreRow from "../../Components/ScoreRow";
 
 export default function PlayerScoresPage({
   params,
@@ -44,6 +45,7 @@ export default function PlayerScoresPage({
     ["difficulty", "Difficulty"],
     ["categoryDisplayName", "Category"],
     ["accuracy", "Accuracy"],
+    [null, ""],
     ["ap", "AP"],
     ["weightedAp", "Weighted"],
     ["timeSet", "Time Set"],
@@ -72,54 +74,11 @@ export default function PlayerScoresPage({
           </thead>
           <tbody>
             {scores.map((score) => (
-              <tr key={score.songHash + score.difficulty}>
-                <td>#{score.rank}</td>
-
-                <td className="relative min-w-[2.5rem]">
-                  <Image
-                    src={`https://cdn.accsaber.com/covers/${score.songHash.toUpperCase()}.png`}
-                    className="absolute top-0 left-0 m-0"
-                    loading="lazy"
-                    alt="Cover art"
-                    width={40}
-                    height={40}
-                  />
-                </td>
-                <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
-                  <Link href={`/maps/${score.leaderboardId}`}>
-                    {score.songAuthorName} - {score.songName}
-                  </Link>
-                </td>
-                <td>
-                  <DifficultyLabel>{score.difficulty}</DifficultyLabel>
-                </td>
-                <td>{score.categoryDisplayName}</td>
-                <td>
-                  {(score.accuracy * 100).toLocaleString(language, {
-                    maximumFractionDigits: 2,
-                  })}
-                  %
-                </td>
-                <td>
-                  {score.ap.toLocaleString(language, {
-                    maximumFractionDigits: 2,
-                  })}
-                </td>
-                <td>
-                  {score.weightedAp?.toLocaleString(language, {
-                    maximumFractionDigits: 2,
-                  })}
-                </td>
-                <td title={new Date(score.timeSet).toLocaleString(language)}>
-                  {ms(Date.now() - new Date(score.timeSet).getTime(), {
-                    long: true,
-                  })}{" "}
-                  ago
-                </td>
-                <td>
-                  <Complexity>{score.complexity}</Complexity>
-                </td>
-              </tr>
+              <ScoreRow
+                playerId={params.playerId}
+                score={score}
+                key={score.songHash + score.difficulty}
+              />
             ))}
           </tbody>
         </table>
