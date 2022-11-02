@@ -7,7 +7,13 @@ const nextConfig = {
     domains: ["cdn.scoresaber.com", "cdn.accsaber.com"],
   },
   async redirects() {
-    return [{ source: "/leaderboards", destination: "/leaderboards/overall" }];
+    return [
+      {
+        source: "/leaderboards",
+        destination: "/leaderboards/overall",
+        permanent: true,
+      },
+    ];
   },
 };
 
