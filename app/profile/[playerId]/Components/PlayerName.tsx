@@ -1,5 +1,4 @@
-import { ReactNode, use } from "react";
-import type CampaignStatus from "$interfaces/campaign/campaignStatus";
+import { use } from "react";
 import Image from "next/image";
 import getCampaignStatus, { getHighestLevel } from "~/lib/api/campaign";
 import { Player } from "~/lib/interfaces/api/player";

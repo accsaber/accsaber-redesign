@@ -1,7 +1,6 @@
-import { notFound } from "next/navigation";
 import { use } from "react";
 import invariant from "tiny-invariant";
-import { getPlayer, json } from "~/lib/api/fetcher";
+import { getPlayer } from "~/lib/api/fetcher";
 
 export default function PlayerProfileHead({
   params,

@@ -1,6 +1,6 @@
 "use client";
-import { ChartBarIcon, SortAscendingIcon, XIcon } from "@heroicons/react/solid";
-import { useState, useRef, lazy } from "react";
+import { ChartBarIcon, XIcon } from "@heroicons/react/solid";
+import { useState, useRef } from "react";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import { json } from "~/lib/api/fetcher";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";

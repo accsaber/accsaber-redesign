@@ -2,7 +2,7 @@ import Link from "next/link";
 import { use } from "react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
-import { isErrorResponse, json } from "~/lib/api/fetcher";
+import { json } from "~/lib/api/fetcher";
 import { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-player";
 import Image from "next/image";
 import Pagination from "~/app/Components/Pagination";
