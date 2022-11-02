@@ -1,6 +1,4 @@
 import type { Player } from "$interfaces/api/player";
-import type { PlayerScore } from "$interfaces/api/player-score";
-import useSWR from "swr";
 
 export interface ErrorResponse {
   message: string;
