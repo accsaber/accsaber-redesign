@@ -123,7 +123,7 @@ export default function ScoreHistoryButton({
                               ])
                               .reverse()
                           ),
-                          label: "rank",
+                          label: "Accuracy",
                           borderColor: "#2563eb",
                         },
                       ],
