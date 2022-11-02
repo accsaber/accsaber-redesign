@@ -59,7 +59,7 @@ export default function ScoreHistoryButton({
       </button>
       <dialog
         ref={(_this) => (historyDialog.current = _this ?? undefined)}
-        className="p-6 shadow-xl rounded-2xl"
+        className="p-6 bg-white shadow-xl rounded-2xl dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100"
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-center h-10 gap-3">
@@ -81,7 +81,7 @@ export default function ScoreHistoryButton({
           {!error ? (
             scoreHistory ? (
               <div className="flex flex-col min-h-[16rem] gap-4 md:flex-row">
-                <div className="w-full prose md:w-72">
+                <div className="w-full prose dark:prose-invert prose-neutral md:w-72">
                   <table>
                     <thead>
                       <tr>
