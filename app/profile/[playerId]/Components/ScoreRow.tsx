@@ -29,7 +29,7 @@ export default function ScoreRow({
         />
       </td>
       <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
-        <Link href={`/maps/${score.leaderboardId}`}>
+        <Link prefetch={false} href={`/maps/${score.leaderboardId}`}>
           {score.songAuthorName} - {score.songName}
         </Link>
       </td>

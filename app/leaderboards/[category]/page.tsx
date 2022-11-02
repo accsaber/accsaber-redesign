@@ -15,7 +15,7 @@ const LeaderboardPage = ({
 }) => {
   invariant(params.category);
 
-  const pageSize = 50;
+  const pageSize = 25;
 
   const allStandings = use(
     json<Player[]>(`categories/${params.category}/standings`).catch(() => {

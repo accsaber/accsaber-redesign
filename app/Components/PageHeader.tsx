@@ -59,6 +59,7 @@ const PageHeader: React.FC<{
       >
         <div className="flex items-center max-w-screen-lg gap-4 px-4 mx-auto">
           <Link
+            prefetch={false}
             href={"/"}
             className={[
               "w-12 h-12 aspect-square p-2 flex ",
@@ -114,6 +115,7 @@ const PageHeader: React.FC<{
             <nav className="flex-1 hidden gap-2 md:flex">
               {navigation.map(({ label, href, isCurrent }) => (
                 <Link
+                  prefetch={false}
                   href={`${href}`}
                   key={href}
                   className={["pageNav", isCurrent ? "active" : ""].join(" ")}
@@ -176,6 +178,7 @@ const PageHeader: React.FC<{
           <nav className="flex flex-col flex-1 gap-2 p-2">
             {navigation.map(({ label, href }) => (
               <Link
+                prefetch={false}
                 href={`${href}`}
                 key={href}
                 className={["pageNav"].join(" ")}

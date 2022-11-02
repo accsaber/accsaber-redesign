@@ -73,7 +73,10 @@ export default function MapLeaderboardPage({
                   />
                 </td>
                 <td>
-                  <Link href={`/profile/${score.playerId}/overall/scores`}>
+                  <Link
+                    prefetch={false}
+                    href={`/profile/${score.playerId}/overall/scores`}
+                  >
                     {score.playerName}
                   </Link>
                 </td>

@@ -10,7 +10,12 @@ import { usePathname } from "next/navigation";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
-    <Link className="p-3 headerNav" href="/search" onClick={onClick}>
+    <Link
+      prefetch={false}
+      className="p-3 headerNav"
+      href="/search"
+      onClick={onClick}
+    >
       <SearchIcon className="w-5 h-5" />
     </Link>
   </>
@@ -24,6 +29,7 @@ const Header = () => {
       <header className="text-white bg-gradient-to-l from-blue-600 to-purple-600">
         <div className="flex items-center max-w-screen-lg gap-2 p-2 mx-auto">
           <Link
+            prefetch={false}
             href={"/"}
             className="flex items-center h-12 gap-2 p-2 -mr-2 font-semibold rounded-full hover:bg-black/10"
           >
@@ -36,6 +42,7 @@ const Header = () => {
           <nav className="flex-1 hidden gap-2 md:flex">
             {headerItems.map(({ href, name, match }) => (
               <Link
+                prefetch={false}
                 href={href}
                 key={href}
                 className={`headerNav${match?.test(route) ? " active" : ""}`}
@@ -73,6 +80,7 @@ const Header = () => {
         <nav className="flex flex-col flex-1 gap-2 p-2">
           {headerItems.map(({ href, name, match }) => (
             <Link
+              prefetch={false}
               href={href}
               key={href}
               className={`headerNav${match?.test(route) ? " active" : ""}`}

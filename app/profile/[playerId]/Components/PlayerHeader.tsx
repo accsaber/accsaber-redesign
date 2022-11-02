@@ -93,6 +93,7 @@ export default function PlayerHeader({
               <div className="flex flex-1 gap-1 text-2xl">
                 <div>
                   <Link
+                    prefetch={false}
                     href={`/leaderboards/${category}?page=${
                       Math.floor(profile.rank / 50) + 1
                     }`}

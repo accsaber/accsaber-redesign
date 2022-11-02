@@ -20,7 +20,7 @@ const MapRow = ({ map, padLeft }: { map: RankedMap; padLeft?: boolean }) => (
     </td>
 
     <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
-      <Link href={`/maps/${map.leaderboardId}`}>
+      <Link prefetch={false} href={`/maps/${map.leaderboardId}`}>
         {map.songAuthorName} - {map.songName}
       </Link>
     </td>
