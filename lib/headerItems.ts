@@ -3,7 +3,7 @@ import type HeaderItem from "./interfaces/components/header/item";
 const headerItems: HeaderItem[] = [
   {
     name: "Leaderboards",
-    href: "/leaderboards",
+    href: "/leaderboards/overall",
     icon: "list",
     match: /^\/((?:leaderboards)|(?:profile)).*$/,
   },

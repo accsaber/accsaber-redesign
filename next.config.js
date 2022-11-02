@@ -6,7 +6,7 @@ const nextConfig = {
   images: {
     domains: ["cdn.scoresaber.com", "cdn.accsaber.com"],
   },
-  async rewrites() {
+  async redirects() {
     return [{ source: "/leaderboards", destination: "/leaderboards/overall" }];
   },
 };
