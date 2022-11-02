@@ -54,8 +54,9 @@ export default function ScoreHistoryButton({
           historyDialog.current?.showModal();
           if (scoreHistory === undefined) loadScoreHistory();
         }}
+        className="inline align-middle"
       >
-        <ChartBarIcon className="w-4 h-4" />
+        <ChartBarIcon className="w-4 h-6" />
       </button>
       <dialog
         ref={(_this) => (historyDialog.current = _this ?? undefined)}
