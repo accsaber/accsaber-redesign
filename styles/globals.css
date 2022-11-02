@@ -9,6 +9,10 @@ body {
   margin: 0;
 }
 
+::backdrop {
+  @apply bg-black/50 backdrop-blur;
+}
+
 @layer components {
   .easy {
     @apply bg-green-400;
