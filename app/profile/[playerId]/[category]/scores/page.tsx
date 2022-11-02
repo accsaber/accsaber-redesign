@@ -5,7 +5,6 @@ import DifficultyLabel from "~/app/Components/DifficultyLabel";
 import Pagination from "~/app/Components/Pagination";
 import SortButton from "~/app/Components/SortButton";
 import { language } from "~/lib/api/config";
-import ms from "ms";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import Image from "next/image";
 import invariant from "tiny-invariant";
