@@ -21,7 +21,7 @@ export const isErrorResponse = (response: any): response is ErrorResponse =>
 export const json = <T>(...params: Parameters<typeof apiFetch>) =>
   apiFetch(...params).then(async (response) => {
     const data = (await response.json()) as T | ErrorResponse;
-    if (isErrorResponse(data)) throw data;
+    if (isErrorResponse(data) || response.status >= 400) throw data;
     else return data;
   });
 
