@@ -3,22 +3,21 @@ lockfileVersion: 5.4
 specifiers:
   '@heroicons/react': '1'
   '@tailwindcss/typography': ^0.5.7
-  '@types/ms': ^0.7.31
+  '@types/luxon': ^3.0.2
   '@types/node': 18.11.5
   '@types/react': 18.0.23
   '@types/react-dom': 18.0.7
   autoprefixer: ^10.4.12
   chart.js: ^3.9.1
+  chartjs-adapter-luxon: ^1.2.0
   eslint: 8.26.0
   eslint-config-next: 13.0.0
-  frappe-charts: ^1.6.2
-  ms: ^2.1.3
+  luxon: ^3.1.0
   next: 13.0.0
   postcss: ^8.4.18
   react: 18.2.0
   react-chartjs-2: ^4.3.1
   react-dom: 18.2.0
-  react-frappe-charts: ^4.1.0
   sharp: ^0.31.1
   swr: ^1.3.0
   tailwindcss: ^3.2.1
@@ -29,19 +28,18 @@ dependencies:
   '@heroicons/react': 1.0.6_react@18.2.0
   '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.1
   chart.js: 3.9.1
-  frappe-charts: 1.6.2
-  ms: 2.1.3
+  chartjs-adapter-luxon: 1.2.0_chart.js@3.9.1+luxon@3.1.0
+  luxon: 3.1.0
   next: 13.0.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-chartjs-2: 4.3.1_2unjvz6v6rskedwoxtmbfw2rje
   react-dom: 18.2.0_react@18.2.0
-  react-frappe-charts: 4.1.0_lbmkygfjs3cddxtcbmjrj4qiwe
   sharp: 0.31.1
   swr: 1.3.0_react@18.2.0
   tiny-invariant: 1.3.1
 
 devDependencies:
-  '@types/ms': 0.7.31
+  '@types/luxon': 3.0.2
   '@types/node': 18.11.5
   '@types/react': 18.0.23
   '@types/react-dom': 18.0.7
@@ -285,8 +283,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/ms/0.7.31:
-    resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
+  /@types/luxon/3.0.2:
+    resolution: {integrity: sha512-HM2OVWckUMmXbWYZufmWT2XMURGDZ6XbyNyQ+Lx+gCFGFqbZaIjsz7b+AGeGP/AuVYHBiuGY+wXfweP1RremnA==}
     dev: true
 
   /@types/node/18.11.5:
@@ -595,6 +593,16 @@ packages:
 
   /chart.js/3.9.1:
     resolution: {integrity: sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==}
+    dev: false
+
+  /chartjs-adapter-luxon/1.2.0_chart.js@3.9.1+luxon@3.1.0:
+    resolution: {integrity: sha512-h1lEns7+8cUN/Dmk24dhrT9hpAimKImQxzHpILqXn2kocdzj9b/fDlBa8v8/OMq5rq0uZEx/NV1WpByH4l2/Rw==}
+    peerDependencies:
+      chart.js: ^3.0.0
+      luxon: '>=1.0.0'
+    dependencies:
+      chart.js: 3.9.1
+      luxon: 3.1.0
     dev: false
 
   /chokidar/3.5.3:
@@ -1190,10 +1198,6 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
-  /frappe-charts/1.6.2:
-    resolution: {integrity: sha512-9TC3/+YVUi84yYoEbxFiSqu+1FQ5If/ydUNj6i8FRpwynd08t6a7RkS+IRJozAk6NfdL8/LVTTE1DUOjjKZZxg==}
-    dev: false
-
   /fs-constants/1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
     dev: false
@@ -1580,6 +1584,11 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /luxon/3.1.0:
+    resolution: {integrity: sha512-7w6hmKC0/aoWnEsmPCu5Br54BmbmUp5GfcqBxQngRcXJ+q5fdfjEzn7dxmJh2YdDhgW8PccYtlWKSv4tQkrTQg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -1619,6 +1628,7 @@ packages:
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
+    dev: true
 
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
@@ -1987,18 +1997,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
-
-  /react-frappe-charts/4.1.0_lbmkygfjs3cddxtcbmjrj4qiwe:
-    resolution: {integrity: sha512-DeQrzy2nGawbQsMQHpNeXAXuhkK0myWzr/d75k/UCcff57JsPxsyQz15jRNtlWN9j6JcdN9Y7awyGIgXxjZq7w==}
-    peerDependencies:
-      frappe-charts: '>= 1.5.2'
-      react: '>= 16.8.0'
-      react-dom: '>= 16.8.0'
-    dependencies:
-      frappe-charts: 1.6.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-is/16.13.1:

@@ -9,6 +9,7 @@ import Image from "next/image";
 import Pagination from "~/app/Components/Pagination";
 import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";
+import { DateTime } from "luxon";
 
 export default function MapLeaderboardPage({
   params,
@@ -81,10 +82,7 @@ export default function MapLeaderboardPage({
                   title={new Date(score.timeSet).toLocaleString(language)}
                   className="whitespace-nowrap"
                 >
-                  {ms(Date.now() - new Date(score.timeSet).getTime(), {
-                    long: true,
-                  })}{" "}
-                  ago
+                  {DateTime.fromISO(score.timeSet).toRelative()}
                 </td>
                 <td>
                   {(score.accuracy * 100).toLocaleString(language, {

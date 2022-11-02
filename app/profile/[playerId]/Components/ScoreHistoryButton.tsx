@@ -6,13 +6,15 @@ import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import { json } from "~/lib/api/fetcher";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import { Line } from "react-chartjs-2";
+import { DateTime } from "luxon";
 import Image from "next/image";
+import "chartjs-adapter-luxon";
 import {
   LineElement,
   Chart,
   LinearScale,
-  CategoryScale,
   PointElement,
+  TimeSeriesScale,
 } from "chart.js";
 
 export default function ScoreHistoryButton({
@@ -25,7 +27,7 @@ export default function ScoreHistoryButton({
   const [scoreHistory, setScoreHistory] = useState<[Date, number][] | null>();
   const [error, setError] = useState<Record<string, any>>();
 
-  Chart.register(LineElement, LinearScale, CategoryScale, PointElement);
+  Chart.register(LineElement, LinearScale, TimeSeriesScale, PointElement);
 
   const historyDialog = useRef<HTMLDialogElement>();
 
@@ -92,8 +94,7 @@ export default function ScoreHistoryButton({
                       {scoreHistory.map(([date, accuracy]) => (
                         <tr key={Date.toString()}>
                           <td title={date.toLocaleString()}>
-                            {ms(Date.now() - date.getTime(), { long: true })}{" "}
-                            ago
+                            {DateTime.fromJSDate(date).toRelative()}
                           </td>
                           <td>
                             {(accuracy * 100).toLocaleString(
@@ -117,7 +118,7 @@ export default function ScoreHistoryButton({
                           data: Object.fromEntries(
                             scoreHistory
                               .map(([date, accuracy]) => [
-                                date.toLocaleDateString(),
+                                date.toISOString(),
                                 accuracy * 100,
                               ])
                               .reverse()
@@ -144,11 +145,8 @@ export default function ScoreHistoryButton({
                         mode: "index",
                       },
                       scales: {
-                        y: {
-                          reverse: false,
-                          ticks: {
-                            precision: 0,
-                          },
+                        x: {
+                          type: "timeseries",
                         },
                       },
                       elements: {

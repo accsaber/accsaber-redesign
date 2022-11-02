@@ -4,15 +4,16 @@ import {
   LineElement,
   Chart,
   LinearScale,
-  CategoryScale,
+  TimeSeriesScale,
   PointElement,
 } from "chart.js";
+import "chartjs-adapter-luxon";
 
 const RankGraph: React.FC<{
   children?: never;
   history: [string, number][];
 }> = ({ history }) => {
-  Chart.register(LineElement, LinearScale, CategoryScale, PointElement);
+  Chart.register(LineElement, LinearScale, TimeSeriesScale, PointElement);
 
   return (
     <Line
@@ -36,6 +37,9 @@ const RankGraph: React.FC<{
           mode: "index",
         },
         scales: {
+          x: {
+            type: "timeseries",
+          },
           y: {
             reverse: true,
             ticks: {

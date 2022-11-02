@@ -6,6 +6,7 @@ import { language } from "~/lib/api/config";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import Image from "next/image";
 import ScoreHistoryButton from "./ScoreHistoryButton";
+import { DateTime } from "luxon";
 
 export default function ScoreRow({
   score,
@@ -57,10 +58,7 @@ export default function ScoreRow({
         })}
       </td>
       <td title={new Date(score.timeSet).toLocaleString(language)}>
-        {ms(Date.now() - new Date(score.timeSet).getTime(), {
-          long: true,
-        })}{" "}
-        ago
+        {DateTime.fromISO(score.timeSet).toRelative()}
       </td>
       <td>
         <Complexity>{score.complexity}</Complexity>
