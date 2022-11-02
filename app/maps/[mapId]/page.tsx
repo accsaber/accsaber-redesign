@@ -43,7 +43,11 @@ export default function MapLeaderboardPage({
     <>
       <MapHeader mapId={params.mapId} />
       <div className="max-w-screen-lg p-4 mx-auto">
-        <Pagination pages={pages} currentPage={page} />
+        <Pagination
+          searchParams={searchParams}
+          pages={pages}
+          currentPage={page}
+        />
       </div>
       <div className="max-w-full mx-auto overflow-auto prose md:max-w-screen-lg dark:prose-invert whitespace-nowrap">
         <table>
@@ -105,7 +109,11 @@ export default function MapLeaderboardPage({
       </div>
 
       <div className="max-w-screen-lg p-4 mx-auto">
-        <Pagination pages={pages} currentPage={page} />
+        <Pagination
+          searchParams={searchParams}
+          pages={pages}
+          currentPage={page}
+        />
       </div>
     </>
   );

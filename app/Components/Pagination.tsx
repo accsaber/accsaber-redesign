@@ -2,10 +2,22 @@ const buttonClass =
   "p-2 rounded shadow text-inherit disabled:opacity-50 disabled:shadow-none";
 const Pagination: React.FC<{
   children?: never;
+  searchParams?: Record<string, string | string[]>;
   currentPage: number;
   pages: number;
-}> = ({ currentPage, pages }) => (
+}> = ({ currentPage, pages, searchParams }) => (
   <form className="flex items-center justify-between text-black dark:text-neutral-300">
+    {searchParams &&
+      Object.entries(searchParams)
+        .filter(([name]) => name !== "page")
+        .map(([name, value]) => (
+          <input
+            type="hidden"
+            key={`searchparams-#${name}-pagination`}
+            name={name}
+            value={value.toString()}
+          />
+        ))}
     <div className="flex gap-2">
       <button
         type="submit"

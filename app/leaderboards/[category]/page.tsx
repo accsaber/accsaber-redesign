@@ -34,7 +34,15 @@ const LeaderboardPage = ({
 
   return (
     <main className="flex flex-col max-w-screen-lg gap-8 p-4 mx-auto">
-      {pages > 1 ? <Pagination currentPage={page} pages={pages} /> : ""}
+      {pages > 1 ? (
+        <Pagination
+          searchParams={searchParams}
+          currentPage={page}
+          pages={pages}
+        />
+      ) : (
+        ""
+      )}
       <div className="prose dark:prose-invert max-w-none">
         <table className="w-full overflow-auto">
           <thead>
@@ -60,7 +68,15 @@ const LeaderboardPage = ({
           </tbody>
         </table>
       </div>
-      {pages > 1 ? <Pagination currentPage={page} pages={pages} /> : ""}
+      {pages > 1 ? (
+        <Pagination
+          searchParams={searchParams}
+          currentPage={page}
+          pages={pages}
+        />
+      ) : (
+        ""
+      )}
     </main>
   );
 };

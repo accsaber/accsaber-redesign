@@ -53,7 +53,11 @@ export default function PlayerScoresPage({
 
   return (
     <div className="flex flex-col gap-8">
-      <Pagination currentPage={page} pages={pages} />
+      <Pagination
+        searchParams={searchParams}
+        currentPage={page}
+        pages={pages}
+      />
       <div className="w-full max-w-full overflow-x-auto overflow-y-hidden prose dark:prose-invert">
         <table className="overflow-auto whitespace-nowrap">
           <thead>
@@ -82,7 +86,11 @@ export default function PlayerScoresPage({
           </tbody>
         </table>
       </div>
-      <Pagination currentPage={page} pages={pages} />
+      <Pagination
+        searchParams={searchParams}
+        currentPage={page}
+        pages={pages}
+      />
     </div>
   );
 }
