@@ -46,7 +46,9 @@ const Header = () => {
                 prefetch={false}
                 href={href}
                 key={href}
-                className={`headerNav${match?.test(route) ? " active" : ""}`}
+                className={`headerNav${
+                  match?.test(route ?? "") ? " active" : ""
+                }`}
               >
                 {name}
               </Link>
@@ -91,7 +93,9 @@ const Header = () => {
               prefetch={false}
               href={href}
               key={href}
-              className={`headerNav${match?.test(route) ? " active" : ""}`}
+              className={`headerNav${
+                match?.test(route ?? "") ? " active" : ""
+              }`}
               onClick={() => setMenu(false)}
             >
               {name}
