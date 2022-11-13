@@ -25,8 +25,10 @@ export default function PlayerHeader({
       throw notFound();
     })
   );
-  const campaignStatus = use(getCampaignStatus(playerId));
-  const categories = use(json<Category[]>("categories"));
+
+  const [campaignStatus, categories] = use(
+    Promise.all([getCampaignStatus(playerId), json<Category[]>("categories")])
+  );
 
   return (
     <>

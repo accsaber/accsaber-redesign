@@ -11,8 +11,9 @@ export default function SkillsContainer({
   playerId: string;
   category?: string;
 }) {
-  const categories = use(json<Category[]>("categories"));
-  const skills = use(getSkills(playerId));
+  const [categories, skills] = use(
+    Promise.all([json<Category[]>("categories"), getSkills(playerId)])
+  );
 
   return <SkillTriangle categories={categories}>{skills}</SkillTriangle>;
 }
