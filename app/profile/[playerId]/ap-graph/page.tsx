@@ -1,5 +1,3 @@
-"use client";
-
 import invariant from "tiny-invariant";
 import { use } from "react";
 import { getPlayer, json } from "~/lib/api/fetcher";

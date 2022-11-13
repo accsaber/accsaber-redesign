@@ -1,3 +1,4 @@
+"use client";
 import { type Category } from "~/lib/interfaces/api/category";
 import { type PlayerScore } from "~/lib/interfaces/api/player-score";
 import { Line } from "react-chartjs-2";
