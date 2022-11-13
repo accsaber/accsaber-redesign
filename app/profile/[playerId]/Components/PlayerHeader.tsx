@@ -44,6 +44,11 @@ export default function PlayerHeader({
             label: ncategory.categoryDisplayName,
             isCurrent: category == ncategory.categoryName,
           })),
+          {
+            href: `/profile/${profile.playerId}/ap-graph`,
+            label: "AP Graph",
+            isCurrent: false,
+          },
         ]}
       >
         {profile.playerName}&apos;s Profile
