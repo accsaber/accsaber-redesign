@@ -28,7 +28,7 @@ const ApGraph = ({ data }: { data: CategoryScoreData[] }) => {
         datasets: data.map((i, n) => {
           return {
             label: i.categoryDisplayName,
-            data: i.scores.map(({ ap }, n) => [n, ap]),
+            data: i.scores.map(({ ap }, n) => [n + 1, ap]),
             borderColor: colours[n],
           };
         }),
