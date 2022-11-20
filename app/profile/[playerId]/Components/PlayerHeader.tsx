@@ -33,7 +33,7 @@ export default async function PlayerHeader({
     <>
       <PageHeader
         transparent
-        image={profile.avatarUrl}
+        image={`avatars/${playerId}.jpg`}
         navigation={[
           {
             href: `/profile/${profile.playerId}/overall/scores`,
