@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "1",
     "@tailwindcss/typography": "^0.5.7",
+    "@vercel/analytics": "^0.1.5",
     "chart.js": "^3.9.1",
     "chartjs-adapter-luxon": "^1.2.0",
     "luxon": "^3.1.0",

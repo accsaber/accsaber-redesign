@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import { AnalyticsWrapper } from "./Components/Analytics";
 import Header from "./Components/Header";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -11,6 +12,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <body className="dark:bg-neutral-900">
         <Header />
         {children}
+        <AnalyticsWrapper />
       </body>
     </html>
   );
