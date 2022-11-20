@@ -6,7 +6,7 @@ import { json } from "~/lib/api/fetcher";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import { Line } from "react-chartjs-2";
 import { DateTime } from "luxon";
-import Image from "next/image";
+import Image from "@/CDNImage";
 import "chartjs-adapter-luxon";
 import {
   LineElement,

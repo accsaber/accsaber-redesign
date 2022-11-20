@@ -1,4 +1,3 @@
-import NextImage from "next/image";
 import { DetailedHTMLProps, ImgHTMLAttributes } from "react";
 
 const allowedTypes = ["webp", "heif", "jpeg"];
@@ -12,8 +11,11 @@ interface CDNSource {
 }
 
 const getImaginaryURL = (image: CDNSource, format: string) => {
+  const targetURL = new URL(image.src, "https://cdn.accsaber.com");
   const targetPath = new URL("https://cdn.accsaber.com/imaginary/resize");
-  targetPath.searchParams.set("file", image.src);
+  if (targetURL.hostname === "cdn.accsaber.com")
+    targetPath.searchParams.set("file", targetURL.pathname);
+  else targetPath.searchParams.set("url", image.src);
   targetPath.searchParams.set("width", image.width.toString());
   targetPath.searchParams.set("format", format);
 

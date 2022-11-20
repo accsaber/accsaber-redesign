@@ -3,7 +3,7 @@ import Complexity from "~/app/Components/Complexity";
 import DifficultyLabel from "~/app/Components/DifficultyLabel";
 import { language } from "~/lib/api/config";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
-import Image from "next/image";
+import Image from "@/CDNImage";
 import ScoreHistoryButton from "./ScoreHistoryButton";
 import { DateTime } from "luxon";
 import CDNImage from "~/app/Components/CDNImage";

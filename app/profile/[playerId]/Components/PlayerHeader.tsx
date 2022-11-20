@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/CDNImage";
 import Link from "next/link";
 import { Suspense, use } from "react";
 import PlayerName from "./PlayerName";

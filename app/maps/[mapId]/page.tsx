@@ -4,7 +4,7 @@ import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
 import { json } from "~/lib/api/fetcher";
 import { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-player";
-import Image from "next/image";
+import Image from "@/CDNImage";
 import Pagination from "~/app/Components/Pagination";
 import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";

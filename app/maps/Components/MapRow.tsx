@@ -3,7 +3,7 @@ import { language } from "~/lib/api/config";
 import { RankedMap } from "~/lib/interfaces/api/ranked-map";
 import Complexity from "~/app/Components/Complexity";
 import DifficultyLabel from "~/app/Components/DifficultyLabel";
-import Image from "next/image";
+import Image from "@/CDNImage";
 import CDNImage from "~/app/Components/CDNImage";
 
 const MapRow = ({ map, padLeft }: { map: RankedMap; padLeft?: boolean }) => (
