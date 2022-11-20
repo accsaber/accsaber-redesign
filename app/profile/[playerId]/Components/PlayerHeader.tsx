@@ -12,6 +12,7 @@ import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import SkillsContainer from "./SkillsContainer";
 import Title from "~/app/Components/Title";
 import { notFound } from "next/navigation";
+import CDNImage from "~/app/Components/CDNImage";
 
 export default async function PlayerHeader({
   playerId,
@@ -56,8 +57,8 @@ export default async function PlayerHeader({
       <Title>{`${profile.playerName}'s Profile`}</Title>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
         <div className="h-16" />
-        <Image
-          src={profile.avatarUrl}
+        <CDNImage
+          src={`avatars/${profile.playerId}.jpg`}
           className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
           alt=""
           width={184}
@@ -69,8 +70,8 @@ export default async function PlayerHeader({
             "max-w-screen-lg mx-auto px-4 flex-wrap justify-center relative",
           ].join(" ")}
         >
-          <Image
-            src={profile.avatarUrl}
+          <CDNImage
+            src={`avatars/${profile.playerId}.jpg`}
             alt={`${profile.playerName}'s profile`}
             width={128}
             height={128}

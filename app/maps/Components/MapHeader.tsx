@@ -14,6 +14,7 @@ import Title from "~/app/Components/Title";
 import BlankBlock from "~/app/Components/BlankBlock";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import { notFound } from "next/navigation";
+import CDNImage from "~/app/Components/CDNImage";
 
 const MapHeader = async ({ mapId }: { mapId: string }) => {
   const map = await json<RankedMap>(
@@ -59,8 +60,8 @@ const MapHeader = async ({ mapId }: { mapId: string }) => {
         {map.songAuthorName} - {map.songName}
       </PageHeader>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-        <Image
-          src={`https://cdn.accsaber.com/covers/${map.songHash.toUpperCase()}.png`}
+        <CDNImage
+          src={`covers/${map.songHash.toUpperCase()}.png`}
           alt=""
           className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
           width={256}
@@ -73,8 +74,8 @@ const MapHeader = async ({ mapId }: { mapId: string }) => {
           ].join(" ")}
         >
           <div className="flex w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square">
-            <Image
-              src={`https://cdn.accsaber.com/covers/${map.songHash.toUpperCase()}.png`}
+            <CDNImage
+              src={`covers/${map.songHash.toUpperCase()}.png`}
               alt=""
               width={256}
               height={256}
