@@ -8,14 +8,6 @@ import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";
 import { DateTime } from "luxon";
 import CDNImage from "~/app/Components/CDNImage";
-import { RankedMap } from "~/lib/interfaces/api/ranked-map";
-
-export async function generateStaticParams() {
-  const allMaps = await json<RankedMap[]>("ranked-maps");
-  return allMaps.map((map) => ({
-    mapId: map.leaderboardId,
-  }));
-}
 
 export default async function MapLeaderboardPage({
   params,
