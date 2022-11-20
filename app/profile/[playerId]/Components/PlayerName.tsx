@@ -25,8 +25,8 @@ const levels = [
   { name: "Celestial", icon: godIcon },
 ];
 
-const PlayerName = ({ children: player }: { children: Player }) => {
-  const campaignStatus = use(getCampaignStatus(player.playerId));
+const PlayerName = async ({ children: player }: { children: Player }) => {
+  const campaignStatus = await getCampaignStatus(player.playerId);
   const highestLevel = getHighestLevel(campaignStatus);
   return (
     <div

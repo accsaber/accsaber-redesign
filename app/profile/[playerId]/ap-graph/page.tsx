@@ -7,7 +7,7 @@ import ApGraph from "../Components/ApGraph";
 import PageHeader from "~/app/Components/PageHeader";
 import { notFound } from "next/navigation";
 
-export default function ApGraphPage({
+export default async function ApGraphPage({
   params,
   searchParams,
 }: {
@@ -15,22 +15,18 @@ export default function ApGraphPage({
   searchParams?: Record<string, string | string[]>;
 }) {
   invariant(params?.playerId, "Missing player id parameter");
-  const [profile, categories] = use(
-    Promise.all([
-      getPlayer(params.playerId).catch((error) => {
-        throw notFound();
-      }),
-      json<Category[]>("categories"),
-    ])
-  );
+  const [profile, categories] = await Promise.all([
+    getPlayer(params.playerId).catch((error) => {
+      throw notFound();
+    }),
+    json<Category[]>("categories"),
+  ]);
 
-  const categoryScores = use(
-    Promise.all(
-      categories.map((category) =>
-        json<PlayerScore[]>(
-          `players/${params.playerId}/${category.categoryName}/scores`
-        ).then((scores) => ({ ...category, scores }))
-      )
+  const categoryScores = await Promise.all(
+    categories.map((category) =>
+      json<PlayerScore[]>(
+        `players/${params.playerId}/${category.categoryName}/scores`
+      ).then((scores) => ({ ...category, scores }))
     )
   );
 

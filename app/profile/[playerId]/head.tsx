@@ -2,17 +2,15 @@ import { use } from "react";
 import invariant from "tiny-invariant";
 import { getPlayer } from "~/lib/api/fetcher";
 
-export default function PlayerProfileHead({
+export default async function PlayerProfileHead({
   params,
 }: {
   params?: { playerId?: string } | Record<string, string>;
 }) {
   invariant(params?.playerId);
-  const player = use(
-    getPlayer(params?.playerId).catch(() => {
-      return undefined;
-    })
-  );
+  const player = await getPlayer(params?.playerId).catch(() => {
+    return undefined;
+  });
   return (
     <>
       <title key="pageTitle">{`${player?.playerName}'s Profile`}</title>

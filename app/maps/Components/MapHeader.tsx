@@ -15,12 +15,12 @@ import BlankBlock from "~/app/Components/BlankBlock";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
 import { notFound } from "next/navigation";
 
-const MapHeader = ({ mapId }: { mapId: string }) => {
-  const map = use(
-    json<RankedMap>(`ranked-maps/${encodeURIComponent(mapId)}`).catch((err) => {
-      throw notFound();
-    })
-  );
+const MapHeader = async ({ mapId }: { mapId: string }) => {
+  const map = await json<RankedMap>(
+    `ranked-maps/${encodeURIComponent(mapId)}`
+  ).catch((err) => {
+    throw notFound();
+  });
 
   return (
     <>

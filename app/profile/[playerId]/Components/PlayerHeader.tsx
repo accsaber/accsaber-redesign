@@ -13,22 +13,20 @@ import SkillsContainer from "./SkillsContainer";
 import Title from "~/app/Components/Title";
 import { notFound } from "next/navigation";
 
-export default function PlayerHeader({
+export default async function PlayerHeader({
   playerId,
   category = "overall",
 }: {
   playerId: string;
   category: string;
 }) {
-  const profile = use(
+  const [profile, campaignStatus, categories] = await Promise.all([
     getPlayer(playerId, category).catch((error) => {
       throw notFound();
-    })
-  );
-
-  const [campaignStatus, categories] = use(
-    Promise.all([getCampaignStatus(playerId), json<Category[]>("categories")])
-  );
+    }),
+    getCampaignStatus(playerId),
+    json<Category[]>("categories"),
+  ]);
 
   return (
     <>
@@ -92,6 +90,7 @@ export default function PlayerHeader({
             <div className="">
               <h1 className="text-2xl font-semibold">
                 <Suspense>
+                  {/* @ts-expect-error Server Component */}
                   <PlayerName>{profile}</PlayerName>
                 </Suspense>
               </h1>
@@ -145,6 +144,7 @@ export default function PlayerHeader({
                 </div>
               }
             >
+              {/* @ts-expect-error Server Component */}
               <SkillsContainer playerId={playerId} />
             </Suspense>
           </div>
@@ -157,6 +157,7 @@ export default function PlayerHeader({
               </div>
             }
           >
+            {/* @ts-expect-error Server Component */}
             <RankGraphContainer playerId={playerId} category={category} />
           </Suspense>
         </div>

@@ -6,7 +6,7 @@ import invariant from "tiny-invariant";
 import getPlayerScores from "~/lib/api/scores";
 import ScoreRow from "../../Components/ScoreRow";
 
-export default function PlayerScoresPage({
+export default async function PlayerScoresPage({
   params,
   searchParams,
 }: {
@@ -17,12 +17,10 @@ export default function PlayerScoresPage({
   invariant(params?.category);
   const pageSize = 50;
 
-  const allScores = use(
-    getPlayerScores(
-      params.playerId,
-      params.category,
-      searchParams?.sortBy?.toString() as keyof PlayerScore
-    )
+  const allScores = await getPlayerScores(
+    params.playerId,
+    params.category,
+    searchParams?.sortBy?.toString() as keyof PlayerScore
   );
 
   const page = parseInt(searchParams?.page?.toString() ?? "1");

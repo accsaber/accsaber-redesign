@@ -4,7 +4,7 @@ import PageHeader from "~/app/Components/PageHeader";
 import { json } from "~/lib/api/fetcher";
 import { Category } from "~/lib/interfaces/api/category";
 
-const LeaderboardLayout = ({
+const LeaderboardLayout = async ({
   children,
   params,
 }: {
@@ -12,7 +12,7 @@ const LeaderboardLayout = ({
   searchParams?: Record<string, string | string[]>;
   children: React.ReactNode;
 }) => {
-  const categories = use(json<Category[]>("categories"));
+  const categories = await json<Category[]>("categories");
   invariant(params?.category);
 
   const category = params.category;

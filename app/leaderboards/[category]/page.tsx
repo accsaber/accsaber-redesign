@@ -6,7 +6,7 @@ import PlayerRow from "~/app/Components/PlayerRow";
 import { json } from "~/lib/api/fetcher";
 import { Player } from "~/lib/interfaces/api/player";
 
-const LeaderboardPage = ({
+const LeaderboardPage = async ({
   params,
   searchParams,
 }: {
@@ -17,11 +17,11 @@ const LeaderboardPage = ({
 
   const pageSize = 50;
 
-  const allStandings = use(
-    json<Player[]>(`categories/${params.category}/standings`).catch(() => {
-      throw notFound();
-    })
-  );
+  const allStandings = await json<Player[]>(
+    `categories/${params.category}/standings`
+  ).catch(() => {
+    throw notFound();
+  });
 
   const page = parseInt(searchParams.page?.toString() ?? "1");
 

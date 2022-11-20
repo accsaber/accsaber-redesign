@@ -10,7 +10,7 @@ import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";
 import { DateTime } from "luxon";
 
-export default function MapLeaderboardPage({
+export default async function MapLeaderboardPage({
   params,
   searchParams,
 }: {
@@ -25,10 +25,8 @@ export default function MapLeaderboardPage({
 
   const pageSize = 50;
 
-  const allLeaderboard = use(
-    json<MapLeaderboardPlayer[]>(
-      `map-leaderboards/${encodeURIComponent(params.mapId)}`
-    )
+  const allLeaderboard = await json<MapLeaderboardPlayer[]>(
+    `map-leaderboards/${encodeURIComponent(params.mapId)}`
   );
 
   const page = parseInt(searchParams?.page?.toString() ?? "1");
@@ -41,6 +39,7 @@ export default function MapLeaderboardPage({
 
   return (
     <>
+      {/* @ts-expect-error Server Component */}
       <MapHeader mapId={params.mapId} />
       <div className="max-w-screen-lg p-4 mx-auto">
         <Pagination

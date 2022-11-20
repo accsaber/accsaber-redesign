@@ -4,8 +4,8 @@ import { json } from "~/lib/api/fetcher";
 import MapRow from "~/app/maps/Components/MapRow";
 import SortButton from "../Components/SortButton";
 
-export default function MapsListPage() {
-  const maps = use(json<RankedMap[]>("ranked-maps"));
+export default async function MapsListPage() {
+  const maps = await json<RankedMap[]>("ranked-maps");
 
   const columns: [keyof RankedMap | null, string, number?][] = [
     ["songName", "Song Name", 2],
