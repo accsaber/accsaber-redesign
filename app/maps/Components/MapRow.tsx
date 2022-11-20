@@ -4,13 +4,14 @@ import { RankedMap } from "~/lib/interfaces/api/ranked-map";
 import Complexity from "~/app/Components/Complexity";
 import DifficultyLabel from "~/app/Components/DifficultyLabel";
 import Image from "next/image";
+import CDNImage from "~/app/Components/CDNImage";
 
 const MapRow = ({ map, padLeft }: { map: RankedMap; padLeft?: boolean }) => (
   <tr key={map.songHash + map.difficulty}>
     {padLeft ? <td /> : <></>}
     <td className="relative w-10 aspect-square">
-      <Image
-        src={`https://cdn.accsaber.com/covers/${map.songHash.toUpperCase()}.png`}
+      <CDNImage
+        src={`covers/${map.songHash.toUpperCase()}.png`}
         className="absolute top-0 left-0 m-0"
         loading="lazy"
         alt="Cover art"

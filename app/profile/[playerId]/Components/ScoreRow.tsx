@@ -6,6 +6,7 @@ import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import Image from "next/image";
 import ScoreHistoryButton from "./ScoreHistoryButton";
 import { DateTime } from "luxon";
+import CDNImage from "~/app/Components/CDNImage";
 
 export default function ScoreRow({
   score,
@@ -19,8 +20,8 @@ export default function ScoreRow({
       <td>#{score.rank}</td>
 
       <td className="relative min-w-[2.5rem]">
-        <Image
-          src={`https://cdn.accsaber.com/covers/${score.songHash.toUpperCase()}.png`}
+        <CDNImage
+          src={`covers/${score.songHash.toUpperCase()}.png`}
           className="absolute top-0 left-0 m-0"
           loading="lazy"
           alt="Cover art"

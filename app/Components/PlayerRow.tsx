@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { language } from "~/lib/api/config";
 import { Player } from "~/lib/interfaces/api/player";
+import CDNImage from "./CDNImage";
 
 const PlayerRow = ({
   player,
@@ -13,8 +13,8 @@ const PlayerRow = ({
   <tr key={player.playerId}>
     <td>#{player.rank}</td>
     <td className="relative w-10 min-w-[2.5rem]">
-      <Image
-        src={player.avatarUrl}
+      <CDNImage
+        src={`avatars/${player.playerId}.jpg`}
         alt={`${player.playerName}'s profile`}
         loading="lazy"
         className="absolute top-0 left-0 w-10 h-10 m-0"
