@@ -33,7 +33,7 @@ export default async function ApGraphPage({
   return (
     <>
       <PageHeader
-        image={profile.avatarUrl}
+        image={`avatars/${profile.playerId}.jpg`}
         navigation={[
           {
             href: `/profile/${profile.playerId}/overall/scores`,
