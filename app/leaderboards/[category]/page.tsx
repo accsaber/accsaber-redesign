@@ -1,10 +1,18 @@
 import { notFound } from "next/navigation";
-import { use } from "react";
 import invariant from "tiny-invariant";
 import Pagination from "~/app/Components/Pagination";
 import PlayerRow from "~/app/Components/PlayerRow";
 import { json } from "~/lib/api/fetcher";
+import { Category } from "~/lib/interfaces/api/category";
 import { Player } from "~/lib/interfaces/api/player";
+
+export async function generateStaticParams() {
+  const categories = await json<Category[]>("categories");
+
+  return categories.map(({ categoryName }) => ({
+    category: categoryName,
+  }));
+}
 
 const LeaderboardPage = async ({
   params,
@@ -82,3 +90,5 @@ const LeaderboardPage = async ({
 };
 
 export default LeaderboardPage;
+
+export const revalidate = 600;

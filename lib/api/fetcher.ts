@@ -13,7 +13,7 @@ const apiFetch = async (target: string | URL, init?: RequestInit) => {
     typeof performance !== "undefined" ? performance : Date;
   const startTime = measurementTarget.now();
   return fetch(new URL(target, config.apiURL), {
-    next: { revalidate: 60 * 5 },
+    next: { revalidate: 86400 },
     ...init,
   }).then((response) => {
     const finishTime = measurementTarget.now();
@@ -31,8 +31,8 @@ const apiFetch = async (target: string | URL, init?: RequestInit) => {
 export const isErrorResponse = (response: any): response is ErrorResponse =>
   typeof response.message == "string" && typeof response.errorCode == "string";
 
-export const json = cache(<T>(target: string) =>
-  apiFetch(target).then(async (response) => {
+export const json = cache(<T>(...params: Parameters<typeof apiFetch>) =>
+  apiFetch(...params).then(async (response) => {
     const data = (await response.json()) as T | ErrorResponse;
     if (isErrorResponse(data) || response.status >= 400) throw data;
     else return data;

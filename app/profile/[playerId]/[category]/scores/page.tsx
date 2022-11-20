@@ -5,6 +5,18 @@ import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import invariant from "tiny-invariant";
 import getPlayerScores from "~/lib/api/scores";
 import ScoreRow from "../../Components/ScoreRow";
+import { json } from "~/lib/api/fetcher";
+import { Player } from "~/lib/interfaces/api/player";
+
+export async function generateStaticParams() {
+  const topPlayers = (
+    await json<Player[]>("categories/overall/standings")
+  ).splice(0, 10);
+  return topPlayers.map((player) => ({
+    playerId: player.playerId,
+    category: "overall",
+  }));
+}
 
 export default async function PlayerScoresPage({
   params,
@@ -87,4 +99,4 @@ export default async function PlayerScoresPage({
   );
 }
 
-export const revalidate = 120;
+export const revalidate = 600;

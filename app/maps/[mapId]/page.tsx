@@ -1,15 +1,21 @@
 import Link from "next/link";
-import { use } from "react";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
 import { json } from "~/lib/api/fetcher";
 import { MapLeaderboardPlayer } from "~/lib/interfaces/api/map-leaderboard-player";
-import Image from "@/CDNImage";
 import Pagination from "~/app/Components/Pagination";
 import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";
 import { DateTime } from "luxon";
 import CDNImage from "~/app/Components/CDNImage";
+import { RankedMap } from "~/lib/interfaces/api/ranked-map";
+
+export async function generateStaticParams() {
+  const allMaps = await json<RankedMap[]>("ranked-maps");
+  return allMaps.map((map) => ({
+    mapId: map.leaderboardId,
+  }));
+}
 
 export default async function MapLeaderboardPage({
   params,
@@ -118,3 +124,5 @@ export default async function MapLeaderboardPage({
     </>
   );
 }
+
+export const revalidate = 1800;

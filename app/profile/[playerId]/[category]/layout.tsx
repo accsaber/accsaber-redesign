@@ -16,4 +16,4 @@ export default function ProfileLayout({
   );
 }
 
-export const revalidate = 120;
+export const revalidate = 600;

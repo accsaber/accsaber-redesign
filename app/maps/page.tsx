@@ -43,3 +43,5 @@ export default async function MapsListPage() {
     </div>
   );
 }
+
+export const revalidate = 600;
