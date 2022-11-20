@@ -9,6 +9,7 @@ import Pagination from "~/app/Components/Pagination";
 import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";
 import { DateTime } from "luxon";
+import CDNImage from "~/app/Components/CDNImage";
 
 export default async function MapLeaderboardPage({
   params,
@@ -66,8 +67,8 @@ export default async function MapLeaderboardPage({
               <tr key={score.playerId}>
                 <td>#{score.rank}</td>
                 <td className="relative w-10 min-w-[2.5rem] aspect-square">
-                  <Image
-                    src={score.avatarUrl}
+                  <CDNImage
+                    src={`avatars/${score.playerId}.jpg`}
                     alt={`${score.playerName}'s profile`}
                     loading="lazy"
                     className="absolute top-0 left-0 m-0"
