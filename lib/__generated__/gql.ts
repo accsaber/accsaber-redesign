@@ -450,6 +450,7 @@ export type CategoryAccSaberPlayer = {
   rankedPlays?: Maybe<Scalars['Int']>;
   ranking?: Maybe<Scalars['BigInt']>;
   rankingLastWeek?: Maybe<Scalars['Int']>;
+  skillLevel: Scalars['Float'];
 };
 
 /**
@@ -5019,7 +5020,30 @@ export type UpdateStaffUserPayloadStaffUserEdgeArgs = {
   orderBy?: InputMaybe<Array<StaffUsersOrderBy>>;
 };
 
+export type ScoreHistoryNodeFragment = { __typename?: 'ScoreDataHistory', score: number, timeSet?: any | null };
+
+export type ScoreHistoryQueryVariables = Exact<{
+  playerId?: InputMaybe<Scalars['BigInt']>;
+  leaderboardId: Scalars['BigInt'];
+}>;
+
+
+export type ScoreHistoryQuery = { __typename?: 'Query', beatMap?: { __typename?: 'BeatMap', maxScore: number, songBySong?: { __typename?: 'Song', songHash: string, songName?: string | null, songAuthorName?: string | null } | null } | null, scoreDataHistories?: { __typename?: 'ScoreDataHistoriesConnection', nodes: Array<{ __typename?: 'ScoreDataHistory', score: number, timeSet?: any | null }> } | null };
+
+export type ApDataPointFragment = { __typename?: 'AccSaberScore', categoryDisplayName?: string | null, categoryName?: string | null, ap?: number | null };
+
+export type ApGraphPageQueryVariables = Exact<{
+  playerId: Scalars['BigInt'];
+}>;
+
+
+export type ApGraphPageQuery = { __typename?: 'Query', playerDatum?: { __typename?: 'PlayerDatum', playerId: any, playerName?: string | null } | null, categories?: { __typename?: 'CategoriesConnection', nodes: Array<{ __typename?: 'Category', categoryName: string, categoryDisplayName?: string | null }> } | null, accSaberScores?: { __typename?: 'AccSaberScoresConnection', nodes: Array<{ __typename?: 'AccSaberScore', categoryDisplayName?: string | null, categoryName?: string | null, ap?: number | null }> } | null };
+
 export type RankHistoryDayFragment = { __typename?: 'PlayerRankHistory', date: any, ranking: number, rankedPlays: number, ap: number };
+
+export type SkillLevelFragment = { __typename?: 'CategoryAccSaberPlayer', skillLevel: number };
+
+export type CategoryInfoFragment = { __typename?: 'Category', categoryName: string, categoryDisplayName?: string | null };
 
 export type PlayerLayoutQueryVariables = Exact<{
   playerId: Scalars['BigInt'];
@@ -5027,8 +5051,21 @@ export type PlayerLayoutQueryVariables = Exact<{
 }>;
 
 
-export type PlayerLayoutQuery = { __typename?: 'Query', playerRankHistories?: { __typename?: 'PlayerRankHistoriesConnection', nodes: Array<{ __typename?: 'PlayerRankHistory', date: any, ranking: number, rankedPlays: number, ap: number }> } | null };
+export type PlayerLayoutQuery = { __typename?: 'Query', playerRankHistories?: { __typename?: 'PlayerRankHistoriesConnection', nodes: Array<{ __typename?: 'PlayerRankHistory', date: any, ranking: number, rankedPlays: number, ap: number }> } | null, categoryAccSaberPlayers?: { __typename?: 'CategoryAccSaberPlayersConnection', nodes: Array<{ __typename?: 'CategoryAccSaberPlayer', skillLevel: number }> } | null, categories?: { __typename?: 'CategoriesConnection', nodes: Array<{ __typename?: 'Category', categoryName: string, categoryDisplayName?: string | null }> } | null };
 
+export const ScoreHistoryNodeFragmentDoc = gql`
+    fragment ScoreHistoryNode on ScoreDataHistory {
+  score
+  timeSet
+}
+    `;
+export const ApDataPointFragmentDoc = gql`
+    fragment ApDataPoint on AccSaberScore {
+  categoryDisplayName
+  categoryName
+  ap
+}
+    `;
 export const RankHistoryDayFragmentDoc = gql`
     fragment RankHistoryDay on PlayerRankHistory {
   date
@@ -5037,8 +5074,57 @@ export const RankHistoryDayFragmentDoc = gql`
   ap
 }
     `;
+export const SkillLevelFragmentDoc = gql`
+    fragment SkillLevel on CategoryAccSaberPlayer {
+  skillLevel
+}
+    `;
+export const CategoryInfoFragmentDoc = gql`
+    fragment CategoryInfo on Category {
+  categoryName
+  categoryDisplayName
+}
+    `;
+export const ScoreHistoryDocument = gql`
+    query ScoreHistory($playerId: BigInt, $leaderboardId: BigInt!) {
+  beatMap(leaderboardId: $leaderboardId) {
+    maxScore
+    songBySong {
+      songHash
+      songName
+      songAuthorName
+    }
+  }
+  scoreDataHistories(
+    condition: {playerId: $playerId, mapLeaderboardId: $leaderboardId}
+  ) {
+    nodes {
+      ...ScoreHistoryNode
+    }
+  }
+}
+    ${ScoreHistoryNodeFragmentDoc}`;
+export const ApGraphPageDocument = gql`
+    query ApGraphPage($playerId: BigInt!) {
+  playerDatum(playerId: $playerId) {
+    playerId
+    playerName
+  }
+  categories {
+    nodes {
+      categoryName
+      categoryDisplayName
+    }
+  }
+  accSaberScores(condition: {playerId: $playerId}, orderBy: AP_DESC) {
+    nodes {
+      ...ApDataPoint
+    }
+  }
+}
+    ${ApDataPointFragmentDoc}`;
 export const PlayerLayoutDocument = gql`
-    query playerLayout($playerId: BigInt!, $category: BigInt) {
+    query PlayerLayout($playerId: BigInt!, $category: BigInt) {
   playerRankHistories(
     condition: {playerId: $playerId, categoryId: $category}
     last: 30
@@ -5047,8 +5133,20 @@ export const PlayerLayoutDocument = gql`
       ...RankHistoryDay
     }
   }
+  categoryAccSaberPlayers(condition: {playerId: $playerId}) {
+    nodes {
+      ...SkillLevel
+    }
+  }
+  categories {
+    nodes {
+      ...CategoryInfo
+    }
+  }
 }
-    ${RankHistoryDayFragmentDoc}`;
+    ${RankHistoryDayFragmentDoc}
+${SkillLevelFragmentDoc}
+${CategoryInfoFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -5057,8 +5155,14 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    playerLayout(variables: PlayerLayoutQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PlayerLayoutQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PlayerLayoutQuery>(PlayerLayoutDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'playerLayout', 'query');
+    ScoreHistory(variables: ScoreHistoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ScoreHistoryQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ScoreHistoryQuery>(ScoreHistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ScoreHistory', 'query');
+    },
+    ApGraphPage(variables: ApGraphPageQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ApGraphPageQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ApGraphPageQuery>(ApGraphPageDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ApGraphPage', 'query');
+    },
+    PlayerLayout(variables: PlayerLayoutQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PlayerLayoutQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PlayerLayoutQuery>(PlayerLayoutDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'PlayerLayout', 'query');
     }
   };
 }

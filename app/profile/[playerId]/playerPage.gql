@@ -5,13 +5,34 @@ fragment RankHistoryDay on PlayerRankHistory {
   ap
 }
 
-query playerLayout($playerId: BigInt!, $category: BigInt) {
+fragment SkillLevel on CategoryAccSaberPlayer {
+  skillLevel
+}
+
+fragment CategoryInfo on Category {
+  categoryName
+  categoryDisplayName
+}
+
+query PlayerLayout($playerId: BigInt!, $category: BigInt) {
   playerRankHistories(
     condition: { playerId: $playerId, categoryId: $category }
     last: 30
   ) {
     nodes {
       ...RankHistoryDay
+    }
+  }
+
+  categoryAccSaberPlayers(condition: { playerId: $playerId }) {
+    nodes {
+      ...SkillLevel
+    }
+  }
+
+  categories {
+    nodes {
+      ...CategoryInfo
     }
   }
 }

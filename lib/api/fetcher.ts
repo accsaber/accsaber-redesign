@@ -30,7 +30,8 @@ const apiFetch = async (target: string | URL, init?: RequestInit) => {
 };
 
 export const isErrorResponse = (response: any): response is ErrorResponse =>
-	typeof response.message == "string" && typeof response.errorCode == "string";
+	typeof response.message === "string" &&
+	typeof response.errorCode === "string";
 
 export const json = cache(<T>(...params: Parameters<typeof apiFetch>) =>
 	apiFetch(...params).then(async (response) => {

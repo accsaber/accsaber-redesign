@@ -1,4 +1,3 @@
-import { use } from "react";
 import Pagination from "~/app/Components/Pagination";
 import SortButton from "~/app/Components/SortButton";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
@@ -8,15 +7,15 @@ import ScoreRow from "../../Components/ScoreRow";
 import { json } from "~/lib/api/fetcher";
 import { Player } from "~/lib/interfaces/api/player";
 
-export async function generateStaticParams() {
-	const topPlayers = (
-		await json<Player[]>("categories/overall/standings")
-	).splice(0, 10);
-	return topPlayers.map((player) => ({
-		playerId: player.playerId,
-		category: "overall",
-	}));
-}
+// export async function generateStaticParams() {
+// 	const topPlayers = (
+// 		await json<Player[]>("categories/overall/standings")
+// 	).splice(0, 10);
+// 	return topPlayers.map((player) => ({
+// 		playerId: player.playerId,
+// 		category: "overall",
+// 	}));
+// }
 
 export default async function PlayerScoresPage({
 	params,
@@ -67,7 +66,7 @@ export default async function PlayerScoresPage({
 					<thead>
 						<tr>
 							{columns.map(([value, friendly, colSpan], n) => (
-								<th key={n} colSpan={colSpan}>
+								<th key={value ?? n} colSpan={colSpan}>
 									{value ? (
 										<SortButton name="sortBy" value={value}>
 											{friendly}

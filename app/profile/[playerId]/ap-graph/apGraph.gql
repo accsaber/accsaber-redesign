@@ -1,0 +1,24 @@
+fragment ApDataPoint on AccSaberScore {
+  categoryDisplayName
+  categoryName
+  ap
+}
+
+query ApGraphPage($playerId: BigInt!) {
+  playerDatum(playerId: $playerId) {
+    playerId
+    playerName
+  }
+  categories {
+    nodes {
+      categoryName
+      categoryDisplayName
+    }
+  }
+
+  accSaberScores(condition: { playerId: $playerId }, orderBy: AP_DESC) {
+    nodes {
+      ...ApDataPoint
+    }
+  }
+}

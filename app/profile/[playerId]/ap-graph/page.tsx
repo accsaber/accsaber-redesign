@@ -1,63 +1,60 @@
 import invariant from "tiny-invariant";
 import { use } from "react";
-import { getPlayer, json } from "~/lib/api/fetcher";
-import { Category } from "~/lib/interfaces/api/category";
-import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import ApGraph from "../Components/ApGraph";
 import PageHeader from "~/app/Components/PageHeader";
-import { notFound } from "next/navigation";
+import { sdk } from "~/lib/api/gql";
 
-export default async function ApGraphPage({
-  params,
-  searchParams,
+export default function ApGraphPage({
+	params,
+	searchParams,
 }: {
-  params?: Record<string, string>;
-  searchParams?: Record<string, string | string[]>;
+	params?: Record<string, string>;
+	searchParams?: Record<string, string | string[]>;
 }) {
-  invariant(params?.playerId, "Missing player id parameter");
-  const [profile, categories] = await Promise.all([
-    getPlayer(params.playerId).catch((error) => {
-      throw notFound();
-    }),
-    json<Category[]>("categories"),
-  ]);
+	invariant(params?.playerId, "Missing player id parameter");
 
-  const categoryScores = await Promise.all(
-    categories.map((category) =>
-      json<PlayerScore[]>(
-        `players/${params.playerId}/${category.categoryName}/scores`
-      ).then((scores) => ({ ...category, scores }))
-    )
-  );
+	const {
+		categories,
+		accSaberScores,
+		playerDatum: profile,
+	} = use(sdk.ApGraphPage({ playerId: params.playerId }));
 
-  return (
-    <>
-      <PageHeader
-        image={`avatars/${profile.playerId}.jpg`}
-        navigation={[
-          {
-            href: `/profile/${profile.playerId}/overall/scores`,
-            label: `Overall`,
-            isCurrent: false,
-          },
-          ...categories.map((ncategory) => ({
-            href: `/profile/${profile.playerId}/${ncategory.categoryName}/scores`,
-            label: ncategory.categoryDisplayName,
-            isCurrent: false,
-          })),
-          {
-            href: `/profile/${profile.playerId}/ap-graph`,
-            label: "AP Graph",
-            isCurrent: true,
-          },
-        ]}
-      >
-        {profile.playerName}&apos;s Profile
-      </PageHeader>
+	return (
+		<>
+			<PageHeader
+				image={`avatars/${profile?.playerId}.jpg`}
+				navigation={[
+					{
+						href: `/profile/${profile?.playerId}/overall/scores`,
+						label: "Overall",
+						isCurrent: false,
+					},
+					...(categories?.nodes ?? [])?.map((ncategory) => ({
+						href: `/profile/${profile?.playerId}/${ncategory.categoryName}/scores`,
+						label: ncategory.categoryDisplayName ?? "",
+						isCurrent: false,
+					})),
+					{
+						href: `/profile/${profile?.playerId}/ap-graph`,
+						label: "AP Graph",
+						isCurrent: true,
+					},
+				]}
+			>
+				{profile?.playerName}&apos;s Profile
+			</PageHeader>
 
-      <div className="w-full max-w-screen-lg p-6 mx-auto h-[32rem] flex-1">
-        <ApGraph data={categoryScores} />
-      </div>
-    </>
-  );
+			<div className="w-full max-w-screen-lg p-6 mx-auto h-[32rem] flex-1">
+				<ApGraph
+					data={accSaberScores?.nodes ?? []}
+					categories={
+						(categories?.nodes as {
+							categoryName: string;
+							categoryDisplayName: string;
+						}[]) ?? []
+					}
+				/>
+			</div>
+		</>
+	);
 }

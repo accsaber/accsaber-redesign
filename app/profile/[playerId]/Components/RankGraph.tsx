@@ -28,7 +28,7 @@ const RankGraph: React.FC<{
 					{
 						data: history.map(({ date, ap }) => [date, Math.round(ap)]),
 						label: "AP",
-						yAxisID: "ap",
+						yAxisID: "yAp",
 						borderColor: "#22c55e",
 					},
 				],
@@ -51,6 +51,14 @@ const RankGraph: React.FC<{
 				scales: {
 					x: {
 						type: "timeseries",
+					},
+					yAp: {
+						grid: {
+							display: false,
+						},
+						ticks: {
+							display: false,
+						},
 					},
 					y: {
 						type: "linear",

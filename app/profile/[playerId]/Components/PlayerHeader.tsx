@@ -1,19 +1,17 @@
-import Image from "@/CDNImage";
 import Link from "next/link";
 import { Suspense, use } from "react";
 import PlayerName from "./PlayerName";
 import { language } from "~/lib/api/config";
-import { getPlayer, json } from "~/lib/api/fetcher";
-import { Category } from "~/lib/interfaces/api/category";
+import { getPlayer } from "~/lib/api/fetcher";
 import getCampaignStatus, { getHighestLevel } from "~/lib/api/campaign";
 import PageHeader from "~/app/Components/PageHeader";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
-import SkillsContainer from "./SkillsContainer";
 import Title from "~/app/Components/Title";
 import { notFound } from "next/navigation";
 import CDNImage from "~/app/Components/CDNImage";
 import { sdk } from "~/lib/api/gql";
 import RankGraph from "./RankGraph";
+import SkillTriangle from "./SkillTriangle";
 
 export default function PlayerHeader({
 	playerId,
@@ -22,22 +20,25 @@ export default function PlayerHeader({
 	playerId: string;
 	category: string;
 }) {
-	const [profile, campaignStatus, categories] = use(
+	const [profile, campaignStatus] = use(
 		Promise.all([
 			getPlayer(playerId, category).catch((error) => {
 				throw notFound();
 			}),
 			getCampaignStatus(playerId),
-			json<Category[]>("categories"),
 		]),
 	);
 	const categoryNumber =
 		category === "overall"
 			? -1
 			: ["true", "standard", "tech"].indexOf(category) + 1;
-	const { playerRankHistories } = use(
-		sdk.playerLayout({ playerId, category: categoryNumber }),
-	);
+	const {
+		playerRankHistories,
+		categories: categoriesEdge,
+		categoryAccSaberPlayers: categoryStats,
+	} = use(sdk.PlayerLayout({ playerId, category: categoryNumber }));
+
+	const categories = categoriesEdge?.nodes ?? [];
 
 	return (
 		<>
@@ -48,12 +49,12 @@ export default function PlayerHeader({
 					{
 						href: `/profile/${profile.playerId}/overall/scores`,
 						label: "Overall",
-						isCurrent: category == "overall",
+						isCurrent: category === "overall",
 					},
-					...categories.map((ncategory) => ({
-						href: `/profile/${profile.playerId}/${ncategory.categoryName}/scores`,
-						label: ncategory.categoryDisplayName,
-						isCurrent: category == ncategory.categoryName,
+					...categories.map((node) => ({
+						href: `/profile/${profile.playerId}/${node.categoryName}/scores`,
+						label: node.categoryDisplayName ?? "",
+						isCurrent: category === node.categoryName,
 					})),
 					{
 						href: `/profile/${profile.playerId}/ap-graph`,
@@ -100,8 +101,7 @@ export default function PlayerHeader({
 					<div className="flex flex-col justify-center flex-1">
 						<div className="">
 							<h1 className="text-2xl font-semibold">
-								<Suspense>
-									{/* @ts-expect-error Server Component */}
+								<Suspense fallback={profile.playerName}>
 									<PlayerName>{profile}</PlayerName>
 								</Suspense>
 							</h1>
@@ -148,29 +148,20 @@ export default function PlayerHeader({
 						<div className="text-xl">{profile.hmd}</div>
 					</div>
 					<div className="w-72 h-72">
-						<Suspense
+						{/* <Suspense
 							fallback={
 								<div className="flex items-center justify-center h-full dark:text-neutral-100">
 									<LoadingSpinner />
 								</div>
 							}
-						>
-							{/* @ts-expect-error Server Component */}
-							<SkillsContainer playerId={playerId} />
-						</Suspense>
+						></Suspense> */}
+						<SkillTriangle categories={categories} key='skills'>
+							{categoryStats?.nodes ?? []}
+						</SkillTriangle>
 					</div>
 				</div>
 				<div className="relative h-64 max-w-screen-lg px-8 pb-12 mx-auto">
-					<Suspense
-						fallback={
-							<div className="flex items-center justify-center h-full dark:text-neutral-100">
-								<LoadingSpinner />
-							</div>
-						}
-					>
-						{/* <RankGraphContainer playerId={playerId} category={category} /> */}
-						<RankGraph history={playerRankHistories?.nodes ?? []} />
-					</Suspense>
+					<RankGraph history={playerRankHistories?.nodes ?? []} />
 				</div>
 			</div>
 		</>

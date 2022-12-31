@@ -1521,6 +1521,7 @@ type CategoryAccSaberPlayer {
   categoryName: String
   rankingLastWeek: Int
   ranking: BigInt
+  skillLevel: Float!
 }
 
 """A `CategoryAccSaberPlayer` edge in the connection."""
