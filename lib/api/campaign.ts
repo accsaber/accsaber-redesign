@@ -1,4 +1,6 @@
 import CampaignStatus from "../interfaces/campaign/campaignStatus";
+import { json } from "./fetcher";
+
 export const getHighestLevel = (campaignStatus: CampaignStatus[]) =>
 	campaignStatus.reduce(
 		(current, { milestoneId, pathCleared }) =>
@@ -6,11 +8,9 @@ export const getHighestLevel = (campaignStatus: CampaignStatus[]) =>
 		-1,
 	);
 
-// const getCampaignStatus = (playerId: string, campaignId = 0) =>
-//   json<CampaignStatus[]>(
-//     `https://campaigns.accsaber.com/${campaignId}/player-campaign-infos/${playerId}`
-//   );
-
-const getCampaignStatus = async (playerId: string, campaignId = 0) => [];
+const getCampaignStatus = (playerId: string, campaignId = 0) =>
+	json<CampaignStatus[]>(
+		`https://campaigns.accsaber.com/${campaignId}/player-campaign-infos/${playerId}`,
+	);
 
 export default getCampaignStatus;
