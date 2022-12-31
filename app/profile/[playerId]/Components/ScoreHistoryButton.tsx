@@ -42,8 +42,8 @@ function ScoreHistoryBody({
 						<tbody>
 							{(scoreDataHistories?.nodes as ScoreHistoryNodeFragment[])?.map(
 								({ timeSet, score }) => (
-									<tr key={timeSet.toString()}>
-										<td title={timeSet.toLocaleString()}>
+									<tr key={timeSet}>
+										<td title={new Date(timeSet).toLocaleString()}>
 											{DateTime.fromISO(timeSet).toRelative()}
 										</td>
 										<td>
