@@ -1,10 +1,11 @@
 import type ApiConfig from "../../interfaces/config";
 
 const developmentConfig: ApiConfig = {
-  apiURL: "https://api.accsaber.com/",
-  cdnURL: "https://cdn.accsaber.com/",
-  defaultLocale: "en-AU",
-  isBeta: true,
+	apiURL: "http://localhost:8080/",
+	cdnURL: "https://cdn.accsaber.com/",
+	gqlURL: "http://localhost:4000/graphql",
+	defaultLocale: "en-AU",
+	isBeta: true,
 };
 
 export default developmentConfig;

@@ -1,0 +1,5103 @@
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `AccSaberScore`."""
+  accSaberScores(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AccSaberScore`."""
+    orderBy: [AccSaberScoresOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AccSaberScoreCondition
+  ): AccSaberScoresConnection
+
+  """Reads and enables pagination through a set of `BeatMap`."""
+  beatMaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BeatMapCondition
+  ): BeatMapsConnection
+
+  """Reads and enables pagination through a set of `Category`."""
+  categories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CategoryCondition
+  ): CategoriesConnection
+
+  """
+  Reads and enables pagination through a set of `CategoryAccSaberPlayer`.
+  """
+  categoryAccSaberPlayers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CategoryAccSaberPlayer`."""
+    orderBy: [CategoryAccSaberPlayersOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CategoryAccSaberPlayerCondition
+  ): CategoryAccSaberPlayersConnection
+
+  """Reads and enables pagination through a set of `Databasechangelog`."""
+  databasechangelogs(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Databasechangelog`."""
+    orderBy: [DatabasechangelogsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DatabasechangelogCondition
+  ): DatabasechangelogsConnection
+
+  """Reads and enables pagination through a set of `Databasechangeloglock`."""
+  databasechangeloglocks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Databasechangeloglock`."""
+    orderBy: [DatabasechangeloglocksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DatabasechangeloglockCondition
+  ): DatabasechangeloglocksConnection
+
+  """Reads and enables pagination through a set of `OverallAccSaberPlayer`."""
+  overallAccSaberPlayers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OverallAccSaberPlayer`."""
+    orderBy: [OverallAccSaberPlayersOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OverallAccSaberPlayerCondition
+  ): OverallAccSaberPlayersConnection
+
+  """Reads and enables pagination through a set of `PlayerCategoryStat`."""
+  playerCategoryStats(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerCategoryStatCondition
+  ): PlayerCategoryStatsConnection
+
+  """Reads and enables pagination through a set of `PlayerDatum`."""
+  playerData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerDatum`."""
+    orderBy: [PlayerDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerDatumCondition
+  ): PlayerDataConnection
+
+  """Reads and enables pagination through a set of `PlayerRankHistory`."""
+  playerRankHistories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerRankHistory`."""
+    orderBy: [PlayerRankHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerRankHistoryCondition
+  ): PlayerRankHistoriesConnection
+
+  """Reads and enables pagination through a set of `ScoreDatum`."""
+  scoreData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ScoreDatum`."""
+    orderBy: [ScoreDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreDatumCondition
+  ): ScoreDataConnection
+
+  """Reads and enables pagination through a set of `ScoreDataHistory`."""
+  scoreDataHistories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ScoreDataHistory`."""
+    orderBy: [ScoreDataHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreDataHistoryCondition
+  ): ScoreDataHistoriesConnection
+
+  """Reads and enables pagination through a set of `Song`."""
+  songs(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Song`."""
+    orderBy: [SongsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SongCondition
+  ): SongsConnection
+
+  """Reads and enables pagination through a set of `StaffUser`."""
+  staffUsers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `StaffUser`."""
+    orderBy: [StaffUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StaffUserCondition
+  ): StaffUsersConnection
+  beatMap(leaderboardId: BigInt!): BeatMap
+  category(id: BigInt!): Category
+  categoryByCategoryName(categoryName: String!): Category
+  databasechangeloglock(id: Int!): Databasechangeloglock
+  playerCategoryStat(categoryId: BigInt!, playerId: BigInt!): PlayerCategoryStat
+  playerDatum(playerId: BigInt!): PlayerDatum
+  playerRankHistory(categoryId: BigInt!, date: Date!, playerId: BigInt!): PlayerRankHistory
+  scoreDatum(scoreId: BigInt!): ScoreDatum
+  scoreDataHistory(id: BigInt!): ScoreDataHistory
+  song(songHash: String!): Song
+  staffUser(username: String!): StaffUser
+
+  """Reads a single `BeatMap` using its globally unique `ID`."""
+  beatMapByNodeId(
+    """The globally unique `ID` to be used in selecting a single `BeatMap`."""
+    nodeId: ID!
+  ): BeatMap
+
+  """Reads a single `Category` using its globally unique `ID`."""
+  categoryByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Category`."""
+    nodeId: ID!
+  ): Category
+
+  """Reads a single `Databasechangeloglock` using its globally unique `ID`."""
+  databasechangeloglockByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Databasechangeloglock`.
+    """
+    nodeId: ID!
+  ): Databasechangeloglock
+
+  """Reads a single `PlayerCategoryStat` using its globally unique `ID`."""
+  playerCategoryStatByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `PlayerCategoryStat`.
+    """
+    nodeId: ID!
+  ): PlayerCategoryStat
+
+  """Reads a single `PlayerDatum` using its globally unique `ID`."""
+  playerDatumByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `PlayerDatum`.
+    """
+    nodeId: ID!
+  ): PlayerDatum
+
+  """Reads a single `PlayerRankHistory` using its globally unique `ID`."""
+  playerRankHistoryByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `PlayerRankHistory`.
+    """
+    nodeId: ID!
+  ): PlayerRankHistory
+
+  """Reads a single `ScoreDatum` using its globally unique `ID`."""
+  scoreDatumByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `ScoreDatum`.
+    """
+    nodeId: ID!
+  ): ScoreDatum
+
+  """Reads a single `ScoreDataHistory` using its globally unique `ID`."""
+  scoreDataHistoryByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `ScoreDataHistory`.
+    """
+    nodeId: ID!
+  ): ScoreDataHistory
+
+  """Reads a single `Song` using its globally unique `ID`."""
+  songByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Song`."""
+    nodeId: ID!
+  ): Song
+
+  """Reads a single `StaffUser` using its globally unique `ID`."""
+  staffUserByNodeId(
+    """The globally unique `ID` to be used in selecting a single `StaffUser`."""
+    nodeId: ID!
+  ): StaffUser
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `AccSaberScore` values."""
+type AccSaberScoresConnection {
+  """A list of `AccSaberScore` objects."""
+  nodes: [AccSaberScore!]!
+
+  """
+  A list of edges which contains the `AccSaberScore` and cursor to aid in pagination.
+  """
+  edges: [AccSaberScoresEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `AccSaberScore` you could get from the connection."""
+  totalCount: Int!
+}
+
+type AccSaberScore {
+  scoreId: BigInt
+  accuracy: Float
+  ap: Float
+  weightedAp: Float
+  isRankedScore: Boolean
+  rankWhenScoresSet: Int
+  score: Int
+  timeSet: Datetime
+  unmodififiedScore: Int
+  playerId: BigInt
+  mods: String
+  ranking: BigInt
+  songName: String
+  songAuthorName: String
+  levelAuthorName: String
+  songSubName: String
+  complexity: Float
+  songHash: String
+  difficulty: String
+  leaderboardId: BigInt
+  beatSaverKey: String
+  categoryDisplayName: String
+  categoryName: String
+}
+
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+"""A `AccSaberScore` edge in the connection."""
+type AccSaberScoresEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `AccSaberScore` at the end of the edge."""
+  node: AccSaberScore!
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `AccSaberScore`."""
+enum AccSaberScoresOrderBy {
+  NATURAL
+  SCORE_ID_ASC
+  SCORE_ID_DESC
+  ACCURACY_ASC
+  ACCURACY_DESC
+  AP_ASC
+  AP_DESC
+  WEIGHTED_AP_ASC
+  WEIGHTED_AP_DESC
+  IS_RANKED_SCORE_ASC
+  IS_RANKED_SCORE_DESC
+  RANK_WHEN_SCORES_SET_ASC
+  RANK_WHEN_SCORES_SET_DESC
+  SCORE_ASC
+  SCORE_DESC
+  TIME_SET_ASC
+  TIME_SET_DESC
+  UNMODIFIFIED_SCORE_ASC
+  UNMODIFIFIED_SCORE_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  MODS_ASC
+  MODS_DESC
+  RANKING_ASC
+  RANKING_DESC
+  SONG_NAME_ASC
+  SONG_NAME_DESC
+  SONG_AUTHOR_NAME_ASC
+  SONG_AUTHOR_NAME_DESC
+  LEVEL_AUTHOR_NAME_ASC
+  LEVEL_AUTHOR_NAME_DESC
+  SONG_SUB_NAME_ASC
+  SONG_SUB_NAME_DESC
+  COMPLEXITY_ASC
+  COMPLEXITY_DESC
+  SONG_HASH_ASC
+  SONG_HASH_DESC
+  DIFFICULTY_ASC
+  DIFFICULTY_DESC
+  LEADERBOARD_ID_ASC
+  LEADERBOARD_ID_DESC
+  BEAT_SAVER_KEY_ASC
+  BEAT_SAVER_KEY_DESC
+  CATEGORY_DISPLAY_NAME_ASC
+  CATEGORY_DISPLAY_NAME_DESC
+  CATEGORY_NAME_ASC
+  CATEGORY_NAME_DESC
+}
+
+"""
+A condition to be used against `AccSaberScore` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input AccSaberScoreCondition {
+  """Checks for equality with the object’s `scoreId` field."""
+  scoreId: BigInt
+
+  """Checks for equality with the object’s `accuracy` field."""
+  accuracy: Float
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `weightedAp` field."""
+  weightedAp: Float
+
+  """Checks for equality with the object’s `isRankedScore` field."""
+  isRankedScore: Boolean
+
+  """Checks for equality with the object’s `rankWhenScoresSet` field."""
+  rankWhenScoresSet: Int
+
+  """Checks for equality with the object’s `score` field."""
+  score: Int
+
+  """Checks for equality with the object’s `timeSet` field."""
+  timeSet: Datetime
+
+  """Checks for equality with the object’s `unmodififiedScore` field."""
+  unmodififiedScore: Int
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `mods` field."""
+  mods: String
+
+  """Checks for equality with the object’s `ranking` field."""
+  ranking: BigInt
+
+  """Checks for equality with the object’s `songName` field."""
+  songName: String
+
+  """Checks for equality with the object’s `songAuthorName` field."""
+  songAuthorName: String
+
+  """Checks for equality with the object’s `levelAuthorName` field."""
+  levelAuthorName: String
+
+  """Checks for equality with the object’s `songSubName` field."""
+  songSubName: String
+
+  """Checks for equality with the object’s `complexity` field."""
+  complexity: Float
+
+  """Checks for equality with the object’s `songHash` field."""
+  songHash: String
+
+  """Checks for equality with the object’s `difficulty` field."""
+  difficulty: String
+
+  """Checks for equality with the object’s `leaderboardId` field."""
+  leaderboardId: BigInt
+
+  """Checks for equality with the object’s `beatSaverKey` field."""
+  beatSaverKey: String
+
+  """Checks for equality with the object’s `categoryDisplayName` field."""
+  categoryDisplayName: String
+
+  """Checks for equality with the object’s `categoryName` field."""
+  categoryName: String
+}
+
+"""A connection to a list of `BeatMap` values."""
+type BeatMapsConnection {
+  """A list of `BeatMap` objects."""
+  nodes: [BeatMap!]!
+
+  """
+  A list of edges which contains the `BeatMap` and cursor to aid in pagination.
+  """
+  edges: [BeatMapsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `BeatMap` you could get from the connection."""
+  totalCount: Int!
+}
+
+type BeatMap implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  leaderboardId: BigInt!
+  complexity: Float!
+  dateRanked: Datetime!
+  difficulty: String
+  maxScore: Int!
+  categoryId: BigInt
+  song: String
+
+  """Reads a single `Category` that is related to this `BeatMap`."""
+  category: Category
+
+  """Reads a single `Song` that is related to this `BeatMap`."""
+  songBySong: Song
+}
+
+type Category implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  apCurveA: Float
+  apCurveB: Float
+  apCurveC: Float
+  apCurveD: Float
+  apCurveE: Float
+  categoryDisplayName: String
+  categoryName: String!
+  countsTowardsOverall: Boolean!
+  createdDate: Datetime!
+  description: String
+  playerCurveK: Float
+  playerCurveX1: Float
+  playerCurveY1: Float
+
+  """Reads and enables pagination through a set of `BeatMap`."""
+  beatMaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BeatMapCondition
+  ): BeatMapsConnection!
+
+  """Reads and enables pagination through a set of `PlayerCategoryStat`."""
+  playerCategoryStats(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerCategoryStatCondition
+  ): PlayerCategoryStatsConnection!
+}
+
+"""Methods to use when ordering `BeatMap`."""
+enum BeatMapsOrderBy {
+  NATURAL
+  LEADERBOARD_ID_ASC
+  LEADERBOARD_ID_DESC
+  COMPLEXITY_ASC
+  COMPLEXITY_DESC
+  DATE_RANKED_ASC
+  DATE_RANKED_DESC
+  DIFFICULTY_ASC
+  DIFFICULTY_DESC
+  MAX_SCORE_ASC
+  MAX_SCORE_DESC
+  CATEGORY_ID_ASC
+  CATEGORY_ID_DESC
+  SONG_ASC
+  SONG_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `BeatMap` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input BeatMapCondition {
+  """Checks for equality with the object’s `leaderboardId` field."""
+  leaderboardId: BigInt
+
+  """Checks for equality with the object’s `complexity` field."""
+  complexity: Float
+
+  """Checks for equality with the object’s `dateRanked` field."""
+  dateRanked: Datetime
+
+  """Checks for equality with the object’s `difficulty` field."""
+  difficulty: String
+
+  """Checks for equality with the object’s `maxScore` field."""
+  maxScore: Int
+
+  """Checks for equality with the object’s `categoryId` field."""
+  categoryId: BigInt
+
+  """Checks for equality with the object’s `song` field."""
+  song: String
+}
+
+"""A connection to a list of `PlayerCategoryStat` values."""
+type PlayerCategoryStatsConnection {
+  """A list of `PlayerCategoryStat` objects."""
+  nodes: [PlayerCategoryStat!]!
+
+  """
+  A list of edges which contains the `PlayerCategoryStat` and cursor to aid in pagination.
+  """
+  edges: [PlayerCategoryStatsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `PlayerCategoryStat` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type PlayerCategoryStat implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  categoryId: BigInt!
+  playerId: BigInt!
+  ap: Float
+  averageAcc: Float
+  averageAp: Float
+  rankedPlays: Int!
+  rankingLastWeek: Int!
+
+  """
+  Reads a single `Category` that is related to this `PlayerCategoryStat`.
+  """
+  category: Category
+
+  """
+  Reads a single `PlayerDatum` that is related to this `PlayerCategoryStat`.
+  """
+  player: PlayerDatum
+}
+
+type PlayerDatum implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  playerId: BigInt!
+  avatarUrl: String
+  hmd: String
+  isAccChamp: Boolean!
+  joinDate: Datetime!
+  playerName: String
+
+  """Reads and enables pagination through a set of `PlayerCategoryStat`."""
+  playerCategoryStatsByPlayerId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerCategoryStatCondition
+  ): PlayerCategoryStatsConnection!
+
+  """Reads and enables pagination through a set of `ScoreDatum`."""
+  scoreDataByPlayerId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ScoreDatum`."""
+    orderBy: [ScoreDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreDatumCondition
+  ): ScoreDataConnection!
+
+  """Reads and enables pagination through a set of `ScoreDataHistory`."""
+  scoreDataHistoriesByPlayerId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ScoreDataHistory`."""
+    orderBy: [ScoreDataHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreDataHistoryCondition
+  ): ScoreDataHistoriesConnection!
+}
+
+"""Methods to use when ordering `PlayerCategoryStat`."""
+enum PlayerCategoryStatsOrderBy {
+  NATURAL
+  CATEGORY_ID_ASC
+  CATEGORY_ID_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  AP_ASC
+  AP_DESC
+  AVERAGE_ACC_ASC
+  AVERAGE_ACC_DESC
+  AVERAGE_AP_ASC
+  AVERAGE_AP_DESC
+  RANKED_PLAYS_ASC
+  RANKED_PLAYS_DESC
+  RANKING_LAST_WEEK_ASC
+  RANKING_LAST_WEEK_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `PlayerCategoryStat` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input PlayerCategoryStatCondition {
+  """Checks for equality with the object’s `categoryId` field."""
+  categoryId: BigInt
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `averageAcc` field."""
+  averageAcc: Float
+
+  """Checks for equality with the object’s `averageAp` field."""
+  averageAp: Float
+
+  """Checks for equality with the object’s `rankedPlays` field."""
+  rankedPlays: Int
+
+  """Checks for equality with the object’s `rankingLastWeek` field."""
+  rankingLastWeek: Int
+}
+
+"""A connection to a list of `ScoreDatum` values."""
+type ScoreDataConnection {
+  """A list of `ScoreDatum` objects."""
+  nodes: [ScoreDatum!]!
+
+  """
+  A list of edges which contains the `ScoreDatum` and cursor to aid in pagination.
+  """
+  edges: [ScoreDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ScoreDatum` you could get from the connection."""
+  totalCount: Int!
+}
+
+type ScoreDatum implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  scoreId: BigInt!
+  accuracy: Float
+  ap: Float
+  isRankedScore: Boolean!
+  mapLeaderboardId: BigInt
+  mods: String
+  rankWhenScoresSet: Int!
+  score: Int!
+  timeSet: Datetime
+  unmodififiedScore: Int!
+  weightedAp: Float
+  playerId: BigInt
+
+  """Reads a single `PlayerDatum` that is related to this `ScoreDatum`."""
+  player: PlayerDatum
+}
+
+"""A `ScoreDatum` edge in the connection."""
+type ScoreDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ScoreDatum` at the end of the edge."""
+  node: ScoreDatum!
+}
+
+"""Methods to use when ordering `ScoreDatum`."""
+enum ScoreDataOrderBy {
+  NATURAL
+  SCORE_ID_ASC
+  SCORE_ID_DESC
+  ACCURACY_ASC
+  ACCURACY_DESC
+  AP_ASC
+  AP_DESC
+  IS_RANKED_SCORE_ASC
+  IS_RANKED_SCORE_DESC
+  MAP_LEADERBOARD_ID_ASC
+  MAP_LEADERBOARD_ID_DESC
+  MODS_ASC
+  MODS_DESC
+  RANK_WHEN_SCORES_SET_ASC
+  RANK_WHEN_SCORES_SET_DESC
+  SCORE_ASC
+  SCORE_DESC
+  TIME_SET_ASC
+  TIME_SET_DESC
+  UNMODIFIFIED_SCORE_ASC
+  UNMODIFIFIED_SCORE_DESC
+  WEIGHTED_AP_ASC
+  WEIGHTED_AP_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ScoreDatum` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input ScoreDatumCondition {
+  """Checks for equality with the object’s `scoreId` field."""
+  scoreId: BigInt
+
+  """Checks for equality with the object’s `accuracy` field."""
+  accuracy: Float
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `isRankedScore` field."""
+  isRankedScore: Boolean
+
+  """Checks for equality with the object’s `mapLeaderboardId` field."""
+  mapLeaderboardId: BigInt
+
+  """Checks for equality with the object’s `mods` field."""
+  mods: String
+
+  """Checks for equality with the object’s `rankWhenScoresSet` field."""
+  rankWhenScoresSet: Int
+
+  """Checks for equality with the object’s `score` field."""
+  score: Int
+
+  """Checks for equality with the object’s `timeSet` field."""
+  timeSet: Datetime
+
+  """Checks for equality with the object’s `unmodififiedScore` field."""
+  unmodififiedScore: Int
+
+  """Checks for equality with the object’s `weightedAp` field."""
+  weightedAp: Float
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+}
+
+"""A connection to a list of `ScoreDataHistory` values."""
+type ScoreDataHistoriesConnection {
+  """A list of `ScoreDataHistory` objects."""
+  nodes: [ScoreDataHistory!]!
+
+  """
+  A list of edges which contains the `ScoreDataHistory` and cursor to aid in pagination.
+  """
+  edges: [ScoreDataHistoriesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ScoreDataHistory` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type ScoreDataHistory implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  accuracy: Float
+  ap: Float
+  mapLeaderboardId: BigInt
+  mods: String
+  score: Int!
+  scoreId: BigInt!
+  timeSet: Datetime
+  unmodififiedScore: Int!
+  weightedAp: Float
+  playerId: BigInt
+
+  """
+  Reads a single `PlayerDatum` that is related to this `ScoreDataHistory`.
+  """
+  player: PlayerDatum
+}
+
+"""A `ScoreDataHistory` edge in the connection."""
+type ScoreDataHistoriesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ScoreDataHistory` at the end of the edge."""
+  node: ScoreDataHistory!
+}
+
+"""Methods to use when ordering `ScoreDataHistory`."""
+enum ScoreDataHistoriesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ACCURACY_ASC
+  ACCURACY_DESC
+  AP_ASC
+  AP_DESC
+  MAP_LEADERBOARD_ID_ASC
+  MAP_LEADERBOARD_ID_DESC
+  MODS_ASC
+  MODS_DESC
+  SCORE_ASC
+  SCORE_DESC
+  SCORE_ID_ASC
+  SCORE_ID_DESC
+  TIME_SET_ASC
+  TIME_SET_DESC
+  UNMODIFIFIED_SCORE_ASC
+  UNMODIFIFIED_SCORE_DESC
+  WEIGHTED_AP_ASC
+  WEIGHTED_AP_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ScoreDataHistory` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ScoreDataHistoryCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `accuracy` field."""
+  accuracy: Float
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `mapLeaderboardId` field."""
+  mapLeaderboardId: BigInt
+
+  """Checks for equality with the object’s `mods` field."""
+  mods: String
+
+  """Checks for equality with the object’s `score` field."""
+  score: Int
+
+  """Checks for equality with the object’s `scoreId` field."""
+  scoreId: BigInt
+
+  """Checks for equality with the object’s `timeSet` field."""
+  timeSet: Datetime
+
+  """Checks for equality with the object’s `unmodififiedScore` field."""
+  unmodififiedScore: Int
+
+  """Checks for equality with the object’s `weightedAp` field."""
+  weightedAp: Float
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+}
+
+"""A `PlayerCategoryStat` edge in the connection."""
+type PlayerCategoryStatsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `PlayerCategoryStat` at the end of the edge."""
+  node: PlayerCategoryStat!
+}
+
+type Song implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  songHash: String!
+  beatSaverKey: String
+  levelAuthorName: String
+  songAuthorName: String
+  songName: String
+  songSubName: String
+
+  """Reads and enables pagination through a set of `BeatMap`."""
+  beatMapsBySong(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BeatMapCondition
+  ): BeatMapsConnection!
+}
+
+"""A `BeatMap` edge in the connection."""
+type BeatMapsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `BeatMap` at the end of the edge."""
+  node: BeatMap!
+}
+
+"""A connection to a list of `Category` values."""
+type CategoriesConnection {
+  """A list of `Category` objects."""
+  nodes: [Category!]!
+
+  """
+  A list of edges which contains the `Category` and cursor to aid in pagination.
+  """
+  edges: [CategoriesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Category` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Category` edge in the connection."""
+type CategoriesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Category` at the end of the edge."""
+  node: Category!
+}
+
+"""Methods to use when ordering `Category`."""
+enum CategoriesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  AP_CURVE_A_ASC
+  AP_CURVE_A_DESC
+  AP_CURVE_B_ASC
+  AP_CURVE_B_DESC
+  AP_CURVE_C_ASC
+  AP_CURVE_C_DESC
+  AP_CURVE_D_ASC
+  AP_CURVE_D_DESC
+  AP_CURVE_E_ASC
+  AP_CURVE_E_DESC
+  CATEGORY_DISPLAY_NAME_ASC
+  CATEGORY_DISPLAY_NAME_DESC
+  CATEGORY_NAME_ASC
+  CATEGORY_NAME_DESC
+  COUNTS_TOWARDS_OVERALL_ASC
+  COUNTS_TOWARDS_OVERALL_DESC
+  CREATED_DATE_ASC
+  CREATED_DATE_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  PLAYER_CURVE_K_ASC
+  PLAYER_CURVE_K_DESC
+  PLAYER_CURVE_X1_ASC
+  PLAYER_CURVE_X1_DESC
+  PLAYER_CURVE_Y1_ASC
+  PLAYER_CURVE_Y1_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Category` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input CategoryCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `apCurveA` field."""
+  apCurveA: Float
+
+  """Checks for equality with the object’s `apCurveB` field."""
+  apCurveB: Float
+
+  """Checks for equality with the object’s `apCurveC` field."""
+  apCurveC: Float
+
+  """Checks for equality with the object’s `apCurveD` field."""
+  apCurveD: Float
+
+  """Checks for equality with the object’s `apCurveE` field."""
+  apCurveE: Float
+
+  """Checks for equality with the object’s `categoryDisplayName` field."""
+  categoryDisplayName: String
+
+  """Checks for equality with the object’s `categoryName` field."""
+  categoryName: String
+
+  """Checks for equality with the object’s `countsTowardsOverall` field."""
+  countsTowardsOverall: Boolean
+
+  """Checks for equality with the object’s `createdDate` field."""
+  createdDate: Datetime
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `playerCurveK` field."""
+  playerCurveK: Float
+
+  """Checks for equality with the object’s `playerCurveX1` field."""
+  playerCurveX1: Float
+
+  """Checks for equality with the object’s `playerCurveY1` field."""
+  playerCurveY1: Float
+}
+
+"""A connection to a list of `CategoryAccSaberPlayer` values."""
+type CategoryAccSaberPlayersConnection {
+  """A list of `CategoryAccSaberPlayer` objects."""
+  nodes: [CategoryAccSaberPlayer!]!
+
+  """
+  A list of edges which contains the `CategoryAccSaberPlayer` and cursor to aid in pagination.
+  """
+  edges: [CategoryAccSaberPlayersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `CategoryAccSaberPlayer` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type CategoryAccSaberPlayer {
+  playerId: BigInt
+  ap: Float
+  playerName: String
+  avatarUrl: String
+  averageAcc: Float
+  hmd: String
+  isAccChamp: Boolean
+  averageApPerMap: Float
+  rankedPlays: Int
+  categoryName: String
+  rankingLastWeek: Int
+  ranking: BigInt
+}
+
+"""A `CategoryAccSaberPlayer` edge in the connection."""
+type CategoryAccSaberPlayersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CategoryAccSaberPlayer` at the end of the edge."""
+  node: CategoryAccSaberPlayer!
+}
+
+"""Methods to use when ordering `CategoryAccSaberPlayer`."""
+enum CategoryAccSaberPlayersOrderBy {
+  NATURAL
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  AP_ASC
+  AP_DESC
+  PLAYER_NAME_ASC
+  PLAYER_NAME_DESC
+  AVATAR_URL_ASC
+  AVATAR_URL_DESC
+  AVERAGE_ACC_ASC
+  AVERAGE_ACC_DESC
+  HMD_ASC
+  HMD_DESC
+  IS_ACC_CHAMP_ASC
+  IS_ACC_CHAMP_DESC
+  AVERAGE_AP_PER_MAP_ASC
+  AVERAGE_AP_PER_MAP_DESC
+  RANKED_PLAYS_ASC
+  RANKED_PLAYS_DESC
+  CATEGORY_NAME_ASC
+  CATEGORY_NAME_DESC
+  RANKING_LAST_WEEK_ASC
+  RANKING_LAST_WEEK_DESC
+  RANKING_ASC
+  RANKING_DESC
+}
+
+"""
+A condition to be used against `CategoryAccSaberPlayer` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input CategoryAccSaberPlayerCondition {
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `playerName` field."""
+  playerName: String
+
+  """Checks for equality with the object’s `avatarUrl` field."""
+  avatarUrl: String
+
+  """Checks for equality with the object’s `averageAcc` field."""
+  averageAcc: Float
+
+  """Checks for equality with the object’s `hmd` field."""
+  hmd: String
+
+  """Checks for equality with the object’s `isAccChamp` field."""
+  isAccChamp: Boolean
+
+  """Checks for equality with the object’s `averageApPerMap` field."""
+  averageApPerMap: Float
+
+  """Checks for equality with the object’s `rankedPlays` field."""
+  rankedPlays: Int
+
+  """Checks for equality with the object’s `categoryName` field."""
+  categoryName: String
+
+  """Checks for equality with the object’s `rankingLastWeek` field."""
+  rankingLastWeek: Int
+
+  """Checks for equality with the object’s `ranking` field."""
+  ranking: BigInt
+}
+
+"""A connection to a list of `Databasechangelog` values."""
+type DatabasechangelogsConnection {
+  """A list of `Databasechangelog` objects."""
+  nodes: [Databasechangelog!]!
+
+  """
+  A list of edges which contains the `Databasechangelog` and cursor to aid in pagination.
+  """
+  edges: [DatabasechangelogsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `Databasechangelog` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type Databasechangelog {
+  id: String!
+  author: String!
+  filename: String!
+  dateexecuted: Datetime!
+  orderexecuted: Int!
+  exectype: String!
+  md5Sum: String
+  description: String
+  comments: String
+  tag: String
+  liquibase: String
+  contexts: String
+  labels: String
+  deploymentId: String
+}
+
+"""A `Databasechangelog` edge in the connection."""
+type DatabasechangelogsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Databasechangelog` at the end of the edge."""
+  node: Databasechangelog!
+}
+
+"""Methods to use when ordering `Databasechangelog`."""
+enum DatabasechangelogsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  AUTHOR_ASC
+  AUTHOR_DESC
+  FILENAME_ASC
+  FILENAME_DESC
+  DATEEXECUTED_ASC
+  DATEEXECUTED_DESC
+  ORDEREXECUTED_ASC
+  ORDEREXECUTED_DESC
+  EXECTYPE_ASC
+  EXECTYPE_DESC
+  MD5SUM_ASC
+  MD5SUM_DESC
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  COMMENTS_ASC
+  COMMENTS_DESC
+  TAG_ASC
+  TAG_DESC
+  LIQUIBASE_ASC
+  LIQUIBASE_DESC
+  CONTEXTS_ASC
+  CONTEXTS_DESC
+  LABELS_ASC
+  LABELS_DESC
+  DEPLOYMENT_ID_ASC
+  DEPLOYMENT_ID_DESC
+}
+
+"""
+A condition to be used against `Databasechangelog` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input DatabasechangelogCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `author` field."""
+  author: String
+
+  """Checks for equality with the object’s `filename` field."""
+  filename: String
+
+  """Checks for equality with the object’s `dateexecuted` field."""
+  dateexecuted: Datetime
+
+  """Checks for equality with the object’s `orderexecuted` field."""
+  orderexecuted: Int
+
+  """Checks for equality with the object’s `exectype` field."""
+  exectype: String
+
+  """Checks for equality with the object’s `md5Sum` field."""
+  md5Sum: String
+
+  """Checks for equality with the object’s `description` field."""
+  description: String
+
+  """Checks for equality with the object’s `comments` field."""
+  comments: String
+
+  """Checks for equality with the object’s `tag` field."""
+  tag: String
+
+  """Checks for equality with the object’s `liquibase` field."""
+  liquibase: String
+
+  """Checks for equality with the object’s `contexts` field."""
+  contexts: String
+
+  """Checks for equality with the object’s `labels` field."""
+  labels: String
+
+  """Checks for equality with the object’s `deploymentId` field."""
+  deploymentId: String
+}
+
+"""A connection to a list of `Databasechangeloglock` values."""
+type DatabasechangeloglocksConnection {
+  """A list of `Databasechangeloglock` objects."""
+  nodes: [Databasechangeloglock!]!
+
+  """
+  A list of edges which contains the `Databasechangeloglock` and cursor to aid in pagination.
+  """
+  edges: [DatabasechangeloglocksEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `Databasechangeloglock` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type Databasechangeloglock implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: Int!
+  locked: Boolean!
+  lockgranted: Datetime
+  lockedby: String
+}
+
+"""A `Databasechangeloglock` edge in the connection."""
+type DatabasechangeloglocksEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Databasechangeloglock` at the end of the edge."""
+  node: Databasechangeloglock!
+}
+
+"""Methods to use when ordering `Databasechangeloglock`."""
+enum DatabasechangeloglocksOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  LOCKED_ASC
+  LOCKED_DESC
+  LOCKGRANTED_ASC
+  LOCKGRANTED_DESC
+  LOCKEDBY_ASC
+  LOCKEDBY_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Databasechangeloglock` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input DatabasechangeloglockCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: Int
+
+  """Checks for equality with the object’s `locked` field."""
+  locked: Boolean
+
+  """Checks for equality with the object’s `lockgranted` field."""
+  lockgranted: Datetime
+
+  """Checks for equality with the object’s `lockedby` field."""
+  lockedby: String
+}
+
+"""A connection to a list of `OverallAccSaberPlayer` values."""
+type OverallAccSaberPlayersConnection {
+  """A list of `OverallAccSaberPlayer` objects."""
+  nodes: [OverallAccSaberPlayer!]!
+
+  """
+  A list of edges which contains the `OverallAccSaberPlayer` and cursor to aid in pagination.
+  """
+  edges: [OverallAccSaberPlayersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `OverallAccSaberPlayer` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type OverallAccSaberPlayer {
+  playerId: BigInt
+  ap: Float
+  playerName: String
+  avatarUrl: String
+  averageAcc: Float
+  hmd: String
+  isAccChamp: Boolean
+  averageApPerMap: Float
+  rankedPlays: BigInt
+  rankingLastWeek: Int
+  ranking: BigInt
+}
+
+"""A `OverallAccSaberPlayer` edge in the connection."""
+type OverallAccSaberPlayersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `OverallAccSaberPlayer` at the end of the edge."""
+  node: OverallAccSaberPlayer!
+}
+
+"""Methods to use when ordering `OverallAccSaberPlayer`."""
+enum OverallAccSaberPlayersOrderBy {
+  NATURAL
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  AP_ASC
+  AP_DESC
+  PLAYER_NAME_ASC
+  PLAYER_NAME_DESC
+  AVATAR_URL_ASC
+  AVATAR_URL_DESC
+  AVERAGE_ACC_ASC
+  AVERAGE_ACC_DESC
+  HMD_ASC
+  HMD_DESC
+  IS_ACC_CHAMP_ASC
+  IS_ACC_CHAMP_DESC
+  AVERAGE_AP_PER_MAP_ASC
+  AVERAGE_AP_PER_MAP_DESC
+  RANKED_PLAYS_ASC
+  RANKED_PLAYS_DESC
+  RANKING_LAST_WEEK_ASC
+  RANKING_LAST_WEEK_DESC
+  RANKING_ASC
+  RANKING_DESC
+}
+
+"""
+A condition to be used against `OverallAccSaberPlayer` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input OverallAccSaberPlayerCondition {
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `playerName` field."""
+  playerName: String
+
+  """Checks for equality with the object’s `avatarUrl` field."""
+  avatarUrl: String
+
+  """Checks for equality with the object’s `averageAcc` field."""
+  averageAcc: Float
+
+  """Checks for equality with the object’s `hmd` field."""
+  hmd: String
+
+  """Checks for equality with the object’s `isAccChamp` field."""
+  isAccChamp: Boolean
+
+  """Checks for equality with the object’s `averageApPerMap` field."""
+  averageApPerMap: Float
+
+  """Checks for equality with the object’s `rankedPlays` field."""
+  rankedPlays: BigInt
+
+  """Checks for equality with the object’s `rankingLastWeek` field."""
+  rankingLastWeek: Int
+
+  """Checks for equality with the object’s `ranking` field."""
+  ranking: BigInt
+}
+
+"""A connection to a list of `PlayerDatum` values."""
+type PlayerDataConnection {
+  """A list of `PlayerDatum` objects."""
+  nodes: [PlayerDatum!]!
+
+  """
+  A list of edges which contains the `PlayerDatum` and cursor to aid in pagination.
+  """
+  edges: [PlayerDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `PlayerDatum` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `PlayerDatum` edge in the connection."""
+type PlayerDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `PlayerDatum` at the end of the edge."""
+  node: PlayerDatum!
+}
+
+"""Methods to use when ordering `PlayerDatum`."""
+enum PlayerDataOrderBy {
+  NATURAL
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  AVATAR_URL_ASC
+  AVATAR_URL_DESC
+  HMD_ASC
+  HMD_DESC
+  IS_ACC_CHAMP_ASC
+  IS_ACC_CHAMP_DESC
+  JOIN_DATE_ASC
+  JOIN_DATE_DESC
+  PLAYER_NAME_ASC
+  PLAYER_NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `PlayerDatum` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input PlayerDatumCondition {
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `avatarUrl` field."""
+  avatarUrl: String
+
+  """Checks for equality with the object’s `hmd` field."""
+  hmd: String
+
+  """Checks for equality with the object’s `isAccChamp` field."""
+  isAccChamp: Boolean
+
+  """Checks for equality with the object’s `joinDate` field."""
+  joinDate: Datetime
+
+  """Checks for equality with the object’s `playerName` field."""
+  playerName: String
+}
+
+"""A connection to a list of `PlayerRankHistory` values."""
+type PlayerRankHistoriesConnection {
+  """A list of `PlayerRankHistory` objects."""
+  nodes: [PlayerRankHistory!]!
+
+  """
+  A list of edges which contains the `PlayerRankHistory` and cursor to aid in pagination.
+  """
+  edges: [PlayerRankHistoriesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `PlayerRankHistory` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type PlayerRankHistory implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  categoryId: BigInt!
+  date: Date!
+  playerId: BigInt!
+  ap: Float!
+  averageAcc: Float!
+  averageApPerMap: Float!
+  rankedPlays: Int!
+  ranking: Int!
+}
+
+"""The day, does not include a time."""
+scalar Date
+
+"""A `PlayerRankHistory` edge in the connection."""
+type PlayerRankHistoriesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `PlayerRankHistory` at the end of the edge."""
+  node: PlayerRankHistory!
+}
+
+"""Methods to use when ordering `PlayerRankHistory`."""
+enum PlayerRankHistoriesOrderBy {
+  NATURAL
+  CATEGORY_ID_ASC
+  CATEGORY_ID_DESC
+  DATE_ASC
+  DATE_DESC
+  PLAYER_ID_ASC
+  PLAYER_ID_DESC
+  AP_ASC
+  AP_DESC
+  AVERAGE_ACC_ASC
+  AVERAGE_ACC_DESC
+  AVERAGE_AP_PER_MAP_ASC
+  AVERAGE_AP_PER_MAP_DESC
+  RANKED_PLAYS_ASC
+  RANKED_PLAYS_DESC
+  RANKING_ASC
+  RANKING_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `PlayerRankHistory` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input PlayerRankHistoryCondition {
+  """Checks for equality with the object’s `categoryId` field."""
+  categoryId: BigInt
+
+  """Checks for equality with the object’s `date` field."""
+  date: Date
+
+  """Checks for equality with the object’s `playerId` field."""
+  playerId: BigInt
+
+  """Checks for equality with the object’s `ap` field."""
+  ap: Float
+
+  """Checks for equality with the object’s `averageAcc` field."""
+  averageAcc: Float
+
+  """Checks for equality with the object’s `averageApPerMap` field."""
+  averageApPerMap: Float
+
+  """Checks for equality with the object’s `rankedPlays` field."""
+  rankedPlays: Int
+
+  """Checks for equality with the object’s `ranking` field."""
+  ranking: Int
+}
+
+"""A connection to a list of `Song` values."""
+type SongsConnection {
+  """A list of `Song` objects."""
+  nodes: [Song!]!
+
+  """
+  A list of edges which contains the `Song` and cursor to aid in pagination.
+  """
+  edges: [SongsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Song` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Song` edge in the connection."""
+type SongsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Song` at the end of the edge."""
+  node: Song!
+}
+
+"""Methods to use when ordering `Song`."""
+enum SongsOrderBy {
+  NATURAL
+  SONG_HASH_ASC
+  SONG_HASH_DESC
+  BEAT_SAVER_KEY_ASC
+  BEAT_SAVER_KEY_DESC
+  LEVEL_AUTHOR_NAME_ASC
+  LEVEL_AUTHOR_NAME_DESC
+  SONG_AUTHOR_NAME_ASC
+  SONG_AUTHOR_NAME_DESC
+  SONG_NAME_ASC
+  SONG_NAME_DESC
+  SONG_SUB_NAME_ASC
+  SONG_SUB_NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Song` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input SongCondition {
+  """Checks for equality with the object’s `songHash` field."""
+  songHash: String
+
+  """Checks for equality with the object’s `beatSaverKey` field."""
+  beatSaverKey: String
+
+  """Checks for equality with the object’s `levelAuthorName` field."""
+  levelAuthorName: String
+
+  """Checks for equality with the object’s `songAuthorName` field."""
+  songAuthorName: String
+
+  """Checks for equality with the object’s `songName` field."""
+  songName: String
+
+  """Checks for equality with the object’s `songSubName` field."""
+  songSubName: String
+}
+
+"""A connection to a list of `StaffUser` values."""
+type StaffUsersConnection {
+  """A list of `StaffUser` objects."""
+  nodes: [StaffUser!]!
+
+  """
+  A list of edges which contains the `StaffUser` and cursor to aid in pagination.
+  """
+  edges: [StaffUsersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `StaffUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+type StaffUser implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  username: String!
+  password: String
+  role: String
+}
+
+"""A `StaffUser` edge in the connection."""
+type StaffUsersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `StaffUser` at the end of the edge."""
+  node: StaffUser!
+}
+
+"""Methods to use when ordering `StaffUser`."""
+enum StaffUsersOrderBy {
+  NATURAL
+  USERNAME_ASC
+  USERNAME_DESC
+  PASSWORD_ASC
+  PASSWORD_DESC
+  ROLE_ASC
+  ROLE_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `StaffUser` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input StaffUserCondition {
+  """Checks for equality with the object’s `username` field."""
+  username: String
+
+  """Checks for equality with the object’s `password` field."""
+  password: String
+
+  """Checks for equality with the object’s `role` field."""
+  role: String
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `BeatMap`."""
+  createBeatMap(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateBeatMapInput!
+  ): CreateBeatMapPayload
+
+  """Creates a single `Category`."""
+  createCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCategoryInput!
+  ): CreateCategoryPayload
+
+  """Creates a single `Databasechangelog`."""
+  createDatabasechangelog(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateDatabasechangelogInput!
+  ): CreateDatabasechangelogPayload
+
+  """Creates a single `Databasechangeloglock`."""
+  createDatabasechangeloglock(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateDatabasechangeloglockInput!
+  ): CreateDatabasechangeloglockPayload
+
+  """Creates a single `PlayerCategoryStat`."""
+  createPlayerCategoryStat(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreatePlayerCategoryStatInput!
+  ): CreatePlayerCategoryStatPayload
+
+  """Creates a single `PlayerDatum`."""
+  createPlayerDatum(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreatePlayerDatumInput!
+  ): CreatePlayerDatumPayload
+
+  """Creates a single `PlayerRankHistory`."""
+  createPlayerRankHistory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreatePlayerRankHistoryInput!
+  ): CreatePlayerRankHistoryPayload
+
+  """Creates a single `ScoreDatum`."""
+  createScoreDatum(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateScoreDatumInput!
+  ): CreateScoreDatumPayload
+
+  """Creates a single `ScoreDataHistory`."""
+  createScoreDataHistory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateScoreDataHistoryInput!
+  ): CreateScoreDataHistoryPayload
+
+  """Creates a single `Song`."""
+  createSong(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateSongInput!
+  ): CreateSongPayload
+
+  """Creates a single `StaffUser`."""
+  createStaffUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateStaffUserInput!
+  ): CreateStaffUserPayload
+
+  """Updates a single `BeatMap` using its globally unique id and a patch."""
+  updateBeatMapByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateBeatMapByNodeIdInput!
+  ): UpdateBeatMapPayload
+
+  """Updates a single `BeatMap` using a unique key and a patch."""
+  updateBeatMap(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateBeatMapInput!
+  ): UpdateBeatMapPayload
+
+  """Updates a single `Category` using its globally unique id and a patch."""
+  updateCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryByNodeIdInput!
+  ): UpdateCategoryPayload
+
+  """Updates a single `Category` using a unique key and a patch."""
+  updateCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryInput!
+  ): UpdateCategoryPayload
+
+  """Updates a single `Category` using a unique key and a patch."""
+  updateCategoryByCategoryName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCategoryByCategoryNameInput!
+  ): UpdateCategoryPayload
+
+  """
+  Updates a single `Databasechangeloglock` using its globally unique id and a patch.
+  """
+  updateDatabasechangeloglockByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateDatabasechangeloglockByNodeIdInput!
+  ): UpdateDatabasechangeloglockPayload
+
+  """
+  Updates a single `Databasechangeloglock` using a unique key and a patch.
+  """
+  updateDatabasechangeloglock(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateDatabasechangeloglockInput!
+  ): UpdateDatabasechangeloglockPayload
+
+  """
+  Updates a single `PlayerCategoryStat` using its globally unique id and a patch.
+  """
+  updatePlayerCategoryStatByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerCategoryStatByNodeIdInput!
+  ): UpdatePlayerCategoryStatPayload
+
+  """Updates a single `PlayerCategoryStat` using a unique key and a patch."""
+  updatePlayerCategoryStat(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerCategoryStatInput!
+  ): UpdatePlayerCategoryStatPayload
+
+  """
+  Updates a single `PlayerDatum` using its globally unique id and a patch.
+  """
+  updatePlayerDatumByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerDatumByNodeIdInput!
+  ): UpdatePlayerDatumPayload
+
+  """Updates a single `PlayerDatum` using a unique key and a patch."""
+  updatePlayerDatum(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerDatumInput!
+  ): UpdatePlayerDatumPayload
+
+  """
+  Updates a single `PlayerRankHistory` using its globally unique id and a patch.
+  """
+  updatePlayerRankHistoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerRankHistoryByNodeIdInput!
+  ): UpdatePlayerRankHistoryPayload
+
+  """Updates a single `PlayerRankHistory` using a unique key and a patch."""
+  updatePlayerRankHistory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdatePlayerRankHistoryInput!
+  ): UpdatePlayerRankHistoryPayload
+
+  """
+  Updates a single `ScoreDatum` using its globally unique id and a patch.
+  """
+  updateScoreDatumByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScoreDatumByNodeIdInput!
+  ): UpdateScoreDatumPayload
+
+  """Updates a single `ScoreDatum` using a unique key and a patch."""
+  updateScoreDatum(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScoreDatumInput!
+  ): UpdateScoreDatumPayload
+
+  """
+  Updates a single `ScoreDataHistory` using its globally unique id and a patch.
+  """
+  updateScoreDataHistoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScoreDataHistoryByNodeIdInput!
+  ): UpdateScoreDataHistoryPayload
+
+  """Updates a single `ScoreDataHistory` using a unique key and a patch."""
+  updateScoreDataHistory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateScoreDataHistoryInput!
+  ): UpdateScoreDataHistoryPayload
+
+  """Updates a single `Song` using its globally unique id and a patch."""
+  updateSongByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSongByNodeIdInput!
+  ): UpdateSongPayload
+
+  """Updates a single `Song` using a unique key and a patch."""
+  updateSong(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateSongInput!
+  ): UpdateSongPayload
+
+  """Updates a single `StaffUser` using its globally unique id and a patch."""
+  updateStaffUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateStaffUserByNodeIdInput!
+  ): UpdateStaffUserPayload
+
+  """Updates a single `StaffUser` using a unique key and a patch."""
+  updateStaffUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateStaffUserInput!
+  ): UpdateStaffUserPayload
+
+  """Deletes a single `BeatMap` using its globally unique id."""
+  deleteBeatMapByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteBeatMapByNodeIdInput!
+  ): DeleteBeatMapPayload
+
+  """Deletes a single `BeatMap` using a unique key."""
+  deleteBeatMap(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteBeatMapInput!
+  ): DeleteBeatMapPayload
+
+  """Deletes a single `Category` using its globally unique id."""
+  deleteCategoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByNodeIdInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
+  deleteCategory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Category` using a unique key."""
+  deleteCategoryByCategoryName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCategoryByCategoryNameInput!
+  ): DeleteCategoryPayload
+
+  """Deletes a single `Databasechangeloglock` using its globally unique id."""
+  deleteDatabasechangeloglockByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteDatabasechangeloglockByNodeIdInput!
+  ): DeleteDatabasechangeloglockPayload
+
+  """Deletes a single `Databasechangeloglock` using a unique key."""
+  deleteDatabasechangeloglock(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteDatabasechangeloglockInput!
+  ): DeleteDatabasechangeloglockPayload
+
+  """Deletes a single `PlayerCategoryStat` using its globally unique id."""
+  deletePlayerCategoryStatByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerCategoryStatByNodeIdInput!
+  ): DeletePlayerCategoryStatPayload
+
+  """Deletes a single `PlayerCategoryStat` using a unique key."""
+  deletePlayerCategoryStat(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerCategoryStatInput!
+  ): DeletePlayerCategoryStatPayload
+
+  """Deletes a single `PlayerDatum` using its globally unique id."""
+  deletePlayerDatumByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerDatumByNodeIdInput!
+  ): DeletePlayerDatumPayload
+
+  """Deletes a single `PlayerDatum` using a unique key."""
+  deletePlayerDatum(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerDatumInput!
+  ): DeletePlayerDatumPayload
+
+  """Deletes a single `PlayerRankHistory` using its globally unique id."""
+  deletePlayerRankHistoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerRankHistoryByNodeIdInput!
+  ): DeletePlayerRankHistoryPayload
+
+  """Deletes a single `PlayerRankHistory` using a unique key."""
+  deletePlayerRankHistory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeletePlayerRankHistoryInput!
+  ): DeletePlayerRankHistoryPayload
+
+  """Deletes a single `ScoreDatum` using its globally unique id."""
+  deleteScoreDatumByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScoreDatumByNodeIdInput!
+  ): DeleteScoreDatumPayload
+
+  """Deletes a single `ScoreDatum` using a unique key."""
+  deleteScoreDatum(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScoreDatumInput!
+  ): DeleteScoreDatumPayload
+
+  """Deletes a single `ScoreDataHistory` using its globally unique id."""
+  deleteScoreDataHistoryByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScoreDataHistoryByNodeIdInput!
+  ): DeleteScoreDataHistoryPayload
+
+  """Deletes a single `ScoreDataHistory` using a unique key."""
+  deleteScoreDataHistory(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteScoreDataHistoryInput!
+  ): DeleteScoreDataHistoryPayload
+
+  """Deletes a single `Song` using its globally unique id."""
+  deleteSongByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSongByNodeIdInput!
+  ): DeleteSongPayload
+
+  """Deletes a single `Song` using a unique key."""
+  deleteSong(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteSongInput!
+  ): DeleteSongPayload
+
+  """Deletes a single `StaffUser` using its globally unique id."""
+  deleteStaffUserByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteStaffUserByNodeIdInput!
+  ): DeleteStaffUserPayload
+
+  """Deletes a single `StaffUser` using a unique key."""
+  deleteStaffUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteStaffUserInput!
+  ): DeleteStaffUserPayload
+  calcAp(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CalcApInput!
+  ): CalcApPayload
+  calcWeightedAp(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CalcWeightedApInput!
+  ): CalcWeightedApPayload
+}
+
+"""The output of our create `BeatMap` mutation."""
+type CreateBeatMapPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `BeatMap` that was created by this mutation."""
+  beatMap: BeatMap
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `BeatMap`."""
+  category: Category
+
+  """Reads a single `Song` that is related to this `BeatMap`."""
+  songBySong: Song
+
+  """An edge for our `BeatMap`. May be used by Relay 1."""
+  beatMapEdge(
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): BeatMapsEdge
+}
+
+"""All input for the create `BeatMap` mutation."""
+input CreateBeatMapInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `BeatMap` to be created by this mutation."""
+  beatMap: BeatMapInput!
+}
+
+"""An input for mutations affecting `BeatMap`"""
+input BeatMapInput {
+  leaderboardId: BigInt!
+  complexity: Float!
+  dateRanked: Datetime!
+  difficulty: String
+  maxScore: Int!
+  categoryId: BigInt
+  song: String
+}
+
+"""The output of our create `Category` mutation."""
+type CreateCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was created by this mutation."""
+  category: Category
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the create `Category` mutation."""
+input CreateCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Category` to be created by this mutation."""
+  category: CategoryInput!
+}
+
+"""An input for mutations affecting `Category`"""
+input CategoryInput {
+  id: BigInt
+  apCurveA: Float
+  apCurveB: Float
+  apCurveC: Float
+  apCurveD: Float
+  apCurveE: Float
+  categoryDisplayName: String
+  categoryName: String!
+  countsTowardsOverall: Boolean!
+  createdDate: Datetime!
+  description: String
+  playerCurveK: Float
+  playerCurveX1: Float
+  playerCurveY1: Float
+}
+
+"""The output of our create `Databasechangelog` mutation."""
+type CreateDatabasechangelogPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Databasechangelog` that was created by this mutation."""
+  databasechangelog: Databasechangelog
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Databasechangelog`. May be used by Relay 1."""
+  databasechangelogEdge(
+    """The method to use when ordering `Databasechangelog`."""
+    orderBy: [DatabasechangelogsOrderBy!] = [NATURAL]
+  ): DatabasechangelogsEdge
+}
+
+"""All input for the create `Databasechangelog` mutation."""
+input CreateDatabasechangelogInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Databasechangelog` to be created by this mutation."""
+  databasechangelog: DatabasechangelogInput!
+}
+
+"""An input for mutations affecting `Databasechangelog`"""
+input DatabasechangelogInput {
+  id: String!
+  author: String!
+  filename: String!
+  dateexecuted: Datetime!
+  orderexecuted: Int!
+  exectype: String!
+  md5Sum: String
+  description: String
+  comments: String
+  tag: String
+  liquibase: String
+  contexts: String
+  labels: String
+  deploymentId: String
+}
+
+"""The output of our create `Databasechangeloglock` mutation."""
+type CreateDatabasechangeloglockPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Databasechangeloglock` that was created by this mutation."""
+  databasechangeloglock: Databasechangeloglock
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Databasechangeloglock`. May be used by Relay 1."""
+  databasechangeloglockEdge(
+    """The method to use when ordering `Databasechangeloglock`."""
+    orderBy: [DatabasechangeloglocksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): DatabasechangeloglocksEdge
+}
+
+"""All input for the create `Databasechangeloglock` mutation."""
+input CreateDatabasechangeloglockInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Databasechangeloglock` to be created by this mutation."""
+  databasechangeloglock: DatabasechangeloglockInput!
+}
+
+"""An input for mutations affecting `Databasechangeloglock`"""
+input DatabasechangeloglockInput {
+  id: Int!
+  locked: Boolean!
+  lockgranted: Datetime
+  lockedby: String
+}
+
+"""The output of our create `PlayerCategoryStat` mutation."""
+type CreatePlayerCategoryStatPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerCategoryStat` that was created by this mutation."""
+  playerCategoryStat: PlayerCategoryStat
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Category` that is related to this `PlayerCategoryStat`.
+  """
+  category: Category
+
+  """
+  Reads a single `PlayerDatum` that is related to this `PlayerCategoryStat`.
+  """
+  player: PlayerDatum
+
+  """An edge for our `PlayerCategoryStat`. May be used by Relay 1."""
+  playerCategoryStatEdge(
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerCategoryStatsEdge
+}
+
+"""All input for the create `PlayerCategoryStat` mutation."""
+input CreatePlayerCategoryStatInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `PlayerCategoryStat` to be created by this mutation."""
+  playerCategoryStat: PlayerCategoryStatInput!
+}
+
+"""An input for mutations affecting `PlayerCategoryStat`"""
+input PlayerCategoryStatInput {
+  categoryId: BigInt!
+  playerId: BigInt!
+  ap: Float
+  averageAcc: Float
+  averageAp: Float
+  rankedPlays: Int
+  rankingLastWeek: Int
+}
+
+"""The output of our create `PlayerDatum` mutation."""
+type CreatePlayerDatumPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerDatum` that was created by this mutation."""
+  playerDatum: PlayerDatum
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `PlayerDatum`. May be used by Relay 1."""
+  playerDatumEdge(
+    """The method to use when ordering `PlayerDatum`."""
+    orderBy: [PlayerDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerDataEdge
+}
+
+"""All input for the create `PlayerDatum` mutation."""
+input CreatePlayerDatumInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `PlayerDatum` to be created by this mutation."""
+  playerDatum: PlayerDatumInput!
+}
+
+"""An input for mutations affecting `PlayerDatum`"""
+input PlayerDatumInput {
+  playerId: BigInt!
+  avatarUrl: String
+  hmd: String
+  isAccChamp: Boolean
+  joinDate: Datetime!
+  playerName: String
+}
+
+"""The output of our create `PlayerRankHistory` mutation."""
+type CreatePlayerRankHistoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerRankHistory` that was created by this mutation."""
+  playerRankHistory: PlayerRankHistory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `PlayerRankHistory`. May be used by Relay 1."""
+  playerRankHistoryEdge(
+    """The method to use when ordering `PlayerRankHistory`."""
+    orderBy: [PlayerRankHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerRankHistoriesEdge
+}
+
+"""All input for the create `PlayerRankHistory` mutation."""
+input CreatePlayerRankHistoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `PlayerRankHistory` to be created by this mutation."""
+  playerRankHistory: PlayerRankHistoryInput!
+}
+
+"""An input for mutations affecting `PlayerRankHistory`"""
+input PlayerRankHistoryInput {
+  categoryId: BigInt!
+  date: Date!
+  playerId: BigInt!
+  ap: Float!
+  averageAcc: Float!
+  averageApPerMap: Float!
+  rankedPlays: Int!
+  ranking: Int!
+}
+
+"""The output of our create `ScoreDatum` mutation."""
+type CreateScoreDatumPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ScoreDatum` that was created by this mutation."""
+  scoreDatum: ScoreDatum
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `PlayerDatum` that is related to this `ScoreDatum`."""
+  player: PlayerDatum
+
+  """An edge for our `ScoreDatum`. May be used by Relay 1."""
+  scoreDatumEdge(
+    """The method to use when ordering `ScoreDatum`."""
+    orderBy: [ScoreDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoreDataEdge
+}
+
+"""All input for the create `ScoreDatum` mutation."""
+input CreateScoreDatumInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ScoreDatum` to be created by this mutation."""
+  scoreDatum: ScoreDatumInput!
+}
+
+"""An input for mutations affecting `ScoreDatum`"""
+input ScoreDatumInput {
+  scoreId: BigInt!
+  accuracy: Float
+  ap: Float
+  isRankedScore: Boolean
+  mapLeaderboardId: BigInt
+  mods: String
+  rankWhenScoresSet: Int!
+  score: Int!
+  timeSet: Datetime
+  unmodififiedScore: Int!
+  weightedAp: Float
+  playerId: BigInt
+}
+
+"""The output of our create `ScoreDataHistory` mutation."""
+type CreateScoreDataHistoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ScoreDataHistory` that was created by this mutation."""
+  scoreDataHistory: ScoreDataHistory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `PlayerDatum` that is related to this `ScoreDataHistory`.
+  """
+  player: PlayerDatum
+
+  """An edge for our `ScoreDataHistory`. May be used by Relay 1."""
+  scoreDataHistoryEdge(
+    """The method to use when ordering `ScoreDataHistory`."""
+    orderBy: [ScoreDataHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoreDataHistoriesEdge
+}
+
+"""All input for the create `ScoreDataHistory` mutation."""
+input CreateScoreDataHistoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ScoreDataHistory` to be created by this mutation."""
+  scoreDataHistory: ScoreDataHistoryInput!
+}
+
+"""An input for mutations affecting `ScoreDataHistory`"""
+input ScoreDataHistoryInput {
+  id: BigInt
+  accuracy: Float
+  ap: Float
+  mapLeaderboardId: BigInt
+  mods: String
+  score: Int!
+  scoreId: BigInt!
+  timeSet: Datetime
+  unmodififiedScore: Int!
+  weightedAp: Float
+  playerId: BigInt
+}
+
+"""The output of our create `Song` mutation."""
+type CreateSongPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Song` that was created by this mutation."""
+  song: Song
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Song`. May be used by Relay 1."""
+  songEdge(
+    """The method to use when ordering `Song`."""
+    orderBy: [SongsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SongsEdge
+}
+
+"""All input for the create `Song` mutation."""
+input CreateSongInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Song` to be created by this mutation."""
+  song: SongInput!
+}
+
+"""An input for mutations affecting `Song`"""
+input SongInput {
+  songHash: String!
+  beatSaverKey: String
+  levelAuthorName: String
+  songAuthorName: String
+  songName: String
+  songSubName: String
+}
+
+"""The output of our create `StaffUser` mutation."""
+type CreateStaffUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `StaffUser` that was created by this mutation."""
+  staffUser: StaffUser
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `StaffUser`. May be used by Relay 1."""
+  staffUserEdge(
+    """The method to use when ordering `StaffUser`."""
+    orderBy: [StaffUsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): StaffUsersEdge
+}
+
+"""All input for the create `StaffUser` mutation."""
+input CreateStaffUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `StaffUser` to be created by this mutation."""
+  staffUser: StaffUserInput!
+}
+
+"""An input for mutations affecting `StaffUser`"""
+input StaffUserInput {
+  username: String!
+  password: String
+  role: String
+}
+
+"""The output of our update `BeatMap` mutation."""
+type UpdateBeatMapPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `BeatMap` that was updated by this mutation."""
+  beatMap: BeatMap
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `BeatMap`."""
+  category: Category
+
+  """Reads a single `Song` that is related to this `BeatMap`."""
+  songBySong: Song
+
+  """An edge for our `BeatMap`. May be used by Relay 1."""
+  beatMapEdge(
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): BeatMapsEdge
+}
+
+"""All input for the `updateBeatMapByNodeId` mutation."""
+input UpdateBeatMapByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `BeatMap` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `BeatMap` being updated.
+  """
+  patch: BeatMapPatch!
+}
+
+"""
+Represents an update to a `BeatMap`. Fields that are set will be updated.
+"""
+input BeatMapPatch {
+  leaderboardId: BigInt
+  complexity: Float
+  dateRanked: Datetime
+  difficulty: String
+  maxScore: Int
+  categoryId: BigInt
+  song: String
+}
+
+"""All input for the `updateBeatMap` mutation."""
+input UpdateBeatMapInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `BeatMap` being updated.
+  """
+  patch: BeatMapPatch!
+  leaderboardId: BigInt!
+}
+
+"""The output of our update `Category` mutation."""
+type UpdateCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was updated by this mutation."""
+  category: Category
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the `updateCategoryByNodeId` mutation."""
+input UpdateCategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Category` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Category` being updated.
+  """
+  patch: CategoryPatch!
+}
+
+"""
+Represents an update to a `Category`. Fields that are set will be updated.
+"""
+input CategoryPatch {
+  id: BigInt
+  apCurveA: Float
+  apCurveB: Float
+  apCurveC: Float
+  apCurveD: Float
+  apCurveE: Float
+  categoryDisplayName: String
+  categoryName: String
+  countsTowardsOverall: Boolean
+  createdDate: Datetime
+  description: String
+  playerCurveK: Float
+  playerCurveX1: Float
+  playerCurveY1: Float
+}
+
+"""All input for the `updateCategory` mutation."""
+input UpdateCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Category` being updated.
+  """
+  patch: CategoryPatch!
+  id: BigInt!
+}
+
+"""All input for the `updateCategoryByCategoryName` mutation."""
+input UpdateCategoryByCategoryNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Category` being updated.
+  """
+  patch: CategoryPatch!
+  categoryName: String!
+}
+
+"""The output of our update `Databasechangeloglock` mutation."""
+type UpdateDatabasechangeloglockPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Databasechangeloglock` that was updated by this mutation."""
+  databasechangeloglock: Databasechangeloglock
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Databasechangeloglock`. May be used by Relay 1."""
+  databasechangeloglockEdge(
+    """The method to use when ordering `Databasechangeloglock`."""
+    orderBy: [DatabasechangeloglocksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): DatabasechangeloglocksEdge
+}
+
+"""All input for the `updateDatabasechangeloglockByNodeId` mutation."""
+input UpdateDatabasechangeloglockByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Databasechangeloglock` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Databasechangeloglock` being updated.
+  """
+  patch: DatabasechangeloglockPatch!
+}
+
+"""
+Represents an update to a `Databasechangeloglock`. Fields that are set will be updated.
+"""
+input DatabasechangeloglockPatch {
+  id: Int
+  locked: Boolean
+  lockgranted: Datetime
+  lockedby: String
+}
+
+"""All input for the `updateDatabasechangeloglock` mutation."""
+input UpdateDatabasechangeloglockInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Databasechangeloglock` being updated.
+  """
+  patch: DatabasechangeloglockPatch!
+  id: Int!
+}
+
+"""The output of our update `PlayerCategoryStat` mutation."""
+type UpdatePlayerCategoryStatPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerCategoryStat` that was updated by this mutation."""
+  playerCategoryStat: PlayerCategoryStat
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Category` that is related to this `PlayerCategoryStat`.
+  """
+  category: Category
+
+  """
+  Reads a single `PlayerDatum` that is related to this `PlayerCategoryStat`.
+  """
+  player: PlayerDatum
+
+  """An edge for our `PlayerCategoryStat`. May be used by Relay 1."""
+  playerCategoryStatEdge(
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerCategoryStatsEdge
+}
+
+"""All input for the `updatePlayerCategoryStatByNodeId` mutation."""
+input UpdatePlayerCategoryStatByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `PlayerCategoryStat` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `PlayerCategoryStat` being updated.
+  """
+  patch: PlayerCategoryStatPatch!
+}
+
+"""
+Represents an update to a `PlayerCategoryStat`. Fields that are set will be updated.
+"""
+input PlayerCategoryStatPatch {
+  categoryId: BigInt
+  playerId: BigInt
+  ap: Float
+  averageAcc: Float
+  averageAp: Float
+  rankedPlays: Int
+  rankingLastWeek: Int
+}
+
+"""All input for the `updatePlayerCategoryStat` mutation."""
+input UpdatePlayerCategoryStatInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `PlayerCategoryStat` being updated.
+  """
+  patch: PlayerCategoryStatPatch!
+  categoryId: BigInt!
+  playerId: BigInt!
+}
+
+"""The output of our update `PlayerDatum` mutation."""
+type UpdatePlayerDatumPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerDatum` that was updated by this mutation."""
+  playerDatum: PlayerDatum
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `PlayerDatum`. May be used by Relay 1."""
+  playerDatumEdge(
+    """The method to use when ordering `PlayerDatum`."""
+    orderBy: [PlayerDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerDataEdge
+}
+
+"""All input for the `updatePlayerDatumByNodeId` mutation."""
+input UpdatePlayerDatumByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `PlayerDatum` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `PlayerDatum` being updated.
+  """
+  patch: PlayerDatumPatch!
+}
+
+"""
+Represents an update to a `PlayerDatum`. Fields that are set will be updated.
+"""
+input PlayerDatumPatch {
+  playerId: BigInt
+  avatarUrl: String
+  hmd: String
+  isAccChamp: Boolean
+  joinDate: Datetime
+  playerName: String
+}
+
+"""All input for the `updatePlayerDatum` mutation."""
+input UpdatePlayerDatumInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `PlayerDatum` being updated.
+  """
+  patch: PlayerDatumPatch!
+  playerId: BigInt!
+}
+
+"""The output of our update `PlayerRankHistory` mutation."""
+type UpdatePlayerRankHistoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerRankHistory` that was updated by this mutation."""
+  playerRankHistory: PlayerRankHistory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `PlayerRankHistory`. May be used by Relay 1."""
+  playerRankHistoryEdge(
+    """The method to use when ordering `PlayerRankHistory`."""
+    orderBy: [PlayerRankHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerRankHistoriesEdge
+}
+
+"""All input for the `updatePlayerRankHistoryByNodeId` mutation."""
+input UpdatePlayerRankHistoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `PlayerRankHistory` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `PlayerRankHistory` being updated.
+  """
+  patch: PlayerRankHistoryPatch!
+}
+
+"""
+Represents an update to a `PlayerRankHistory`. Fields that are set will be updated.
+"""
+input PlayerRankHistoryPatch {
+  categoryId: BigInt
+  date: Date
+  playerId: BigInt
+  ap: Float
+  averageAcc: Float
+  averageApPerMap: Float
+  rankedPlays: Int
+  ranking: Int
+}
+
+"""All input for the `updatePlayerRankHistory` mutation."""
+input UpdatePlayerRankHistoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `PlayerRankHistory` being updated.
+  """
+  patch: PlayerRankHistoryPatch!
+  categoryId: BigInt!
+  date: Date!
+  playerId: BigInt!
+}
+
+"""The output of our update `ScoreDatum` mutation."""
+type UpdateScoreDatumPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ScoreDatum` that was updated by this mutation."""
+  scoreDatum: ScoreDatum
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `PlayerDatum` that is related to this `ScoreDatum`."""
+  player: PlayerDatum
+
+  """An edge for our `ScoreDatum`. May be used by Relay 1."""
+  scoreDatumEdge(
+    """The method to use when ordering `ScoreDatum`."""
+    orderBy: [ScoreDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoreDataEdge
+}
+
+"""All input for the `updateScoreDatumByNodeId` mutation."""
+input UpdateScoreDatumByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ScoreDatum` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `ScoreDatum` being updated.
+  """
+  patch: ScoreDatumPatch!
+}
+
+"""
+Represents an update to a `ScoreDatum`. Fields that are set will be updated.
+"""
+input ScoreDatumPatch {
+  scoreId: BigInt
+  accuracy: Float
+  ap: Float
+  isRankedScore: Boolean
+  mapLeaderboardId: BigInt
+  mods: String
+  rankWhenScoresSet: Int
+  score: Int
+  timeSet: Datetime
+  unmodififiedScore: Int
+  weightedAp: Float
+  playerId: BigInt
+}
+
+"""All input for the `updateScoreDatum` mutation."""
+input UpdateScoreDatumInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ScoreDatum` being updated.
+  """
+  patch: ScoreDatumPatch!
+  scoreId: BigInt!
+}
+
+"""The output of our update `ScoreDataHistory` mutation."""
+type UpdateScoreDataHistoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ScoreDataHistory` that was updated by this mutation."""
+  scoreDataHistory: ScoreDataHistory
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `PlayerDatum` that is related to this `ScoreDataHistory`.
+  """
+  player: PlayerDatum
+
+  """An edge for our `ScoreDataHistory`. May be used by Relay 1."""
+  scoreDataHistoryEdge(
+    """The method to use when ordering `ScoreDataHistory`."""
+    orderBy: [ScoreDataHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoreDataHistoriesEdge
+}
+
+"""All input for the `updateScoreDataHistoryByNodeId` mutation."""
+input UpdateScoreDataHistoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ScoreDataHistory` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `ScoreDataHistory` being updated.
+  """
+  patch: ScoreDataHistoryPatch!
+}
+
+"""
+Represents an update to a `ScoreDataHistory`. Fields that are set will be updated.
+"""
+input ScoreDataHistoryPatch {
+  id: BigInt
+  accuracy: Float
+  ap: Float
+  mapLeaderboardId: BigInt
+  mods: String
+  score: Int
+  scoreId: BigInt
+  timeSet: Datetime
+  unmodififiedScore: Int
+  weightedAp: Float
+  playerId: BigInt
+}
+
+"""All input for the `updateScoreDataHistory` mutation."""
+input UpdateScoreDataHistoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ScoreDataHistory` being updated.
+  """
+  patch: ScoreDataHistoryPatch!
+  id: BigInt!
+}
+
+"""The output of our update `Song` mutation."""
+type UpdateSongPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Song` that was updated by this mutation."""
+  song: Song
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Song`. May be used by Relay 1."""
+  songEdge(
+    """The method to use when ordering `Song`."""
+    orderBy: [SongsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SongsEdge
+}
+
+"""All input for the `updateSongByNodeId` mutation."""
+input UpdateSongByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Song` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Song` being updated.
+  """
+  patch: SongPatch!
+}
+
+"""Represents an update to a `Song`. Fields that are set will be updated."""
+input SongPatch {
+  songHash: String
+  beatSaverKey: String
+  levelAuthorName: String
+  songAuthorName: String
+  songName: String
+  songSubName: String
+}
+
+"""All input for the `updateSong` mutation."""
+input UpdateSongInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Song` being updated.
+  """
+  patch: SongPatch!
+  songHash: String!
+}
+
+"""The output of our update `StaffUser` mutation."""
+type UpdateStaffUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `StaffUser` that was updated by this mutation."""
+  staffUser: StaffUser
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `StaffUser`. May be used by Relay 1."""
+  staffUserEdge(
+    """The method to use when ordering `StaffUser`."""
+    orderBy: [StaffUsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): StaffUsersEdge
+}
+
+"""All input for the `updateStaffUserByNodeId` mutation."""
+input UpdateStaffUserByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `StaffUser` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `StaffUser` being updated.
+  """
+  patch: StaffUserPatch!
+}
+
+"""
+Represents an update to a `StaffUser`. Fields that are set will be updated.
+"""
+input StaffUserPatch {
+  username: String
+  password: String
+  role: String
+}
+
+"""All input for the `updateStaffUser` mutation."""
+input UpdateStaffUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `StaffUser` being updated.
+  """
+  patch: StaffUserPatch!
+  username: String!
+}
+
+"""The output of our delete `BeatMap` mutation."""
+type DeleteBeatMapPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `BeatMap` that was deleted by this mutation."""
+  beatMap: BeatMap
+  deletedBeatMapNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Category` that is related to this `BeatMap`."""
+  category: Category
+
+  """Reads a single `Song` that is related to this `BeatMap`."""
+  songBySong: Song
+
+  """An edge for our `BeatMap`. May be used by Relay 1."""
+  beatMapEdge(
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): BeatMapsEdge
+}
+
+"""All input for the `deleteBeatMapByNodeId` mutation."""
+input DeleteBeatMapByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `BeatMap` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteBeatMap` mutation."""
+input DeleteBeatMapInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  leaderboardId: BigInt!
+}
+
+"""The output of our delete `Category` mutation."""
+type DeleteCategoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Category` that was deleted by this mutation."""
+  category: Category
+  deletedCategoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Category`. May be used by Relay 1."""
+  categoryEdge(
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CategoriesEdge
+}
+
+"""All input for the `deleteCategoryByNodeId` mutation."""
+input DeleteCategoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Category` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteCategory` mutation."""
+input DeleteCategoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""All input for the `deleteCategoryByCategoryName` mutation."""
+input DeleteCategoryByCategoryNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  categoryName: String!
+}
+
+"""The output of our delete `Databasechangeloglock` mutation."""
+type DeleteDatabasechangeloglockPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Databasechangeloglock` that was deleted by this mutation."""
+  databasechangeloglock: Databasechangeloglock
+  deletedDatabasechangeloglockNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Databasechangeloglock`. May be used by Relay 1."""
+  databasechangeloglockEdge(
+    """The method to use when ordering `Databasechangeloglock`."""
+    orderBy: [DatabasechangeloglocksOrderBy!] = [PRIMARY_KEY_ASC]
+  ): DatabasechangeloglocksEdge
+}
+
+"""All input for the `deleteDatabasechangeloglockByNodeId` mutation."""
+input DeleteDatabasechangeloglockByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Databasechangeloglock` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteDatabasechangeloglock` mutation."""
+input DeleteDatabasechangeloglockInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: Int!
+}
+
+"""The output of our delete `PlayerCategoryStat` mutation."""
+type DeletePlayerCategoryStatPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerCategoryStat` that was deleted by this mutation."""
+  playerCategoryStat: PlayerCategoryStat
+  deletedPlayerCategoryStatNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Category` that is related to this `PlayerCategoryStat`.
+  """
+  category: Category
+
+  """
+  Reads a single `PlayerDatum` that is related to this `PlayerCategoryStat`.
+  """
+  player: PlayerDatum
+
+  """An edge for our `PlayerCategoryStat`. May be used by Relay 1."""
+  playerCategoryStatEdge(
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerCategoryStatsEdge
+}
+
+"""All input for the `deletePlayerCategoryStatByNodeId` mutation."""
+input DeletePlayerCategoryStatByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `PlayerCategoryStat` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deletePlayerCategoryStat` mutation."""
+input DeletePlayerCategoryStatInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  categoryId: BigInt!
+  playerId: BigInt!
+}
+
+"""The output of our delete `PlayerDatum` mutation."""
+type DeletePlayerDatumPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerDatum` that was deleted by this mutation."""
+  playerDatum: PlayerDatum
+  deletedPlayerDatumNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `PlayerDatum`. May be used by Relay 1."""
+  playerDatumEdge(
+    """The method to use when ordering `PlayerDatum`."""
+    orderBy: [PlayerDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerDataEdge
+}
+
+"""All input for the `deletePlayerDatumByNodeId` mutation."""
+input DeletePlayerDatumByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `PlayerDatum` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deletePlayerDatum` mutation."""
+input DeletePlayerDatumInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  playerId: BigInt!
+}
+
+"""The output of our delete `PlayerRankHistory` mutation."""
+type DeletePlayerRankHistoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `PlayerRankHistory` that was deleted by this mutation."""
+  playerRankHistory: PlayerRankHistory
+  deletedPlayerRankHistoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `PlayerRankHistory`. May be used by Relay 1."""
+  playerRankHistoryEdge(
+    """The method to use when ordering `PlayerRankHistory`."""
+    orderBy: [PlayerRankHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): PlayerRankHistoriesEdge
+}
+
+"""All input for the `deletePlayerRankHistoryByNodeId` mutation."""
+input DeletePlayerRankHistoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `PlayerRankHistory` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deletePlayerRankHistory` mutation."""
+input DeletePlayerRankHistoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  categoryId: BigInt!
+  date: Date!
+  playerId: BigInt!
+}
+
+"""The output of our delete `ScoreDatum` mutation."""
+type DeleteScoreDatumPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ScoreDatum` that was deleted by this mutation."""
+  scoreDatum: ScoreDatum
+  deletedScoreDatumNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `PlayerDatum` that is related to this `ScoreDatum`."""
+  player: PlayerDatum
+
+  """An edge for our `ScoreDatum`. May be used by Relay 1."""
+  scoreDatumEdge(
+    """The method to use when ordering `ScoreDatum`."""
+    orderBy: [ScoreDataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoreDataEdge
+}
+
+"""All input for the `deleteScoreDatumByNodeId` mutation."""
+input DeleteScoreDatumByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ScoreDatum` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteScoreDatum` mutation."""
+input DeleteScoreDatumInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  scoreId: BigInt!
+}
+
+"""The output of our delete `ScoreDataHistory` mutation."""
+type DeleteScoreDataHistoryPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ScoreDataHistory` that was deleted by this mutation."""
+  scoreDataHistory: ScoreDataHistory
+  deletedScoreDataHistoryNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `PlayerDatum` that is related to this `ScoreDataHistory`.
+  """
+  player: PlayerDatum
+
+  """An edge for our `ScoreDataHistory`. May be used by Relay 1."""
+  scoreDataHistoryEdge(
+    """The method to use when ordering `ScoreDataHistory`."""
+    orderBy: [ScoreDataHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ScoreDataHistoriesEdge
+}
+
+"""All input for the `deleteScoreDataHistoryByNodeId` mutation."""
+input DeleteScoreDataHistoryByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ScoreDataHistory` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteScoreDataHistory` mutation."""
+input DeleteScoreDataHistoryInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""The output of our delete `Song` mutation."""
+type DeleteSongPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Song` that was deleted by this mutation."""
+  song: Song
+  deletedSongNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Song`. May be used by Relay 1."""
+  songEdge(
+    """The method to use when ordering `Song`."""
+    orderBy: [SongsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): SongsEdge
+}
+
+"""All input for the `deleteSongByNodeId` mutation."""
+input DeleteSongByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Song` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteSong` mutation."""
+input DeleteSongInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  songHash: String!
+}
+
+"""The output of our delete `StaffUser` mutation."""
+type DeleteStaffUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `StaffUser` that was deleted by this mutation."""
+  staffUser: StaffUser
+  deletedStaffUserNodeId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `StaffUser`. May be used by Relay 1."""
+  staffUserEdge(
+    """The method to use when ordering `StaffUser`."""
+    orderBy: [StaffUsersOrderBy!] = [PRIMARY_KEY_ASC]
+  ): StaffUsersEdge
+}
+
+"""All input for the `deleteStaffUserByNodeId` mutation."""
+input DeleteStaffUserByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `StaffUser` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteStaffUser` mutation."""
+input DeleteStaffUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  username: String!
+}
+
+"""The output of our `calcAp` mutation."""
+type CalcApPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  float: Float
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `calcAp` mutation."""
+input CalcApInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  accuracy: Float
+  complexity: Float
+  categoryId: BigInt
+}
+
+"""The output of our `calcWeightedAp` mutation."""
+type CalcWeightedApPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  float: Float
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `calcWeightedAp` mutation."""
+input CalcWeightedApInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  ap: Float
+  ranking: BigInt
+  categoryId: BigInt
+}
+
+"""
+The root subscription type: contains events and live queries you can subscribe to with the `subscription` operation.
+
+#### Live Queries
+
+Live query fields are differentiated by containing `(live)` at the end of their
+description, they are added for each field in the `Query` type. When you
+subscribe to a live query field, the selection set will be evaluated and sent to
+the client, and then most things\* that would cause the output of the selection
+set to change will trigger the selection set to be re-evaluated and the results
+to be re-sent to the client.
+
+_(\* Not everything: typically only changes to persisted data referenced by the query are detected, not computed fields.)_
+
+Live queries can be very expensive, so try and keep them small and focussed.
+
+#### Events
+
+Event fields will run their selection set when, and only when, the specified
+server-side event occurs. This makes them a lot more efficient than Live
+Queries, but it is still recommended that you keep payloads fairly small.
+"""
+type Subscription {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form. (live)
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. (live)
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`. (live)"""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `AccSaberScore`. (live)"""
+  accSaberScores(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `AccSaberScore`."""
+    orderBy: [AccSaberScoresOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AccSaberScoreCondition
+  ): AccSaberScoresConnection
+
+  """Reads and enables pagination through a set of `BeatMap`. (live)"""
+  beatMaps(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BeatMap`."""
+    orderBy: [BeatMapsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BeatMapCondition
+  ): BeatMapsConnection
+
+  """Reads and enables pagination through a set of `Category`. (live)"""
+  categories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Category`."""
+    orderBy: [CategoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CategoryCondition
+  ): CategoriesConnection
+
+  """
+  Reads and enables pagination through a set of `CategoryAccSaberPlayer`. (live)
+  """
+  categoryAccSaberPlayers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CategoryAccSaberPlayer`."""
+    orderBy: [CategoryAccSaberPlayersOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CategoryAccSaberPlayerCondition
+  ): CategoryAccSaberPlayersConnection
+
+  """
+  Reads and enables pagination through a set of `Databasechangelog`. (live)
+  """
+  databasechangelogs(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Databasechangelog`."""
+    orderBy: [DatabasechangelogsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DatabasechangelogCondition
+  ): DatabasechangelogsConnection
+
+  """
+  Reads and enables pagination through a set of `Databasechangeloglock`. (live)
+  """
+  databasechangeloglocks(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Databasechangeloglock`."""
+    orderBy: [DatabasechangeloglocksOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: DatabasechangeloglockCondition
+  ): DatabasechangeloglocksConnection
+
+  """
+  Reads and enables pagination through a set of `OverallAccSaberPlayer`. (live)
+  """
+  overallAccSaberPlayers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `OverallAccSaberPlayer`."""
+    orderBy: [OverallAccSaberPlayersOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: OverallAccSaberPlayerCondition
+  ): OverallAccSaberPlayersConnection
+
+  """
+  Reads and enables pagination through a set of `PlayerCategoryStat`. (live)
+  """
+  playerCategoryStats(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerCategoryStat`."""
+    orderBy: [PlayerCategoryStatsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerCategoryStatCondition
+  ): PlayerCategoryStatsConnection
+
+  """Reads and enables pagination through a set of `PlayerDatum`. (live)"""
+  playerData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerDatum`."""
+    orderBy: [PlayerDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerDatumCondition
+  ): PlayerDataConnection
+
+  """
+  Reads and enables pagination through a set of `PlayerRankHistory`. (live)
+  """
+  playerRankHistories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `PlayerRankHistory`."""
+    orderBy: [PlayerRankHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: PlayerRankHistoryCondition
+  ): PlayerRankHistoriesConnection
+
+  """Reads and enables pagination through a set of `ScoreDatum`. (live)"""
+  scoreData(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ScoreDatum`."""
+    orderBy: [ScoreDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreDatumCondition
+  ): ScoreDataConnection
+
+  """
+  Reads and enables pagination through a set of `ScoreDataHistory`. (live)
+  """
+  scoreDataHistories(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ScoreDataHistory`."""
+    orderBy: [ScoreDataHistoriesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ScoreDataHistoryCondition
+  ): ScoreDataHistoriesConnection
+
+  """Reads and enables pagination through a set of `Song`. (live)"""
+  songs(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Song`."""
+    orderBy: [SongsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: SongCondition
+  ): SongsConnection
+
+  """Reads and enables pagination through a set of `StaffUser`. (live)"""
+  staffUsers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `StaffUser`."""
+    orderBy: [StaffUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: StaffUserCondition
+  ): StaffUsersConnection
+
+  """ (live)"""
+  beatMap(leaderboardId: BigInt!): BeatMap
+
+  """ (live)"""
+  category(id: BigInt!): Category
+
+  """ (live)"""
+  categoryByCategoryName(categoryName: String!): Category
+
+  """ (live)"""
+  databasechangeloglock(id: Int!): Databasechangeloglock
+
+  """ (live)"""
+  playerCategoryStat(categoryId: BigInt!, playerId: BigInt!): PlayerCategoryStat
+
+  """ (live)"""
+  playerDatum(playerId: BigInt!): PlayerDatum
+
+  """ (live)"""
+  playerRankHistory(categoryId: BigInt!, date: Date!, playerId: BigInt!): PlayerRankHistory
+
+  """ (live)"""
+  scoreDatum(scoreId: BigInt!): ScoreDatum
+
+  """ (live)"""
+  scoreDataHistory(id: BigInt!): ScoreDataHistory
+
+  """ (live)"""
+  song(songHash: String!): Song
+
+  """ (live)"""
+  staffUser(username: String!): StaffUser
+
+  """Reads a single `BeatMap` using its globally unique `ID`. (live)"""
+  beatMapByNodeId(
+    """The globally unique `ID` to be used in selecting a single `BeatMap`."""
+    nodeId: ID!
+  ): BeatMap
+
+  """Reads a single `Category` using its globally unique `ID`. (live)"""
+  categoryByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Category`."""
+    nodeId: ID!
+  ): Category
+
+  """
+  Reads a single `Databasechangeloglock` using its globally unique `ID`. (live)
+  """
+  databasechangeloglockByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `Databasechangeloglock`.
+    """
+    nodeId: ID!
+  ): Databasechangeloglock
+
+  """
+  Reads a single `PlayerCategoryStat` using its globally unique `ID`. (live)
+  """
+  playerCategoryStatByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `PlayerCategoryStat`.
+    """
+    nodeId: ID!
+  ): PlayerCategoryStat
+
+  """Reads a single `PlayerDatum` using its globally unique `ID`. (live)"""
+  playerDatumByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `PlayerDatum`.
+    """
+    nodeId: ID!
+  ): PlayerDatum
+
+  """
+  Reads a single `PlayerRankHistory` using its globally unique `ID`. (live)
+  """
+  playerRankHistoryByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `PlayerRankHistory`.
+    """
+    nodeId: ID!
+  ): PlayerRankHistory
+
+  """Reads a single `ScoreDatum` using its globally unique `ID`. (live)"""
+  scoreDatumByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `ScoreDatum`.
+    """
+    nodeId: ID!
+  ): ScoreDatum
+
+  """
+  Reads a single `ScoreDataHistory` using its globally unique `ID`. (live)
+  """
+  scoreDataHistoryByNodeId(
+    """
+    The globally unique `ID` to be used in selecting a single `ScoreDataHistory`.
+    """
+    nodeId: ID!
+  ): ScoreDataHistory
+
+  """Reads a single `Song` using its globally unique `ID`. (live)"""
+  songByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Song`."""
+    nodeId: ID!
+  ): Song
+
+  """Reads a single `StaffUser` using its globally unique `ID`. (live)"""
+  staffUserByNodeId(
+    """The globally unique `ID` to be used in selecting a single `StaffUser`."""
+    nodeId: ID!
+  ): StaffUser
+}

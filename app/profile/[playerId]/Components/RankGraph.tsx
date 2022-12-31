@@ -1,63 +1,77 @@
 "use client";
 import { Line } from "react-chartjs-2";
 import {
-  LineElement,
-  Chart,
-  LinearScale,
-  TimeSeriesScale,
-  PointElement,
+	LineElement,
+	Chart,
+	LinearScale,
+	TimeSeriesScale,
+	PointElement,
 } from "chart.js";
 import "chartjs-adapter-luxon";
+import { RankHistoryDayFragment } from "~/lib/__generated__/gql";
 
 const RankGraph: React.FC<{
-  children?: never;
-  history: [string, number][];
+	children?: never;
+	history: RankHistoryDayFragment[];
 }> = ({ history }) => {
-  Chart.register(LineElement, LinearScale, TimeSeriesScale, PointElement);
+	Chart.register(LineElement, LinearScale, TimeSeriesScale, PointElement);
+	return (
+		<Line
+			data={{
+				datasets: [
+					{
+						data: history.map(({ date, ranking }) => [date, ranking]),
+						label: "Rank",
+						yAxisID: "y",
+						borderColor: "#2563eb",
+					},
+					{
+						data: history.map(({ date, ap }) => [date, Math.round(ap)]),
+						label: "AP",
+						yAxisID: "ap",
+						borderColor: "#22c55e",
+					},
+				],
+			}}
+			color={"red"}
+			options={{
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: { display: false },
+					tooltip: {
+						intersect: false,
+						mode: "index",
+					},
+				},
+				hover: {
+					intersect: false,
+					mode: "index",
+				},
+				scales: {
+					x: {
+						type: "timeseries",
+					},
+					y: {
+						type: "linear",
+						reverse: true,
+						ticks: {
+							precision: 0,
+						},
+					},
+				},
 
-  return (
-    <Line
-      data={{
-        datasets: [{ data: history, label: "rank", borderColor: "#2563eb" }],
-      }}
-      color={"red"}
-      className={``}
-      options={{
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            intersect: false,
-            mode: "index",
-          },
-        },
-        hover: {
-          intersect: false,
-          mode: "index",
-        },
-        scales: {
-          x: {
-            type: "timeseries",
-          },
-          y: {
-            reverse: true,
-            ticks: {
-              precision: 0,
-            },
-          },
-        },
-        elements: {
-          line: {
-            fill: false,
-          },
-          point: {
-            radius: 0,
-          },
-        },
-      }}
-    />
-  );
+				elements: {
+					line: {
+						fill: false,
+					},
+					point: {
+						radius: 0,
+					},
+				},
+			}}
+		/>
+	);
 };
 
 export default RankGraph;
