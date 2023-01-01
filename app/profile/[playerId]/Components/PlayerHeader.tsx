@@ -10,8 +10,18 @@ import Title from "~/app/Components/Title";
 import { notFound } from "next/navigation";
 import CDNImage from "~/app/Components/CDNImage";
 import { sdk } from "~/lib/api/gql";
-import RankGraph from "./RankGraph";
-import SkillTriangle from "./SkillTriangle";
+// import RankGraph from "./RankGraph";
+import dynamic from "next/dynamic";
+// import SkillTriangle from "./SkillTriangle";
+
+const SkillTriangle = dynamic(() => import("./SkillTriangle"), {
+	ssr: false,
+	loading: () => <LoadingSpinner />,
+});
+const RankGraph = dynamic(() => import("./RankGraph"), {
+	ssr: false,
+	loading: () => <LoadingSpinner />,
+});
 
 export default function PlayerHeader({
 	playerId,
@@ -40,6 +50,7 @@ export default function PlayerHeader({
 
 	const categories = categoriesEdge?.nodes ?? [];
 
+	const highestLevel = getHighestLevel(campaignStatus ?? []);
 	return (
 		<>
 			<PageHeader
@@ -66,7 +77,7 @@ export default function PlayerHeader({
 				{profile.playerName}&apos;s Profile
 			</PageHeader>
 			<Title>{`${profile.playerName}'s Profile`}</Title>
-			<div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
+			<div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
 				<div className="h-16" />
 				<CDNImage
 					src={`avatars/${profile.playerId}.jpg`}
@@ -77,8 +88,8 @@ export default function PlayerHeader({
 				/>
 				<div
 					className={[
-						"flex gap-6 py-4 text-neutral-800 dark:text-neutral-200 items-center",
-						"max-w-screen-lg mx-auto px-4 flex-wrap justify-center relative",
+						"flex gap-6 p-8 md:p-4 items-center",
+						"max-w-screen-lg mx-auto flex-wrap justify-center relative",
 					].join(" ")}
 				>
 					<CDNImage
@@ -94,16 +105,14 @@ export default function PlayerHeader({
 								"border-[#f1c40f] shadow-[#f1c40f]/50",
 								"border-[#1abc9c] shadow-[#1abc9c]/50",
 								"border-[#9c59b6] shadow-[#9c59b6]/50",
-							][getHighestLevel(campaignStatus ?? [])],
+							][highestLevel],
 						].join(" ")}
 					/>
 
 					<div className="flex flex-col justify-center flex-1">
 						<div className="">
 							<h1 className="text-2xl font-semibold">
-								<Suspense fallback={profile.playerName}>
-									<PlayerName>{profile}</PlayerName>
-								</Suspense>
+								<PlayerName highestLevel={highestLevel}>{profile}</PlayerName>
 							</h1>
 							<div className="flex flex-1 gap-1 text-2xl">
 								<div>
@@ -144,24 +153,23 @@ export default function PlayerHeader({
 							})}{" "}
 							AP
 						</div>
-						<div className="text-xl">{profile.rankedPlays} ranked plays</div>
+						<div className="text-xl min-w-max">
+							{profile.rankedPlays} ranked plays
+						</div>
 						<div className="text-xl">{profile.hmd}</div>
 					</div>
-					<div className="w-72 h-72">
-						{/* <Suspense
-							fallback={
-								<div className="flex items-center justify-center h-full dark:text-neutral-100">
-									<LoadingSpinner />
-								</div>
-							}
-						></Suspense> */}
-						<SkillTriangle categories={categories} key='skills'>
-							{categoryStats?.nodes ?? []}
-						</SkillTriangle>
+					<div className="flex items-center justify-center w-72 h-72">
+						<Suspense fallback={<LoadingSpinner />}>
+							<SkillTriangle categories={categories} key='skills'>
+								{categoryStats?.nodes ?? []}
+							</SkillTriangle>
+						</Suspense>
 					</div>
 				</div>
-				<div className="relative h-64 max-w-screen-lg px-8 pb-12 mx-auto">
-					<RankGraph history={playerRankHistories?.nodes ?? []} />
+				<div className="relative flex items-center justify-center h-64 max-w-screen-lg px-8 pb-12 mx-auto">
+					<Suspense fallback={<LoadingSpinner />}>
+						<RankGraph history={playerRankHistories?.nodes ?? []} />
+					</Suspense>
 				</div>
 			</div>
 		</>

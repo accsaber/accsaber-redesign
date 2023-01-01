@@ -2,6 +2,7 @@
 const nextConfig = {
 	experimental: {
 		appDir: true,
+		sri: true,
 	},
 	images: {
 		domains: ["cdn.scoresaber.com", "cdn.accsaber.com"],

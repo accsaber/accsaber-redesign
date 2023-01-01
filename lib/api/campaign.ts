@@ -10,7 +10,7 @@ export const getHighestLevel = (campaignStatus: CampaignStatus[]) =>
 
 const getCampaignStatus = (playerId: string, campaignId = 0) =>
 	json<CampaignStatus[]>(
-		`https://campaigns.accsaber.com/${campaignId}/player-campaign-infos/${playerId}`,
+		`https://campaigns-test.accsaber.com/${campaignId}/player-campaign-infos/${playerId}`,
 	);
 
 export default getCampaignStatus;
