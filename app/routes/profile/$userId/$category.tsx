@@ -244,7 +244,7 @@ const ProfileRoute = () => {
                 <div>
                   <Link
                     to={`/leaderboards/${category}?page=${
-                      Math.floor(profile.rank / 50) + 1
+                      Math.floor(profile.rank / 25) + 1
                     }`}
                   >
                     #{profile.rank.toLocaleString(language)}
