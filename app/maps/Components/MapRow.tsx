@@ -1,17 +1,22 @@
 import Link from "next/link";
 import { language } from "~/lib/api/config";
-import { RankedMap } from "~/lib/interfaces/api/ranked-map";
 import Complexity from "~/app/Components/Complexity";
 import DifficultyLabel from "~/app/Components/DifficultyLabel";
-import Image from "@/CDNImage";
-import CDNImage from "~/app/Components/CDNImage";
+import CDNImage from "@/CDNImage";
+import { MapRowFragment } from "~/lib/__generated__/gql";
 
-const MapRow = ({ map, padLeft }: { map: RankedMap; padLeft?: boolean }) => (
-  <tr key={map.songHash + map.difficulty}>
+const MapRow = ({
+  map,
+  padLeft,
+}: {
+  map: MapRowFragment;
+  padLeft?: boolean;
+}) => (
+  <tr>
     {padLeft ? <td /> : <></>}
     <td className="relative w-10 aspect-square">
       <CDNImage
-        src={`covers/${map.songHash.toUpperCase()}.png`}
+        src={`covers/${map.songBySong?.songHash.toUpperCase()}.png`}
         className="absolute top-0 left-0 m-0"
         loading="lazy"
         alt="Cover art"
@@ -22,14 +27,14 @@ const MapRow = ({ map, padLeft }: { map: RankedMap; padLeft?: boolean }) => (
 
     <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
       <Link prefetch={false} href={`/maps/${map.leaderboardId}`}>
-        {map.songAuthorName} - {map.songName}
+        {map.songBySong?.songAuthorName} - {map.songBySong?.songName}
       </Link>
     </td>
     <td>
-      <DifficultyLabel>{map.difficulty}</DifficultyLabel>
+      <DifficultyLabel>{map.difficulty ?? ""}</DifficultyLabel>
     </td>
-    <td>{map.levelAuthorName}</td>
-    <td>{map.categoryDisplayName}</td>
+    <td>{map?.songBySong?.levelAuthorName}</td>
+    <td>{map.category?.categoryDisplayName}</td>
     <td>
       <Complexity>{map.complexity}</Complexity>
     </td>

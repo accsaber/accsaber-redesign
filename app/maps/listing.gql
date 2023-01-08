@@ -1,0 +1,26 @@
+fragment MapRow on BeatMap {
+  nodeId
+  songBySong {
+    songHash
+    songName
+    songSubName
+    songAuthorName
+    levelAuthorName
+  }
+  category {
+    categoryName
+    categoryDisplayName
+  }
+  complexity
+  dateRanked
+  difficulty
+  leaderboardId
+}
+
+query RankedMaps($orderBy: [BeatMapsOrderBy!], $category: BigInt) {
+  beatMaps(orderBy: $orderBy, condition: { categoryId: $category }) {
+    nodes {
+      ...MapRow
+    }
+  }
+}

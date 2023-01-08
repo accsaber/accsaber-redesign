@@ -5020,6 +5020,16 @@ export type UpdateStaffUserPayloadStaffUserEdgeArgs = {
   orderBy?: InputMaybe<Array<StaffUsersOrderBy>>;
 };
 
+export type MapRowFragment = { __typename?: 'BeatMap', nodeId: string, complexity: number, dateRanked: any, difficulty?: string | null, leaderboardId: any, songBySong?: { __typename?: 'Song', songHash: string, songName?: string | null, songSubName?: string | null, songAuthorName?: string | null, levelAuthorName?: string | null } | null, category?: { __typename?: 'Category', categoryName: string, categoryDisplayName?: string | null } | null };
+
+export type RankedMapsQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<BeatMapsOrderBy> | BeatMapsOrderBy>;
+  category?: InputMaybe<Scalars['BigInt']>;
+}>;
+
+
+export type RankedMapsQuery = { __typename?: 'Query', beatMaps?: { __typename?: 'BeatMapsConnection', nodes: Array<{ __typename?: 'BeatMap', nodeId: string, complexity: number, dateRanked: any, difficulty?: string | null, leaderboardId: any, songBySong?: { __typename?: 'Song', songHash: string, songName?: string | null, songSubName?: string | null, songAuthorName?: string | null, levelAuthorName?: string | null } | null, category?: { __typename?: 'Category', categoryName: string, categoryDisplayName?: string | null } | null }> } | null };
+
 export type ScoreHistoryNodeFragment = { __typename?: 'ScoreDataHistory', score: number, timeSet?: any | null };
 
 export type ScoreHistoryQueryVariables = Exact<{
@@ -5053,6 +5063,26 @@ export type PlayerLayoutQueryVariables = Exact<{
 
 export type PlayerLayoutQuery = { __typename?: 'Query', playerRankHistories?: { __typename?: 'PlayerRankHistoriesConnection', nodes: Array<{ __typename?: 'PlayerRankHistory', date: any, ranking: number, rankedPlays: number, ap: number }> } | null, categoryAccSaberPlayers?: { __typename?: 'CategoryAccSaberPlayersConnection', nodes: Array<{ __typename?: 'CategoryAccSaberPlayer', skillLevel: number }> } | null, categories?: { __typename?: 'CategoriesConnection', nodes: Array<{ __typename?: 'Category', categoryName: string, categoryDisplayName?: string | null }> } | null };
 
+export const MapRowFragmentDoc = gql`
+    fragment MapRow on BeatMap {
+  nodeId
+  songBySong {
+    songHash
+    songName
+    songSubName
+    songAuthorName
+    levelAuthorName
+  }
+  category {
+    categoryName
+    categoryDisplayName
+  }
+  complexity
+  dateRanked
+  difficulty
+  leaderboardId
+}
+    `;
 export const ScoreHistoryNodeFragmentDoc = gql`
     fragment ScoreHistoryNode on ScoreDataHistory {
   score
@@ -5085,6 +5115,15 @@ export const CategoryInfoFragmentDoc = gql`
   categoryDisplayName
 }
     `;
+export const RankedMapsDocument = gql`
+    query RankedMaps($orderBy: [BeatMapsOrderBy!], $category: BigInt) {
+  beatMaps(orderBy: $orderBy, condition: {categoryId: $category}) {
+    nodes {
+      ...MapRow
+    }
+  }
+}
+    ${MapRowFragmentDoc}`;
 export const ScoreHistoryDocument = gql`
     query ScoreHistory($playerId: BigInt, $leaderboardId: BigInt!) {
   beatMap(leaderboardId: $leaderboardId) {
@@ -5155,6 +5194,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    RankedMaps(variables?: RankedMapsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<RankedMapsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<RankedMapsQuery>(RankedMapsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'RankedMaps', 'query');
+    },
     ScoreHistory(variables: ScoreHistoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ScoreHistoryQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<ScoreHistoryQuery>(ScoreHistoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'ScoreHistory', 'query');
     },
