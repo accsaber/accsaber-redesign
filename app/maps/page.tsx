@@ -1,4 +1,3 @@
-import { RankedMap } from "$interfaces/api/ranked-map";
 import GQLSortButton from "@/GQLSortButton";
 import { use } from "react";
 import MapRow from "~/app/maps/Components/MapRow";
@@ -24,7 +23,7 @@ export default function MapsListPage({
   const columns: [(keyof typeof BeatMapsOrderBy)[] | null, string, number?][] =
     [
       [null, "Song Name", 2],
-      [["DifficultyAsc", "DifficultyDesc"], "Difficulty"],
+      [null, "Difficulty"],
       [null, "Mapper"],
       [["CategoryIdAsc", "CategoryIdDesc"], "Category"],
       [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
@@ -41,7 +40,7 @@ export default function MapsListPage({
                 {value ? (
                   <GQLSortButton
                     values={value}
-                    currentValue={searchParams?.sortBy}
+                    currentValue={searchParams?.sortBy?.toString()}
                   >
                     {friendly}
                   </GQLSortButton>

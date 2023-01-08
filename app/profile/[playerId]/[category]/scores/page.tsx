@@ -2,100 +2,95 @@ import Pagination from "~/app/Components/Pagination";
 import SortButton from "~/app/Components/SortButton";
 import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import invariant from "tiny-invariant";
-import getPlayerScores from "~/lib/api/scores";
 import ScoreRow from "../../Components/ScoreRow";
-import { json } from "~/lib/api/fetcher";
-import { Player } from "~/lib/interfaces/api/player";
+import { sdk } from "~/lib/api/gql";
+import { use } from "react";
+import { AccSaberScoresOrderBy } from "~/lib/__generated__/gql";
+import GQLSortButton from "@/GQLSortButton";
 
-// export async function generateStaticParams() {
-// 	const topPlayers = (
-// 		await json<Player[]>("categories/overall/standings")
-// 	).splice(0, 10);
-// 	return topPlayers.map((player) => ({
-// 		playerId: player.playerId,
-// 		category: "overall",
-// 	}));
-// }
-
-export default async function PlayerScoresPage({
-	params,
-	searchParams,
+export default function PlayerScoresPage({
+  params,
+  searchParams,
 }: {
-	params?: Record<string, string>;
-	searchParams?: Record<string, string | string[]>;
+  params?: Record<string, string>;
+  searchParams?: Record<string, string | string[]>;
 }) {
-	invariant(params?.playerId);
-	invariant(params?.category);
-	const pageSize = 50;
+  invariant(params?.playerId);
+  invariant(params?.category);
+  const pageSize = 50;
+  const sortByParam = (searchParams?.sortBy?.toString() ??
+    "WeightedApDesc") as keyof typeof AccSaberScoresOrderBy;
+  const page = parseInt(searchParams?.page?.toString() ?? "1");
+  const { accSaberScores: scores } = use(
+    sdk.PlayerScoresPage({
+      playerId: params.playerId,
+      pageSize,
+      offset: (page - 1) * pageSize,
+      orderBy:
+        AccSaberScoresOrderBy[sortByParam] ??
+        AccSaberScoresOrderBy.WeightedApDesc,
+    })
+  );
 
-	const allScores = await getPlayerScores(
-		params.playerId,
-		params.category,
-		searchParams?.sortBy?.toString() as keyof PlayerScore,
-	);
+  const columns: [
+    (keyof typeof AccSaberScoresOrderBy)[] | null,
+    string,
+    number?
+  ][] = [
+    [["RankingAsc", "RankingDesc"], ""],
+    [["SongNameAsc", "SongNameDesc"], "Song Name", 2],
+    [null, "Difficulty"],
+    [null, "Category"],
+    [["AccuracyAsc", "AccuracyDesc"], "Accuracy"],
+    [null, ""],
+    [["ApDesc", "ApAsc"], "AP"],
+    [["WeightedApDesc", "WeightedApAsc"], "Weighted"],
+    [["TimeSetDesc", "TimeSetAsc"], "Time Set"],
+    [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
+  ];
 
-	const page = parseInt(searchParams?.page?.toString() ?? "1");
-	const pages = Math.ceil(allScores.length / 50);
-	const scores =
-		allScores.length > pageSize
-			? [...allScores].splice(pageSize * (page - 1), pageSize)
-			: allScores;
-
-	const columns: [keyof PlayerScore | null, string, number?][] = [
-		["rank", ""],
-		["songName", "Song Name", 2],
-		["difficulty", "Difficulty"],
-		["categoryDisplayName", "Category"],
-		["accuracy", "Accuracy"],
-		[null, ""],
-		["ap", "AP"],
-		["weightedAp", "Weighted"],
-		["timeSet", "Time Set"],
-		["complexity", "Complexity"],
-	];
-
-	return (
-		<div className="flex flex-col gap-8">
-			<Pagination
-				searchParams={searchParams}
-				currentPage={page}
-				pages={pages}
-			/>
-			<div className="w-full max-w-full overflow-x-auto overflow-y-hidden prose dark:prose-invert">
-				<table className="overflow-auto whitespace-nowrap">
-					<thead>
-						<tr>
-							{columns.map(([value, friendly, colSpan], n) => (
-								<th key={value ?? n} colSpan={colSpan}>
-									{value ? (
-										<SortButton name="sortBy" value={value}>
-											{friendly}
-										</SortButton>
-									) : (
-										friendly
-									)}
-								</th>
-							))}
-						</tr>
-					</thead>
-					<tbody>
-						{scores.map((score) => (
-							<ScoreRow
-								playerId={params.playerId}
-								score={score}
-								key={score.songHash + score.difficulty}
-							/>
-						))}
-					</tbody>
-				</table>
-			</div>
-			<Pagination
-				searchParams={searchParams}
-				currentPage={page}
-				pages={pages}
-			/>
-		</div>
-	);
+  return (
+    <div className="flex flex-col gap-8">
+      <Pagination
+        searchParams={searchParams}
+        currentPage={page}
+        pages={Math.ceil((scores?.totalCount ?? 0) / pageSize)}
+      />
+      <div className="w-full max-w-full overflow-x-auto overflow-y-hidden prose dark:prose-invert">
+        <table className="overflow-auto whitespace-nowrap">
+          <thead>
+            <tr>
+              {columns.map(([value, friendly, colSpan], n) => (
+                <th key={value?.toString() ?? n} colSpan={colSpan}>
+                  {value ? (
+                    <GQLSortButton values={value} currentValue={sortByParam}>
+                      {friendly}
+                    </GQLSortButton>
+                  ) : (
+                    friendly
+                  )}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {scores?.nodes.map((score) => (
+              <ScoreRow
+                playerId={params.playerId}
+                score={score}
+                key={score.scoreId}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Pagination
+        searchParams={searchParams}
+        currentPage={page}
+        pages={Math.ceil((scores?.totalCount ?? 0) / pageSize)}
+      />
+    </div>
+  );
 }
 
 export const revalidate = 600;

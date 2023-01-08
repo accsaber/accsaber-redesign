@@ -2,26 +2,25 @@ import Link from "next/link";
 import Complexity from "~/app/Components/Complexity";
 import DifficultyLabel from "~/app/Components/DifficultyLabel";
 import { language } from "~/lib/api/config";
-import { PlayerScore } from "~/lib/interfaces/api/player-score";
-import Image from "@/CDNImage";
 import ScoreHistoryButton from "./ScoreHistoryButton";
 import { DateTime } from "luxon";
-import CDNImage from "~/app/Components/CDNImage";
+import CDNImage from "@/CDNImage";
+import { ScoreRowFragment } from "~/lib/__generated__/gql";
 
 export default function ScoreRow({
   score,
   playerId,
 }: {
-  score: PlayerScore;
+  score: ScoreRowFragment;
   playerId: string;
 }) {
   return (
     <tr>
-      <td>#{score.rank}</td>
+      <td>#{score.ranking}</td>
 
       <td className="relative min-w-[2.5rem]">
         <CDNImage
-          src={`covers/${score.songHash.toUpperCase()}.png`}
+          src={`covers/${score.songHash?.toUpperCase()}.png`}
           className="absolute top-0 left-0 m-0"
           loading="lazy"
           alt="Cover art"
@@ -35,11 +34,11 @@ export default function ScoreRow({
         </Link>
       </td>
       <td>
-        <DifficultyLabel>{score.difficulty}</DifficultyLabel>
+        <DifficultyLabel>{score.difficulty ?? ""}</DifficultyLabel>
       </td>
       <td>{score.categoryDisplayName}</td>
       <td>
-        {(score.accuracy * 100).toLocaleString(language, {
+        {((score.accuracy ?? NaN) * 100).toLocaleString(language, {
           maximumFractionDigits: 2,
         })}
         %

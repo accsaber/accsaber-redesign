@@ -1,0 +1,38 @@
+fragment ScoreRow on AccSaberScore {
+  scoreId
+  ranking
+  leaderboardId
+  songHash
+  songName
+  songAuthorName
+  difficulty
+  categoryDisplayName
+  accuracy
+  ap
+  weightedAp
+  timeSet
+  complexity
+}
+
+query PlayerScoresPage(
+  $playerId: BigInt!
+  $pageSize: Int!
+  $offset: Int!
+  $orderBy: [AccSaberScoresOrderBy!]
+) {
+  accSaberScores(
+    condition: { playerId: $playerId }
+    first: $pageSize
+    offset: $offset
+    orderBy: $orderBy
+  ) {
+    nodes {
+      ...ScoreRow
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
+  }
+}

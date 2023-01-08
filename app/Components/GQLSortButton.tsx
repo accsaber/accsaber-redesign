@@ -1,15 +1,13 @@
-import { useSearchParams } from "next/navigation";
-
 const GQLSortButton = ({
   values,
   currentValue,
   children,
 }: {
   children: React.ReactNode;
-  values: any[];
-  currentValue: any;
+  values: string[];
+  currentValue?: string;
 }) => {
-  const value = values.indexOf(currentValue) ?? 0;
+  const value = currentValue ? values.indexOf(currentValue) ?? 0 : 0;
   return (
     <form method="get">
       <input
@@ -23,9 +21,9 @@ const GQLSortButton = ({
       >
         {children}
         <div>
-          {!values.includes(currentValue) ? (
+          {currentValue && !values.includes(currentValue) ? (
             "-"
-          ) : value > 0 ? (
+          ) : currentValue?.endsWith("Desc") ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
