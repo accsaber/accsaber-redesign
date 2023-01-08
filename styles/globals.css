@@ -8,8 +8,15 @@ body {
   min-height: 100%;
   margin: 0;
 }
+
 .child-cover > * {
   @apply absolute top-1/2 left-0 w-[100vw] h-[100vw] -translate-y-1/2;
+}
+
+@media (min-height: 100vw) {
+  .child-cover > * {
+    @apply w-[100vh] h-screen;
+  }
 }
 
 ::backdrop {
