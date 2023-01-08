@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import MapHeader from "../Components/MapHeader";
 import { DateTime } from "luxon";
 import CDNImage from "~/app/Components/CDNImage";
+import Avatar from "boring-avatars";
 
 export default async function MapLeaderboardPage({
   params,
@@ -65,14 +66,20 @@ export default async function MapLeaderboardPage({
               <tr key={score.playerId}>
                 <td>#{score.rank}</td>
                 <td className="relative w-10 min-w-[2.5rem] aspect-square">
-                  <CDNImage
-                    src={`avatars/${score.playerId}.jpg`}
-                    alt={`${score.playerName}'s profile`}
-                    loading="lazy"
-                    className="absolute top-0 left-0 m-0"
-                    width={40}
-                    height={40}
-                  />
+                  <div className="absolute top-0 left-0 w-10 h-10">
+                    <Avatar square variant="beam" name={score.playerId} />
+                  </div>
+
+                  {score.playerId.startsWith("7") && (
+                    <CDNImage
+                      src={`avatars/${score.playerId}.jpg`}
+                      alt={`${score.playerName}'s profile`}
+                      loading="lazy"
+                      className="absolute top-0 left-0 m-0"
+                      width={40}
+                      height={40}
+                    />
+                  )}
                 </td>
                 <td>
                   <Link

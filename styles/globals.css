@@ -8,6 +8,9 @@ body {
   min-height: 100%;
   margin: 0;
 }
+.child-cover > * {
+  @apply absolute top-1/2 left-0 w-[100vw] h-[100vw] -translate-y-1/2;
+}
 
 ::backdrop {
   @apply bg-black/50 backdrop-blur;
