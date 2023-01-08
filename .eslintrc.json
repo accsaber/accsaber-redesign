@@ -1,6 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "plugins": ["unused-imports"],
+  "ignorePatterns": ["**/__generated__/**"],
   "rules": {
     "react/jsx-uses-vars": 2,
     "react/jsx-uses-react": 2,
