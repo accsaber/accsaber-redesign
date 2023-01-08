@@ -47,7 +47,7 @@ export default function ScoreRow({
         <ScoreHistoryButton score={score} playerId={playerId} />
       </td>
       <td>
-        {score.ap.toLocaleString(language, {
+        {score.ap?.toLocaleString(language, {
           maximumFractionDigits: 2,
         })}
       </td>
@@ -60,7 +60,7 @@ export default function ScoreRow({
         {DateTime.fromISO(score.timeSet).toRelative()}
       </td>
       <td>
-        <Complexity>{score.complexity}</Complexity>
+        <Complexity>{score?.complexity ?? 0}</Complexity>
       </td>
     </tr>
   );

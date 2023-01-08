@@ -1,6 +1,4 @@
 import Pagination from "~/app/Components/Pagination";
-import SortButton from "~/app/Components/SortButton";
-import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import invariant from "tiny-invariant";
 import ScoreRow from "../../Components/ScoreRow";
 import { sdk } from "~/lib/api/gql";

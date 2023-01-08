@@ -2,8 +2,6 @@
 import { ChartBarIcon, XIcon } from "@heroicons/react/solid";
 import { useState, useRef, Suspense, use } from "react";
 import LoadingSpinner from "~/app/Components/LoadingSpinner";
-import { json } from "~/lib/api/fetcher";
-import { PlayerScore } from "~/lib/interfaces/api/player-score";
 import { Line } from "react-chartjs-2";
 import { DateTime } from "luxon";
 import Image from "@/CDNImage";
