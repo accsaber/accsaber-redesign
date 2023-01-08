@@ -78,7 +78,7 @@ export default function PlayerHeader({
         {profile.playerName}&apos;s Profile
       </PageHeader>
       <Title>{`${profile.playerName}'s Profile`}</Title>
-      <div className="relative overflow-hidden bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
 
         {profile.playerId.startsWith("7") ? (
@@ -90,7 +90,7 @@ export default function PlayerHeader({
             height={184}
           />
         ) : (
-          <div className="absolute top-0 left-0 object-cover w-full h-full overflow-hidden child-cover mix-blend-overlay dark:mix-blend-multiply">
+          <div className="absolute top-0 left-0 object-cover w-full h-full overflow-hidden child-cover mix-blend-overlay">
             <Avatar
               name={profile.playerId}
               size={184}
@@ -122,7 +122,7 @@ export default function PlayerHeader({
                 size={128}
                 square
                 variant="beam"
-                name={profile.playerName}
+                name={profile.playerId}
               />
             </div>
 
