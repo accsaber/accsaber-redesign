@@ -2,8 +2,7 @@
 const nextConfig = {
 	experimental: {
 		appDir: true,
-		enableUndici: true,
-		runtime: 'edge'
+		enableUndici: true
 	},
 	images: {
 		domains: ["cdn.scoresaber.com", "cdn.accsaber.com"],
