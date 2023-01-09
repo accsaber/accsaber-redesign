@@ -52,11 +52,17 @@ export default function PlayerHeader({
   const categories = categoriesEdge?.nodes ?? [];
 
   const highestLevel = getHighestLevel(campaignStatus ?? []);
+  const AvImage = playerId.startsWith("7") ? CDNImage : "img";
+
+  const avatar = profile.playerId.startsWith("7")
+    ? `avatars/${profile.playerId}.jpg`
+    : `/api/avatar/${profile.playerId}`;
   return (
     <>
       <PageHeader
         transparent
-        image={`avatars/${playerId}.jpg`}
+        cdn={playerId.startsWith("7")}
+        image={avatar}
         navigation={[
           {
             href: `/profile/${profile.playerId}/overall/scores`,
@@ -80,25 +86,15 @@ export default function PlayerHeader({
       <Title>{`${profile.playerName}'s Profile`}</Title>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
-
-        {profile.playerId.startsWith("7") ? (
-          <CDNImage
-            src={`avatars/${profile.playerId}.jpg`}
-            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
-            alt=""
-            width={184}
-            height={184}
-          />
-        ) : (
-          <div className="absolute top-0 left-0 object-cover w-full h-full overflow-hidden child-cover mix-blend-overlay">
-            <Avatar
-              name={profile.playerId}
-              size={184}
-              square
-              variant="marble"
-            />
-          </div>
-        )}
+        <AvImage
+          src={`${avatar}?variant=marble`}
+          className={`absolute top-0 left-0 object-cover w-full h-full opacity-20 ${
+            !profile.playerId.startsWith("7") ? "" : "blur-3xl"
+          }`}
+          alt=""
+          width={184}
+          height={184}
+        />
         <div
           className={[
             "flex gap-6 p-8 md:p-4 items-center",
@@ -127,8 +123,8 @@ export default function PlayerHeader({
             </div>
 
             {profile.playerId.startsWith("7") && (
-              <CDNImage
-                src={`avatars/${profile.playerId}.jpg`}
+              <AvImage
+                src={avatar}
                 alt={`${profile.playerName}'s profile`}
                 width={128}
                 height={128}
