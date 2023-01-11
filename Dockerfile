@@ -17,6 +17,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
+RUN yarn build:gql
 RUN yarn build
 
 
