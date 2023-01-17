@@ -17,7 +17,7 @@ const getImaginaryURL = (image: CDNSource, format: string) => {
     targetPath.searchParams.set("file", targetURL.pathname);
   else targetPath.searchParams.set("url", image.src);
   targetPath.searchParams.set("width", image.width.toString());
-  targetPath.searchParams.set("format", format);
+  targetPath.searchParams.set("type", format);
 
   return targetPath;
 };
