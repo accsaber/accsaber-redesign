@@ -81,5 +81,3 @@ const LeaderboardPage = async ({
 };
 
 export default LeaderboardPage;
-
-export const revalidate = 600;

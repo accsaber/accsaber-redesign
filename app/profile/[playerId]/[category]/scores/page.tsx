@@ -90,5 +90,3 @@ export default function PlayerScoresPage({
     </div>
   );
 }
-
-export const revalidate = 600;

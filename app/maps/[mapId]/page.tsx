@@ -123,5 +123,3 @@ export default async function MapLeaderboardPage({
     </>
   );
 }
-
-export const revalidate = 1800;

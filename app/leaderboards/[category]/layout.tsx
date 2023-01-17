@@ -40,5 +40,3 @@ const LeaderboardLayout = async ({
 };
 
 export default LeaderboardLayout;
-
-export const revalidate = 86400;

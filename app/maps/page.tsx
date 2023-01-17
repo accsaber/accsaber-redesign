@@ -1,4 +1,5 @@
 import GQLSortButton from "@/GQLSortButton";
+import { useSearchParams } from "next/navigation";
 import { use } from "react";
 import MapRow from "~/app/maps/Components/MapRow";
 import { sdk } from "~/lib/api/gql";
@@ -60,5 +61,3 @@ export default function MapsListPage({
     </div>
   );
 }
-
-export const revalidate = 600;

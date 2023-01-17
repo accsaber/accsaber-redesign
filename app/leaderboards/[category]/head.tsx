@@ -5,5 +5,3 @@ export default function LeaderboardHead() {
     </>
   );
 }
-
-export const revalidate = 86400;
