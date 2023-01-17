@@ -10,10 +10,9 @@ import Title from "~/app/Components/Title";
 import { notFound } from "next/navigation";
 import CDNImage from "~/app/Components/CDNImage";
 import { sdk } from "~/lib/api/gql";
-// import RankGraph from "./RankGraph";
 import dynamic from "next/dynamic";
 import Avatar from "boring-avatars";
-// import SkillTriangle from "./SkillTriangle";
+import BlankBlock from "@/BlankBlock";
 
 const SkillTriangle = dynamic(() => import("./SkillTriangle"), {
   ssr: false,
@@ -194,6 +193,65 @@ export default function PlayerHeader({
           <Suspense fallback={<LoadingSpinner />}>
             <RankGraph history={playerRankHistories?.nodes ?? []} />
           </Suspense>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function PlayerHeaderFallback({ playerId }: { playerId: string }) {
+  return (
+    <>
+      <PageHeader transparent image={`/api/avatar/${playerId}`} cdn={false}>
+        <BlankBlock width="170px" />
+      </PageHeader>
+      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
+        <div className="h-16" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/avatar/${playerId}?variant=marble`}
+          className={`absolute top-0 left-0 object-cover w-full h-full opacity-20`}
+          alt=""
+          width={184}
+          height={184}
+        />
+        <div
+          className={[
+            "flex gap-6 p-8 md:p-4 items-center",
+            "max-w-screen-lg mx-auto flex-wrap justify-center relative",
+          ].join(" ")}
+        >
+          <div className="relative w-32 h-32 overflow-hidden rounded-full shadow-lg">
+            <div className="absolute top-0 left-0 w-full h-full">
+              <Avatar size={128} square variant="beam" name={playerId} />
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-center flex-1">
+            <div className="">
+              <h1 className="text-2xl font-semibold">
+                <BlankBlock width="200px" />
+              </h1>
+              <div className="flex flex-1 gap-1 text-2xl">
+                <BlankBlock width="30px" />
+              </div>
+            </div>
+            <div className="text-xl">
+              <BlankBlock width="120px" />
+            </div>
+            <div className="text-xl min-w-max">
+              <BlankBlock width="150px" />
+            </div>
+            <div className="text-xl">
+              <BlankBlock width="120px" />
+            </div>
+          </div>
+          <div className="flex items-center justify-center w-72 h-72">
+            <LoadingSpinner />
+          </div>
+        </div>
+        <div className="relative flex items-center justify-center h-64 max-w-screen-lg px-8 pb-12 mx-auto">
+          <LoadingSpinner />
         </div>
       </div>
     </>

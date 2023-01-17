@@ -1,5 +1,5 @@
-import PlayerHeader from "../Components/PlayerHeader";
-
+import { Suspense, use } from "react";
+import PlayerHeader, { PlayerHeaderFallback } from "../Components/PlayerHeader";
 export default function ProfileLayout({
   params,
   children,
@@ -9,7 +9,9 @@ export default function ProfileLayout({
 }) {
   return (
     <>
-      <PlayerHeader playerId={params.playerId} category={params.category} />
+      <Suspense fallback={<PlayerHeaderFallback playerId={params.playerId} />}>
+        <PlayerHeader playerId={params.playerId} category={params.category} />
+      </Suspense>
       <div className="max-w-screen-lg py-8 mx-auto">{children}</div>
     </>
   );
