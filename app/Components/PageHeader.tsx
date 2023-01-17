@@ -82,6 +82,8 @@ const PageHeader: React.FC<{
               aria-hidden={!scrolled}
               aria-label="Go Home"
               className="h-8 aspect-square"
+              priority
+              unoptimized
               width={32}
               height={32}
             />

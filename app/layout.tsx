@@ -8,6 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
+        <link rel="shortcut icon" href="/images/logo.webp" />
       </head>
       <body className="dark:bg-neutral-900">
         <Header />

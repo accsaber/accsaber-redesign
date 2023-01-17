@@ -37,6 +37,10 @@ const Header = () => {
             <Image
               src={logo}
               alt="AccSaber"
+              priority
+              unoptimized
+              height={32}
+              width={32}
               className="w-8 h-8 aspect-square"
             />
           </Link>
