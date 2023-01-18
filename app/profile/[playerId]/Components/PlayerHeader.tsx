@@ -102,14 +102,13 @@ export default function PlayerHeader({
         >
           <div
             className={[
-              "w-32 h-32 rounded-full shadow-lg relative overflow-hidden",
-              campaignStatus && campaignStatus.length > 0 ? "border-4" : "",
+              "w-32 h-32 rounded-full shadow-lg relative overflow-hidden border-4",
               [
                 "border-[#3498db] shadow-[#3498db]/50",
                 "border-[#f1c40f] shadow-[#f1c40f]/50",
                 "border-[#1abc9c] shadow-[#1abc9c]/50",
                 "border-[#9c59b6] shadow-[#9c59b6]/50",
-              ][highestLevel],
+              ][highestLevel] ?? "border-neutral-600",
             ].join(" ")}
           >
             <div className="absolute top-0 left-0 w-full h-full">
@@ -221,10 +220,8 @@ export function PlayerHeaderFallback({ playerId }: { playerId: string }) {
             "max-w-screen-lg mx-auto flex-wrap justify-center relative",
           ].join(" ")}
         >
-          <div className="relative w-32 h-32 overflow-hidden rounded-full shadow-lg">
-            <div className="absolute top-0 left-0 w-full h-full">
-              <Avatar size={128} square variant="beam" name={playerId} />
-            </div>
+          <div className="relative w-32 h-32 overflow-hidden border-4 rounded-full shadow-lg border-neutral-600">
+            <Avatar size={128} square variant="beam" name={playerId} />
           </div>
 
           <div className="flex flex-col justify-center flex-1">
