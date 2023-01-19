@@ -17,6 +17,7 @@ const getImaginaryURL = (image: CDNSource, format: string) => {
     targetPath.searchParams.set("file", targetURL.pathname);
   else targetPath.searchParams.set("url", image.src);
   targetPath.searchParams.set("width", image.width.toString());
+  targetPath.searchParams.set("height", image.height.toString());
   targetPath.searchParams.set("type", format);
 
   return targetPath;
@@ -54,6 +55,7 @@ const CDNImage = (props: CDNImageProps) => {
           type={`image/${format}`}
         />
       ))}
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <img
         {...props}
         src={getImaginaryURL(
