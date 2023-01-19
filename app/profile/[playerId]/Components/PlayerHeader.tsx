@@ -108,7 +108,7 @@ export default function PlayerHeader({
                 "border-[#f1c40f] shadow-[#f1c40f]/50",
                 "border-[#1abc9c] shadow-[#1abc9c]/50",
                 "border-[#9c59b6] shadow-[#9c59b6]/50",
-              ][highestLevel] ?? "border-neutral-600",
+              ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
             ].join(" ")}
           >
             <div className="absolute top-0 left-0 w-full h-full">
@@ -220,7 +220,7 @@ export function PlayerHeaderFallback({ playerId }: { playerId: string }) {
             "max-w-screen-lg mx-auto flex-wrap justify-center relative",
           ].join(" ")}
         >
-          <div className="relative w-32 h-32 overflow-hidden border-4 rounded-full shadow-lg border-neutral-600">
+          <div className="relative w-32 h-32 overflow-hidden border-4 rounded-full shadow-lg border-neutral-400 dark:border-neutral-400">
             <Avatar size={128} square variant="beam" name={playerId} />
           </div>
 
