@@ -9,7 +9,7 @@ import NextImage from "next/image";
 import CDNImage from "@/CDNImage";
 
 const PageHeader: React.FC<{
-  image?: string;
+  image?: string | React.ReactElement;
   transparent?: boolean;
   hideTitleUntilScrolled?: boolean;
   navigation?: {
@@ -101,20 +101,22 @@ const PageHeader: React.FC<{
               hideTitleUntilScrolled && !scrolled ? "opacity-0" : "",
             ].join(" ")}
           >
-            {image ? (
+            {image && (
               <div className="h-8">
-                <Image
-                  src={image}
-                  alt=""
-                  className={`${
-                    iconRounded ?? true ? "rounded-full" : "rounded"
-                  } h-full aspect-square`}
-                  width={32}
-                  height={32}
-                />
+                {typeof image == "string" ? (
+                  <Image
+                    src={image}
+                    alt=""
+                    className={`${
+                      iconRounded ?? true ? "rounded-full" : "rounded"
+                    } h-full aspect-square`}
+                    width={32}
+                    height={32}
+                  />
+                ) : (
+                  image
+                )}
               </div>
-            ) : (
-              ""
             )}
             <div>{children}</div>
           </div>

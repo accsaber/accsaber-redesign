@@ -8,7 +8,12 @@ const headerItems: HeaderItem[] = [
     match: /^\/((?:leaderboards)|(?:profile)).*$/,
   },
   { name: "Ranked Maps", href: "/maps", icon: "map", match: /^\/maps.*$/ },
-  // { name: "Campaign", href: "/campaign", icon: "emoji_events" },
+  {
+    name: "Campaign Leaderboards",
+    href: "/campaign/missions",
+    match: /^\/campaign.*$/,
+    icon: "emoji_events",
+  },
 ];
 
 export default headerItems;
