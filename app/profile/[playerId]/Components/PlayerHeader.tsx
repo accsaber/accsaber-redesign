@@ -113,7 +113,7 @@ export default function PlayerHeader({
           >
             <div className="absolute top-0 left-0 w-full h-full">
               <Avatar
-                size={128}
+                size={120}
                 square
                 variant="beam"
                 name={profile.playerId}
@@ -221,7 +221,7 @@ export function PlayerHeaderFallback({ playerId }: { playerId: string }) {
           ].join(" ")}
         >
           <div className="relative w-32 h-32 overflow-hidden border-4 rounded-full shadow-lg border-neutral-400 dark:border-neutral-400">
-            <Avatar size={128} square variant="beam" name={playerId} />
+            <Avatar size={120} square variant="beam" name={playerId} />
           </div>
 
           <div className="flex flex-col justify-center flex-1">
