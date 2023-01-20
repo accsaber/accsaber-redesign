@@ -160,15 +160,19 @@ const PageHeader: React.FC<{
           >
             {image ? (
               <div className="h-8">
-                <Image
-                  src={image}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className={`${
-                    iconRounded ?? true ? "rounded-full" : ""
-                  } h-full aspect-square`}
-                />
+                {typeof image == "string" ? (
+                  <Image
+                    src={image}
+                    alt=""
+                    className={`${
+                      iconRounded ?? true ? "rounded-full" : "rounded"
+                    } h-full aspect-square`}
+                    width={32}
+                    height={32}
+                  />
+                ) : (
+                  image
+                )}
               </div>
             ) : (
               ""
