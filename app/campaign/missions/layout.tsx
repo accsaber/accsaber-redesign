@@ -1,6 +1,6 @@
 import PageHeader from "@/PageHeader";
 import Image from "next/image";
-import { use, Suspense } from "react";
+import { use } from "react";
 import { json } from "~/lib/api/fetcher";
 import Campaign from "~/lib/interfaces/campaign/campaign";
 import CampaignMissionButton from "./Components/missionButton";

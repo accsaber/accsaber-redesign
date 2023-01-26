@@ -12,7 +12,7 @@ export default function ProfileLayout({
       <Suspense fallback={<PlayerHeaderFallback playerId={params.playerId} />}>
         <PlayerHeader playerId={params.playerId} category={params.category} />
       </Suspense>
-      <div className="max-w-screen-lg py-8 mx-auto">{children}</div>
+      <div className="relative max-w-screen-lg py-8 mx-auto">{children}</div>
     </>
   );
 }
