@@ -5,7 +5,7 @@ import { language } from "~/lib/api/config";
 import ScoreHistoryButton from "./ScoreHistoryButton";
 import { DateTime } from "luxon";
 import CDNImage from "@/CDNImage";
-import { ScoreRowFragment } from "$gql";
+import type { ScoreRowFragment } from "$gql";
 
 export default function ScoreRow({
   score,
@@ -29,7 +29,7 @@ export default function ScoreRow({
         />
       </td>
       <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
-        <Link prefetch={false} href={`/maps/${score.leaderboardId}`}>
+        <Link prefetch={"intent"} href={`/maps/${score.leaderboardId}`}>
           {score.songAuthorName} - {score.songName}
         </Link>
       </td>

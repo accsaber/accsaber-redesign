@@ -5,8 +5,23 @@
 html,
 body {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  overflow: auto;
   margin: 0;
+}
+
+.child-cover > * {
+  @apply absolute top-1/2 left-0 w-[100vw] h-[100vw] -translate-y-1/2;
+}
+
+@media (min-height: 100vw) {
+  .child-cover > * {
+    @apply w-[100vh] h-screen;
+  }
+}
+
+::backdrop {
+  @apply bg-black/50 backdrop-blur;
 }
 
 @layer components {
@@ -25,7 +40,7 @@ body {
   .pageNav {
     @apply text-neutral-800 dark:text-neutral-300 px-4 py-2
       flex items-center
-      rounded hover:bg-black/5;
+      rounded hover:bg-black/5 dark:hover:bg-white/5;
   }
 
   .pageNav.active {

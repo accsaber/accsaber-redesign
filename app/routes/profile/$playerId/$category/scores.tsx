@@ -1,11 +1,13 @@
-import { AccSaberScoresOrderBy, PlayerScoresPageQuery, getSdk } from "$gql";
+import type { PlayerScoresPageQuery } from "$gql";
+import { AccSaberScoresOrderBy, PlayerScoresPageDocument } from "$gql";
 import GQLSortButton from "@/GQLSortButton";
 import Pagination from "@/Pagination";
 import ScoreRow from "@/ScoreRow";
-import { LoaderFunction, json } from "@remix-run/node";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { gqlClient, sdk } from "~/lib/api/gql";
+import { gqlClient } from "~/lib/api/gql";
 
 const pageSize = 25;
 
@@ -24,19 +26,22 @@ export const loader: LoaderFunction = async ({
   const { searchParams } = new URL(request.url);
   invariant(playerId);
   invariant(category);
-  const pageSize = 50;
+
   const sortByParam = (searchParams.get("sortBy") ??
     "WeightedApDesc") as keyof typeof AccSaberScoresOrderBy;
   const page = parseInt(searchParams.get("page") ?? "1");
 
-  const { accSaberScores: scores } = await sdk.PlayerScoresPage({
-    playerId,
-    pageSize,
-    offset: (page - 1) * pageSize,
-    orderBy:
-      AccSaberScoresOrderBy[sortByParam] ??
-      AccSaberScoresOrderBy.WeightedApDesc,
-  });
+  const { accSaberScores: scores } = await gqlClient.request(
+    PlayerScoresPageDocument,
+    {
+      playerId,
+      pageSize,
+      offset: (page - 1) * pageSize,
+      orderBy:
+        AccSaberScoresOrderBy[sortByParam] ??
+        AccSaberScoresOrderBy.WeightedApDesc,
+    }
+  );
   return json({
     page,
     pageSize,

@@ -1,8 +1,10 @@
-import { PlayerLayoutDocument, PlayerLayoutQuery } from "$gql";
-import { Player } from "$interfaces/api/player";
-import CampaignStatus from "$interfaces/campaign/campaignStatus";
+import type { PlayerLayoutQuery } from "$gql";
+import { PlayerLayoutDocument } from "$gql";
+import type { Player } from "$interfaces/api/player";
+import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import PlayerHeader from "@/PlayerHeader";
-import { LoaderFunction, json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import getCampaignStatus from "~/lib/api/campaign";

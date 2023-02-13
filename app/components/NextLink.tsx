@@ -1,7 +1,7 @@
 /// Proxy for next/link
 
 import { Link } from "@remix-run/react";
-import { RemixLinkProps } from "@remix-run/react/dist/components";
+import type { RemixLinkProps } from "@remix-run/react/dist/components";
 
 type Rename<T, K extends keyof T, N extends string> = Pick<
   T,
@@ -17,5 +17,6 @@ export default function NextLink(props: NextLinkProps) {
     Object.entries(props).map(([k, v]) => [k == "href" ? "to" : k, v])
   );
 
+  // eslint-disable-next-line jsx-a11y/anchor-has-content
   return <Link {...linkProps} />;
 }

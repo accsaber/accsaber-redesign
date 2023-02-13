@@ -13,6 +13,7 @@ import Header from "@/Header";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import config from "./lib/api/config";
 import LoadingSpinner from "@/LoadingSpinner";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -28,6 +29,7 @@ export const links = () => [
 ];
 
 export default function App() {
+  const queryClient = new QueryClient({});
   return (
     <html lang="en" className="h-full">
       <head>
@@ -47,18 +49,20 @@ export default function App() {
           </div>
         )}
         <Header />
-        <Suspense
-          fallback={
-            <>
-              <div className="h-16 bg-neutral-100 dark:bg-neutral-800" />
-              <div className="flex-1 flex items-center justify-center">
-                <LoadingSpinner />
-              </div>
-            </>
-          }
-        >
-          <Outlet />
-        </Suspense>
+        <QueryClientProvider client={queryClient}>
+          <Suspense
+            fallback={
+              <>
+                <div className="h-16 bg-neutral-100 dark:bg-neutral-800" />
+                <div className="flex-1 flex items-center justify-center">
+                  <LoadingSpinner />
+                </div>
+              </>
+            }
+          >
+            <Outlet />
+          </Suspense>
+        </QueryClientProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
