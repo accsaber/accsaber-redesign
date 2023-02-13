@@ -56,7 +56,7 @@ const PageHeader: React.FC<{
         className={[
           "sticky top-0 z-40",
           "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
-          "transition-all",
+          "transition-colors",
           transparent ? "-mb-16" : "",
           transparent && !scrolled
             ? "bg-opacity-0 dark:bg-opacity-0"
