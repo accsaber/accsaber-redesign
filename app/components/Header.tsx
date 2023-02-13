@@ -8,14 +8,42 @@ import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
 import { NavLink, useLocation } from "@remix-run/react";
+import { useUser } from "./UserContext";
+import DarkToggle from "./DarkModeToggle";
+import CDNImage from "./CDNImage";
 
-const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
-  <>
-    <Link className="p-3 headerNav" href="/search" onClick={onClick}>
-      <SearchIcon className="w-5 h-5" />
-    </Link>
-  </>
-);
+const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
+  const user = useUser();
+  return (
+    <>
+      <Link className="p-3 headerNav" href="/search" onClick={onClick}>
+        <SearchIcon className="w-5 h-5" />
+      </Link>
+      <DarkToggle />
+      {user ? (
+        <NavLink
+          to={`/profile/${user.playerId}/overall/scores`}
+          className="flex h-10 mx-2 overflow-auto rounded-full aspect-square"
+          onClick={onClick}
+        >
+          <CDNImage
+            width={40}
+            height={40}
+            src={`avatars/${user.playerId}.jpg`}
+          />
+        </NavLink>
+      ) : (
+        <NavLink
+          to="/register"
+          className="flex items-center headerNav"
+          onClick={onClick}
+        >
+          Sign up
+        </NavLink>
+      )}
+    </>
+  );
+};
 
 const Header = () => {
   const [menuVisible, setMenu] = useState(false);

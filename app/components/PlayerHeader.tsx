@@ -11,9 +11,12 @@ import BlankBlock from "@/BlankBlock";
 import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import type { PlayerLayoutQuery } from "~/__generated__/gql";
+import { Form } from "@remix-run/react";
+import scoresaberLogo from "~/images/scoresaber.svg";
+import { useUser } from "./UserContext";
 
-const SkillTriangle = lazy(() => import("~/components/SkillTriangle.client"));
-const RankGraph = lazy(() => import("@/RankGraph.client"));
+const SkillTriangle = lazy(() => import("@/SkillTriangle"));
+const RankGraph = lazy(() => import("@/RankGraph"));
 
 export default function PlayerHeader({
   playerId,
@@ -34,6 +37,8 @@ export default function PlayerHeader({
 }) {
   const categories = categoriesEdge?.nodes ?? [];
 
+  const user = useUser();
+
   const highestLevel = getHighestLevel(campaignStatus ?? []);
   const AvImage = playerId.startsWith("7") ? CDNImage : "img";
 
@@ -46,6 +51,37 @@ export default function PlayerHeader({
         transparent
         cdn={playerId.startsWith("7")}
         image={avatar}
+        actionButton={
+          <div className="flex flex-row-reverse gap-2">
+            <a
+              href={`https://scoresaber.com/u/${profile.playerId}`}
+              className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
+            >
+              <img
+                src={scoresaberLogo}
+                alt="Profile on ScoreSaber"
+                className="h-6"
+              />
+            </a>
+            {user?.playerId !== profile.playerId ? (
+              <Form
+                action={`/settings/login`}
+                method="post"
+                replace
+                reloadDocument
+              >
+                <button
+                  type="submit"
+                  name="userId"
+                  value={profile.playerId}
+                  className="px-4 py-2 bg-white rounded shadow-md dark:bg-neutral-700 text-inherit"
+                >
+                  Set as my profile
+                </button>
+              </Form>
+            ) : undefined}
+          </div>
+        }
         navigation={[
           {
             href: `/profile/${profile.playerId}/overall/scores`,
@@ -64,7 +100,9 @@ export default function PlayerHeader({
           },
         ]}
       >
-        {profile.playerName}&apos;s Profile
+        <div className="max-w-[15ch] overflow-hidden text-ellipsis whitespace-nowrap">
+          {profile.playerName}&apos;s Profile
+        </div>
       </PageHeader>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
@@ -165,9 +203,11 @@ export default function PlayerHeader({
           </div>
           <div className="flex items-center justify-center w-72 h-72">
             <Suspense fallback={<LoadingSpinner />}>
-              <SkillTriangle categories={categories} key="skills">
-                {categoryStats?.nodes ?? []}
-              </SkillTriangle>
+              <SkillTriangle
+                categories={categories}
+                key="skills"
+                skills={categoryStats?.nodes ?? []}
+              />
             </Suspense>
           </div>
         </div>

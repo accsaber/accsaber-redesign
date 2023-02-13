@@ -10,11 +10,13 @@ import {
   Legend,
 } from "chart.js";
 import type { CategoryInfoFragment, SkillLevelFragment } from "$gql";
+import { useState } from "react";
 
 const SkillTriangle: React.FC<{
-  children: SkillLevelFragment[];
+  skills: SkillLevelFragment[];
   categories: CategoryInfoFragment[];
-}> = ({ children: skills, categories }) => {
+}> = ({ skills, categories }) => {
+  const [doRender, setRender] = useState(false);
   ChartJS.register(
     RadialLinearScale,
     PointElement,
@@ -51,7 +53,6 @@ const SkillTriangle: React.FC<{
         datasets: [
           {
             data: skills.map((i) => i.skillLevel),
-
             label: "Skill level",
             borderColor: "#2563eb",
             backgroundColor: "#2563eb33",
