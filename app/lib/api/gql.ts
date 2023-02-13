@@ -2,6 +2,7 @@ import { GraphQLClient } from "graphql-request";
 import config from "./config";
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { getSdk } from "$gql";
 
 export const gqlClient = new GraphQLClient(config.gqlURL);
 
@@ -19,3 +20,4 @@ export function useGql<TResult, TVariables>(
       )
   );
 }
+export const sdk = getSdk(gqlClient);

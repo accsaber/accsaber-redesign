@@ -6,7 +6,11 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
   generates: {
     "./app/__generated__/gql.ts": {
-      plugins: ["typescript", "typescript-operations", "typed-document-node"],
+      plugins: [
+        "typescript",
+        "typescript-operations",
+        "typescript-graphql-request",
+      ],
     },
   },
 };

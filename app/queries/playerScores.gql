@@ -19,9 +19,10 @@ query PlayerScoresPage(
   $pageSize: Int!
   $offset: Int!
   $orderBy: [AccSaberScoresOrderBy!]
+  $category: String
 ) {
   accSaberScores(
-    condition: { playerId: $playerId }
+    condition: { playerId: $playerId, categoryName: $category }
     first: $pageSize
     offset: $offset
     orderBy: $orderBy
