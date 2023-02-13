@@ -6,6 +6,8 @@ import ScoreHistoryButton from "./ScoreHistoryButton";
 import { DateTime } from "luxon";
 import CDNImage from "@/CDNImage";
 import type { ScoreRowFragment } from "$gql";
+import LoadingSpinner from "./LoadingSpinner";
+import { NavLink } from "@remix-run/react";
 
 export default function ScoreRow({
   score,
@@ -19,14 +21,25 @@ export default function ScoreRow({
       <td>#{score.ranking}</td>
 
       <td className="relative min-w-[2.5rem]">
-        <CDNImage
-          src={`covers/${score.songHash?.toUpperCase()}.png`}
-          className="absolute top-0 left-0 m-0"
-          loading="lazy"
-          alt="Cover art"
-          width={40}
-          height={40}
-        />
+        <NavLink prefetch={"intent"} to={`/maps/${score.leaderboardId}`}>
+          {({ isPending }) => (
+            <>
+              <CDNImage
+                src={`covers/${score.songHash?.toUpperCase()}.png`}
+                className="absolute top-0 left-0 m-0"
+                loading="lazy"
+                alt="Cover art"
+                width={40}
+                height={40}
+              />
+              {isPending && (
+                <div className="absolute top-0 left-0 w-10 h-10 flex bg-white/80 dark:bg-black/50">
+                  <LoadingSpinner className="p-2 w-10 h-10" />
+                </div>
+              )}
+            </>
+          )}
+        </NavLink>
       </td>
       <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
         <Link prefetch={"intent"} href={`/maps/${score.leaderboardId}`}>

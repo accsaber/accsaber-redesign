@@ -48,14 +48,7 @@ const Header = () => {
                   }`
                 }
               >
-                {({ isPending }) => (
-                  <>
-                    {isPending && <LoadingSpinner className="h-6" />}{" "}
-                    <span className={isPending ? "text-transparent" : ""}>
-                      {name}
-                    </span>
-                  </>
-                )}
+                {name}
               </NavLink>
             ))}
             <a href="https://wiki.accsaber.com" className="headerNav">
