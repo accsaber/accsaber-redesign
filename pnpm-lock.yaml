@@ -25,6 +25,7 @@ specifiers:
   chart.js: ^4.2.1
   chartjs-adapter-luxon: ^1.3.1
   eslint: ^8.27.0
+  fuse.js: ^6.6.2
   graphql: ^16.6.0
   graphql-request: ^5.1.0
   graphql-tag: ^2.12.6
@@ -51,6 +52,7 @@ dependencies:
   boring-avatars: 1.7.0
   chart.js: 4.2.1
   chartjs-adapter-luxon: 1.3.1_chart.js@4.2.1+luxon@3.2.1
+  fuse.js: 6.6.2
   graphql: 16.6.0
   graphql-request: 5.1.0_graphql@16.6.0
   graphql-tag: 2.12.6_graphql@16.6.0
@@ -5355,6 +5357,11 @@ packages:
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /fuse.js/6.6.2:
+    resolution: {integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /generic-names/4.0.0:
     resolution: {integrity: sha512-ySFolZQfw9FoDb3ed9d80Cm9f0+r7qj+HJkWjeD9RBfpxEVTlVhol+gvaQB/78WbwYfbnNh8nWHHBSlg072y6A==}
