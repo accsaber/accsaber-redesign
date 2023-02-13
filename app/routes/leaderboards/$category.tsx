@@ -1,13 +1,10 @@
-import { Category } from "$interfaces/api/category";
-import { Player } from "$interfaces/api/player";
+import type { Category } from "$interfaces/api/category";
+import type { Player } from "$interfaces/api/player";
 import PageHeader from "@/PageHeader";
 import Pagination from "@/Pagination";
 import PlayerRow from "@/PlayerRow";
-import {
-  LoaderFunction,
-  MetaFunction,
-  json as jsonResponse,
-} from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json as jsonResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { json } from "~/lib/api/fetcher";

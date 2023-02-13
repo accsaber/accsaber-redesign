@@ -1,6 +1,6 @@
 import Avatar from "boring-avatars";
 import { language } from "~/lib/api/config";
-import { Player } from "~/lib/interfaces/api/player";
+import type { Player } from "~/lib/interfaces/api/player";
 import CDNImage from "./CDNImage";
 import { NavLink } from "@remix-run/react";
 import LoadingSpinner from "./LoadingSpinner";

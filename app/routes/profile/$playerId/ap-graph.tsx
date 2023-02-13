@@ -1,7 +1,8 @@
-import { ApGraphPageDocument, ApGraphPageQuery } from "$gql";
+import type { ApGraphPageQuery } from "$gql";
+import { ApGraphPageDocument } from "$gql";
 import ApGraph from "@/ApGraph.client";
 import PageHeader from "@/PageHeader";
-import { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";

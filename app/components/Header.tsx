@@ -8,7 +8,6 @@ import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
 import { NavLink, useLocation } from "@remix-run/react";
-import LoadingSpinner from "./LoadingSpinner";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
