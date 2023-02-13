@@ -13,11 +13,8 @@ import {
   PointElement,
   TimeSeriesScale,
 } from "chart.js";
-import {
-  ScoreHistoryDocument,
-  ScoreHistoryNodeFragment,
-  ScoreRowFragment,
-} from "~/__generated__/gql/graphql";
+import type { ScoreHistoryNodeFragment, ScoreRowFragment } from "$gql";
+import { ScoreHistoryDocument } from "$gql";
 import { useGql } from "~/lib/api/gql";
 
 function ScoreHistoryBody({

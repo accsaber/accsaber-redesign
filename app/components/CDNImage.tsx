@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, ImgHTMLAttributes } from "react";
+import type { DetailedHTMLProps, ImgHTMLAttributes } from "react";
 
 const allowedTypes = ["webp", "heif", "jpeg"];
 

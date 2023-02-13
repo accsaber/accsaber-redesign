@@ -2,12 +2,13 @@
 import Link from "next/link";
 import type { MouseEventHandler } from "react";
 import { useState } from "react";
-import logo from "~/lib/images/logo.webp";
+import logo from "~/images/logo.webp";
 import headerItems from "~/lib/headerItems";
 import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
-import { NavLink } from "@remix-run/react";
+import { NavLink, useLocation } from "@remix-run/react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
@@ -19,6 +20,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
 
 const Header = () => {
   const [menuVisible, setMenu] = useState(false);
+  const { pathname } = useLocation();
   return (
     <>
       <header className="text-white bg-gradient-to-l from-blue-600 to-purple-600">
@@ -41,10 +43,19 @@ const Header = () => {
                 to={href}
                 key={href}
                 className={({ isActive }) =>
-                  `headerNav${isActive ? " active" : ""}`
+                  `headerNav${
+                    isActive || match?.test(pathname ?? "") ? " active" : ""
+                  }`
                 }
               >
-                {name}
+                {({ isPending }) => (
+                  <>
+                    {isPending && <LoadingSpinner className="h-6" />}{" "}
+                    <span className={isPending ? "text-transparent" : ""}>
+                      {name}
+                    </span>
+                  </>
+                )}
               </NavLink>
             ))}
             <a href="https://wiki.accsaber.com" className="headerNav">

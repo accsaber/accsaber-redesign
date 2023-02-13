@@ -3,10 +3,11 @@ import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import React, { createRef, useEffect, useState } from "react";
-import logo from "~/public/images/logo.webp";
+import logo from "~/images/logo.webp";
 import PopoverMenu from "./Popover";
-import NextImage from "next/image";
 import CDNImage from "@/CDNImage";
+import { NavLink } from "@remix-run/react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const PageHeader: React.FC<{
   image?: string | React.ReactElement;
@@ -64,7 +65,7 @@ const PageHeader: React.FC<{
       >
         <div className="flex items-center max-w-screen-lg gap-4 px-4 mx-auto">
           <Link
-            prefetch={false}
+            prefetch={"none"}
             href={"/"}
             className={[
               "w-12 h-12 aspect-square p-2 flex ",
@@ -76,14 +77,12 @@ const PageHeader: React.FC<{
             ].join(" ")}
             aria-label="Home"
           >
-            <NextImage
+            <img
               src={logo}
               alt="Home"
               aria-hidden={!scrolled}
               aria-label="Go Home"
               className="h-8 aspect-square"
-              priority
-              unoptimized
               width={32}
               height={32}
             />
@@ -123,14 +122,26 @@ const PageHeader: React.FC<{
           {navigation ? (
             <nav className="flex-1 hidden gap-2 md:flex">
               {navigation.map(({ label, href, isCurrent }) => (
-                <Link
-                  prefetch={false}
-                  href={`${href}`}
+                <NavLink
+                  prefetch={"none"}
+                  to={`${href}`}
                   key={href}
-                  className={["pageNav", isCurrent ? "active" : ""].join(" ")}
+                  className={({ isPending }) =>
+                    [
+                      "pageNav flex items-center justify-center relative",
+                      isCurrent || isPending ? "active" : "",
+                    ].join(" ")
+                  }
                 >
-                  {label}
-                </Link>
+                  {({ isPending }) => (
+                    <>
+                      {isPending && <LoadingSpinner className="h-6 absolute" />}{" "}
+                      <span className={isPending ? "opacity-0 " : ""}>
+                        {label}
+                      </span>
+                    </>
+                  )}
+                </NavLink>
               ))}
             </nav>
           ) : (
@@ -191,7 +202,7 @@ const PageHeader: React.FC<{
           <nav className="flex flex-col flex-1 gap-2 p-2">
             {navigation.map(({ label, href }) => (
               <Link
-                prefetch={false}
+                prefetch={"none"}
                 href={`${href}`}
                 key={href}
                 className={["pageNav"].join(" ")}

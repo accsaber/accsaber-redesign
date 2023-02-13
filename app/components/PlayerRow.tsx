@@ -30,7 +30,7 @@ const PlayerRow = ({
     </td>
     <td className="w-full">
       <Link
-        prefetch={false}
+        prefetch={"none"}
         href={`/profile/${player.playerId}/${current ?? "overall"}/scores`}
       >
         {player.playerName}

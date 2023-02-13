@@ -1,0 +1,21 @@
+fragment ScoreHistoryNode on ScoreDataHistory {
+  score
+  timeSet
+}
+query ScoreHistory($playerId: BigInt, $leaderboardId: BigInt!) {
+  beatMap(leaderboardId: $leaderboardId) {
+    maxScore
+    songBySong {
+      songHash
+      songName
+      songAuthorName
+    }
+  }
+  scoreDataHistories(
+    condition: { playerId: $playerId, mapLeaderboardId: $leaderboardId }
+  ) {
+    nodes {
+      ...ScoreHistoryNode
+    }
+  }
+}

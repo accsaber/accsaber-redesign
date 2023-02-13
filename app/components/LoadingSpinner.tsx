@@ -1,11 +1,14 @@
-const LoadingSpinner = () => (
+import { SVGProps } from "react";
+
+const LoadingSpinner = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="38"
     height="38"
     stroke="currentColor"
     viewBox="0 0 38 38"
-    className="animate-spin"
+    {...props}
+    className={`animate-spin ${props.className ? props.className : ""}`}
   >
     <g
       fill="none"

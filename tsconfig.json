@@ -14,9 +14,11 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "$gql": ["./app/__generated__/gql"],
       "next/link": ["./app/components/NextLink"],
       "@/*": ["./app/components/*"],
       "$interfaces/*": ["./app/lib/interfaces/*"],
+      "~icons/*": ["./public/icons/*"],
       "~/*": ["./app/*"]
     },
 
