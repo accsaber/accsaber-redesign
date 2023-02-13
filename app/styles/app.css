@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+@layer components {
+  .easy {
+    @apply bg-green-400;
+  }
+
+  .headerNav {
+    @apply rounded p-4 py-2 items-center gap-2;
+  }
+  .headerNav:hover,
+  .headerNav.active {
+    @apply bg-black/10;
+  }
+
+  .pageNav {
+    @apply text-neutral-800 dark:text-neutral-300 px-4 py-2
+      flex items-center
+      rounded hover:bg-black/5;
+  }
+
+  .pageNav.active {
+    @apply bg-black/5 dark:bg-black/20;
+  }
+
+  .prose table tbody tr td:first-child {
+    @apply pl-2;
+  }
+  .prose table tbody tr td:last-child {
+    @apply pr-2;
+  }
+
+  .prose table tbody tr:nth-child(even) {
+    @apply bg-black/5 dark:bg-white/5;
+  }
+}
