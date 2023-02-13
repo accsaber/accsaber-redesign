@@ -20,13 +20,17 @@ interface PlayerLayoutData {
 }
 
 export const meta: MetaFunction = ({ data }: { data: PlayerLayoutData }) => ({
-  title: `${data.profile.playerName}'s Profile | AccSaber`,
+  title: `${data?.profile?.playerName}'s Profile | AccSaber`,
 });
 
 export const loader: LoaderFunction = async ({
   params: { playerId, category = "overall" },
 }) => {
   invariant(playerId, "Missing Player Id");
+
+  // This is the stupidest bug I have ever fixed
+  if (category == "scores")
+    throw new Response("Profile not found", { status: 404 });
 
   const categoryNumber =
     category === "overall"
@@ -47,8 +51,10 @@ export const loader: LoaderFunction = async ({
     }),
   ]);
 
+  if (!profile) return new Response("Profile not found", { status: 404 });
+
   return json({
-    playerId,
+    playerId: profile.playerId,
     profile,
     campaignStatus,
     queryData,
