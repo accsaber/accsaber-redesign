@@ -3,7 +3,7 @@ import { PlayerLayoutDocument } from "$gql";
 import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import PlayerHeader from "@/PlayerHeader";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -18,6 +18,10 @@ interface PlayerLayoutData {
   queryData: PlayerLayoutQuery;
   category: string;
 }
+
+export const meta: MetaFunction = ({ data }: { data: PlayerLayoutData }) => ({
+  title: `${data.profile.playerName}'s Profile | AccSaber`,
+});
 
 export const loader: LoaderFunction = async ({
   params: { playerId, category = "overall" },

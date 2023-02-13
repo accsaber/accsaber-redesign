@@ -5,7 +5,7 @@ import Complexity from "@/Complexity";
 import DifficultyLabel from "@/DifficultyLabel";
 import LoadingSpinner from "@/LoadingSpinner";
 import Pagination from "@/Pagination";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { Link, NavLink, useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
@@ -24,6 +24,10 @@ interface MapPageData {
   map: RankedMapPageQuery;
   leaderboard: MapLeaderboardPlayer[];
 }
+
+export const meta: MetaFunction = ({ data }: { data: MapPageData }) => ({
+  title: `${data.map.beatMap?.song?.songName} | AccSaber`,
+});
 
 export const loader: LoaderFunction = async ({
   params: { mapId },

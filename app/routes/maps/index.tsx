@@ -2,7 +2,7 @@ import type { MapRowFragment, RankedMapsQuery } from "$gql";
 import { BeatMapsOrderBy, RankedMapsDocument } from "$gql";
 import GQLSortButton from "@/GQLSortButton";
 import MapRow from "@/MapRow";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { gqlClient } from "~/lib/api/gql";
 
@@ -15,6 +15,10 @@ export const loader: LoaderFunction = async ({ request }) => {
     orderBy: BeatMapsOrderBy[sortByParam] ?? BeatMapsOrderBy.DateRankedAsc,
   });
 };
+
+export const meta: MetaFunction = () => ({
+  title: "AccSaber Ranked Maps",
+});
 
 export default function RankedMapsPage() {
   const { beatMaps: maps } = useLoaderData<RankedMapsQuery>();
