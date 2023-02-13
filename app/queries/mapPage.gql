@@ -1,0 +1,19 @@
+query RankedMapPage($mapId: BigInt!) {
+  beatMap(leaderboardId: $mapId) {
+    nodeId
+    difficulty
+    complexity
+    leaderboardId
+    category {
+      categoryDisplayName
+    }
+    song: songBySong {
+      songHash
+      songName
+      songSubName
+      songAuthorName
+      beatSaverKey
+      levelAuthorName
+    }
+  }
+}
