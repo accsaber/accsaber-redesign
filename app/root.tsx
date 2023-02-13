@@ -13,6 +13,7 @@ import Header from "@/Header";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import config from "./lib/api/config";
 import LoadingSpinner from "@/LoadingSpinner";
+import logo from "~/images/logo.webp";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const meta: MetaFunction = () => ({
@@ -21,13 +22,6 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export const links = () => [
-  {
-    href: styles,
-    rel: "stylesheet",
-  },
-];
-
 export default function App() {
   const queryClient = new QueryClient({});
   return (
@@ -35,6 +29,8 @@ export default function App() {
       <head>
         <Meta />
         <LinksBlock />
+        <link rel="stylesheet" href={styles} />
+        <link rel="shortcut icon" href={logo} />
       </head>
       <body className="dark:bg-neutral-900 dark:text-white flex flex-col h-full overflow-auto">
         {config.isBeta && (
