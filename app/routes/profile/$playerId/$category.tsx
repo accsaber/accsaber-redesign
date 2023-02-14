@@ -38,7 +38,7 @@ export const loader: LoaderFunction = async ({
       ? -1
       : ["true", "standard", "tech"].indexOf(category) + 1;
 
-  const [profile, campaignStatus, queryData] = await Promise.all([
+  const [profile, queryData] = await Promise.all([
     getPlayer(playerId, category)
       .then(withTiming(headers, "fetch", "Get Player"))
       .catch(() => {
@@ -47,9 +47,6 @@ export const loader: LoaderFunction = async ({
           statusText: "Player not found",
         });
       }),
-    getCampaignStatus(playerId).then(
-      withTiming(headers, "fetch", "Get Campaign Status")
-    ),
     gqlClient
       .request(PlayerLayoutDocument, {
         playerId,
@@ -64,7 +61,7 @@ export const loader: LoaderFunction = async ({
     {
       playerId: profile.playerId,
       profile,
-      campaignStatus,
+      campaignStatus: queryData.campaign?.playerCampaignInfo,
       queryData,
       category,
     },

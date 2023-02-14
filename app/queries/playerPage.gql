@@ -14,7 +14,7 @@ fragment CategoryInfo on Category {
   categoryDisplayName
 }
 
-query PlayerLayout($playerId: BigInt!, $category: BigInt) {
+query PlayerLayout($playerId: BigInt!, $category: BigInt!) {
   playerRankHistories(
     condition: { playerId: $playerId, categoryId: $category }
     last: 30
@@ -33,6 +33,12 @@ query PlayerLayout($playerId: BigInt!, $category: BigInt) {
   categories {
     nodes {
       ...CategoryInfo
+    }
+  }
+  campaign(id: 0) {
+    playerCampaignInfo(playerId: $playerId) {
+      milestoneId
+      pathCleared
     }
   }
 }
