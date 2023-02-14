@@ -7,10 +7,13 @@ import headerItems from "~/lib/headerItems";
 import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
-import { NavLink, useLocation } from "@remix-run/react";
+import { Form, NavLink, useLocation } from "@remix-run/react";
 import { useUser } from "./UserContext";
 import DarkToggle from "./DarkModeToggle";
 import CDNImage from "./CDNImage";
+import { Popover } from "@headlessui/react";
+import { LogoutIcon, UserIcon } from "@heroicons/react/outline";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
   const user = useUser();
@@ -21,17 +24,46 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
       </Link>
       <DarkToggle />
       {user ? (
-        <NavLink
-          to={`/profile/${user.playerId}/overall/scores`}
-          className="flex h-10 mx-2 overflow-auto rounded-full aspect-square"
-          onClick={onClick}
-        >
-          <CDNImage
-            width={40}
-            height={40}
-            src={`avatars/${user.playerId}.jpg`}
-          />
-        </NavLink>
+        <Popover className="relative">
+          <Popover.Button className="flex h-10 mx-2 overflow-auto rounded-full aspect-square">
+            <CDNImage
+              width={40}
+              height={40}
+              src={`avatars/${user.playerId}.jpg`}
+            />
+          </Popover.Button>
+          <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:top-12 md:bottom-[unset]">
+            <NavLink
+              to={`/profile/${user.playerId}/overall/scores`}
+              className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
+            >
+              {({ isPending }) => (
+                <>
+                  {isPending ? (
+                    <LoadingSpinner className="h-6 w-6" />
+                  ) : (
+                    <UserIcon className="h-6" />
+                  )}
+                  My Profile
+                </>
+              )}
+            </NavLink>
+            <Form
+              action={`/settings/logout`}
+              method="post"
+              replace
+              reloadDocument
+            >
+              <button
+                type="submit"
+                className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
+              >
+                <LogoutIcon className="h-6" />
+                Log out
+              </button>
+            </Form>
+          </Popover.Panel>
+        </Popover>
       ) : (
         <NavLink
           to="/register"
@@ -129,7 +161,7 @@ const Header = () => {
           </a>
         </nav>
         <hr className="dark:border-neutral-800" />
-        <div className="flex items-center justify-end p-2">
+        <div className="flex items-center justify-end p-2 relative">
           <ActionSection onClick={() => setMenu(false)} />
         </div>
       </PopoverMenu>

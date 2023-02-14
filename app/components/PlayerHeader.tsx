@@ -75,7 +75,7 @@ export default function PlayerHeader({
                   type="submit"
                   name="userId"
                   value={profile.playerId}
-                  className="block p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                  className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
                   title="Set as my profile"
                   aria-label="Set as my profile"
                 >

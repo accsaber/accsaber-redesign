@@ -54,10 +54,11 @@ const PageHeader: React.FC<{
       <div ref={scrollProbe} />
       <div
         className={[
-          "sticky top-0 z-40",
+          "sticky top-0 ",
           "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
           "transition-colors",
           transparent ? "-mb-16" : "",
+          scrolled ? " z-40" : "z-10",
           transparent && !scrolled
             ? "bg-opacity-0 dark:bg-opacity-0"
             : "shadow",
