@@ -14,6 +14,7 @@ import type { PlayerLayoutQuery } from "~/__generated__/gql";
 import { Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import { useUser } from "./UserContext";
+import { UserAddIcon } from "@heroicons/react/outline";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
 const RankGraph = lazy(() => import("@/RankGraph"));
@@ -74,9 +75,11 @@ export default function PlayerHeader({
                   type="submit"
                   name="userId"
                   value={profile.playerId}
-                  className="px-4 py-2 bg-white rounded shadow-md dark:bg-neutral-700 text-inherit"
+                  className="block p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                  title="Set as my profile"
+                  aria-label="Set as my profile"
                 >
-                  Set as my profile
+                  <UserAddIcon className="w-6 h-6" />
                 </button>
               </Form>
             ) : undefined}
@@ -90,7 +93,7 @@ export default function PlayerHeader({
           },
           ...categories.map((node) => ({
             href: `/profile/${profile.playerId}/${node.categoryName}/scores`,
-            label: node.categoryDisplayName ?? "",
+            label: node.categoryDisplayName?.split(/\b/g)[0] ?? "",
             isCurrent: category === node.categoryName,
           })),
           {
