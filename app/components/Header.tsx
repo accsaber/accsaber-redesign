@@ -7,7 +7,7 @@ import headerItems from "~/lib/headerItems";
 import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
-import { Form, NavLink, useLocation } from "@remix-run/react";
+import { Form, NavLink, useLocation, useNavigation } from "@remix-run/react";
 import { useUser } from "./UserContext";
 import DarkToggle from "./DarkModeToggle";
 import CDNImage from "./CDNImage";
@@ -80,6 +80,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
 const Header = () => {
   const [menuVisible, setMenu] = useState(false);
   const { pathname } = useLocation();
+  const { state } = useNavigation();
   return (
     <>
       <header className="text-white bg-gradient-to-l from-blue-600 to-purple-600">
@@ -88,12 +89,21 @@ const Header = () => {
             href={"/"}
             className="flex items-center h-12 gap-2 p-2 -mr-2 font-semibold rounded-full hover:bg-black/10"
           >
+            <LoadingSpinner
+              className={`w-8 h-8 absolute ${
+                state !== "idle"
+                  ? " transition-opacity [transition-delay:0.25s]"
+                  : "opacity-0"
+              }`}
+            />
             <img
               src={logo}
               alt="AccSaber"
               height={32}
               width={32}
-              className="w-8 h-8 aspect-square"
+              className={`w-8 h-8 aspect-square relative transition-transform ${
+                state !== "idle" ? "scale-75  [transition-delay:0.25s] " : ""
+              }`}
             />
           </Link>
           <nav className="flex-1 hidden gap-2 md:flex">
