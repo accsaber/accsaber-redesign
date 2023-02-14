@@ -10,6 +10,7 @@ import invariant from "tiny-invariant";
 import getCampaignStatus from "~/lib/api/campaign";
 import { getPlayer } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
+import { withTiming } from "~/lib/timing";
 
 interface PlayerLayoutData {
   playerId: string;
@@ -27,10 +28,10 @@ export const loader: LoaderFunction = async ({
   params: { playerId, category = "overall" },
 }) => {
   invariant(playerId, "Missing Player Id");
-
   // This is the stupidest bug I have ever fixed
   if (category == "scores")
     throw new Response("Profile not found", { status: 404 });
+  const headers = new Headers();
 
   const categoryNumber =
     category === "overall"
@@ -38,28 +39,37 @@ export const loader: LoaderFunction = async ({
       : ["true", "standard", "tech"].indexOf(category) + 1;
 
   const [profile, campaignStatus, queryData] = await Promise.all([
-    getPlayer(playerId, category).catch(() => {
-      throw new Response("Player not found", {
-        status: 404,
-        statusText: "Player not found",
-      });
-    }),
-    getCampaignStatus(playerId),
-    gqlClient.request(PlayerLayoutDocument, {
-      playerId,
-      category: categoryNumber,
-    }),
+    getPlayer(playerId, category)
+      .then(withTiming(headers, "fetch", "Get Player"))
+      .catch(() => {
+        throw new Response("Player not found", {
+          status: 404,
+          statusText: "Player not found",
+        });
+      }),
+    getCampaignStatus(playerId).then(
+      withTiming(headers, "fetch", "Get Campaign Status")
+    ),
+    gqlClient
+      .request(PlayerLayoutDocument, {
+        playerId,
+        category: categoryNumber,
+      })
+      .then(withTiming(headers, "query", "GraphQL Query")),
   ]);
 
   if (!profile) return new Response("Profile not found", { status: 404 });
 
-  return json({
-    playerId: profile.playerId,
-    profile,
-    campaignStatus,
-    queryData,
-    category,
-  });
+  return json(
+    {
+      playerId: profile.playerId,
+      profile,
+      campaignStatus,
+      queryData,
+      category,
+    },
+    { headers }
+  );
 };
 export default function PlayerLayout() {
   const { campaignStatus, category, profile, queryData, playerId } =

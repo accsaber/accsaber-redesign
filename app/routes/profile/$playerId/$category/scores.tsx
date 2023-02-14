@@ -19,6 +19,8 @@ interface ScoresData {
   playerId: string;
 }
 
+const { now } = typeof performance !== "undefined" ? performance : Date;
+
 export const loader: LoaderFunction = async ({
   params: { playerId, category = "overall" },
   request,
@@ -31,6 +33,9 @@ export const loader: LoaderFunction = async ({
     "WeightedApDesc") as keyof typeof AccSaberScoresOrderBy;
   const page = parseInt(searchParams.get("page") ?? "1");
 
+  const headers = new Headers();
+  const started = now();
+
   const { accSaberScores: scores } = await gqlClient.request(
     PlayerScoresPageDocument,
     {
@@ -42,13 +47,23 @@ export const loader: LoaderFunction = async ({
         AccSaberScoresOrderBy.WeightedApDesc,
     }
   );
-  return json({
-    page,
-    pageSize,
-    sortByParam,
-    scores,
-    playerId,
-  } as ScoresData);
+  headers.append(
+    "Server-Timing",
+    `query;desc="GraphQL Query";dur=${now() - started}`
+  );
+
+  return json(
+    {
+      page,
+      pageSize,
+      sortByParam,
+      scores,
+      playerId,
+    } as ScoresData,
+    {
+      headers,
+    }
+  );
 };
 export default function PlayerScoresPage() {
   const { page, pageSize, sortByParam, scores, playerId } =

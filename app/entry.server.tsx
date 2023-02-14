@@ -69,6 +69,8 @@ function handleBotRequest(
   });
 }
 
+const { now } = typeof performance !== "undefined" ? performance : Date;
+
 function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
@@ -78,14 +80,20 @@ function handleBrowserRequest(
   return new Promise((resolve, reject) => {
     let didError = false;
 
+    const startTime = now();
     const { pipe, abort } = renderToPipeableStream(
       <RemixServer context={remixContext} url={request.url} />,
       {
         onShellReady() {
           const body = new PassThrough();
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set("Content-Type", "text/html; charset=utf-8");
 
+          const readyTime = now() - startTime;
+          responseHeaders.append(
+            "Server-Timing",
+            `render;desc="Render Page";dur=${readyTime}`
+          );
           resolve(
             new Response(body, {
               headers: responseHeaders,

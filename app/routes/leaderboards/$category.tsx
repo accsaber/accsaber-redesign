@@ -8,6 +8,7 @@ import { json as jsonResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { json } from "~/lib/api/fetcher";
+import { withTiming } from "~/lib/timing";
 
 interface LeaderboardData {
   categories: Category[];
@@ -23,14 +24,19 @@ export const loader: LoaderFunction = async ({
 }) => {
   invariant(category);
   const { searchParams } = new URL(request.url);
-
+  const headers = new Headers();
   const pageSize = 50;
 
   const [categories, allStandings] = await Promise.all([
-    json<Category[]>("categories"),
-    json<Player[]>(`categories/${category}/standings`).catch((error) => {
-      throw new Response("Couldn't load standings", { status: 500 });
-    }),
+    json<Category[]>("categories").then(
+      withTiming(headers, "fetch", "Get Category List")
+    ),
+    json<Player[]>(`categories/${category}/standings`).then(
+      withTiming(headers, "fetch", "Get Standings"),
+      (error) => {
+        throw new Response("Couldn't load standings", { status: 500 });
+      }
+    ),
   ]);
 
   const page = parseInt(searchParams.get("page") ?? "1");
@@ -40,13 +46,16 @@ export const loader: LoaderFunction = async ({
       ? [...allStandings].splice(pageSize * (page - 1), pageSize)
       : allStandings;
 
-  return jsonResponse({
-    category,
-    categories,
-    standings,
-    page,
-    pages,
-  });
+  return jsonResponse(
+    {
+      category,
+      categories,
+      standings,
+      page,
+      pages,
+    },
+    { headers }
+  );
 };
 
 const categoryMap = new Map([
