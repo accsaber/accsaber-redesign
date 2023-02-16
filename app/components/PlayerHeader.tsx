@@ -15,6 +15,7 @@ import { Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import { useUser } from "./UserContext";
 import { UserAddIcon } from "@heroicons/react/outline";
+import PlayerAvatar from "./Avatar";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
 const RankGraph = lazy(() => import("@/RankGraph"));
@@ -50,8 +51,12 @@ export default function PlayerHeader({
     <>
       <PageHeader
         transparent
-        cdn={playerId.startsWith("7")}
-        image={avatar}
+        image={
+          <PlayerAvatar
+            className={"w-8 h-8 rounded-full relative overflow-hidden"}
+            profile={profile}
+          />
+        }
         actionButton={
           <div className="flex flex-row-reverse gap-2">
             <a
@@ -109,14 +114,12 @@ export default function PlayerHeader({
       </PageHeader>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
-        <AvImage
-          src={`${avatar}?variant=marble`}
+        <PlayerAvatar
           className={`absolute top-0 left-0 object-cover w-full h-full opacity-20 ${
             !profile.playerId.startsWith("7") ? "" : "blur-3xl"
           }`}
-          alt=""
-          width={184}
-          height={184}
+          profile={profile}
+          variant="marble"
         />
         <div
           className={[
@@ -124,7 +127,7 @@ export default function PlayerHeader({
             "max-w-screen-lg mx-auto flex-wrap justify-center relative",
           ].join(" ")}
         >
-          <div
+          <PlayerAvatar
             className={[
               "w-32 h-32 rounded-full shadow-lg relative overflow-hidden border-4",
               [
@@ -134,27 +137,8 @@ export default function PlayerHeader({
                 "border-[#9c59b6] shadow-[#9c59b6]/50",
               ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
             ].join(" ")}
-          >
-            <div className="absolute top-0 left-0 w-full h-full">
-              <Avatar
-                size={120}
-                square
-                variant="beam"
-                name={profile.playerId}
-              />
-            </div>
-
-            {profile.playerId.startsWith("7") && (
-              <AvImage
-                src={avatar}
-                alt={`${profile.playerName}'s profile`}
-                width={128}
-                height={128}
-                className="absolute top-0 left-0 z-10 w-full h-full"
-              />
-            )}
-          </div>
-
+            profile={profile}
+          />
           <div className="flex flex-col justify-center flex-1">
             <div className="">
               <h1 className="text-2xl font-semibold">

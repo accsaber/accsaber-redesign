@@ -1,6 +1,7 @@
 import type { ApGraphPageQuery } from "$gql";
 import { ApGraphPageDocument } from "$gql";
 import ApGraph from "@/ApGraph.client";
+import PlayerAvatar from "@/Avatar";
 import PageHeader from "@/PageHeader";
 import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
@@ -21,7 +22,17 @@ export default function ApGraphPage() {
   return (
     <>
       <PageHeader
-        image={`avatars/${profile?.playerId}.jpg`}
+        image={
+          profile?.playerId && profile.playerName ? (
+            <PlayerAvatar
+              className={"w-8 h-8 rounded-full relative overflow-hidden"}
+              profile={{
+                playerId: profile.playerId,
+                playerName: profile.playerName,
+              }}
+            />
+          ) : undefined
+        }
         navigation={[
           {
             href: `/profile/${profile?.playerId}/overall/scores`,

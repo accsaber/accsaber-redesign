@@ -17,6 +17,7 @@ import { language } from "~/lib/api/config";
 import { json } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import scoresaberLogo from "~/images/scoresaber.svg";
+import PlayerAvatar from "@/Avatar";
 
 const pageSize = 25;
 
@@ -182,28 +183,17 @@ export default function MapPage() {
               {leaderboard.map((score, i) => (
                 <tr key={score.playerId}>
                   <td>#{score.rank}</td>
-                  <td className="relative w-10 min-w-[2.5rem] aspect-square">
+                  <td className="relative w-10 min-w-[2.5rem] aspect-square not-prose">
                     <NavLink to={`/profile/${score.playerId}/overall/scores`}>
                       {({ isPending }) => (
                         <>
-                          <div className="absolute top-0 left-0 w-10 h-10">
-                            <Avatar
-                              square
-                              variant="beam"
-                              name={score.playerId}
-                            />
-                          </div>
-
-                          {score.playerId.startsWith("7") && (
-                            <CDNImage
-                              src={`avatars/${score.playerId}.jpg`}
-                              alt={`${score.playerName}'s profile`}
-                              loading="lazy"
-                              className="absolute top-0 left-0 m-0"
-                              width={40}
-                              height={40}
-                            />
-                          )}
+                          <PlayerAvatar
+                            profile={score}
+                            className="absolute top-0 left-0 w-10 h-10 m-0"
+                            width={40}
+                            height={40}
+                            loading="lazy"
+                          />
                           {isPending && (
                             <div className="absolute top-0 left-0 w-10 h-10 flex bg-white/80 dark:bg-black/80">
                               <LoadingSpinner className="p-2 w-10 h-10" />

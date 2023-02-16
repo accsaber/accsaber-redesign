@@ -19,6 +19,7 @@ const getImaginaryURL = (image: CDNSource, format: string) => {
   targetPath.searchParams.set("width", image.width.toString());
   targetPath.searchParams.set("height", image.height.toString());
   targetPath.searchParams.set("type", format);
+  if (format == "jpeg") targetPath.searchParams.set("quality", "80");
 
   return targetPath;
 };

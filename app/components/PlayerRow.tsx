@@ -1,9 +1,8 @@
-import Avatar from "boring-avatars";
 import { language } from "~/lib/api/config";
 import type { Player } from "~/lib/interfaces/api/player";
-import CDNImage from "./CDNImage";
 import { NavLink } from "@remix-run/react";
 import LoadingSpinner from "./LoadingSpinner";
+import PlayerAvatar from "./Avatar";
 
 const PlayerRow = ({
   player,
@@ -22,7 +21,7 @@ const PlayerRow = ({
       >
         {({ isPending }) => (
           <>
-            <div className="absolute top-0 left-0 w-10 h-10">
+            {/* <div className="absolute top-0 left-0 w-10 h-10">
               <Avatar square variant="beam" name={player.playerId} />
             </div>
             {player.playerId.startsWith("7") && (
@@ -34,7 +33,14 @@ const PlayerRow = ({
                 width={40}
                 height={40}
               />
-            )}
+            )} */}
+            <PlayerAvatar
+              profile={player}
+              className="absolute top-0 left-0 w-10 h-10 m-0"
+              width={40}
+              height={40}
+              loading="lazy"
+            />
             {isPending && (
               <div className="absolute top-0 left-0 w-10 h-10 flex bg-white/80 dark:bg-black/50">
                 <LoadingSpinner className="p-2 w-10 h-10" />
