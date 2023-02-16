@@ -8,6 +8,7 @@ import CDNImage from "@/CDNImage";
 import type { ScoreRowFragment } from "$gql";
 import LoadingSpinner from "./LoadingSpinner";
 import { NavLink } from "@remix-run/react";
+import MapCover from "./MapCover";
 
 export default function ScoreRow({
   score,
@@ -24,12 +25,11 @@ export default function ScoreRow({
         <NavLink prefetch={"intent"} to={`/maps/${score.leaderboardId}`}>
           {({ isPending }) => (
             <>
-              <CDNImage
-                src={`covers/${score.songHash?.toUpperCase()}.png`}
-                className="absolute top-0 left-0 m-0"
+              <MapCover
+                songHash={score.songHash ?? ""}
                 loading="lazy"
-                alt="Cover art"
                 width={40}
+                className="absolute top-0 left-0 m-0"
                 height={40}
               />
               {isPending && (

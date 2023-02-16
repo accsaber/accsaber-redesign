@@ -4,6 +4,7 @@ import Complexity from "@/Complexity";
 import DifficultyLabel from "@/DifficultyLabel";
 import CDNImage from "@/CDNImage";
 import type { MapRowFragment } from "$gql";
+import MapCover from "./MapCover";
 
 const MapRow = ({
   map,
@@ -15,12 +16,11 @@ const MapRow = ({
   <tr>
     {padLeft ? <td /> : <></>}
     <td className="relative w-10 aspect-square">
-      <CDNImage
-        src={`covers/${map.songBySong?.songHash.toUpperCase()}.png`}
-        className="absolute top-0 left-0 m-0"
+      <MapCover
+        songHash={map.songBySong?.songHash ?? ""}
         loading="lazy"
-        alt="Cover art"
         width={40}
+        className="absolute top-0 left-0 m-0"
         height={40}
       />
     </td>

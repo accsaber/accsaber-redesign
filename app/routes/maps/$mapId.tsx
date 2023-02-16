@@ -17,6 +17,7 @@ import { json } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import PlayerAvatar from "@/PlayerAvatar";
+import MapCover from "@/MapCover";
 
 const pageSize = 25;
 
@@ -121,12 +122,11 @@ export default function MapPage() {
 
       <main>
         <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-          <CDNImage
-            src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
-            alt=""
-            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
+          <MapCover
+            songHash={map?.song?.songHash ?? ""}
             width={256}
             height={256}
+            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
           />
           <div
             className={[
@@ -134,14 +134,12 @@ export default function MapPage() {
               "max-w-screen-lg mx-auto px-4",
             ].join(" ")}
           >
-            <div className="flex w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square">
-              <CDNImage
-                src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
-                alt=""
-                width={256}
-                height={256}
-              />
-            </div>
+            <MapCover
+              songHash={map?.song?.songHash ?? ""}
+              width={256}
+              height={256}
+              className="w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square"
+            />
             <div className="flex flex-col gap-1">
               <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row">
                 {map?.song?.songAuthorName} - {map?.song?.songName}
