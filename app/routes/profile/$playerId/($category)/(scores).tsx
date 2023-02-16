@@ -28,7 +28,6 @@ export const loader: LoaderFunction = async ({
 }) => {
   const { searchParams } = new URL(request.url);
   invariant(playerId);
-  invariant(category);
 
   const sortByParam = (searchParams.get("sortBy") ??
     "WeightedApDesc") as keyof typeof AccSaberScoresOrderBy;

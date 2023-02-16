@@ -1,5 +1,10 @@
-import { LoaderFunction, MetaFunction, json } from "@remix-run/node";
-import styles from "./__generated__/tailwind.css";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import styles from "~/styles/app.css";
 import {
   Links as LinksBlock,
   LiveReload,
@@ -19,7 +24,7 @@ import logo from "~/images/logo.webp";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getPlayer } from "./lib/api/fetcher";
 import { user } from "./lib/cookies";
-import { Player } from "$interfaces/api/player";
+import type { Player } from "$interfaces/api/player";
 import UserContext from "@/UserContext";
 import DarkModeContext from "@/DarkModeContext";
 
@@ -33,6 +38,11 @@ interface RootData {
   user?: Player;
   dark?: boolean;
 }
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: styles },
+  { rel: "shortcut icon", href: logo },
+];
 
 export const loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -64,8 +74,6 @@ export default function App() {
           <head>
             <Meta />
             <LinksBlock />
-            <link rel="stylesheet" href={styles} />
-            <link rel="shortcut icon" href={logo} />
           </head>
           <body
             className={`${

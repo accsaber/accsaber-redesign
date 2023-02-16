@@ -35,13 +35,13 @@ export default function ApGraphPage() {
         }
         navigation={[
           {
-            href: `/profile/${profile?.playerId}/overall/scores`,
+            href: `/profile/${profile?.playerId}/overall`,
             label: "Overall",
             isCurrent: false,
           },
           ...(categories?.nodes ?? [])?.map((ncategory) => ({
-            href: `/profile/${profile?.playerId}/${ncategory.categoryName}/scores`,
-            label: ncategory.categoryDisplayName ?? "",
+            href: `/profile/${profile?.playerId}/${ncategory.categoryName}`,
+            label: ncategory.categoryDisplayName?.split(/\b/g)[0] ?? "" ?? "",
             isCurrent: false,
           })),
           {

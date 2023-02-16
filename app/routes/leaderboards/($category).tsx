@@ -19,7 +19,7 @@ interface LeaderboardData {
 }
 
 export const loader: LoaderFunction = async ({
-  params: { category },
+  params: { category = "overall" },
   request,
 }) => {
   invariant(category);

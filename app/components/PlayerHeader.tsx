@@ -92,12 +92,12 @@ export default function PlayerHeader({
         }
         navigation={[
           {
-            href: `/profile/${profile.playerId}/overall/scores`,
+            href: `/profile/${profile.playerId}/overall`,
             label: "Overall",
             isCurrent: category === "overall",
           },
           ...categories.map((node) => ({
-            href: `/profile/${profile.playerId}/${node.categoryName}/scores`,
+            href: `/profile/${profile.playerId}/${node.categoryName}`,
             label: node.categoryDisplayName?.split(/\b/g)[0] ?? "",
             isCurrent: category === node.categoryName,
           })),
