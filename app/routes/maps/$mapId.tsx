@@ -181,7 +181,7 @@ export default function MapPage() {
                 <tr key={score.playerId}>
                   <td>#{score.rank}</td>
                   <td className="relative w-10 min-w-[2.5rem] aspect-square not-prose">
-                    <NavLink to={`/profile/${score.playerId}/overall/scores`}>
+                    <NavLink to={`/profile/${score.playerId}`}>
                       {({ isPending }) => (
                         <>
                           <PlayerAvatar
@@ -201,7 +201,7 @@ export default function MapPage() {
                     </NavLink>
                   </td>
                   <td>
-                    <Link to={`/profile/${score.playerId}/overall/scores`}>
+                    <Link to={`/profile/${score.playerId}`}>
                       {score.playerName}
                     </Link>
                   </td>
