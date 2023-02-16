@@ -82,17 +82,6 @@ export default function App() {
                 : "bg-white text-neutral-900"
             } flex flex-col h-full overflow-auto`}
           >
-            {config.isBeta && (
-              <div className="bg-red-900 text-white">
-                <div className="px-4 py-3 max-w-screen-lg mx-auto flex gap-3 items-center">
-                  <div className="rounded bg-black/20 p-2">
-                    <ExclamationIcon className="w-6 h-6" />
-                  </div>
-                  You're looking at a development version of AccSaber. Expect to
-                  find broken / unimplemented features.
-                </div>
-              </div>
-            )}
             <Header />
             <QueryClientProvider client={queryClient}>
               <Suspense

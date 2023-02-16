@@ -106,6 +106,13 @@ const Header = () => {
               }`}
             />
           </Link>
+          {config.isBeta && (
+            <div>
+              <div className="block px-1 font-semibold text-purple-800 uppercase bg-white rounded">
+                Beta
+              </div>
+            </div>
+          )}
           <nav className="flex-1 hidden gap-2 md:flex">
             {headerItems.map(({ href, name, match }) => (
               <NavLink
@@ -124,13 +131,6 @@ const Header = () => {
               Wiki
             </a>
           </nav>
-          <div>
-            {config.isBeta && (
-              <div className="block px-1 font-semibold text-purple-800 uppercase bg-white rounded">
-                Beta
-              </div>
-            )}
-          </div>
           <nav className="hidden md:flex">
             <ActionSection onClick={() => setMenu(false)} />
           </nav>
