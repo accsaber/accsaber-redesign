@@ -40,7 +40,7 @@ const PlayerAvatar = (props: AvatarProps) => (
           alt={`${props.profile.playerName}'s profile`}
           width={props.width ?? 120}
           height={props.height ?? 120}
-          className="w-full h-full"
+          className="w-full h-full m-0"
           loading={props.loading}
         />
       </foreignObject>
