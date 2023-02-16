@@ -1,7 +1,7 @@
 import type { ApGraphPageQuery } from "$gql";
 import { ApGraphPageDocument } from "$gql";
 import ApGraph from "@/ApGraph.client";
-import PlayerAvatar from "@/Avatar";
+import PlayerAvatar from "@/PlayerAvatar";
 import PageHeader from "@/PageHeader";
 import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";

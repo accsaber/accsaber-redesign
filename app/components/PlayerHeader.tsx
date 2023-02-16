@@ -15,7 +15,7 @@ import { Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import { useUser } from "./UserContext";
 import { UserAddIcon } from "@heroicons/react/outline";
-import PlayerAvatar from "./Avatar";
+import PlayerAvatar from "./PlayerAvatar";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
 const RankGraph = lazy(() => import("@/RankGraph"));
@@ -115,7 +115,7 @@ export default function PlayerHeader({
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
         <PlayerAvatar
-          className={`absolute top-0 left-0 object-cover w-full h-full opacity-20 ${
+          className={`absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 ${
             !profile.playerId.startsWith("7") ? "" : "blur-3xl"
           }`}
           profile={profile}

@@ -2,7 +2,7 @@ import { language } from "~/lib/api/config";
 import type { Player } from "~/lib/interfaces/api/player";
 import { NavLink } from "@remix-run/react";
 import LoadingSpinner from "./LoadingSpinner";
-import PlayerAvatar from "./Avatar";
+import PlayerAvatar from "./PlayerAvatar";
 
 const PlayerRow = ({
   player,

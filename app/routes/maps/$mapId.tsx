@@ -10,14 +10,13 @@ import Pagination from "@/Pagination";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { Link, NavLink, useLoaderData } from "@remix-run/react";
-import Avatar from "boring-avatars";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 import { language } from "~/lib/api/config";
 import { json } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import scoresaberLogo from "~/images/scoresaber.svg";
-import PlayerAvatar from "@/Avatar";
+import PlayerAvatar from "@/PlayerAvatar";
 
 const pageSize = 25;
 
