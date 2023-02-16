@@ -32,7 +32,7 @@ const PlayerName = ({
   return (
     <div
       className={
-        "max-w-[20em] overflow-hidden whitespace-nowrap text-ellipsis flex gap-2 items-center flex-shrink-0 min-w-max"
+        "max-w-[20em] overflow-hidden whitespace-nowrap text-ellipsis flex gap-2 items-center flex-shrink-0 min-w-max mt-0.5"
       }
     >
       {levels[highestLevel] ? (

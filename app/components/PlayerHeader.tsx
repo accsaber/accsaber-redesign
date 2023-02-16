@@ -129,7 +129,7 @@ export default function PlayerHeader({
         >
           <PlayerAvatar
             className={[
-              "w-32 h-32 rounded-full shadow-lg relative overflow-hidden border-4",
+              "w-36 h-36 rounded-2xl shadow-lg relative overflow-hidden border-4",
               [
                 "border-[#3498db] shadow-[#3498db]/50",
                 "border-[#f1c40f] shadow-[#f1c40f]/50",
