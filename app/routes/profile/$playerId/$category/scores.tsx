@@ -1,11 +1,12 @@
 import type { PlayerScoresPageQuery } from "$gql";
 import { AccSaberScoresOrderBy, PlayerScoresPageDocument } from "$gql";
+import BlankBlock from "@/BlankBlock";
 import GQLSortButton from "@/GQLSortButton";
 import Pagination from "@/Pagination";
 import ScoreRow from "@/ScoreRow";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
 
@@ -85,6 +86,8 @@ export default function PlayerScoresPage() {
     [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
   ];
 
+  const { state } = useNavigation();
+
   return (
     <div className="flex flex-col gap-8">
       <Pagination
@@ -108,11 +111,19 @@ export default function PlayerScoresPage() {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {scores?.nodes.map((score) => (
-              <ScoreRow playerId={playerId} score={score} key={score.scoreId} />
-            ))}
-          </tbody>
+          {state === "loading" ? (
+            <ScoreLoadingPage />
+          ) : (
+            <tbody>
+              {scores?.nodes.map((score) => (
+                <ScoreRow
+                  playerId={playerId}
+                  score={score}
+                  key={score.scoreId}
+                />
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
       <Pagination
@@ -122,3 +133,45 @@ export default function PlayerScoresPage() {
     </div>
   );
 }
+
+const ScoreLoadingPage = () => {
+  return (
+    <tbody>
+      {new Array(pageSize).fill(0).map((_i, n) => (
+        <tr key={n}>
+          <td>
+            <BlankBlock width={"1.5rem"} />
+          </td>
+          <td className="w-full" colSpan={2}>
+            <BlankBlock
+              width={`${
+                (Math.abs(Math.sin(n * Math.sqrt(5)) * 50) % 50) + 50
+              }%`}
+            />
+          </td>
+          <td>
+            <BlankBlock width={"3rem"} />
+          </td>
+          <td>
+            <BlankBlock width={`${(Math.sin(n) + 2) * 2}rem`} />
+          </td>
+          <td colSpan={2}>
+            <BlankBlock width={"3rem"} />
+          </td>
+          <td>
+            <BlankBlock width={"2rem"} />
+          </td>
+          <td>
+            <BlankBlock width={"3rem"} />
+          </td>
+          <td>
+            <BlankBlock width={"4rem"} />
+          </td>
+          <td>
+            <BlankBlock width={"3rem"} />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  );
+};
