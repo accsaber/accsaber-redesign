@@ -2,37 +2,38 @@ import CDNImage from "@/CDNImage";
 import Avatar from "boring-avatars";
 import Link from "next/link";
 import { language } from "~/lib/api/config";
-import { Player } from "~/lib/interfaces/api/player";
+import type { Player } from "~/lib/interfaces/api/player";
+import PlayerAvatar from "./PlayerAvatar";
 
-const PlayerResult = ({ player: profile }: { player: Player }) => (
+const PlayerResult = ({
+  player: profile,
+  onClick,
+}: {
+  player: Player;
+  onClick?: Parameters<typeof Link>["0"]["onClick"];
+}) => (
   <Link
     href={`/profile/${profile.playerId}/overall/scores`}
     className={[
       "hover:bg-neutral-100",
       "dark:hover:bg-neutral-800",
-      "rounded-2xl",
       "p-4",
-      "flex",
-      "gap-4",
+      "flex items-center",
+      "gap-3",
       "text-neutral-800",
       "dark:text-neutral-200",
     ].join(" ")}
+    onClick={onClick}
   >
-    <div className="relative w-16 h-16 overflow-hidden rounded-full shadow-lg">
-      <Avatar name={profile.playerId} size={64} variant="beam" />
-      {profile.avatarUrl !==
-        "https://cdn.scoresaber.com/avatars/oculus.png" && (
-        <CDNImage
-          width={64}
-          height={64}
-          src={`avatars/${profile.playerId}.jpg`}
-          className="absolute top-0 left-0"
-        />
-      )}
-    </div>
+    <PlayerAvatar
+      profile={profile}
+      width={56}
+      height={56}
+      className="relative w-14 h-14 overflow-hidden rounded-lg shadow-lg"
+    />
     <div className="flex flex-col justify-center">
-      <div className="text-2xl">{profile.playerName}</div>
-      <div className="text-xl opacity-60">
+      <div className="text-xl">{profile.playerName}</div>
+      <div className="text-lg opacity-60">
         #{profile.rank} /{" "}
         {profile.ap.toLocaleString(language, { maximumFractionDigits: 2 })}AP
       </div>

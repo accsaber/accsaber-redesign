@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import type { MouseEventHandler } from "react";
+import { MouseEventHandler, useRef } from "react";
 import { useState } from "react";
 import logo from "~/images/logo.webp";
 import headerItems from "~/lib/headerItems";
@@ -14,14 +14,24 @@ import CDNImage from "./CDNImage";
 import { Popover } from "@headlessui/react";
 import { LogoutIcon, UserIcon } from "@heroicons/react/outline";
 import LoadingSpinner from "./LoadingSpinner";
+import SearchPage from "~/routes/search";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
   const user = useUser();
+  const popupRef = useRef<HTMLDialogElement>();
+
   return (
     <>
-      <Link className="p-3 headerNav" href="/search" onClick={onClick}>
+      <NavLink
+        className="p-3 headerNav"
+        to="/search"
+        onClick={(e) => {
+          e.preventDefault();
+          popupRef.current?.showModal();
+        }}
+      >
         <SearchIcon className="w-5 h-5" />
-      </Link>
+      </NavLink>
       <DarkToggle />
       {user ? (
         <Popover className="relative">
@@ -77,6 +87,17 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
           Sign up
         </NavLink>
       )}
+      <dialog
+        ref={(self) => self && (popupRef.current = self)}
+        className="bg-transparent rounded-xl w-full max-w-screen-md h-full"
+      >
+        <div className="flex justify-end px-4 -mb-2">
+          <button className="p-2 opacity-80 hover:opacity-100 text-white">
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+        <SearchPage close={() => popupRef.current?.close()} />
+      </dialog>
     </>
   );
 };
