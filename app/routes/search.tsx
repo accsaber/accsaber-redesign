@@ -44,7 +44,7 @@ export default function SearchPage({ close }: { close?: () => void }) {
 
   return (
     <main className="flex flex-col max-w-screen-lg gap-4 p-4 mx-auto w-full">
-      <div className=" bg-white dark:bg-neutral-900 rounded overflow-auto">
+      <div className=" bg-white dark:bg-neutral-900 rounded overflow-auto text-neutral-900 dark:text-neutral-100">
         <Form
           className="flex overflow-hidden rounded shadow relative"
           method="get"

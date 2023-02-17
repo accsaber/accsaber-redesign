@@ -92,7 +92,10 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
         className="bg-transparent rounded-xl w-full max-w-screen-md h-full"
       >
         <div className="flex justify-end px-4 -mb-2">
-          <button className="p-2 opacity-80 hover:opacity-100 text-white">
+          <button
+            className="p-2 opacity-80 hover:opacity-100 text-white"
+            onClick={() => popupRef.current?.close()}
+          >
             <XIcon className="w-6 h-6" />
           </button>
         </div>
