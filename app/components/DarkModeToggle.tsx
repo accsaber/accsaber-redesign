@@ -1,22 +1,31 @@
+import { useContext } from "react";
 import DarkModeContext from "./DarkModeContext";
+import { Form } from "@remix-run/react";
 
-const DarkToggle = () => (
-  <DarkModeContext.Consumer>
-    {({ dark, setDarkMode }) => (
+const DarkToggle = () => {
+  const { dark, setDarkMode } = useContext(DarkModeContext);
+  return (
+    <Form
+      action="/settings/theme"
+      method="post"
+      onSubmit={(e) => {
+        e.preventDefault();
+        setDarkMode(!dark);
+        const fd = new FormData();
+        fd.set("theme", dark ? "light" : "dark");
+        fetch("/settings/theme", {
+          method: "POST",
+          body: fd,
+        });
+      }}
+    >
       <button
         type="submit"
         className="p-3 headerNav"
+        name="theme"
+        value={dark ? "light" : "dark"}
         title={`${dark ? "Light" : "Dark"} mode`}
         aria-label={`${dark ? "Light" : "Dark"} mode`}
-        onClick={() => {
-          const fd = new FormData();
-          setDarkMode(!dark);
-          fd.set("theme", dark ? "light" : "dark");
-          fetch("/settings/theme", {
-            method: "POST",
-            body: fd,
-          });
-        }}
       >
         {dark ? (
           <svg
@@ -50,8 +59,8 @@ const DarkToggle = () => (
           </svg>
         )}
       </button>
-    )}
-  </DarkModeContext.Consumer>
-);
+    </Form>
+  );
+};
 
 export default DarkToggle;
