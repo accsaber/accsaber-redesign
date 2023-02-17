@@ -12,6 +12,7 @@ import invariant from "tiny-invariant";
 import { user } from "~/cookies";
 import { language } from "~/lib/api/config";
 import { getPlayerScores } from "~/lib/api/player";
+import MapCover from "~/lib/components/MapCover";
 import Complexity from "~/lib/components/complexity";
 import DifficultyLabel from "~/lib/components/difficultyLabel";
 import Pagination from "~/lib/components/pagination";
@@ -175,22 +176,13 @@ const Scores = () => {
                 <td>#{score.rank}</td>
 
                 <td className="relative min-w-[2.5rem]">
-                  <picture>
-                    <source
-                      srcSet={`/maps/${score.leaderboardId}.thumbnail.avif`}
-                      type="image/avif"
-                    />
-                    <source
-                      srcSet={`/maps/${score.leaderboardId}.thumbnail.webp`}
-                      type="image/webp"
-                    />
-                    <img
-                      src={`/maps/${score.leaderboardId}.thumbnail.jpeg`}
-                      alt={``}
-                      loading="lazy"
-                      className="absolute top-0 left-0 m-0"
-                    />
-                  </picture>
+                  <MapCover
+                    songHash={score.songHash}
+                    loading="lazy"
+                    width={40}
+                    className="absolute top-0 left-0 m-0"
+                    height={40}
+                  />
                 </td>
                 <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
                   <Link to={`/maps/${score.leaderboardId}`}>

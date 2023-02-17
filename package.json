@@ -15,6 +15,7 @@
     "@remix-run/serve": "^1.13.0",
     "@tailwindcss/typography": "^0.5.2",
     "axios": "^0.27.2",
+    "boring-avatars": "^1.7.0",
     "chart.js": "^3.8.0",
     "fuse.js": "^6.6.2",
     "ms": "^2.1.3",

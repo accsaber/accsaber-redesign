@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { Form, Link, useLoaderData, useLocation } from "@remix-run/react";
 import type { Player } from "~/lib/interfaces/api/player";
 import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
@@ -7,6 +7,9 @@ import { getMapList } from "~/lib/api/map";
 import { client } from "~/lib/api/fetcher";
 import DifficultyLabel from "~/lib/components/difficultyLabel";
 import { language } from "~/lib/api/config";
+import { search } from "./api/search";
+import PlayerResult from "~/lib/components/PlayerResult";
+import MapResult from "~/lib/components/MapResult";
 
 export const meta = () => ({
   title: "Search | AccSaber",
@@ -26,112 +29,19 @@ const fuse = new Fuse<Player | RankedMap>([], {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q");
 
-  if (!query) return { results: [] };
+  const query = searchParams.get("q") ?? "";
 
-  const [maps, playerIds] = await Promise.all([
-    await getMapList(),
-    await client.keys(`accsaber:player:*:overall`),
-  ]);
+  if (query.length < 3) return json({ query, results: [] });
 
-  const playersRaw = await client.mGet(playerIds);
-  const players = Object.values(playersRaw)
-    .filter((i) => i != null)
-    .map((i) => JSON.parse(i ?? "{}") as Player);
+  const results = await search(query);
 
-  fuse.setCollection([...players, ...maps]);
-
-  const results = fuse.search(query ?? "");
-
-  return { results };
+  return json({ query, results });
 };
 
 const isMap = (i: RankedMap | Player): i is RankedMap => {
   return "songHash" in i;
 };
-
-const MapResult = ({ map }: { map: RankedMap }) => (
-  <Link
-    to={`/maps/${map.leaderboardId}`}
-    className={[
-      "hover:bg-neutral-100",
-      "dark:hover:bg-neutral-800",
-      "rounded-2xl",
-      "p-4",
-      "flex",
-      "gap-4",
-      "text-neutral-800",
-      "dark:text-neutral-200",
-    ].join(" ")}
-  >
-    <picture>
-      <source
-        srcSet={`/maps/${map.leaderboardId}.cover.avif`}
-        type="image/avif"
-      />
-      <source
-        srcSet={`/maps/${map.leaderboardId}.cover.webp`}
-        type="image/webp"
-      />
-      <img
-        src={`/maps/${map.leaderboardId}.cover.jpeg`}
-        alt={`cover art`}
-        className="w-20 h-20 shadow-md rounded-xl"
-        loading="lazy"
-      />
-    </picture>
-    <div className="flex flex-col justify-center ">
-      <div className="text-2xl">
-        {map.songAuthorName} - {map.songName} <small>{map.songSubName}</small>
-      </div>
-      <div className="flex gap-2 text-xl">
-        <DifficultyLabel>{map.difficulty}</DifficultyLabel>
-        <span className="opacity-70">{map.levelAuthorName}</span>
-      </div>
-    </div>
-  </Link>
-);
-
-const PlayerResult = ({ player: profile }: { player: Player }) => (
-  <Link
-    to={`/profile/${profile.playerId}/overall/scores`}
-    className={[
-      "hover:bg-neutral-100",
-      "dark:hover:bg-neutral-800",
-      "rounded-2xl",
-      "p-4",
-      "flex",
-      "gap-4",
-      "text-neutral-800",
-      "dark:text-neutral-200",
-    ].join(" ")}
-  >
-    <picture>
-      <source
-        srcSet={`/profile/${profile.playerId}.avatar.avif`}
-        type="image/avif"
-      />
-      <source
-        srcSet={`/profile/${profile.playerId}.avatar.webp`}
-        type="image/webp"
-      />
-      <img
-        src={`/profile/${profile.playerId}.avatar.jpeg`}
-        alt={`${profile.playerName}'s profile`}
-        className="w-16 h-16 rounded-full shadow-lg "
-        loading="lazy"
-      />
-    </picture>
-    <div className="flex flex-col justify-center">
-      <div className="text-2xl">{profile.playerName}</div>
-      <div className="text-xl opacity-60">
-        #{profile.rank} /{" "}
-        {profile.ap.toLocaleString(language, { maximumFractionDigits: 2 })}AP
-      </div>
-    </div>
-  </Link>
-);
 
 const SearchPage = () => {
   const params = new URLSearchParams(useLocation().search);

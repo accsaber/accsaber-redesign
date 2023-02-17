@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import { language } from "../api/config";
 import type { Player } from "../interfaces/api/player";
+import PlayerAvatar from "./PlayerAvatar";
 
 const PlayerRow = ({
   player,
@@ -12,22 +13,13 @@ const PlayerRow = ({
   <tr key={player.playerId}>
     <td>#{player.rank}</td>
     <td className="relative w-10 min-w-[2.5rem]">
-      <picture>
-        <source
-          srcSet={`/profile/${player.playerId}.thumbnail.avif`}
-          type="image/avif"
-        />
-        <source
-          srcSet={`/profile/${player.playerId}.thumbnail.webp`}
-          type="image/webp"
-        />
-        <img
-          src={`/profile/${player.playerId}.thumbnail.jpeg`}
-          alt={`${player.playerName}'s profile`}
-          loading="lazy"
-          className="absolute top-0 left-0 w-10 h-10 m-0"
-        />
-      </picture>
+      <PlayerAvatar
+        profile={player}
+        className="absolute top-0 left-0 w-10 h-10 m-0"
+        width={40}
+        height={40}
+        loading="lazy"
+      />
     </td>
     <td className="w-full">
       <Link

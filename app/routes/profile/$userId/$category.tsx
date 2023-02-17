@@ -1,6 +1,13 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
+import {
+  CatchBoundaryComponent,
+  Form,
+  Link,
+  Outlet,
+  useCatch,
+  useLoaderData,
+} from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
@@ -15,13 +22,14 @@ import SkillTriangle from "~/lib/components/skillTriangle";
 import type { Category } from "~/lib/interfaces/api/category";
 import type { Player } from "~/lib/interfaces/api/player";
 import { getSkills } from "~/lib/components/skillTriangle";
-import type { CatchBoundaryComponent } from "@remix-run/react/routeModules";
 import PlayerName, { getHighestLevel } from "~/lib/components/playerName";
 import type CampaignStatus from "~/lib/interfaces/campaign/campaignStatus";
 import PageHeader from "~/lib/components/pageHeader";
 import UserContext from "~/lib/components/userContext";
 
 import scoresaberLogo from "~/lib/images/scoresaber.svg";
+import PlayerAvatar from "~/lib/components/PlayerAvatar";
+
 export const CatchBoundary: CatchBoundaryComponent = () => {
   const caught = useCatch();
   return (
@@ -143,7 +151,12 @@ const ProfileRoute = () => {
       <UserContext.Consumer>
         {(user) => (
           <PageHeader
-            image={`/profile/${profile.playerId}.thumbnail.jpeg`}
+            image={
+              <PlayerAvatar
+                className={"w-8 h-8 rounded-full relative overflow-hidden"}
+                profile={profile}
+              />
+            }
             actionButton={
               <div className="flex flex-row-reverse gap-2">
                 <a
@@ -188,51 +201,32 @@ const ProfileRoute = () => {
         )}
       </UserContext.Consumer>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-        <picture>
-          <source
-            srcSet={`/profile/${profile.playerId}.avatar.avif`}
-            type="image/avif"
-          />
-          <source
-            srcSet={`/profile/${profile.playerId}.avatar.webp`}
-            type="image/webp"
-          />
-          <img
-            src={`/profile/${profile.playerId}.avatar.jpeg`}
-            alt={`${profile.playerName}'s profile`}
-            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
-          />
-        </picture>
+        <PlayerAvatar
+          className={`absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 ${
+            !profile.playerId.startsWith("7") ? "" : "blur-3xl"
+          }`}
+          profile={profile}
+          variant="marble"
+        />
         <div
           className={[
             "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4 flex-wrap justify-center relative",
           ].join(" ")}
         >
-          <picture>
-            <source
-              srcSet={`/profile/${profile.playerId}.avatar.avif`}
-              type="image/avif"
-            />
-            <source
-              srcSet={`/profile/${profile.playerId}.avatar.webp`}
-              type="image/webp"
-            />
-            <img
-              src={`/profile/${profile.playerId}.avatar.jpeg`}
-              alt={`${profile.playerName}'s profile`}
-              className={[
-                "w-32 h-32 rounded-full shadow-lg",
-                campaignStatus && campaignStatus.length > 0 ? "border-4" : "",
-                [
-                  "border-[#3498db] shadow-[#3498db]/50",
-                  "border-[#f1c40f] shadow-[#f1c40f]/50",
-                  "border-[#1abc9c] shadow-[#1abc9c]/50",
-                  "border-[#9c59b6] shadow-[#9c59b6]/50",
-                ][getHighestLevel(campaignStatus ?? [])],
-              ].join(" ")}
-            />
-          </picture>
+          <PlayerAvatar
+            className={[
+              "w-36 h-36 rounded-2xl shadow-lg relative overflow-hidden border-4",
+              [
+                "border-[#3498db] shadow-[#3498db]/50",
+                "border-[#f1c40f] shadow-[#f1c40f]/50",
+                "border-[#1abc9c] shadow-[#1abc9c]/50",
+                "border-[#9c59b6] shadow-[#9c59b6]/50",
+              ][getHighestLevel(campaignStatus ?? [])] ??
+                "border-neutral-400 dark:border-neutral-600",
+            ].join(" ")}
+            profile={profile}
+          />
           <div className="flex flex-col justify-center flex-1">
             <div className="">
               <h1 className="text-2xl font-semibold">

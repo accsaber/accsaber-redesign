@@ -4,6 +4,6 @@ module.exports = {
   serverDependenciesToBundle: [""],
 
   future: {
-    unstable_postcss: true,
+    unstable_tailwind: true,
   },
 };
