@@ -25,7 +25,11 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
       <DarkToggle />
       {user ? (
         <Popover className="relative">
-          <Popover.Button className="flex h-10 mx-2 overflow-auto rounded-full aspect-square">
+          <Popover.Button
+            as={NavLink}
+            to={`/profile/${user.playerId}`}
+            className="flex h-10 mx-2 overflow-auto rounded-full aspect-square"
+          >
             <CDNImage
               width={40}
               height={40}
