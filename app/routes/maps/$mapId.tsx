@@ -12,6 +12,8 @@ import Pagination from "~/lib/components/pagination";
 import Complexity from "~/lib/components/complexity";
 import scoresaberLogo from "~/lib/images/scoresaber.svg";
 import DifficultyLabel from "~/lib/components/difficultyLabel";
+import MapCover from "~/lib/components/MapCover";
+import PlayerAvatar from "~/lib/components/PlayerAvatar";
 
 export const meta: MetaFunction = ({
   data,
@@ -66,7 +68,16 @@ const MapLeaderboardPage = () => {
   return (
     <>
       <PageHeader
-        image={`/maps/${map.leaderboardId}.thumbnail.jpeg`}
+        image={
+          <MapCover
+            songHash={map.songHash}
+            alt=""
+            width={256}
+            height={256}
+            className="w-8 h-8 "
+          />
+        }
+        iconRounded={false}
         actionButton={
           <div className="flex">
             <a
@@ -107,43 +118,26 @@ const MapLeaderboardPage = () => {
       </PageHeader>
 
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-        <picture>
-          <source
-            srcSet={`/maps/${map.leaderboardId}.cover.avif`}
-            type="image/avif"
-          />
-          <source
-            srcSet={`/maps/${map.leaderboardId}.cover.webp`}
-            type="image/webp"
-          />
-          <img
-            src={`/maps/${map.leaderboardId}.cover.jpeg`}
-            alt=""
-            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
-          />
-        </picture>
+        <MapCover
+          songHash={map.songHash}
+          alt=""
+          className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
+          width={256}
+          height={256}
+        />
         <div
           className={[
             "flex gap-6 py-8 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4",
           ].join(" ")}
         >
-          <div className="flex w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square">
-            <picture>
-              <source
-                srcSet={`/maps/${map.leaderboardId}.cover.avif`}
-                type="image/avif"
-              />
-              <source
-                srcSet={`/maps/${map.leaderboardId}.cover.webp`}
-                type="image/webp"
-              />
-              <img
-                src={`/maps/${map.leaderboardId}.cover.jpeg`}
-                alt={`cover art`}
-              />
-            </picture>
-          </div>
+          <MapCover
+            songHash={map.songHash}
+            alt=""
+            width={256}
+            height={256}
+            className="w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square"
+          />
           <div className="flex flex-col gap-1">
             <h1 className="flex gap-2 text-2xl font-bold">
               {map.songAuthorName} - {map.songName}
@@ -179,22 +173,12 @@ const MapLeaderboardPage = () => {
               <tr key={score.playerId}>
                 <td>#{score.rank}</td>
                 <td className="relative w-10 min-w-[2.5rem] aspect-square">
-                  <picture>
-                    <source
-                      srcSet={`/profile/${score.playerId}.thumbnail.avif`}
-                      type="image/avif"
-                    />
-                    <source
-                      srcSet={`/profile/${score.playerId}.thumbnail.webp`}
-                      type="image/webp"
-                    />
-                    <img
-                      src={`/profile/${score.playerId}.thumbnail.jpeg`}
-                      alt={`${score.playerName}'s profile`}
-                      loading="lazy"
-                      className="absolute top-0 left-0 m-0"
-                    />
-                  </picture>
+                  <PlayerAvatar
+                    className="absolute top-0 left-0 m-0"
+                    profile={score}
+                    width={40}
+                    height={40}
+                  />
                 </td>
                 <td>
                   <Link to={`/profile/${score.playerId}/overall/scores`}>

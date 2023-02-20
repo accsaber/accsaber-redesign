@@ -102,7 +102,11 @@ const PageHeader: React.FC<{
             ].join(" ")}
           >
             {image && (
-              <div className="h-8">
+              <div
+                className={`${
+                  iconRounded ?? true ? "rounded-full" : "rounded"
+                } w-8 h-8 overflow-hidden`}
+              >
                 {typeof image == "string" ? (
                   <Image
                     src={image}
