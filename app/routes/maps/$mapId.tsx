@@ -186,7 +186,10 @@ export default function MapPage() {
                 <tr key={score.playerId}>
                   <td>#{score.rank}</td>
                   <td className="relative w-10 min-w-[2.5rem] aspect-square not-prose">
-                    <NavLink to={`/profile/${score.playerId}`}>
+                    <NavLink
+                      to={`/profile/${score.playerId}`}
+                      prefetch="intent"
+                    >
                       {({ isPending }) => (
                         <>
                           <PlayerAvatar
@@ -206,7 +209,7 @@ export default function MapPage() {
                     </NavLink>
                   </td>
                   <td>
-                    <Link to={`/profile/${score.playerId}`}>
+                    <Link to={`/profile/${score.playerId}`} prefetch="intent">
                       {score.playerName}
                     </Link>
                   </td>
