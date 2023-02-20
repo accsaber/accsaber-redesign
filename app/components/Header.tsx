@@ -14,7 +14,7 @@ import CDNImage from "./CDNImage";
 import { Popover } from "@headlessui/react";
 import { LogoutIcon, UserIcon } from "@heroicons/react/outline";
 import LoadingSpinner from "./LoadingSpinner";
-import SearchPage from "~/routes/search";
+import { SearchPageBody as SearchPage } from "~/routes/search";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
   const user = useUser();

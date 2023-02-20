@@ -3,7 +3,7 @@ import MapResult from "@/MapResult";
 import type { LoaderFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { search } from "./api/search";
-import { Form, useLoaderData, useLocation } from "@remix-run/react";
+import { Form, useCatch, useLoaderData, useLocation } from "@remix-run/react";
 import type { Player } from "$interfaces/api/player";
 import type { RankedMap } from "$interfaces/api/ranked-map";
 import { useRef, useState } from "react";
@@ -31,8 +31,13 @@ const isMap = (i: RankedMap | Player): i is RankedMap => {
   return "songHash" in i;
 };
 
-export default function SearchPage({ close }: { close?: () => void }) {
-  const loaderData = useLoaderData<SearchData>();
+export function SearchPageBody({
+  loaderData = { query: "", results: [] },
+  close,
+}: {
+  loaderData?: SearchData;
+  close?: () => void;
+}) {
   const { pathname } = useLocation();
 
   const [query, setQuery] = useState(loaderData.query ?? "");
@@ -136,4 +141,11 @@ export default function SearchPage({ close }: { close?: () => void }) {
       </div>
     </main>
   );
+}
+
+export default function SearchPage() {
+  const error = useCatch();
+  const loaderData = useLoaderData<SearchData>();
+
+  return <SearchPageBody loaderData={loaderData} />;
 }
