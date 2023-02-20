@@ -3,14 +3,18 @@ import { ApGraphPageDocument } from "$gql";
 import ApGraph from "@/ApGraph.client";
 import PlayerAvatar from "@/PlayerAvatar";
 import PageHeader from "@/PageHeader";
-import type { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
 
 export const loader: LoaderFunction = async ({ params: { playerId } }) => {
   invariant(playerId);
-  return await gqlClient.request(ApGraphPageDocument, { playerId });
+  const headers = new Headers();
+  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
+  return json(await gqlClient.request(ApGraphPageDocument, { playerId }), {
+    headers,
+  });
 };
 
 export default function ApGraphPage() {

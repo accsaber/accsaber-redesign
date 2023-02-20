@@ -49,6 +49,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
           <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:top-12 md:bottom-[unset]">
             <NavLink
               to={`/profile/${user.playerId}`}
+              prefetch="render"
               className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
             >
               {({ isPending }) => (
@@ -146,6 +147,7 @@ const Header = () => {
               <NavLink
                 to={href}
                 key={href}
+                prefetch="intent"
                 className={({ isActive }) =>
                   `headerNav${
                     isActive || match?.test(pathname ?? "") ? " active" : ""
@@ -187,6 +189,7 @@ const Header = () => {
             <NavLink
               to={href}
               key={href}
+              prefetch="intent"
               className={({ isActive }) =>
                 `headerNav${isActive ? " active" : ""}`
               }

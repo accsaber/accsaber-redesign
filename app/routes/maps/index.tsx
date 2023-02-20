@@ -3,7 +3,7 @@ import { BeatMapsOrderBy, RankedMapsDocument } from "$gql";
 import GQLSortButton from "@/GQLSortButton";
 import MapRow from "@/MapRow";
 import PageHeader from "@/PageHeader";
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { LoaderFunction, MetaFunction, json } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useRef } from "react";
 import config from "~/lib/api/config";
@@ -12,11 +12,17 @@ import { gqlClient } from "~/lib/api/gql";
 export const loader: LoaderFunction = async ({ request }) => {
   const { searchParams } = new URL(request.url);
 
+  const headers = new Headers();
+  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
+
   const sortByParam = (searchParams.get("sortBy") ??
     "DateRankedDesc") as keyof typeof BeatMapsOrderBy;
-  return await gqlClient.request(RankedMapsDocument, {
-    orderBy: BeatMapsOrderBy[sortByParam] ?? BeatMapsOrderBy.DateRankedAsc,
-  });
+  return json(
+    await gqlClient.request(RankedMapsDocument, {
+      orderBy: BeatMapsOrderBy[sortByParam] ?? BeatMapsOrderBy.DateRankedAsc,
+    }),
+    { headers }
+  );
 };
 
 export const meta: MetaFunction = () => ({

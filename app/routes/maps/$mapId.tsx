@@ -40,6 +40,9 @@ export const loader: LoaderFunction = async ({
   const { searchParams } = new URL(url);
   invariant(mapId);
 
+  const headers = new Headers();
+  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
+
   const [map, allLeaderboard] = await Promise.all([
     gqlClient.request(RankedMapPageDocument, { mapId }),
     json<MapLeaderboardPlayer[]>(
@@ -57,14 +60,17 @@ export const loader: LoaderFunction = async ({
       ? [...allLeaderboard].splice(pageSize * (page - 1), pageSize)
       : allLeaderboard;
 
-  return jsonResponse({
-    mapId,
-    page,
-    pages,
-    pageSize,
-    map,
-    leaderboard,
-  });
+  return jsonResponse(
+    {
+      mapId,
+      page,
+      pages,
+      pageSize,
+      map,
+      leaderboard,
+    },
+    { headers }
+  );
 };
 
 export default function MapPage() {

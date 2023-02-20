@@ -124,7 +124,7 @@ const PageHeader: React.FC<{
             <nav className="flex-1 hidden gap-2 md:flex">
               {navigation.map(({ label, href, isCurrent }) => (
                 <NavLink
-                  prefetch={"none"}
+                  prefetch={"intent"}
                   to={`${href}`}
                   key={href}
                   className={({ isPending }) =>

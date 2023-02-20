@@ -46,6 +46,8 @@ export const loader: LoaderFunction = async ({
       ? [...allStandings].splice(pageSize * (page - 1), pageSize)
       : allStandings;
 
+  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
+
   return jsonResponse(
     {
       category,
