@@ -5,8 +5,8 @@ const productionConfig: ApiConfig = {
   cdnURL: "https://cdn.accsaber-dev.ixsen.de",
   gqlURL:
     typeof window !== "undefined"
-      ? "https://gql.accsaber.com"
-      : "http://accsaber-gql.internal:4000",
+      ? "https://gql.accsaber.com/graphql"
+      : "http://accsaber-gql.internal:4000/graphql",
   defaultLocale: "en-AU",
   isBeta: true,
 };
