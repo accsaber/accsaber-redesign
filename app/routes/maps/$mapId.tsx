@@ -131,7 +131,7 @@ export default function MapPage() {
           <div
             className={[
               "flex flex-col md:flex-row gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
-              "max-w-screen-lg mx-auto px-4",
+              "max-w-screen-lg mx-auto px-4 relative",
             ].join(" ")}
           >
             <MapCover
