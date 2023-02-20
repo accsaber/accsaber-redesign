@@ -17,8 +17,6 @@ import {
 } from "@remix-run/react";
 import { Suspense, useState } from "react";
 import Header from "@/Header";
-import { ExclamationIcon } from "@heroicons/react/outline";
-import config from "./lib/api/config";
 import LoadingSpinner from "@/LoadingSpinner";
 import logo from "~/images/logo.webp";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -67,6 +65,7 @@ export default function App() {
   const queryClient = new QueryClient({});
   const { user, dark: darkSetting } = useLoaderData<RootData>();
   const [dark, setDarkMode] = useState(darkSetting ?? false);
+
   return (
     <DarkModeContext.Provider value={{ dark, setDarkMode }}>
       <UserContext.Provider value={user ?? null}>
@@ -78,8 +77,8 @@ export default function App() {
           <body
             className={`${
               dark
-                ? "dark bg-neutral-900 text-white"
-                : "bg-white text-neutral-900"
+                ? `dark graphiql-dark bg-neutral-900 text-white`
+                : `graphiql-light bg-white text-neutral-900`
             } flex flex-col h-full overflow-auto`}
           >
             <Header />
