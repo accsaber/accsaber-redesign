@@ -7,7 +7,6 @@ import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import getCampaignStatus from "~/lib/api/campaign";
 import { getPlayer } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";

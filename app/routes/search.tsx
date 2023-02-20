@@ -3,7 +3,7 @@ import MapResult from "@/MapResult";
 import type { LoaderFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { search } from "./api/search";
-import { Form, useCatch, useLoaderData, useLocation } from "@remix-run/react";
+import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import type { Player } from "$interfaces/api/player";
 import type { RankedMap } from "$interfaces/api/ranked-map";
 import { useRef, useState } from "react";
@@ -144,7 +144,6 @@ export function SearchPageBody({
 }
 
 export default function SearchPage() {
-  const error = useCatch();
   const loaderData = useLoaderData<SearchData>();
 
   return <SearchPageBody loaderData={loaderData} />;

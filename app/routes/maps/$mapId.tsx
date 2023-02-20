@@ -1,7 +1,6 @@
 import type { RankedMapPageQuery } from "$gql";
 import { RankedMapPageDocument } from "$gql";
 import type { MapLeaderboardPlayer } from "$interfaces/api/map-leaderboard-player";
-import CDNImage from "@/CDNImage";
 import Complexity from "@/Complexity";
 import DifficultyLabel from "@/DifficultyLabel";
 import LoadingSpinner from "@/LoadingSpinner";

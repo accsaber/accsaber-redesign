@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { MouseEventHandler, useRef } from "react";
+import type { MouseEventHandler } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import logo from "~/images/logo.webp";
 import headerItems from "~/lib/headerItems";

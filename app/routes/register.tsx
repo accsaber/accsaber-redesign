@@ -3,11 +3,8 @@ import { json as jsonResponse } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { user } from "~/lib/cookies";
 import config from "~/lib/api/config";
-import apiFetcher, {
-  ErrorResponse,
-  isErrorResponse,
-  json,
-} from "~/lib/api/fetcher";
+import type { ErrorResponse } from "~/lib/api/fetcher";
+import { isErrorResponse, json } from "~/lib/api/fetcher";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();

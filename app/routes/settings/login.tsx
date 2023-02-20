@@ -1,5 +1,5 @@
-import { ActionFunction, redirect } from "@remix-run/node";
-import invariant from "tiny-invariant";
+import type { ActionFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { user } from "~/lib/cookies";
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -24,7 +24,6 @@ export const action: ActionFunction = async ({ params, request }) => {
       sameSite: "strict",
     }
   );
-  console.log(newCookie);
   return redirect(
     request.headers.get("referer") ?? `/profile/${userId}/scores`,
     {

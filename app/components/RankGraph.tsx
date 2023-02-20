@@ -8,7 +8,7 @@ import {
   PointElement,
 } from "chart.js";
 import "chartjs-adapter-luxon";
-import { RankHistoryDayFragment } from "$gql";
+import type { RankHistoryDayFragment } from "$gql";
 
 const RankGraph: React.FC<{
   children?: never;

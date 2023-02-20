@@ -1,5 +1,3 @@
-import CDNImage from "@/CDNImage";
-import Avatar from "boring-avatars";
 import Link from "next/link";
 import { language } from "~/lib/api/config";
 import type { Player } from "~/lib/interfaces/api/player";

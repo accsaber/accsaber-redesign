@@ -5,7 +5,6 @@ import { language } from "~/lib/api/config";
 import { getHighestLevel } from "~/lib/api/campaign";
 import PageHeader from "@/PageHeader";
 import LoadingSpinner from "@/LoadingSpinner";
-import CDNImage from "@/CDNImage";
 import Avatar from "boring-avatars";
 import BlankBlock from "@/BlankBlock";
 import type { Player } from "$interfaces/api/player";
@@ -42,11 +41,6 @@ export default function PlayerHeader({
   const user = useUser();
 
   const highestLevel = getHighestLevel(campaignStatus ?? []);
-  const AvImage = playerId.startsWith("7") ? CDNImage : "img";
-
-  const avatar = profile.playerId.startsWith("7")
-    ? `avatars/${profile.playerId}.jpg`
-    : `/api/avatar/${profile.playerId}`;
   return (
     <>
       <PageHeader

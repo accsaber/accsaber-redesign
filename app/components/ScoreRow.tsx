@@ -4,7 +4,6 @@ import DifficultyLabel from "@/DifficultyLabel";
 import { language } from "~/lib/api/config";
 import ScoreHistoryButton from "./ScoreHistoryButton";
 import { DateTime } from "luxon";
-import CDNImage from "@/CDNImage";
 import type { ScoreRowFragment } from "$gql";
 import LoadingSpinner from "./LoadingSpinner";
 import { NavLink } from "@remix-run/react";

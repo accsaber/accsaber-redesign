@@ -2,7 +2,6 @@ import Link from "next/link";
 import { language } from "~/lib/api/config";
 import Complexity from "@/Complexity";
 import DifficultyLabel from "@/DifficultyLabel";
-import CDNImage from "@/CDNImage";
 import type { MapRowFragment } from "$gql";
 import MapCover from "./MapCover";
 

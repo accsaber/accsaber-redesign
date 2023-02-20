@@ -1,4 +1,4 @@
-import { PlayerScore } from "../interfaces/api/player-score";
+import type { PlayerScore } from "../interfaces/api/player-score";
 import { json } from "./fetcher";
 
 const difficultyToNumber = (difficulty: string) =>
