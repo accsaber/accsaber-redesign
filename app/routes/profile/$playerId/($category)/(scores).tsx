@@ -43,7 +43,7 @@ export const loader: LoaderFunction = async ({
       playerId,
       pageSize,
       offset: (page - 1) * pageSize,
-      category,
+      category: category !== "overall" ? category : undefined,
       orderBy:
         AccSaberScoresOrderBy[sortByParam] ??
         AccSaberScoresOrderBy.WeightedApDesc,
