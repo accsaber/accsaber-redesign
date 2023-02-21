@@ -24,6 +24,7 @@ export default function PlayerHeader({
   category = "overall",
   profile,
   campaignStatus,
+  miniblur,
   queryData: {
     playerRankHistories,
     categories: categoriesEdge,
@@ -35,6 +36,7 @@ export default function PlayerHeader({
   profile: Player;
   campaignStatus: CampaignStatus[];
   queryData: PlayerLayoutQuery;
+  miniblur?: string;
 }) {
   const categories = categoriesEdge?.nodes ?? [];
 
@@ -108,13 +110,22 @@ export default function PlayerHeader({
       </PageHeader>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
-        <PlayerAvatar
-          className={`absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 ${
-            !profile.playerId.startsWith("7") ? "" : "blur-3xl"
-          }`}
-          profile={profile}
-          variant="marble"
-        />
+
+        {miniblur ? (
+          <img
+            className="absolute top-0 left-0 object-center object-cover w-full h-full opacity-40 dark:opacity-20 blur-3xl"
+            alt=""
+            src={miniblur}
+          />
+        ) : (
+          <PlayerAvatar
+            className={`absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 ${
+              !profile.playerId.startsWith("7") ? "" : "blur-3xl"
+            }`}
+            profile={profile}
+            variant="marble"
+          />
+        )}
         <div
           className={[
             "flex gap-6 p-8 md:p-4 items-center",

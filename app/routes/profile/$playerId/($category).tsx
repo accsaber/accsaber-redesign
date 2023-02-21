@@ -3,7 +3,7 @@ import { PlayerLayoutDocument } from "$gql";
 import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import PlayerHeader from "@/PlayerHeader";
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -23,9 +23,18 @@ export const meta: MetaFunction = ({ data }: { data: PlayerLayoutData }) => ({
   title: `${data?.profile?.playerName}'s Profile | AccSaber`,
 });
 
-export const loader: LoaderFunction = async ({
+const getPlayerImage = (playerId: string) =>
+  playerId.startsWith("7")
+    ? fetch(
+        `https://cdn.accsaber.com/imaginary/crop?file=%2Favatars%2F${encodeURIComponent(
+          playerId.toString()
+        )}.jpg&width=33&height=13&type=webp`
+      ).then((res) => res.arrayBuffer())
+    : null;
+
+export const loader = async ({
   params: { playerId, category = "overall" },
-}) => {
+}: LoaderArgs) => {
   invariant(playerId, "Missing Player Id");
   // This is the stupidest bug I have ever fixed
   if (category == "scores")
@@ -38,7 +47,7 @@ export const loader: LoaderFunction = async ({
       ? -1
       : ["true", "standard", "tech"].indexOf(category) + 1;
 
-  const [profile, queryData] = await Promise.all([
+  const [profile, queryData, blurData] = await Promise.all([
     getPlayer(playerId, category)
       .then(withTiming(headers, "fetch", "Get Player"))
       .catch(() => {
@@ -53,9 +62,10 @@ export const loader: LoaderFunction = async ({
         category: categoryNumber,
       })
       .then(withTiming(headers, "query", "GraphQL Query")),
+    getPlayerImage(playerId),
   ]);
 
-  if (!profile) return new Response("Profile not found", { status: 404 });
+  if (!profile) throw new Response("Profile not found", { status: 404 });
 
   return json(
     {
@@ -64,13 +74,16 @@ export const loader: LoaderFunction = async ({
       campaignStatus: queryData.campaign?.playerCampaignInfo,
       queryData,
       category,
+      blurData: blurData
+        ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
+        : null,
     },
     { headers }
   );
 };
 export default function PlayerLayout() {
-  const { campaignStatus, category, profile, queryData, playerId } =
-    useLoaderData<PlayerLayoutData>();
+  const { campaignStatus, category, profile, queryData, playerId, blurData } =
+    useLoaderData<typeof loader>();
 
   return (
     <main>
@@ -78,9 +91,10 @@ export default function PlayerLayout() {
         category={category}
         profile={profile}
         playerId={playerId}
-        campaignStatus={campaignStatus}
+        campaignStatus={campaignStatus as CampaignStatus[]}
         // @ts-ignore
         queryData={queryData}
+        miniblur={blurData ?? undefined}
       />
       <div className="relative max-w-screen-lg py-8 mx-auto">
         <Outlet />
