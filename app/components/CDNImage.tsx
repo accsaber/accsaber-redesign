@@ -1,7 +1,5 @@
 import type { DetailedHTMLProps, ImgHTMLAttributes } from "react";
 
-const allowedTypes = ["webp", "heif", "jpeg"];
-
 const scales = [1, 1.5, 2];
 
 interface CDNSource {
@@ -36,39 +34,31 @@ interface CDNImageProps
 
 const CDNImage = (props: CDNImageProps) => {
   return (
-    <picture>
-      {allowedTypes.map((format) => (
-        <source
-          key={format}
-          srcSet={scales
-            .map(
-              (scale) =>
-                getImaginaryURL(
-                  {
-                    src: props.src,
-                    width: props.width * scale,
-                    height: props.height * scale,
-                  },
-                  format
-                ) + ` ${scale}x`
-            )
-            .join(", ")}
-          type={`image/${format}`}
-        />
-      ))}
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img
-        {...props}
-        src={getImaginaryURL(
-          {
-            src: props.src,
-            width: props.width,
-            height: props.height,
-          },
-          "jpeg"
-        ).toString()}
-      />
-    </picture>
+    // eslint-disable-next-line jsx-a11y/alt-text
+    <img
+      {...props}
+      src={getImaginaryURL(
+        {
+          src: props.src,
+          width: props.width,
+          height: props.height,
+        },
+        "jpeg"
+      ).toString()}
+      srcSet={scales
+        .map(
+          (scale) =>
+            getImaginaryURL(
+              {
+                src: props.src,
+                width: props.width * scale,
+                height: props.height * scale,
+              },
+              "webp"
+            ) + ` ${scale}x`
+        )
+        .join(", ")}
+    />
   );
 };
 
