@@ -230,7 +230,7 @@ export default function MapPage() {
                       maximumFractionDigits: 2,
                     })}
                   </td>
-                  <td>{score.score}</td>
+                  <td>{score.score.toLocaleString(language)}</td>
                 </tr>
               ))}
             </tbody>
