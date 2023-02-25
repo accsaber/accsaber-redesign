@@ -53,7 +53,7 @@ const ActionSection = ({
           <Popover.Button
             as={NavLink}
             to={`/profile/${user.playerId}`}
-            className="flex h-10 mx-2 xl:m-0 xl:mt-2 overflow-auto rounded-full aspect-square"
+            className="flex h-10 mx-2 xl:m-0 mt-1 overflow-auto rounded-full aspect-square items-center justify-center"
           >
             <CDNImage
               width={40}
@@ -97,13 +97,12 @@ const ActionSection = ({
       ) : (
         <NavLink
           to="/register"
-          className="flex items-center headerNav xl:p-2 aspect-square justify-center relative group"
+          className="flex items-center headerNav xl:p-2 xl:aspect-square justify-center relative group"
           onClick={onClick}
         >
-          <div className="hidden xl:inline">
-            <UserPlusIcon className="w-6 h-6" />
-          </div>
-          <div className="xl:tooltip xl:left-full xl:top-1/2 xl:-translate-y-1/2">
+          <UserPlusIcon className="w-6 h-6" />
+
+          <div className="tooltip xl:left-top xl:left-1/2 group-hover:translate-x-0">
             Sign up
           </div>
         </NavLink>
@@ -123,7 +122,7 @@ const Header = () => {
       <header
         className={[
           "text-white bg-gradient-to-l xl:fixed xl:h-full xl:left-0 xl:z-50 top-0",
-          "from-blue-600 to-purple-600 xl:bg-transparent xl:bg-none xl:text-neutral-800 xl:dark:text-white",
+          "from-blue-600 to-purple-600 xl:bg-gradient-to-b dark:from-blue-800 dark:to-purple-800",
         ].join(" ")}
       >
         <div className="flex items-center max-w-screen-lg gap-2 p-2 mx-auto xl:flex-col xl:h-full">
@@ -157,18 +156,18 @@ const Header = () => {
                 className={({ isActive }) =>
                   `headerNav${
                     isActive || match?.test(pathname ?? "") ? " active" : ""
-                  } flex gap-2 relative group xl:p-2`
+                  } flex gap-2  relative group xl:p-3`
                 }
               >
                 <div className="hidden xl:inline">{icon}</div>
-                <div className="xl:tooltip xl:left-full xl:top-1/2 xl:-translate-y-1/2">
+                <div className="xl:tooltip 2xl:left-full xl:top-1/2 xl:-translate-y-1/2">
                   {name}
                 </div>
               </NavLink>
             ))}
             <a
               href="https://wiki.accsaber.com"
-              className="headerNav  flex gap-2 relative group xl:p-2"
+              className="headerNav  flex gap-2 relative group xl:p-3"
             >
               <div className="hidden xl:inline">
                 <BookOpenIcon className="w-6 h-6" />
