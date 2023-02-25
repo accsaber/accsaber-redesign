@@ -79,7 +79,7 @@ export default function App() {
               dark
                 ? `dark graphiql-dark bg-neutral-900 text-white`
                 : `graphiql-light bg-white text-neutral-900`
-            } flex flex-col h-full overflow-auto`}
+            } overflow-auto`}
           >
             <Header />
             <QueryClientProvider client={queryClient}>
