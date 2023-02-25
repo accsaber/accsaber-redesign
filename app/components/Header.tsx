@@ -138,8 +138,9 @@ const Header = () => {
         ].join(" ")}
       >
         <div className="flex items-center max-w-screen-lg gap-1.5 p-2 mx-auto xl:flex-col xl:h-full">
-          <Link
-            href={"/"}
+          <NavLink
+            to={"/"}
+            end
             className="headerNav flex gap-2  relative group xl:p-2"
           >
             <LoadingSpinner
@@ -158,7 +159,7 @@ const Header = () => {
                 state !== "idle" ? "scale-75  [transition-delay:0.25s] " : ""
               }`}
             />
-          </Link>
+          </NavLink>
           <nav className="flex-1 hidden gap-1.5 md:flex xl:flex-col">
             {headerItems.map(({ href, name, match, icon }) => (
               <NavLink
