@@ -62,7 +62,7 @@ const ActionSection = ({
                 <Popover.Button
                   as={NavLink}
                   to={`/profile/${user.playerId}`}
-                  className="flex w-10 h-10  overflow-auto rounded-full aspect-square items-center justify-center"
+                  className="flex w-10 h-10 xl:mt-2 overflow-auto rounded-full aspect-square items-center justify-center"
                 >
                   <CDNImage
                     width={40}
@@ -189,7 +189,7 @@ const Header = () => {
               </div>
             </a>
           </nav>
-          <nav className="hidden md:flex xl:flex-col gap-2 items-center xl:mb-1">
+          <nav className="hidden md:flex xl:flex-col items-center xl:mb-1">
             <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
           </nav>
           <div className="flex-1 text-lg md:hidden">AccSaber</div>
