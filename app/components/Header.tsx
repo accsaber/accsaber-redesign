@@ -141,7 +141,7 @@ const Header = () => {
           <NavLink
             to={"/"}
             end
-            className="headerNav flex gap-2  relative group xl:p-2"
+            className="headerNav flex gap-2  relative group p-2"
           >
             <LoadingSpinner
               className={`w-8 h-8 absolute ${
