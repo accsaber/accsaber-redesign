@@ -137,10 +137,10 @@ const Header = () => {
           "from-blue-600 to-purple-600 xl:bg-gradient-to-b dark:from-blue-800 dark:to-purple-800",
         ].join(" ")}
       >
-        <div className="flex items-center max-w-screen-lg gap-2 p-2 mx-auto xl:flex-col xl:h-full">
+        <div className="flex items-center max-w-screen-lg gap-1.5 p-2 mx-auto xl:flex-col xl:h-full">
           <Link
             href={"/"}
-            className="flex items-center h-12 gap-2 p-2 -mr-2 xl:-m-0 font-semibold rounded-full hover:bg-black/10"
+            className="headerNav flex gap-2  relative group xl:p-2"
           >
             <LoadingSpinner
               className={`w-8 h-8 absolute ${
@@ -159,7 +159,7 @@ const Header = () => {
               }`}
             />
           </Link>
-          <nav className="flex-1 hidden gap-2 md:flex xl:flex-col">
+          <nav className="flex-1 hidden gap-1.5 md:flex xl:flex-col">
             {headerItems.map(({ href, name, match, icon }) => (
               <NavLink
                 to={href}
