@@ -57,4 +57,10 @@ body {
   .prose table tbody tr:nth-child(even) {
     @apply bg-black/5 dark:bg-white/5;
   }
+
+  .tooltip {
+    writing-mode: horizontal-tb;
+    @apply absolute bg-white text-neutral-900 px-2 py-1 shadow rounded w-max pointer-events-none opacity-0;
+    @apply transform-gpu transition-all -translate-x-2 group-hover:opacity-100 group-hover:translate-x-2 z-[500];
+  }
 }

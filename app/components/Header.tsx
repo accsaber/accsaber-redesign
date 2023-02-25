@@ -18,15 +18,22 @@ import DarkToggle from "./DarkModeToggle";
 import CDNImage from "./CDNImage";
 import { Popover } from "@headlessui/react";
 import {
+  BookOpenIcon,
   ArrowLeftOnRectangleIcon as LogoutIcon,
   UserIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import LoadingSpinner from "./LoadingSpinner";
 import { SearchPageBody as SearchPage } from "~/routes/search";
 
-const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
+const ActionSection = ({
+  onClick,
+  popupRef,
+}: {
+  onClick: MouseEventHandler;
+  popupRef: React.MutableRefObject<HTMLDialogElement | undefined>;
+}) => {
   const user = useUser();
-  const popupRef = useRef<HTMLDialogElement>();
 
   return (
     <>
@@ -38,15 +45,15 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
           popupRef.current?.showModal();
         }}
       >
-        <SearchIcon className="w-5 h-5" />
+        <SearchIcon className="w-6 h-6" />
       </NavLink>
       <DarkToggle />
       {user ? (
-        <Popover className="relative">
+        <Popover className="relative flex items-start justify-center">
           <Popover.Button
             as={NavLink}
             to={`/profile/${user.playerId}`}
-            className="flex h-10 mx-2 overflow-auto rounded-full aspect-square"
+            className="flex h-10 mx-2 xl:m-0 xl:mt-2 overflow-auto rounded-full aspect-square"
           >
             <CDNImage
               width={40}
@@ -54,7 +61,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
               src={`avatars/${user.playerId}.jpg`}
             />
           </Popover.Button>
-          <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:top-12 md:bottom-[unset]">
+          <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:bottom-12 md:right-[unset] md:left-0 [writing-mode:horizontal-tb]">
             <NavLink
               to={`/profile/${user.playerId}`}
               prefetch="render"
@@ -79,7 +86,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
             >
               <button
                 type="submit"
-                className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
+                className="px-4 py-3 xl:p-2 hover:bg-neutral-200 flex gap-2 items-center w-full"
               >
                 <LogoutIcon className="h-6" />
                 Log out
@@ -90,26 +97,17 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => {
       ) : (
         <NavLink
           to="/register"
-          className="flex items-center headerNav"
+          className="flex items-center headerNav xl:p-2 aspect-square justify-center relative group"
           onClick={onClick}
         >
-          Sign up
+          <div className="hidden xl:inline">
+            <UserPlusIcon className="w-6 h-6" />
+          </div>
+          <div className="xl:tooltip xl:left-full xl:top-1/2 xl:-translate-y-1/2">
+            Sign up
+          </div>
         </NavLink>
       )}
-      <dialog
-        ref={(self) => self && (popupRef.current = self)}
-        className="bg-transparent rounded-xl w-full max-w-screen-md h-full"
-      >
-        <div className="flex justify-end px-4 -mb-2">
-          <button
-            className="p-2 opacity-80 hover:opacity-100 text-white"
-            onClick={() => popupRef.current?.close()}
-          >
-            <XIcon className="w-6 h-6" />
-          </button>
-        </div>
-        <SearchPage close={() => popupRef.current?.close()} />
-      </dialog>
     </>
   );
 };
@@ -118,13 +116,20 @@ const Header = () => {
   const [menuVisible, setMenu] = useState(false);
   const { pathname } = useLocation();
   const { state } = useNavigation();
+  const popupRef = useRef<HTMLDialogElement>();
+
   return (
     <>
-      <header className="text-white bg-gradient-to-l from-blue-600 to-purple-600">
-        <div className="flex items-center max-w-screen-lg gap-2 p-2 mx-auto">
+      <header
+        className={[
+          "text-white bg-gradient-to-l xl:fixed xl:h-full xl:left-0 xl:z-50 top-0",
+          "from-blue-600 to-purple-600 xl:bg-transparent xl:bg-none xl:text-neutral-800 xl:dark:text-white",
+        ].join(" ")}
+      >
+        <div className="flex items-center max-w-screen-lg gap-2 p-2 mx-auto xl:flex-col xl:h-full">
           <Link
             href={"/"}
-            className="flex items-center h-12 gap-2 p-2 -mr-2 font-semibold rounded-full hover:bg-black/10"
+            className="flex items-center h-12 gap-2 p-2 -mr-2 xl:-m-0 font-semibold rounded-full hover:bg-black/10"
           >
             <LoadingSpinner
               className={`w-8 h-8 absolute ${
@@ -143,15 +148,8 @@ const Header = () => {
               }`}
             />
           </Link>
-          {config.isBeta && (
-            <div>
-              <div className="block px-1 font-semibold text-purple-800 uppercase bg-white rounded">
-                Beta
-              </div>
-            </div>
-          )}
-          <nav className="flex-1 hidden gap-2 md:flex">
-            {headerItems.map(({ href, name, match }) => (
+          <nav className="flex-1 hidden gap-2 md:flex xl:flex-col">
+            {headerItems.map(({ href, name, match, icon }) => (
               <NavLink
                 to={href}
                 key={href}
@@ -159,18 +157,29 @@ const Header = () => {
                 className={({ isActive }) =>
                   `headerNav${
                     isActive || match?.test(pathname ?? "") ? " active" : ""
-                  }`
+                  } flex gap-2 relative group xl:p-2`
                 }
               >
-                {name}
+                <div className="hidden xl:inline">{icon}</div>
+                <div className="xl:tooltip xl:left-full xl:top-1/2 xl:-translate-y-1/2">
+                  {name}
+                </div>
               </NavLink>
             ))}
-            <a href="https://wiki.accsaber.com" className="headerNav">
-              Wiki
+            <a
+              href="https://wiki.accsaber.com"
+              className="headerNav  flex gap-2 relative group xl:p-2"
+            >
+              <div className="hidden xl:inline">
+                <BookOpenIcon className="w-6 h-6" />
+              </div>
+              <div className="xl:tooltip xl:left-full xl:top-1/2 xl:-translate-y-1/2">
+                Wiki
+              </div>
             </a>
           </nav>
-          <nav className="hidden md:flex">
-            <ActionSection onClick={() => setMenu(false)} />
+          <nav className="hidden md:flex xl:flex-col">
+            <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
           </nav>
           <div className="flex-1 text-lg md:hidden">AccSaber</div>
           <button
@@ -214,6 +223,20 @@ const Header = () => {
           <ActionSection onClick={() => setMenu(false)} />
         </div>
       </PopoverMenu>
+      <dialog
+        ref={(self) => self && (popupRef.current = self)}
+        className="bg-transparent rounded-xl w-full max-w-screen-md h-full"
+      >
+        <div className="flex justify-end px-4 xl:p-2 -mb-2">
+          <button
+            className="p-2 opacity-80 hover:opacity-100 text-white"
+            onClick={() => popupRef.current?.close()}
+          >
+            <XIcon className="w-6 h-6" />
+          </button>
+        </div>
+        <SearchPage close={() => popupRef.current?.close()} />
+      </dialog>
     </>
   );
 };

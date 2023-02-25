@@ -79,23 +79,26 @@ export default function App() {
               dark
                 ? `dark graphiql-dark bg-neutral-900 text-white`
                 : `graphiql-light bg-white text-neutral-900`
-            } flex flex-col h-full overflow-auto`}
+            } flex flex-col-reverse h-full overflow-auto xl:flex-row-reverse`}
           >
+            <div className="flex flex-col flex-1 h-max">
+              <QueryClientProvider client={queryClient}>
+                <Suspense
+                  fallback={
+                    <>
+                      <div className="h-16 bg-neutral-100 dark:bg-neutral-800" />
+                      <div className="flex-1 flex items-center justify-center">
+                        <LoadingSpinner />
+                      </div>
+                    </>
+                  }
+                >
+                  <Outlet />
+                </Suspense>
+              </QueryClientProvider>
+            </div>
+            <div className="w-16 hidden lg:block flex-shrink-0"></div>
             <Header />
-            <QueryClientProvider client={queryClient}>
-              <Suspense
-                fallback={
-                  <>
-                    <div className="h-16 bg-neutral-100 dark:bg-neutral-800" />
-                    <div className="flex-1 flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  </>
-                }
-              >
-                <Outlet />
-              </Suspense>
-            </QueryClientProvider>
             <ScrollRestoration />
             <Scripts />
             <LiveReload />
