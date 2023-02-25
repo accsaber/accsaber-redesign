@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import type { MouseEventHandler } from "react";
+import { MouseEventHandler, Suspense } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import logo from "~/images/logo.webp";
@@ -12,7 +12,13 @@ import {
 } from "@heroicons/react/24/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
-import { Form, NavLink, useLocation, useNavigation } from "@remix-run/react";
+import {
+  Await,
+  Form,
+  NavLink,
+  useLocation,
+  useNavigation,
+} from "@remix-run/react";
 import { useUser } from "./UserContext";
 import DarkToggle from "./DarkModeToggle";
 import CDNImage from "./CDNImage";
@@ -33,7 +39,7 @@ const ActionSection = ({
   onClick: MouseEventHandler;
   popupRef: React.MutableRefObject<HTMLDialogElement | undefined>;
 }) => {
-  const user = useUser();
+  const userPromise = useUser();
 
   return (
     <>
@@ -48,65 +54,71 @@ const ActionSection = ({
         <SearchIcon className="w-6 h-6" />
       </NavLink>
       <DarkToggle />
-      {user ? (
-        <Popover className="relative flex items-start justify-center">
-          <Popover.Button
-            as={NavLink}
-            to={`/profile/${user.playerId}`}
-            className="flex h-10 mx-2 xl:m-0 mt-1 overflow-auto rounded-full aspect-square items-center justify-center"
-          >
-            <CDNImage
-              width={40}
-              height={40}
-              src={`avatars/${user.playerId}.jpg`}
-            />
-          </Popover.Button>
-          <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:bottom-12 md:right-[unset] md:left-0 [writing-mode:horizontal-tb]">
-            <NavLink
-              to={`/profile/${user.playerId}`}
-              prefetch="render"
-              className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
-            >
-              {({ isPending }) => (
-                <>
-                  {isPending ? (
-                    <LoadingSpinner className="h-6 w-6" />
-                  ) : (
-                    <UserIcon className="h-6" />
-                  )}
-                  My Profile
-                </>
-              )}
-            </NavLink>
-            <Form
-              action={`/settings/logout`}
-              method="post"
-              replace
-              reloadDocument
-            >
-              <button
-                type="submit"
-                className="px-4 py-3 xl:p-2 hover:bg-neutral-200 flex gap-2 items-center w-full"
+      <Suspense fallback={<LoadingSpinner className="w-10 h-10 p-1" />}>
+        <Await resolve={userPromise}>
+          {(user) =>
+            user ? (
+              <Popover className="relative flex items-start justify-center">
+                <Popover.Button
+                  as={NavLink}
+                  to={`/profile/${user.playerId}`}
+                  className="flex w-10 h-10  overflow-auto rounded-full aspect-square items-center justify-center"
+                >
+                  <CDNImage
+                    width={40}
+                    height={40}
+                    src={`avatars/${user.playerId}.jpg`}
+                  />
+                </Popover.Button>
+                <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:bottom-[unset] xl:bottom-12 xl:right-[unset] xl:left-0 [writing-mode:horizontal-tb]">
+                  <NavLink
+                    to={`/profile/${user.playerId}`}
+                    prefetch="render"
+                    className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
+                  >
+                    {({ isPending }) => (
+                      <>
+                        {isPending ? (
+                          <LoadingSpinner className="h-6 w-6" />
+                        ) : (
+                          <UserIcon className="h-6" />
+                        )}
+                        My Profile
+                      </>
+                    )}
+                  </NavLink>
+                  <Form
+                    action={`/settings/logout`}
+                    method="post"
+                    replace
+                    reloadDocument
+                  >
+                    <button
+                      type="submit"
+                      className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
+                    >
+                      <LogoutIcon className="w-6 h-6" />
+                      Log out
+                    </button>
+                  </Form>
+                </Popover.Panel>
+              </Popover>
+            ) : (
+              <NavLink
+                to="/register"
+                className="flex items-center headerNav xl:p-2 xl:aspect-square justify-center relative group"
+                onClick={onClick}
               >
-                <LogoutIcon className="h-6" />
-                Log out
-              </button>
-            </Form>
-          </Popover.Panel>
-        </Popover>
-      ) : (
-        <NavLink
-          to="/register"
-          className="flex items-center headerNav xl:p-2 xl:aspect-square justify-center relative group"
-          onClick={onClick}
-        >
-          <UserPlusIcon className="w-6 h-6" />
+                <UserPlusIcon className="w-6 h-6" />
 
-          <div className="tooltip xl:left-top xl:left-1/2 group-hover:translate-x-0">
-            Sign up
-          </div>
-        </NavLink>
-      )}
+                <div className="tooltip xl:left-top xl:left-1/2 group-hover:translate-x-0">
+                  Sign up
+                </div>
+              </NavLink>
+            )
+          }
+        </Await>
+      </Suspense>
     </>
   );
 };
@@ -177,7 +189,7 @@ const Header = () => {
               </div>
             </a>
           </nav>
-          <nav className="hidden md:flex xl:flex-col">
+          <nav className="hidden md:flex xl:flex-col gap-2 items-center xl:mb-1">
             <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
           </nav>
           <div className="flex-1 text-lg md:hidden">AccSaber</div>
@@ -219,7 +231,7 @@ const Header = () => {
         </nav>
         <hr className="dark:border-neutral-800" />
         <div className="flex items-center justify-end p-2 relative">
-          <ActionSection onClick={() => setMenu(false)} />
+          <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
         </div>
       </PopoverMenu>
       <dialog

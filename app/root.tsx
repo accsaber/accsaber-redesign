@@ -1,7 +1,9 @@
-import type {
+import {
   LinksFunction,
+  LoaderArgs,
   LoaderFunction,
   MetaFunction,
+  defer,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import styles from "~/styles/app.css";
@@ -32,27 +34,20 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-interface RootData {
-  user?: Player;
-  dark?: boolean;
-}
-
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
   { rel: "shortcut icon", href: logo },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const userCookie: { userId?: string; dark?: boolean } =
     (await user.parse(cookieHeader)) || {};
   const headers = new Headers();
 
-  const currentUser = userCookie.userId
-    ? await getPlayer(userCookie.userId)
-    : null;
+  const currentUser = userCookie.userId ? getPlayer(userCookie.userId) : null;
 
-  return json(
+  return defer(
     {
       user: currentUser,
       dark: userCookie.dark,
@@ -63,12 +58,12 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function App() {
   const queryClient = new QueryClient({});
-  const { user, dark: darkSetting } = useLoaderData<RootData>();
+  const { user, dark: darkSetting } = useLoaderData<typeof loader>();
   const [dark, setDarkMode] = useState(darkSetting ?? false);
 
   return (
     <DarkModeContext.Provider value={{ dark, setDarkMode }}>
-      <UserContext.Provider value={user ?? null}>
+      <UserContext.Provider value={(user as Promise<Player>) ?? null}>
         <html lang="en" className="h-full">
           <head>
             <Meta />
