@@ -147,7 +147,10 @@ export default function MapPage() {
             />
             <div className="flex flex-col gap-1">
               <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row">
-                {map?.song?.songAuthorName} - {map?.song?.songName}
+                <div className="max-w-md overflow-hidden whitespace-nowrap text-ellipsis">
+                  {map?.song?.songAuthorName}
+                </div>{" "}
+                - {map?.song?.songName}
                 {map?.song?.songSubName ? (
                   <small>{map?.song?.songSubName}</small>
                 ) : (
