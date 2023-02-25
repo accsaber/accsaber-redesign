@@ -13,7 +13,7 @@ import type { PlayerLayoutQuery } from "~/__generated__/gql";
 import { Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import { useUser } from "./UserContext";
-import { UserAddIcon } from "@heroicons/react/outline";
+import { UserPlusIcon } from "@heroicons/react/20/solid";
 import PlayerAvatar from "./PlayerAvatar";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
@@ -80,7 +80,7 @@ export default function PlayerHeader({
                   title="Set as my profile"
                   aria-label="Set as my profile"
                 >
-                  <UserAddIcon className="w-6 h-6" />
+                  <UserPlusIcon className="w-6 h-6" />
                 </button>
               </Form>
             ) : undefined}

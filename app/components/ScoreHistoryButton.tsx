@@ -1,5 +1,5 @@
 "use client";
-import { ChartBarIcon, XIcon } from "@heroicons/react/solid";
+import { ChartBarIcon, XMarkIcon as XIcon } from "@heroicons/react/20/solid";
 import { useState, useRef, Suspense } from "react";
 import LoadingSpinner from "@/LoadingSpinner";
 import { Line } from "react-chartjs-2";
