@@ -5,7 +5,11 @@ import { useRef } from "react";
 import { useState } from "react";
 import logo from "~/images/logo.webp";
 import headerItems from "~/lib/headerItems";
-import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
+import {
+  Bars3Icon as MenuIcon,
+  MagnifyingGlassIcon as SearchIcon,
+  XMarkIcon as XIcon,
+} from "@heroicons/react/24/solid";
 import PopoverMenu from "./Popover";
 import config from "~/lib/api/config";
 import { Form, NavLink, useLocation, useNavigation } from "@remix-run/react";
@@ -13,7 +17,10 @@ import { useUser } from "./UserContext";
 import DarkToggle from "./DarkModeToggle";
 import CDNImage from "./CDNImage";
 import { Popover } from "@headlessui/react";
-import { LogoutIcon, UserIcon } from "@heroicons/react/outline";
+import {
+  ArrowLeftOnRectangleIcon as LogoutIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import LoadingSpinner from "./LoadingSpinner";
 import { SearchPageBody as SearchPage } from "~/routes/search";
 

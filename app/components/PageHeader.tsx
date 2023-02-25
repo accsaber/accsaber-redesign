@@ -1,5 +1,8 @@
 "use client";
-import { MenuIcon, XIcon } from "@heroicons/react/solid";
+import {
+  Bars3Icon as MenuIcon,
+  XMarkIcon as XIcon,
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import React, { createRef, useEffect, useState } from "react";
