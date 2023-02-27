@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import { lazy } from "react";
 import styles from "graphiql/graphiql.min.css";
 import config from "~/lib/api/config";

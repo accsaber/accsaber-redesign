@@ -1,5 +1,5 @@
-import type { ActionFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
 import { user } from "~/lib/cookies";
 
 export const action: ActionFunction = async ({ params, request }) => {

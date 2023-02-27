@@ -1,4 +1,4 @@
-import { createCookie } from "@remix-run/node"; // or "@remix-run/cloudflare"
+import { createCookie } from "@remix-run/cloudflare"; // or "@remix-run/cloudflare"
 import ms from "ms";
 
 export const user = createCookie("user", {

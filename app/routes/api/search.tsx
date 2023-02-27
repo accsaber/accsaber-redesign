@@ -3,7 +3,7 @@ import type { RankedMap } from "~/lib/interfaces/api/ranked-map";
 import type { Player } from "~/lib/interfaces/api/player";
 import { json } from "~/lib/api/fetcher";
 import ms from "ms";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 
 const fuse = new Fuse<Player | RankedMap>([], {
   keys: [

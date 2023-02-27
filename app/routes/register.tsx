@@ -1,5 +1,5 @@
-import type { ActionFunction } from "@remix-run/node";
-import { json as jsonResponse } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/cloudflare";
+import { json as jsonResponse } from "@remix-run/cloudflare";
 import { Form, useActionData } from "@remix-run/react";
 import { user } from "~/lib/cookies";
 import config from "~/lib/api/config";

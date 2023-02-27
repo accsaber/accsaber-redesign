@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/cloudflare";
 import Avatar from "boring-avatars";
 import { renderToString } from "react-dom/server";
 

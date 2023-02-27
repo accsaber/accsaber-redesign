@@ -1,7 +1,7 @@
 import PlayerResult from "@/PlayerResult";
 import MapResult from "@/MapResult";
-import type { LoaderFunction } from "@remix-run/node";
-import { json as jsonResponse } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { json as jsonResponse } from "@remix-run/cloudflare";
 import { search } from "./api/search";
 import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import type { Player } from "$interfaces/api/player";

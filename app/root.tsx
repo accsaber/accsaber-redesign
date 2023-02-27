@@ -4,8 +4,8 @@ import {
   LoaderFunction,
   MetaFunction,
   defer,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
+} from "@remix-run/cloudflare";
+import { json } from "@remix-run/cloudflare";
 import styles from "~/styles/app.css";
 import {
   Links as LinksBlock,
