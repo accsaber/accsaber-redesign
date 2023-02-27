@@ -65,31 +65,33 @@ export default function PlayerHeader({
                 className="h-6"
               />
             </a>
-            <Await resolve={userPromise ?? Promise.resolve(null)}>
-              {(user) =>
-                user?.playerId !== profile.playerId ? (
-                  <Form
-                    action={`/settings/login`}
-                    method="post"
-                    replace
-                    reloadDocument
-                  >
-                    <button
-                      type="submit"
-                      name="userId"
-                      value={profile.playerId}
-                      className="block p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 dark:text-white"
-                      title="Set as my profile"
-                      aria-label="Set as my profile"
+            <Suspense fallback={<LoadingSpinner className="w-10 h-10 p-2" />}>
+              <Await resolve={userPromise ?? Promise.resolve(null)}>
+                {(user) =>
+                  user?.playerId !== profile.playerId ? (
+                    <Form
+                      action={`/settings/login`}
+                      method="post"
+                      replace
+                      reloadDocument
                     >
-                      <UserPlusIcon className="w-6 h-6" />
-                    </button>
-                  </Form>
-                ) : (
-                  ""
-                )
-              }
-            </Await>
+                      <button
+                        type="submit"
+                        name="userId"
+                        value={profile.playerId}
+                        className="block p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 dark:text-white"
+                        title="Set as my profile"
+                        aria-label="Set as my profile"
+                      >
+                        <UserPlusIcon className="w-6 h-6" />
+                      </button>
+                    </Form>
+                  ) : (
+                    ""
+                  )
+                }
+              </Await>
+            </Suspense>
           </div>
         }
         navigation={[
