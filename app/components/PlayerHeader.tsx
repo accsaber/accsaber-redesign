@@ -10,7 +10,7 @@ import BlankBlock from "@/BlankBlock";
 import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import type { PlayerLayoutQuery } from "~/__generated__/gql";
-import { Form } from "@remix-run/react";
+import { Await, Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import { useUser } from "./UserContext";
 import { UserPlusIcon } from "@heroicons/react/20/solid";
@@ -40,7 +40,7 @@ export default function PlayerHeader({
 }) {
   const categories = categoriesEdge?.nodes ?? [];
 
-  const user = useUser();
+  const userPromise = useUser();
 
   const highestLevel = getHighestLevel(campaignStatus ?? []);
   return (
@@ -57,7 +57,7 @@ export default function PlayerHeader({
           <div className="flex flex-row-reverse gap-2">
             <a
               href={`https://scoresaber.com/u/${profile.playerId}`}
-              className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
+              className="block p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
             >
               <img
                 src={scoresaberLogo}
@@ -65,25 +65,31 @@ export default function PlayerHeader({
                 className="h-6"
               />
             </a>
-            {user?.playerId !== profile.playerId ? (
-              <Form
-                action={`/settings/login`}
-                method="post"
-                replace
-                reloadDocument
-              >
-                <button
-                  type="submit"
-                  name="userId"
-                  value={profile.playerId}
-                  className="block p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                  title="Set as my profile"
-                  aria-label="Set as my profile"
-                >
-                  <UserPlusIcon className="w-6 h-6" />
-                </button>
-              </Form>
-            ) : undefined}
+            <Await resolve={userPromise ?? Promise.resolve(null)}>
+              {(user) =>
+                user?.playerId !== profile.playerId ? (
+                  <Form
+                    action={`/settings/login`}
+                    method="post"
+                    replace
+                    reloadDocument
+                  >
+                    <button
+                      type="submit"
+                      name="userId"
+                      value={profile.playerId}
+                      className="block p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 dark:text-white"
+                      title="Set as my profile"
+                      aria-label="Set as my profile"
+                    >
+                      <UserPlusIcon className="w-6 h-6" />
+                    </button>
+                  </Form>
+                ) : (
+                  ""
+                )
+              }
+            </Await>
           </div>
         }
         navigation={[
@@ -108,24 +114,24 @@ export default function PlayerHeader({
           {profile.playerName}&apos;s Profile
         </div>
       </PageHeader>
-      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
+      <div className="relative pb-48 -mb-48 overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
-
         {miniblur ? (
           <img
-            className="absolute top-0 left-0 object-center object-cover w-full h-full opacity-40 dark:opacity-20 blur-3xl"
+            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
             alt=""
             src={miniblur}
           />
         ) : (
           <PlayerAvatar
-            className={`absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 ${
+            className={`absolute top-0 left-0 object-cover w-full opacity-60  h-full ${
               !profile.playerId.startsWith("7") ? "" : "blur-3xl"
             }`}
             profile={profile}
             variant="marble"
           />
         )}
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white/20 to-white dark:from-black/40 dark:to-neutral-900" />
         <div
           className={[
             "flex gap-6 p-8 md:p-4 items-center",
