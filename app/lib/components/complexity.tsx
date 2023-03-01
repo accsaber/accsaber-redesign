@@ -1,3 +1,5 @@
+import config from "../api/config";
+
 const Complexity: React.FC<{ children: number }> = ({ children }) => {
   const normVal = Math.min(children, 15);
   const red = (normVal / 15) * 255;
@@ -20,7 +22,11 @@ const Complexity: React.FC<{ children: number }> = ({ children }) => {
           width: (children / 15) * 100 + "%",
         }}
       ></div>
-      <div className="relative">{children}</div>
+      <div className="relative">
+        {children.toLocaleString(config.defaultLocale, {
+          maximumFractionDigits: 2,
+        })}
+      </div>
     </div>
   );
 };
