@@ -131,10 +131,10 @@ const PageHeader: React.FC<{
                   prefetch={"none"}
                   to={`${href}`}
                   key={href}
-                  className={({ isPending }) =>
+                  className={({ isPending, isActive }) =>
                     [
                       "pageNav flex items-center justify-center relative",
-                      isCurrent || isPending ? "active" : "",
+                      isCurrent || isPending || isActive ? "active" : "",
                     ].join(" ")
                   }
                 >

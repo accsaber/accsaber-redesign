@@ -5,7 +5,7 @@ import { client } from "./fetcher";
 const getImage = async (
   url: string,
   width: number,
-  format: "webp" | "png" | "jpeg" | "avif" = "webp"
+  format: "webp" | "png" | "jpeg" = "webp"
 ) => {
   const headers = new Headers(
     Object.entries({

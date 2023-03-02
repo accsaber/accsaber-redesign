@@ -12,9 +12,9 @@ const sizes = new Map([
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.userId, "Expected User ID");
   invariant(params.size, "Expected Size");
-  const format = params.format as "jpeg" | "png" | "avif" | "webp";
+  const format = params.format as "jpeg" | "png" | "webp";
   invariant(
-    ["jpeg", "png", "avif", "webp"].includes(format ?? ""),
+    ["jpeg", "png", "webp"].includes(format ?? ""),
     "Invalid or missing format"
   );
 

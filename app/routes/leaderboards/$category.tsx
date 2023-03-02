@@ -3,7 +3,6 @@ import { json } from "@remix-run/node";
 import { useLoaderData, useLocation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
-import { client } from "~/lib/api/fetcher";
 import { getStandings } from "~/lib/api/player";
 import PageHeader from "~/lib/components/pageHeader";
 import Pagination from "~/lib/components/pagination";
@@ -29,29 +28,13 @@ export const loader: LoaderFunction = async ({
   const pageSize = 50;
   const headers = new Headers();
   invariant(category, "Expected Category");
-  const [categories, rawStandings] = await Promise.all([
-    getCategories(),
-    getStandings(category, page - 1, pageSize),
-  ]);
+  const [categories, { length: total, standings: unfiltered }] =
+    await Promise.all([
+      getCategories(),
+      getStandings(category, page - 1, pageSize),
+    ]);
 
-  if (!rawStandings)
-    throw new Response("Leaderboard not found", { status: 404 });
-
-  const transaction = client.multi();
-
-  for (const id of rawStandings) {
-    transaction.get(`accsaber:player:${id}:${category}`);
-  }
-
-  const unparsedStandings = await transaction.exec(true);
-
-  const unfiltered: Player[] = [];
-
-  for (const rawPlayer of unparsedStandings) {
-    if (typeof rawPlayer === "string") {
-      unfiltered.push(JSON.parse(rawPlayer));
-    }
-  }
+  if (!unfiltered) throw new Response("Leaderboard not found", { status: 404 });
 
   const filterString = url.searchParams.get("filter");
   const standings =
@@ -72,9 +55,7 @@ export const loader: LoaderFunction = async ({
       current: category,
       currentFull: categories.get(category),
       page,
-      pages: Math.ceil(
-        (await client.zCard(`accsaber:standings:${category}`)) / pageSize
-      ),
+      pages: Math.ceil(total / pageSize),
       headers,
     },
     {
@@ -92,7 +73,6 @@ const LeaderboardPage = () => {
     pages: number;
   }>();
 
-  const location = useLocation();
   return (
     <>
       <PageHeader

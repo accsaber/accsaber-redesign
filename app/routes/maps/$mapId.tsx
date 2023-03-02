@@ -42,9 +42,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       headers
     ),
   ]);
-
-  if ("errorCode" in map || !map || !leaderboard)
-    throw new Response("Map not found", { status: 404 });
+  throw typeof leaderboard;
 
   return json(
     {

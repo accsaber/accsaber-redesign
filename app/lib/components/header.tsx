@@ -6,6 +6,7 @@ import DarkToggle from "./darkToggle";
 import UserContext from "./userContext";
 import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./popover";
+import PlayerAvatar from "./PlayerAvatar";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
@@ -21,21 +22,7 @@ const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
             className="flex h-10 mx-2 overflow-auto rounded-full aspect-square"
             onClick={onClick}
           >
-            <picture>
-              <source
-                srcSet={`/profile/${user.playerId}.thumbnail.avif`}
-                type="image/avif"
-              />
-              <source
-                srcSet={`/profile/${user.playerId}.thumbnail.webp`}
-                type="image/webp"
-              />
-              <img
-                src={`/profile/${user.playerId}.thumbnail.jpeg`}
-                alt={`${user.playerName}'s profile`}
-                loading="lazy"
-              />
-            </picture>
+            <PlayerAvatar profile={user} />
           </NavLink>
         ) : (
           <NavLink
