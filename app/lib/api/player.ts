@@ -37,7 +37,7 @@ export const getPlayer = (playerId: string, category = "overall") => {
 export const getPlayerScores = async (
   playerId: string,
   category = "overall",
-  reverse = true
+  reverse = false
 ): Promise<{ scores: PlayerScore[]; count: number }> => {
   const scores = await getJSON<PlayerScore[]>(
     `players/${playerId}${category == "overall" ? "" : `/${category}`}/scores`
