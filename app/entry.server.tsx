@@ -2,8 +2,8 @@ import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
 import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import styles from "./styles/app.css";
 
 const ABORT_DELAY = 5000;
 
@@ -26,6 +26,7 @@ export default function handleRequest(
           const body = new PassThrough();
 
           responseHeaders.set("Content-Type", "text/html; charset=utf-8");
+          responseHeaders.append("Link", `${styles}; rel=prefetch`);
 
           const readyTime = now() - startTime;
           responseHeaders.append(
