@@ -8,9 +8,13 @@ interface CDNSource {
   height: number;
 }
 
-const getImaginaryURL = (image: CDNSource, format: string) => {
+export const getImaginaryURL = (
+  image: CDNSource,
+  format: string,
+  action = "resize"
+) => {
   const targetURL = new URL(image.src, "https://cdn.accsaber.com");
-  const targetPath = new URL("https://cdn.accsaber.com/imaginary/resize");
+  const targetPath = new URL(`https://cdn.accsaber.com/imaginary/${action}`);
   if (targetURL.hostname === "cdn.accsaber.com")
     targetPath.searchParams.set("file", targetURL.pathname);
   else targetPath.searchParams.set("url", image.src);

@@ -6,7 +6,7 @@ import DifficultyLabel from "@/DifficultyLabel";
 import LoadingSpinner from "@/LoadingSpinner";
 import PageHeader from "@/PageHeader";
 import Pagination from "@/Pagination";
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { Link, NavLink, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -17,25 +17,31 @@ import { gqlClient } from "~/lib/api/gql";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import PlayerAvatar from "@/PlayerAvatar";
 import MapCover from "@/MapCover";
+import { getImaginaryURL } from "@/CDNImage";
 
 const pageSize = 25;
 
-interface MapPageData {
-  page: number;
-  pages: number;
-  pageSize: number;
-  map: RankedMapPageQuery;
-  leaderboard: MapLeaderboardPlayer[];
-}
-
-export const meta: MetaFunction = ({ data }: { data: MapPageData }) => ({
+export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   title: `${data.map.beatMap?.song?.songName} | AccSaber`,
 });
 
-export const loader: LoaderFunction = async ({
+const getMapImage = (songHash: string) =>
+  fetch(
+    getImaginaryURL(
+      {
+        width: 32,
+        height: 8,
+        src: `covers/${songHash.toUpperCase()}.png`,
+      },
+      "webp",
+      "crop"
+    )
+  ).then((res) => res.arrayBuffer());
+
+export const loader = async ({
   params: { mapId },
   request: { url },
-}) => {
+}: LoaderArgs) => {
   const { searchParams } = new URL(url);
   invariant(mapId);
 
@@ -50,6 +56,10 @@ export const loader: LoaderFunction = async ({
       throw new Response("Map not found", { status: e.status });
     }),
   ]);
+
+  const blurData = map.beatMap?.song?.songHash
+    ? await getMapImage(map.beatMap?.song?.songHash)
+    : "";
 
   const page = parseInt(searchParams.get("page") ?? "1");
   const pages = Math.ceil(allLeaderboard.length / pageSize);
@@ -67,6 +77,9 @@ export const loader: LoaderFunction = async ({
       pageSize,
       map,
       leaderboard,
+      blurData: blurData
+        ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
+        : null,
     },
     { headers }
   );
@@ -78,7 +91,8 @@ export default function MapPage() {
     leaderboard,
     page,
     pages,
-  } = useLoaderData<MapPageData>();
+    blurData,
+  } = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -127,12 +141,20 @@ export default function MapPage() {
 
       <main>
         <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-          <MapCover
-            songHash={map?.song?.songHash ?? ""}
-            width={256}
-            height={256}
-            className="absolute top-0 left-0 object-cover w-full h-full opacity-20 blur-3xl"
-          />
+          {blurData ? (
+            <img
+              src={blurData}
+              alt=""
+              className="absolute top-0 left-0 w-full h-full opacity-40 blur-xl"
+            />
+          ) : (
+            <MapCover
+              songHash={map?.song?.songHash ?? ""}
+              width={256}
+              height={256}
+              className="absolute top-0 left-0 w-full h-full opacity-20 blur-3xl"
+            />
+          )}
           <div
             className={[
               "flex flex-col md:flex-row gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
