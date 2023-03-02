@@ -22,6 +22,7 @@ export const getMapInfo = async (mapId: string) => {
 };
 
 export const getMapList = async () => {
+  updateMapCache();
   const maps = await client.hGetAll("accsaber:ranked-maps");
   return Object.values(maps).map((rawMap) => JSON.parse(rawMap) as RankedMap);
 };
