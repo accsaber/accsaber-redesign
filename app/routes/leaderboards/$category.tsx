@@ -1,13 +1,14 @@
+import { CategoryLeaderboardDocument } from "$gql";
 import type { Category } from "$interfaces/api/category";
 import type { Player } from "$interfaces/api/player";
 import PageHeader from "@/PageHeader";
 import Pagination from "@/Pagination";
 import PlayerRow from "@/PlayerRow";
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { json } from "~/lib/api/fetcher";
+import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
 
 interface LeaderboardData {
@@ -18,43 +19,33 @@ interface LeaderboardData {
   pages: number;
 }
 
-export const loader: LoaderFunction = async ({
+export const pageSize = 50;
+
+export const loader = async ({
   params: { category = "overall" },
   request,
-}) => {
+}: LoaderArgs) => {
   invariant(category);
   const { searchParams } = new URL(request.url);
   const headers = new Headers();
-  const pageSize = 50;
-
-  const [categories, allStandings] = await Promise.all([
-    json<Category[]>("categories").then(
-      withTiming(headers, "fetch", "Get Category List")
-    ),
-    json<Player[]>(`categories/${category}/standings`).then(
-      withTiming(headers, "fetch", "Get Standings"),
-      (error) => {
-        throw new Response("Couldn't load standings", { status: 500 });
-      }
-    ),
-  ]);
 
   const page = parseInt(searchParams.get("page") ?? "1");
-  const pages = Math.ceil(allStandings.length / pageSize);
-  const standings =
-    allStandings.length > pageSize
-      ? [...allStandings].splice(pageSize * (page - 1), pageSize)
-      : allStandings;
 
-  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
+  const { categories, categoryAccSaberPlayers } = await gqlClient
+    .request(CategoryLeaderboardDocument, {
+      category,
+      pageSize,
+      offset: (page - 1) * pageSize,
+    })
+    .then(withTiming(headers, "query", "GraphQL Query"));
 
   return jsonResponse(
     {
       category,
       categories,
-      standings,
+      standings: categoryAccSaberPlayers?.nodes,
       page,
-      pages,
+      pages: Math.ceil((categoryAccSaberPlayers?.totalCount ?? 0) / 50),
     },
     { headers }
   );
@@ -67,16 +58,23 @@ const categoryMap = new Map([
   ["overall", " overall"],
 ]);
 
-export const meta: MetaFunction = ({ data }: { data: LeaderboardData }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   // ungodly hack to do some type coersion
   return {
-    title: `AccSaber${categoryMap.get(data.category) ?? ""} ranking`,
+    title: `AccSaber${categoryMap.get(data.category) ?? ""} leaderboard`,
   };
 };
 
 export default function LeaderboardsPage() {
   const { category, categories, page, pages, standings } =
-    useLoaderData<LeaderboardData>();
+    useLoaderData<typeof loader>();
+
+  const categoryLinks =
+    categories?.nodes?.map((cat) => ({
+      href: `/leaderboards/${cat.categoryName}`,
+      label: cat.categoryDisplayName ?? "",
+      isCurrent: category == cat.categoryName,
+    })) ?? [];
   return (
     <div>
       <PageHeader
@@ -86,11 +84,7 @@ export default function LeaderboardsPage() {
             label: `Overall`,
             isCurrent: category == "overall",
           },
-          ...categories.map((cat) => ({
-            href: `/leaderboards/${cat.categoryName}`,
-            label: cat.categoryDisplayName,
-            isCurrent: category == cat.categoryName,
-          })),
+          ...categoryLinks,
         ]}
       >
         Leaderboards

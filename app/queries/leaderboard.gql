@@ -1,0 +1,50 @@
+fragment LeaderboardCategoryInfo on Query {
+  categories {
+    nodes {
+      nodeId
+      categoryName
+      categoryDisplayName
+    }
+  }
+}
+
+query OverallLeaderboard($pageSize: Int!, $offset: Int) {
+  ...LeaderboardCategoryInfo
+  overallAccSaberPlayers(first: $pageSize, offset: $offset, orderBy: AP_DESC) {
+    nodes {
+      ranking
+      rankingLastWeek
+      playerId
+      playerName
+      ap
+      averageAcc
+      rankedPlays
+      averageApPerMap
+      hmd
+    }
+    totalCount
+  }
+}
+
+query CategoryLeaderboard($category: String!, $pageSize: Int!, $offset: Int) {
+  ...LeaderboardCategoryInfo
+  categoryAccSaberPlayers(
+    condition: { categoryName: $category }
+    first: $pageSize
+    offset: $offset
+    orderBy: AP_DESC
+  ) {
+    nodes {
+      ranking
+      rankingLastWeek
+      playerId
+      playerName
+      ap
+      averageAcc
+      rankedPlays
+      averageApPerMap
+      hmd
+    }
+    totalCount
+  }
+}
