@@ -1,6 +1,6 @@
 "use client";
-import Link from "next/link";
-import { MouseEventHandler, Suspense } from "react";
+import type { MouseEventHandler } from "react";
+import { Suspense } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import logo from "~/images/logo.webp";
@@ -11,7 +11,6 @@ import {
   XMarkIcon as XIcon,
 } from "@heroicons/react/24/solid";
 import PopoverMenu from "./Popover";
-import config from "~/lib/api/config";
 import {
   Await,
   Form,
@@ -62,7 +61,7 @@ const ActionSection = ({
                 <Popover.Button
                   as={NavLink}
                   to={`/profile/${user.playerId}`}
-                  className="flex w-10 h-10 xl:mt-2 overflow-auto rounded-full aspect-square items-center justify-center"
+                  className="flex w-10 h-10 overflow-auto rounded-full aspect-square items-center justify-center"
                 >
                   <CDNImage
                     width={40}
@@ -70,7 +69,7 @@ const ActionSection = ({
                     src={`avatars/${user.playerId}.jpg`}
                   />
                 </Popover.Button>
-                <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:bottom-[unset] xl:bottom-12 xl:right-[unset] xl:left-0 [writing-mode:horizontal-tb]">
+                <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:bottom-[unset] [writing-mode:horizontal-tb]">
                   <NavLink
                     to={`/profile/${user.playerId}`}
                     prefetch="render"
@@ -106,14 +105,12 @@ const ActionSection = ({
             ) : (
               <NavLink
                 to="/register"
-                className="flex items-center headerNav xl:p-2 xl:aspect-square justify-center relative group"
+                className="flex items-center headerNav justify-center relative group"
                 onClick={onClick}
               >
                 <UserPlusIcon className="w-6 h-6" />
 
-                <div className="tooltip xl:left-top xl:left-1/2 group-hover:translate-x-0">
-                  Sign up
-                </div>
+                <div className="tooltip group-hover:translate-x-0">Sign up</div>
               </NavLink>
             )
           }
@@ -133,11 +130,11 @@ const Header = () => {
     <>
       <header
         className={[
-          "text-white bg-gradient-to-l xl:fixed xl:h-full xl:left-0 xl:z-50 top-0",
-          "from-blue-600 to-purple-600 xl:bg-gradient-to-b dark:from-blue-800 dark:to-purple-800",
+          "text-white bg-gradient-to-l top-0",
+          "from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800",
         ].join(" ")}
       >
-        <div className="flex items-center max-w-screen-lg gap-1.5 p-2 mx-auto xl:flex-col xl:h-full">
+        <div className="flex items-center max-w-screen-lg gap-1.5 p-2 mx-auto">
           <NavLink
             to={"/"}
             end
@@ -160,7 +157,7 @@ const Header = () => {
               }`}
             />
           </NavLink>
-          <nav className="flex-1 hidden gap-1.5 md:flex xl:flex-col">
+          <nav className="flex-1 hidden gap-1.5 md:flex">
             {headerItems.map(({ href, name, match, icon }) => (
               <NavLink
                 to={href}
@@ -169,28 +166,24 @@ const Header = () => {
                 className={({ isActive }) =>
                   `headerNav${
                     isActive || match?.test(pathname ?? "") ? " active" : ""
-                  } flex gap-2  relative group xl:p-3`
+                  } flex gap-2  relative group `
                 }
               >
-                <div className="hidden xl:inline">{icon}</div>
-                <div className="xl:tooltip 2xl:left-full xl:top-1/2 xl:-translate-y-1/2">
-                  {name}
-                </div>
+                <div className="hidden">{icon}</div>
+                <div className="2xl:left-full">{name}</div>
               </NavLink>
             ))}
             <a
               href="https://wiki.accsaber.com"
-              className="headerNav  flex gap-2 relative group xl:p-3"
+              className="headerNav flex gap-2 relative group"
             >
-              <div className="hidden xl:inline">
+              <div className="hidden">
                 <BookOpenIcon className="w-6 h-6" />
               </div>
-              <div className="xl:tooltip xl:left-full xl:top-1/2 xl:-translate-y-1/2">
-                Wiki
-              </div>
+              <div className="xl:tooltip">Wiki</div>
             </a>
           </nav>
-          <nav className="hidden md:flex xl:flex-col items-center xl:mb-1">
+          <nav className="hidden md:flex items-center gap-2">
             <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
           </nav>
           <div className="flex-1 text-lg md:hidden">AccSaber</div>
@@ -239,7 +232,7 @@ const Header = () => {
         ref={(self) => self && (popupRef.current = self)}
         className="bg-transparent rounded-xl w-full max-w-screen-md h-full"
       >
-        <div className="flex justify-end px-4 xl:p-2 -mb-2">
+        <div className="flex justify-end px-4 -mb-2">
           <button
             className="p-2 opacity-80 hover:opacity-100 text-white"
             onClick={() => popupRef.current?.close()}
