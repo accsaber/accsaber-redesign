@@ -42,7 +42,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       headers
     ),
   ]);
-  throw typeof leaderboard;
 
   return json(
     {
