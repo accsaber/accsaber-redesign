@@ -1,19 +1,6 @@
 import axios from "axios";
 import config from "./config";
-import { createClient } from "redis";
 import { getPlayer } from "./player";
-
-const rawClient = createClient({
-  url: config.redisURL,
-});
-
-export const client = new Proxy(rawClient, {
-  get(_, p) {
-    return () => {
-      throw new Error(`Redis client ${String(p)} called`);
-    };
-  },
-});
 
 const apiFetcher = axios.create({
   baseURL: config.apiURL,

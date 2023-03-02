@@ -1,8 +1,7 @@
 import type { Player } from "../interfaces/api/player";
 import type { PlayerScore } from "../interfaces/api/player-score";
-import CampaignStatus from "../interfaces/campaign/campaignStatus";
-import { getCategories } from "./category";
-import apiFetcher, { client, getJSON } from "./fetcher";
+import type CampaignStatus from "../interfaces/campaign/campaignStatus";
+import apiFetcher, { getJSON } from "./fetcher";
 
 export const playerExpiry = 86400; // 1 hour
 export const refreshAfter = 120; // 2 minutes
