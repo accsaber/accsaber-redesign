@@ -2,6 +2,7 @@ import type { PlayerLayoutQuery } from "$gql";
 import { PlayerLayoutDocument } from "$gql";
 import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
+import { getImaginaryURL } from "@/CDNImage";
 import PlayerHeader from "@/PlayerHeader";
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -26,9 +27,11 @@ export const meta: MetaFunction = ({ data }: { data: PlayerLayoutData }) => ({
 const getPlayerImage = (playerId: string) =>
   playerId.startsWith("7")
     ? fetch(
-        `https://cdn.accsaber.com/imaginary/crop?file=%2Favatars%2F${encodeURIComponent(
-          playerId.toString()
-        )}.jpg&width=33&height=13&type=webp`
+        getImaginaryURL(
+          { src: `avatars/${playerId}.jpg`, width: 33, height: 13 },
+          "webp",
+          "crop"
+        )
       ).then((res) => res.arrayBuffer())
     : null;
 
