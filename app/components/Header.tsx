@@ -157,7 +157,7 @@ const Header = () => {
               }`}
             />
           </NavLink>
-          <nav className="flex-1 hidden gap-1.5 md:flex">
+          <nav className="flex-1 flex gap-1.5">
             {headerItems.map(({ href, name, match, icon }) => (
               <NavLink
                 to={href}
@@ -169,27 +169,26 @@ const Header = () => {
                   } flex gap-2  relative group `
                 }
               >
-                <div className="hidden">{icon}</div>
-                <div className="2xl:left-full">{name}</div>
+                <div className="md:hidden">{icon}</div>
+                <div className="hidden md:block">{name}</div>
               </NavLink>
             ))}
             <a
               href="https://wiki.accsaber.com"
               className="headerNav flex gap-2 relative group"
             >
-              <div className="hidden">
+              <div className="md:hidden">
                 <BookOpenIcon className="w-6 h-6" />
               </div>
-              <div className="xl:tooltip">Wiki</div>
+              <div className="hidden md:block">Wiki</div>
             </a>
           </nav>
-          <nav className="hidden md:flex items-center gap-2">
+          <nav className="hidden sm:flex items-center gap-2">
             <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
           </nav>
-          <div className="flex-1 text-lg md:hidden">AccSaber</div>
           <button
             onClick={() => setMenu(true)}
-            className="p-3 headerNav md:hidden"
+            className="p-3 headerNav sm:hidden"
           >
             <MenuIcon className="w-5 h-5" />
           </button>

@@ -30,7 +30,7 @@ body {
   }
 
   .headerNav {
-    @apply rounded p-4 py-2 items-center gap-2;
+    @apply rounded p-2 md:px-4 items-center gap-2;
   }
   .headerNav:hover,
   .headerNav.active {
