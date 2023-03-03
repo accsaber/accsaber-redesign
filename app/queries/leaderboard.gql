@@ -8,6 +8,19 @@ fragment LeaderboardCategoryInfo on Query {
   }
 }
 
+fragment CategoryPlayer on CategoryAccSaberPlayer {
+  ranking
+  rankingLastWeek
+  playerId
+  playerName
+  ap
+  averageAcc
+  rankedPlays
+  averageApPerMap
+  hmd
+  categoryName
+}
+
 query OverallLeaderboard($pageSize: Int!, $offset: Int) {
   ...LeaderboardCategoryInfo
   overallAccSaberPlayers(first: $pageSize, offset: $offset, orderBy: AP_DESC) {
@@ -35,15 +48,7 @@ query CategoryLeaderboard($category: String!, $pageSize: Int!, $offset: Int) {
     orderBy: AP_DESC
   ) {
     nodes {
-      ranking
-      rankingLastWeek
-      playerId
-      playerName
-      ap
-      averageAcc
-      rankedPlays
-      averageApPerMap
-      hmd
+      ...CategoryPlayer
     }
     totalCount
   }

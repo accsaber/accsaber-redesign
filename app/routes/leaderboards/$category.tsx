@@ -106,7 +106,7 @@ export default function LeaderboardsPage() {
               </tr>
             </thead>
             <tbody>
-              {standings.map((player, n) => (
+              {standings?.map((player, n) => (
                 <PlayerRow
                   player={player}
                   key={player.playerId}
