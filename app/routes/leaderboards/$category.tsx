@@ -46,22 +46,28 @@ export const loader = async ({
       standings: categoryAccSaberPlayers?.nodes,
       page,
       pages: Math.ceil((categoryAccSaberPlayers?.totalCount ?? 0) / 50),
+      totalCount: categoryAccSaberPlayers?.totalCount,
     },
     { headers }
   );
 };
 
-const categoryMap = new Map([
-  ["true", " True Acc"],
-  ["standard", " Standard Acc"],
-  ["tech", " Tech Acc"],
-  ["overall", " overall"],
+export const categoryMap = new Map([
+  ["true", "True Acc"],
+  ["standard", "Standard Acc"],
+  ["tech", "Tech Acc"],
 ]);
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  // ungodly hack to do some type coersion
   return {
-    title: `AccSaber${categoryMap.get(data.category) ?? ""} leaderboard`,
+    title: `AccSaber ${
+      categoryMap.get(data.category) ?? data.category
+    } leaderboard`,
+    description: `${
+      data.totalCount
+    } Beat Saber players, ranked by their ${categoryMap.get(
+      data.category
+    )} scores`,
   };
 };
 
@@ -107,11 +113,7 @@ export default function LeaderboardsPage() {
             </thead>
             <tbody>
               {standings?.map((player, n) => (
-                <PlayerRow
-                  player={player}
-                  key={player.playerId}
-                  current={category}
-                />
+                <PlayerRow player={player} key={player.playerId} />
               ))}
             </tbody>
           </table>

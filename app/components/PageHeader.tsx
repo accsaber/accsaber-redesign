@@ -160,6 +160,7 @@ const PageHeader: React.FC<{
           <button
             onClick={() => setMenu(true)}
             className="p-3 -mr-2 headerNav md:hidden"
+            aria-label="Page Menu"
           >
             <MenuIcon className="w-5 h-5" />
           </button>

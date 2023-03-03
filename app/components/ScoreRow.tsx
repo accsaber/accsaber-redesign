@@ -21,7 +21,11 @@ export default function ScoreRow({
       <td>#{score.ranking}</td>
 
       <td className="relative min-w-[2.5rem]">
-        <NavLink prefetch={"intent"} to={`/maps/${score.leaderboardId}`}>
+        <NavLink
+          prefetch={"intent"}
+          to={`/maps/${score.leaderboardId}`}
+          aria-label=""
+        >
           {({ isPending }) => (
             <>
               <MapCover
@@ -30,6 +34,7 @@ export default function ScoreRow({
                 width={40}
                 className="absolute top-0 left-0 m-0"
                 height={40}
+                alt=""
               />
               {isPending && (
                 <div className="absolute top-0 left-0 w-10 h-10 flex bg-white/80 dark:bg-black/50">

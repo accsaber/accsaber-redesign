@@ -23,6 +23,7 @@ const pageSize = 25;
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   title: `${data.map.beatMap?.song?.songName} | AccSaber`,
+  description: `${data.map.beatMap?.song?.songName}: A ranked ${data.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
 });
 
 const getMapImage = (songHash: string) =>

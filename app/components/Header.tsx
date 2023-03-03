@@ -45,6 +45,7 @@ const ActionSection = ({
       <NavLink
         className="p-3 headerNav"
         to="/search"
+        aria-label="Search"
         onClick={(e) => {
           e.preventDefault();
           popupRef.current?.showModal();
@@ -163,6 +164,7 @@ const Header = () => {
                 to={href}
                 key={href}
                 prefetch="intent"
+                aria-label={name}
                 className={({ isActive }) =>
                   `headerNav${
                     isActive || match?.test(pathname ?? "") ? " active" : ""
@@ -176,6 +178,7 @@ const Header = () => {
             <a
               href="https://wiki.accsaber.com"
               className="headerNav flex gap-2 relative group"
+              aria-label="Wiki"
             >
               <div className="md:hidden">
                 <BookOpenIcon className="w-6 h-6" />
@@ -189,6 +192,7 @@ const Header = () => {
           <button
             onClick={() => setMenu(true)}
             className="p-3 headerNav sm:hidden"
+            aria-label="Show Menu"
           >
             <MenuIcon className="w-5 h-5" />
           </button>

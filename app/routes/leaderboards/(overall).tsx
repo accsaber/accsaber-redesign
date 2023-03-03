@@ -1,9 +1,18 @@
 import { OverallLeaderboardDocument } from "$gql";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
-import { pageSize } from "./$category";
+import { categoryMap, pageSize } from "./$category";
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return {
+    title: `AccSaber ${
+      categoryMap.get(data.category) ?? data.category
+    } leaderboard`,
+    description: `${data.totalCount} Beat Saber players, ranked by all of their scores on AccSaber maps`,
+  };
+};
 
 export const loader = async ({ request }: LoaderArgs) => {
   const { searchParams } = new URL(request.url);
@@ -25,6 +34,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       standings: overallAccSaberPlayers?.nodes,
       page,
       pages: Math.ceil((overallAccSaberPlayers?.totalCount ?? 0) / 50),
+      totalCount: overallAccSaberPlayers?.totalCount,
     },
     { headers }
   );

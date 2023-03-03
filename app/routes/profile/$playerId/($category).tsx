@@ -8,6 +8,7 @@ import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import config from "~/lib/api/config";
 import { getPlayer } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
@@ -20,8 +21,17 @@ interface PlayerLayoutData {
   category: string;
 }
 
-export const meta: MetaFunction = ({ data }: { data: PlayerLayoutData }) => ({
-  title: `${data?.profile?.playerName}'s Profile | AccSaber`,
+export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
+  title: `${profile.playerName}'s Profile | AccSaber`,
+  description: `
+  Rank: #${profile.rank}
+  AP: ${profile.ap.toLocaleString(config.defaultLocale, {
+    maximumFractionDigits: 2,
+  })}
+  ${profile.rankedPlays.toLocaleString(config.defaultLocale)} Ranked Plays
+  ${profile.hmd}`
+    .trim()
+    .replace(/\n +/g, "\n"),
 });
 
 const getPlayerImage = (playerId: string) =>

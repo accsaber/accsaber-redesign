@@ -134,6 +134,7 @@ export default function ScoreHistoryButton({
           historyDialog.current?.showModal();
           setShown(true);
         }}
+        aria-label="Score History"
         className="inline align-middle"
       >
         <ChartBarIcon className="w-4 h-6" />

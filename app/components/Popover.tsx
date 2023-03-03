@@ -13,6 +13,7 @@ const PopoverMenu = ({
         `fixed top-0 left-0 z-50 w-full h-full bg-black/50 `,
         visible ? "" : "hidden",
       ].join(" ")}
+      aria-hidden={!visible}
     />
     <aside
       className={[

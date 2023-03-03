@@ -3,7 +3,7 @@ import { BeatMapsOrderBy, RankedMapsDocument } from "$gql";
 import GQLSortButton from "@/GQLSortButton";
 import MapRow from "@/MapRow";
 import PageHeader from "@/PageHeader";
-import type { LoaderFunction, MetaFunction} from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useRef } from "react";
@@ -28,6 +28,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const meta: MetaFunction = () => ({
   title: "AccSaber Ranked Maps",
+  description: "Every ranked map on AccSaber",
 });
 
 export default function RankedMapsPage() {
