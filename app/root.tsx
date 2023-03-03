@@ -1,10 +1,5 @@
-import {
-  LinksFunction,
-  LoaderArgs,
-  LoaderFunction,
-  MetaFunction,
-  defer,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import { defer } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import styles from "~/styles/app.css";
 import {
@@ -22,11 +17,13 @@ import Header from "@/Header";
 import LoadingSpinner from "@/LoadingSpinner";
 import logo from "~/images/logo.webp";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { getPlayer } from "./lib/api/fetcher";
 import { user } from "./lib/cookies";
 import type { Player } from "$interfaces/api/player";
 import UserContext from "@/UserContext";
 import DarkModeContext from "@/DarkModeContext";
+import { gqlClient } from "./lib/api/gql";
+import { UserContextDocument } from "$gql";
+import { withTiming } from "./lib/timing";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -45,15 +42,37 @@ export const loader = async ({ request }: LoaderArgs) => {
     (await user.parse(cookieHeader)) || {};
   const headers = new Headers();
 
-  const currentUser = userCookie.userId ? getPlayer(userCookie.userId) : null;
+  const currentUser = userCookie.userId
+    ? gqlClient
+        .request(UserContextDocument, { playerId: userCookie.userId })
+        .then(withTiming(headers, "playerData", "Get current user info"))
+        .then((p) => p.playerDatum)
+    : Promise.resolve(null);
 
-  return defer(
-    {
-      user: currentUser,
-      dark: userCookie.dark,
-    },
-    { headers }
-  );
+  return await Promise.race([
+    json(
+      {
+        user: await currentUser,
+        dark: userCookie.dark,
+      },
+      { headers }
+    ),
+    new Promise((resolve) =>
+      setTimeout(
+        () =>
+          resolve(
+            defer(
+              {
+                user: currentUser,
+                dark: userCookie.dark,
+              },
+              { headers }
+            )
+          ),
+        100
+      )
+    ),
+  ]);
 };
 
 export default function App() {
