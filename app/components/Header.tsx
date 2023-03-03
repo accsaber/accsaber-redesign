@@ -132,7 +132,7 @@ const Header = () => {
       <header
         className={[
           "text-white bg-gradient-to-l top-0",
-          "from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800",
+          "from-blue-600 to-purple-600",
         ].join(" ")}
       >
         <div className="flex items-center max-w-screen-lg gap-1.5 p-2 mx-auto">
