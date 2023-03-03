@@ -1,6 +1,4 @@
 import { CategoryLeaderboardDocument } from "$gql";
-import type { Category } from "$interfaces/api/category";
-import type { Player } from "$interfaces/api/player";
 import PageHeader from "@/PageHeader";
 import Pagination from "@/Pagination";
 import PlayerRow from "@/PlayerRow";
@@ -10,14 +8,6 @@ import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
-
-interface LeaderboardData {
-  categories: Category[];
-  category: string;
-  standings: Player[];
-  page: number;
-  pages: number;
-}
 
 export const pageSize = 50;
 

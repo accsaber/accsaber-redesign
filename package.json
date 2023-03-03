@@ -46,6 +46,7 @@
     "@graphql-typed-document-node/core": "^3.1.1",
     "@remix-run/dev": "^1.13.0",
     "@remix-run/eslint-config": "^1.13.0",
+    "@total-typescript/ts-reset": "^0.3.7",
     "@types/chart.js": "^2.9.37",
     "@types/luxon": "^3.2.0",
     "@types/ms": "^0.7.31",

@@ -18,6 +18,7 @@ specifiers:
   '@remix-run/serve': ^1.13.0
   '@tailwindcss/typography': ^0.5.9
   '@tanstack/react-query': ^4.24.6
+  '@total-typescript/ts-reset': ^0.3.7
   '@types/chart.js': ^2.9.37
   '@types/luxon': ^3.2.0
   '@types/ms': ^0.7.31
@@ -82,6 +83,7 @@ devDependencies:
   '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
   '@remix-run/dev': 1.13.0_cfdthv2uspz5a76lrm5wf26biy
   '@remix-run/eslint-config': 1.13.0_km5ddj7uwb23cqeymeyvzjsfb4
+  '@total-typescript/ts-reset': 0.3.7
   '@types/chart.js': 2.9.37
   '@types/luxon': 3.2.0
   '@types/ms': 0.7.31
@@ -3119,6 +3121,10 @@ packages:
   /@tootallnate/once/2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
+    dev: true
+
+  /@total-typescript/ts-reset/0.3.7:
+    resolution: {integrity: sha512-yXt2BRRVCJVvzWaxac5n0nCXzIrQEBE/MeYlNQ8/Iq7UeelNmm/AdnUAu18ilSS893mbEQ4u6whPt/HvOPc4rw==}
     dev: true
 
   /@tsconfig/node10/1.0.9:
