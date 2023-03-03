@@ -14,14 +14,14 @@ export const getImaginaryURL = (
   action = "resize"
 ) => {
   const targetURL = new URL(image.src, "https://cdn.accsaber.com");
-  const targetPath = new URL(`https://cdn.accsaber.com/imaginary/${action}`);
-  if (targetURL.hostname === "cdn.accsaber.com")
-    targetPath.searchParams.set("file", targetURL.pathname);
-  else targetPath.searchParams.set("url", image.src);
+  const isCDN = targetURL.hostname === "cdn.accsaber.com";
+  const targetPath = isCDN
+    ? targetURL
+    : new URL(`https://cdn.accsaber.com/imaginary/${action}`);
+  if (!isCDN) targetPath.searchParams.set("url", image.src);
   targetPath.searchParams.set("width", image.width.toString());
   targetPath.searchParams.set("height", image.height.toString());
-  targetPath.searchParams.set("type", format);
-  if (format == "jpeg") targetPath.searchParams.set("quality", "80");
+  if (!isCDN || format !== "auto") targetPath.searchParams.set("type", format);
 
   return targetPath;
 };
@@ -47,7 +47,7 @@ const CDNImage = (props: CDNImageProps) => {
           width: props.width,
           height: props.height,
         },
-        "jpeg"
+        "auto"
       ).toString()}
       srcSet={scales
         .map(
@@ -58,7 +58,7 @@ const CDNImage = (props: CDNImageProps) => {
                 width: props.width * scale,
                 height: props.height * scale,
               },
-              "webp"
+              "auto"
             ) + ` ${scale}x`
         )
         .join(", ")}
