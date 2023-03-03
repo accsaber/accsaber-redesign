@@ -16,13 +16,11 @@ const DifficultyLabel: React.FC<{ children: string }> = ({ children }) => {
   return (
     <>
       <div
-        className={`inline-block rounded-full w-4 h-4 align-middle ${
+        className={`inline-block rounded-full w-[1em] h-[1em] align-middle -mt-1 ${
           colours.get(children.toLowerCase().trim()) ?? ""
         }`}
       />{" "}
-      <div className="align-middle inline-block">
-        {names.get(children.toLowerCase()) ?? children[0].toUpperCase()}
-      </div>
+      {names.get(children.toLowerCase()) ?? children[0].toUpperCase()}
     </>
   );
 };
