@@ -24,7 +24,7 @@ export default function ScoreRow({
         <NavLink
           prefetch={"intent"}
           to={`/maps/${score.leaderboardId}`}
-          aria-label=""
+          aria-label={score.songName ?? ""}
         >
           {({ isPending }) => (
             <>
@@ -34,7 +34,7 @@ export default function ScoreRow({
                 width={40}
                 className="absolute top-0 left-0 m-0"
                 height={40}
-                alt=""
+                alt={score.songName ?? ""}
               />
               {isPending && (
                 <div className="absolute top-0 left-0 w-10 h-10 flex bg-white/80 dark:bg-black/50">

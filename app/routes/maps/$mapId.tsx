@@ -169,7 +169,7 @@ export default function MapPage() {
               className="w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square"
             />
             <div className="flex flex-col gap-1">
-              <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row">
+              <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row items-center">
                 <div className="max-w-md overflow-hidden whitespace-nowrap text-ellipsis">
                   {map?.song?.songAuthorName}
                 </div>{" "}

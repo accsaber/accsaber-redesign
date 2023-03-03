@@ -1,9 +1,9 @@
 const DifficultyLabel: React.FC<{ children: string }> = ({ children }) => {
   const colours = new Map([
-    ["easy", "bg-green-300 text-black"],
+    ["easy", "bg-green-400 text-black"],
     ["normal", "bg-blue-600 text-white"],
-    ["hard", "bg-orange-500 text-white"],
-    ["expert", "bg-red-500 text-white"],
+    ["hard", "bg-orange-500 text-black"],
+    ["expert", "bg-red-600 text-white"],
     ["expertplus", "bg-purple-600 text-white"],
   ]);
   const names = new Map([
@@ -14,13 +14,16 @@ const DifficultyLabel: React.FC<{ children: string }> = ({ children }) => {
     ["expertplus", "Expert+"],
   ]);
   return (
-    <div
-      className={`inline-block rounded px-[0.25em] [text-decoration:none] ${
-        colours.get(children.toLowerCase().trim()) ?? ""
-      }`}
-    >
-      {names.get(children.toLowerCase()) ?? children[0].toUpperCase()}
-    </div>
+    <>
+      <div
+        className={`inline-block rounded-full w-4 h-4 align-middle ${
+          colours.get(children.toLowerCase().trim()) ?? ""
+        }`}
+      />{" "}
+      <div className="align-middle inline-block">
+        {names.get(children.toLowerCase()) ?? children[0].toUpperCase()}
+      </div>
+    </>
   );
 };
 
