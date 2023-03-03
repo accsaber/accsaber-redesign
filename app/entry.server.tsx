@@ -26,7 +26,7 @@ export default function handleRequest(
           const body = new PassThrough();
 
           responseHeaders.set("Content-Type", "text/html; charset=utf-8");
-          responseHeaders.append("Link", `${styles}; rel=prefetch`);
+          responseHeaders.append("Link", `<${styles}>; rel=preload; as=style`);
 
           const readyTime = now() - startTime;
           responseHeaders.append(
