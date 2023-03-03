@@ -16,5 +16,9 @@ export default function GraphiQLPage() {
           url: config.gqlURL,
         })
       : () => ({});
-  return <GraphiQLEditor fetcher={fetcher} />;
+  return (
+    <div className="flex-1">
+      <GraphiQLEditor fetcher={fetcher} />
+    </div>
+  );
 }

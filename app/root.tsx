@@ -78,10 +78,15 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function App() {
   const queryClient = new QueryClient({});
   const { user, dark: darkSetting } = useLoaderData<typeof loader>();
-  const [dark, setDarkMode] = useState(darkSetting ?? false);
+  const [dark, setDarkMode] = useState<boolean>(darkSetting ?? false);
 
   return (
-    <DarkModeContext.Provider value={{ dark, setDarkMode }}>
+    <DarkModeContext.Provider
+      value={{
+        dark,
+        setDarkMode,
+      }}
+    >
       <UserContext.Provider value={(user as Promise<Player>) ?? null}>
         <html lang="en" className="h-full">
           <head>
@@ -93,7 +98,7 @@ export default function App() {
               dark
                 ? `dark graphiql-dark bg-neutral-900 text-white`
                 : `graphiql-light bg-white text-neutral-900`
-            } overflow-auto`}
+            } overflow-auto flex flex-col`}
           >
             <Header />
             <QueryClientProvider client={queryClient}>
