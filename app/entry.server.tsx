@@ -19,7 +19,6 @@ export default function handleRequest(
   return new Promise((resolve, reject) => {
     let didError = false;
 
-    const { hostname } = new URL(request.url);
     const nonce = Buffer.from(
       Math.random().toString().replace(/^0\./, "")
     ).toString("base64");
@@ -47,7 +46,7 @@ export default function handleRequest(
           if (process.env.NODE_ENV == "production")
             responseHeaders.append(
               "Content-Security-Policy",
-              `default-src 'self' https://gql.accsaber.com; img-src 'self' data: https:; style-src 'self'; script-src 'self' 'nonce-${nonce}';`
+              `default-src 'self' https://gql.accsaber.com; img-src 'self' data: https:; style-src 'self'; script-src 'self' 'nonce-${nonce}'; object-src 'none'; base-uri 'self';`
             );
           responseHeaders.append(
             "permissions-policy",
