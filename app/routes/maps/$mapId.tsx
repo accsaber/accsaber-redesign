@@ -25,8 +25,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   description: `${data.map.beatMap?.song?.songName}: A ranked ${data.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
   "og:image": getImaginaryURL(
     {
-      width: 96,
-      height: 96,
+      width: 256,
+      height: 256,
       src: `covers/${data.map.beatMap?.song?.songHash.toUpperCase()}.png`,
     },
     "jpeg"
