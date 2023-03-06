@@ -23,6 +23,14 @@ const pageSize = 25;
 export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   title: `${data.map.beatMap?.song?.songName} | AccSaber`,
   description: `${data.map.beatMap?.song?.songName}: A ranked ${data.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
+  "og:image": getImaginaryURL(
+    {
+      width: 96,
+      height: 96,
+      src: `covers/${data.map.beatMap?.song?.songHash.toUpperCase()}.png`,
+    },
+    "jpeg"
+  ).toString(),
 });
 
 const getMapImage = (songHash: string) =>

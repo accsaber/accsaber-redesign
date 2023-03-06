@@ -32,6 +32,16 @@ export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
   ${profile.hmd}`
     .trim()
     .replace(/\n +/g, "\n"),
+  "og:image": profile.playerId.startsWith("7")
+    ? getImaginaryURL(
+        {
+          width: 96,
+          height: 96,
+          src: `avatars/${profile.playerId}.png`,
+        },
+        "jpeg"
+      ).toString()
+    : `/api/avatar/${profile.playerId}`,
 });
 
 const getPlayerImage = (playerId: string) =>
