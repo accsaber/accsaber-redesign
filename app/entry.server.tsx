@@ -4,6 +4,7 @@ import { Response } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToPipeableStream } from "react-dom/server";
 import styles from "./styles/app.css";
+import NonceContext from "@/NonceContext";
 
 const ABORT_DELAY = 5000;
 
@@ -18,9 +19,16 @@ export default function handleRequest(
   return new Promise((resolve, reject) => {
     let didError = false;
 
+    const { hostname } = new URL(request.url);
+    const nonce = Buffer.from(
+      Math.random().toString().replace(/^0\./, "")
+    ).toString("base64");
+
     const startTime = now();
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
+      <NonceContext.Provider value={nonce}>
+        <RemixServer context={remixContext} url={request.url} />
+      </NonceContext.Provider>,
       {
         onShellReady() {
           const body = new PassThrough();
@@ -32,6 +40,22 @@ export default function handleRequest(
           responseHeaders.append(
             "Server-Timing",
             `render;desc="Render Page";dur=${readyTime}`
+          );
+          responseHeaders.append("X-Frame-Options", "SAMEORIGIN");
+          responseHeaders.append("X-Content-Type-Options", "nosniff");
+          responseHeaders.append("Referrer-policy", "same-origin");
+          if (process.env.NODE_ENV == "production")
+            responseHeaders.append(
+              "Content-Security-Policy",
+              `default-src 'self' https://gql.accsaber.com; img-src 'self' data: https:; style-src 'self'; script-src 'self' 'nonce-${nonce}';`
+            );
+          responseHeaders.append(
+            "permissions-policy",
+            "web-share(self), autoplay=(self)"
+          );
+          responseHeaders.append(
+            "strict-transport-security",
+            "max-age=63072000; includeSubDomains; preload"
           );
           resolve(
             new Response(body, {

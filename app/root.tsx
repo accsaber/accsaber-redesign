@@ -24,6 +24,7 @@ import DarkModeContext from "@/DarkModeContext";
 import { gqlClient } from "./lib/api/gql";
 import { UserContextDocument } from "$gql";
 import { withTiming } from "./lib/timing";
+import { useNonce } from "@/NonceContext";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -80,6 +81,8 @@ export default function App() {
   const { user, dark: darkSetting } = useLoaderData<typeof loader>();
   const [dark, setDarkMode] = useState<boolean>(darkSetting ?? false);
 
+  const nonce = useNonce();
+
   return (
     <DarkModeContext.Provider
       value={{
@@ -115,8 +118,8 @@ export default function App() {
                 <Outlet />
               </Suspense>
             </QueryClientProvider>
-            <ScrollRestoration />
-            <Scripts />
+            <ScrollRestoration nonce={nonce} />
+            <Scripts nonce={nonce} />
             <LiveReload />
           </body>
         </html>
@@ -127,6 +130,7 @@ export default function App() {
 
 export function CatchBoundary() {
   const caught = useCatch();
+  const nonce = useNonce();
   return (
     <html className="h-full">
       <head>
@@ -171,7 +175,8 @@ export function CatchBoundary() {
             )}
           </div>
         </div>
-        <Scripts />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   );
