@@ -10,16 +10,19 @@ interface CDNSource {
   height: number;
 }
 
-export const getImaginaryURL = (image: CDNSource, format: string) => {
+export const getImaginaryURL = (
+  image: CDNSource,
+  format = "auto",
+  action = "thumbnail"
+) => {
   const targetURL = new URL(image.src, "https://cdn.accsaber.com");
-  const targetPath = new URL("https://cdn.accsaber.com/imaginary/resize");
-  if (targetURL.hostname === "cdn.accsaber.com")
-    targetPath.searchParams.set("file", targetURL.pathname);
-  else targetPath.searchParams.set("url", image.src);
+  const isCDN = targetURL.hostname === "cdn.accsaber.com";
+  const targetPath = new URL(`https://cdn.accsaber.com/imaginary/${action}`);
+  if (!isCDN) targetPath.searchParams.set("url", image.src);
+  else targetPath.searchParams.set("file", targetURL.pathname);
   targetPath.searchParams.set("width", image.width.toString());
   targetPath.searchParams.set("height", image.height.toString());
   targetPath.searchParams.set("type", format);
-  if (format == "jpeg") targetPath.searchParams.set("quality", "80");
 
   return targetPath;
 };
