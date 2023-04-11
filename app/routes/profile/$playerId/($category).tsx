@@ -7,19 +7,13 @@ import PlayerHeader from "@/PlayerHeader";
 import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
+import Avatar from "boring-avatars";
+import { renderToStaticMarkup } from "react-dom/server";
 import invariant from "tiny-invariant";
 import config from "~/lib/api/config";
 import { getPlayer } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
-
-interface PlayerLayoutData {
-  playerId: string;
-  profile: Player;
-  campaignStatus: CampaignStatus[];
-  queryData: PlayerLayoutQuery;
-  category: string;
-}
 
 export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
   title: `${profile.playerName}'s Profile | AccSaber`,
@@ -44,16 +38,20 @@ export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
     : `/api/avatar/${profile.playerId}`,
 });
 
-const getPlayerImage = (playerId: string) =>
+const getPlayerImage = async (playerId: string) =>
   playerId.startsWith("7")
-    ? fetch(
-        getImaginaryURL(
-          { src: `avatars/${playerId}.jpg`, width: 33, height: 13 },
-          "webp",
-          "crop"
-        )
-      ).then((res) => res.arrayBuffer())
-    : null;
+    ? `data:image/webp;base64,${Buffer.from(
+        await fetch(
+          getImaginaryURL(
+            { src: `avatars/${playerId}.jpg`, width: 33, height: 13 },
+            "webp",
+            "crop"
+          )
+        ).then((res) => res.arrayBuffer())
+      ).toString("base64")}`
+    : `data:image/svg+xml;base64,${Buffer.from(
+        renderToStaticMarkup(<Avatar name="test" />)
+      ).toString("base64")}`;
 
 export const loader = async ({
   params: { playerId, category = "overall" },
@@ -97,9 +95,7 @@ export const loader = async ({
       campaignStatus: queryData.campaign?.playerCampaignInfo,
       queryData,
       category,
-      blurData: blurData
-        ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
-        : null,
+      blurData,
     },
     { headers }
   );

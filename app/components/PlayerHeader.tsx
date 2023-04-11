@@ -118,21 +118,13 @@ export default function PlayerHeader({
       </PageHeader>
       <div className="relative pb-48 -mb-48 overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
-        {miniblur ? (
-          <img
-            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
-            alt=""
-            src={miniblur}
-          />
-        ) : (
-          <PlayerAvatar
-            className={`absolute top-0 left-0 object-cover w-full opacity-60  h-full ${
-              !profile.playerId.startsWith("7") ? "" : "blur-3xl"
-            }`}
-            profile={profile}
-            variant="marble"
-          />
-        )}
+
+        <img
+          className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
+          alt=""
+          src={miniblur ?? `/api/avatar/${profile.playerId}`}
+        />
+
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white/20 to-white dark:from-black/40 dark:to-neutral-900" />
         <div
           className={[
