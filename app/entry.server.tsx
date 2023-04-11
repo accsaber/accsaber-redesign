@@ -46,12 +46,9 @@ export default function handleRequest(
           if (process.env.NODE_ENV == "production")
             responseHeaders.append(
               "Content-Security-Policy",
-              `default-src 'self' https://gql.accsaber.com; img-src 'self' data: https:; style-src 'self'; script-src 'self' 'nonce-${nonce}'; object-src 'none'; base-uri 'self';`
+              `default-src 'self' https://gql.accsaber.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'nonce-${nonce}'; object-src 'none'; base-uri 'self';`
             );
-          responseHeaders.append(
-            "permissions-policy",
-            "web-share(self), autoplay=(self)"
-          );
+          responseHeaders.append("permissions-policy", "autoplay=(self)");
           responseHeaders.append(
             "strict-transport-security",
             "max-age=63072000; includeSubDomains; preload"
