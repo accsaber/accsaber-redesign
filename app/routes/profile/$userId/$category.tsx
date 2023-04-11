@@ -1,13 +1,7 @@
-import type { LoaderArgs, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  CatchBoundaryComponent,
-  Form,
-  Link,
-  Outlet,
-  useCatch,
-  useLoaderData,
-} from "@remix-run/react";
+import type { CatchBoundaryComponent } from "@remix-run/react";
+import { Form, Link, Outlet, useCatch, useLoaderData } from "@remix-run/react";
 import { AxiosError } from "axios";
 import invariant from "tiny-invariant";
 import { getCategories } from "~/lib/api/category";
@@ -17,6 +11,7 @@ import {
   getPlayerCampaignLevel,
   getPlayerRankHistory,
 } from "~/lib/api/player";
+import { renderToStaticMarkup } from "react-dom/server";
 import RankGraph from "~/lib/components/rankGraph";
 import SkillTriangle from "~/lib/components/skillTriangle";
 import type { Category } from "~/lib/interfaces/api/category";
@@ -30,6 +25,7 @@ import UserContext from "~/lib/components/userContext";
 import scoresaberLogo from "~/lib/images/scoresaber.svg";
 import PlayerAvatar from "~/lib/components/PlayerAvatar";
 import { getImaginaryURL } from "~/lib/components/CDNImage";
+import Avatar from "boring-avatars";
 
 export const CatchBoundary: CatchBoundaryComponent = () => {
   const caught = useCatch();
@@ -88,16 +84,20 @@ export const meta: MetaFunction = ({
   "og:type": "profile.accsaber",
 });
 
-const getPlayerImage = (playerId: string) =>
+const getPlayerImage = async (playerId: string) =>
   playerId.startsWith("7")
-    ? fetch(
-        getImaginaryURL(
-          { src: `avatars/${playerId}.jpg`, width: 33, height: 13 },
-          "webp",
-          "crop"
-        )
-      ).then((res) => res.arrayBuffer())
-    : null;
+    ? `data:image/webp;base64,${Buffer.from(
+        await fetch(
+          getImaginaryURL(
+            { src: `avatars/${playerId}.jpg`, width: 33, height: 13 },
+            "webp",
+            "crop"
+          )
+        ).then((res) => res.arrayBuffer())
+      ).toString("base64")}`
+    : `data:image/svg+xml;base64,${Buffer.from(
+        renderToStaticMarkup(<Avatar name="test" />)
+      ).toString("base64")}`;
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.userId, "Expected User ID");
@@ -134,9 +134,7 @@ export const loader = async ({ params }: LoaderArgs) => {
         skills: await getSkills(params.userId),
         campaignStatus,
         category,
-        blurData: blurData
-          ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
-          : null,
+        blurData,
       },
       {
         headers,
@@ -218,21 +216,12 @@ const ProfileRoute = () => {
         )}
       </UserContext.Consumer>
       <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-        {blurData ? (
-          <img
-            className="absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 blur-3xl"
-            alt=""
-            src={blurData}
-          />
-        ) : (
-          <PlayerAvatar
-            className={`absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 ${
-              !profile.playerId.startsWith("7") ? "" : "blur-3xl"
-            }`}
-            profile={profile}
-            variant="marble"
-          />
-        )}
+        <div
+          className="absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 blur-3xl"
+          style={{
+            background: `url(${blurData}) center / cover`,
+          }}
+        />
         <div
           className={[
             "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
