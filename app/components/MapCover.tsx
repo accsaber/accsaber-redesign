@@ -19,9 +19,7 @@ const MapCover = (props: CoverProps) => (
     preserveAspectRatio="xMidYMid slice"
     {...{
       ...props,
-      profile: undefined,
-      highestLevel: undefined,
-      loading: undefined,
+      songHash: undefined,
     }}
   >
     <BoringAvatar
