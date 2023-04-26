@@ -5,5 +5,6 @@ module.exports = {
 
   future: {
     unstable_postcss: true,
+    v2_errorBoundary: true,
   },
 };
