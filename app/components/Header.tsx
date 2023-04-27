@@ -34,9 +34,11 @@ import { SearchPageBody as SearchPage } from "~/routes/search";
 const ActionSection = ({
   onClick,
   popupRef,
+  searchRef,
 }: {
   onClick: MouseEventHandler;
   popupRef: React.MutableRefObject<HTMLDialogElement | undefined>;
+  searchRef: React.MutableRefObject<HTMLInputElement | undefined>;
 }) => {
   const userPromise = useUser();
 
@@ -49,6 +51,7 @@ const ActionSection = ({
         onClick={(e) => {
           e.preventDefault();
           popupRef.current?.showModal();
+          searchRef.current?.focus();
         }}
       >
         <SearchIcon className="w-6 h-6" />
@@ -126,6 +129,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const { state } = useNavigation();
   const popupRef = useRef<HTMLDialogElement>();
+  const searchRef = useRef<HTMLInputElement>();
 
   return (
     <>
@@ -187,7 +191,11 @@ const Header = () => {
             </a>
           </nav>
           <nav className="hidden sm:flex items-center gap-2">
-            <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
+            <ActionSection
+              onClick={() => setMenu(false)}
+              popupRef={popupRef}
+              searchRef={searchRef}
+            />
           </nav>
           <button
             onClick={() => setMenu(true)}
@@ -228,7 +236,11 @@ const Header = () => {
         </nav>
         <hr className="dark:border-neutral-800" />
         <div className="flex items-center justify-end p-2 relative">
-          <ActionSection onClick={() => setMenu(false)} popupRef={popupRef} />
+          <ActionSection
+            onClick={() => setMenu(false)}
+            popupRef={popupRef}
+            searchRef={searchRef}
+          />
         </div>
       </PopoverMenu>
       <dialog
@@ -243,7 +255,10 @@ const Header = () => {
             <XIcon className="w-6 h-6" />
           </button>
         </div>
-        <SearchPage close={() => popupRef.current?.close()} />
+        <SearchPage
+          close={() => popupRef.current?.close()}
+          searchRef={(r) => (searchRef.current = r ?? undefined)}
+        />
       </dialog>
     </>
   );

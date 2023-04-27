@@ -6,6 +6,7 @@ import { search } from "./api/search";
 import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import type { Player } from "$interfaces/api/player";
 import type { RankedMap } from "$interfaces/api/ranked-map";
+import type { LegacyRef } from "react";
 import { useRef, useState } from "react";
 import LoadingSpinner from "@/LoadingSpinner";
 import { json } from "~/lib/api/fetcher";
@@ -34,9 +35,11 @@ const isMap = (i: RankedMap | Player): i is RankedMap => {
 export function SearchPageBody({
   loaderData = { query: "", results: [] },
   close,
+  searchRef,
 }: {
   loaderData?: SearchData;
   close?: () => void;
+  searchRef?: LegacyRef<HTMLInputElement>;
 }) {
   const { pathname } = useLocation();
 
@@ -88,6 +91,7 @@ export function SearchPageBody({
             className="flex-1 p-3 px-5 focus:outline-none bg-white dark:bg-neutral-800 dark:text-white"
             defaultValue={query}
             autoComplete={"off"}
+            ref={searchRef}
           />
           <button
             type="submit"
