@@ -16,6 +16,7 @@ import steamLogo from "~/images/steam.svg";
 import { useUser } from "./UserContext";
 import { UserPlusIcon } from "@heroicons/react/20/solid";
 import PlayerAvatar from "./PlayerAvatar";
+import CDNImage from "./CDNImage";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
 const RankGraph = lazy(() => import("@/RankGraph"));
@@ -49,10 +50,23 @@ export default function PlayerHeader({
       <PageHeader
         transparent
         image={
-          <PlayerAvatar
-            className={"w-8 h-8 rounded-full relative overflow-hidden"}
-            profile={profile}
-          />
+          miniblur && profile.playerId.startsWith("7") ? (
+            <CDNImage
+              width={144}
+              height={144}
+              className={"w-8 h-8 rounded-full relative overflow-hidden"}
+              alt=""
+              src={`avatars/${profile.playerId}.jpg`}
+              style={{
+                background: `url(${miniblur}) center / cover`,
+              }}
+            />
+          ) : (
+            <PlayerAvatar
+              className={"w-8 h-8 rounded-full relative overflow-hidden"}
+              profile={profile}
+            />
+          )
         }
         actionButton={
           <div className="flex flex-row-reverse gap-2">
@@ -128,11 +142,25 @@ export default function PlayerHeader({
       <div className="relative pb-48 -mb-48 overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
 
-        <img
-          className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
-          alt=""
-          src={miniblur ?? `/api/avatar/${profile.playerId}`}
-        />
+        {miniblur && profile.playerId.startsWith("7") ? (
+          <CDNImage
+            width={144}
+            height={144}
+            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
+            alt=""
+            src={`avatars/${profile.playerId}.jpg`}
+            style={{
+              background: `url(${miniblur}) center / cover`,
+            }}
+          />
+        ) : (
+          <div
+            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
+            style={{
+              background: `url(/api/avatar/${profile.playerId}) center / cover`,
+            }}
+          />
+        )}
 
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white/20 to-white dark:from-black/40 dark:to-neutral-900" />
         <div
@@ -141,18 +169,39 @@ export default function PlayerHeader({
             "max-w-screen-lg mx-auto flex-wrap justify-center relative",
           ].join(" ")}
         >
-          <PlayerAvatar
-            className={[
-              "w-36 h-36 rounded-2xl shadow-lg relative overflow-hidden border-4",
-              [
-                "border-[#3498db] shadow-[#3498db]/50",
-                "border-[#f1c40f] shadow-[#f1c40f]/50",
-                "border-[#1abc9c] shadow-[#1abc9c]/50",
-                "border-[#9c59b6] shadow-[#9c59b6]/50",
-              ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
-            ].join(" ")}
-            profile={profile}
-          />
+          {miniblur && profile.playerId.startsWith("7") ? (
+            <CDNImage
+              width={144}
+              height={144}
+              className={[
+                "w-36 h-36 rounded-2xl shadow-lg relative overflow-hidden border-4",
+                [
+                  "border-[#3498db] shadow-[#3498db]/50",
+                  "border-[#f1c40f] shadow-[#f1c40f]/50",
+                  "border-[#1abc9c] shadow-[#1abc9c]/50",
+                  "border-[#9c59b6] shadow-[#9c59b6]/50",
+                ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
+              ].join(" ")}
+              alt=""
+              src={`avatars/${profile.playerId}.jpg`}
+              style={{
+                background: `url(${miniblur}) center / cover`,
+              }}
+            />
+          ) : (
+            <PlayerAvatar
+              className={[
+                "w-36 h-36 rounded-2xl shadow-lg relative overflow-hidden border-4",
+                [
+                  "border-[#3498db] shadow-[#3498db]/50",
+                  "border-[#f1c40f] shadow-[#f1c40f]/50",
+                  "border-[#1abc9c] shadow-[#1abc9c]/50",
+                  "border-[#9c59b6] shadow-[#9c59b6]/50",
+                ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
+              ].join(" ")}
+              profile={profile}
+            />
+          )}
           <div className="flex flex-col justify-center flex-1">
             <div className="">
               <h1 className="text-2xl font-semibold">

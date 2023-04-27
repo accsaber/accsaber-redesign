@@ -43,7 +43,7 @@ const getPlayerImage = async (playerId: string) =>
     ? `data:image/webp;base64,${Buffer.from(
         await fetch(
           getImaginaryURL(
-            { src: `avatars/${playerId}.jpg`, width: 33, height: 13 },
+            { src: `avatars/${playerId}.jpg`, width: 32, height: 32 },
             "webp",
             "crop"
           )

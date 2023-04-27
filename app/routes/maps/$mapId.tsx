@@ -150,16 +150,21 @@ export default function MapPage() {
       <main>
         <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
           {blurData ? (
-            <img
-              src={blurData}
-              alt=""
-              className="absolute top-0 left-0 w-full h-full opacity-40 blur-xl object-cover"
+            <CDNImage
+              src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
+              alt={""}
+              width={128}
+              height={128}
+              className="absolute top-0 left-0 w-full h-full opacity-40 object-cover blur-xl"
+              style={{
+                background: `url(${blurData}) center / cover`,
+              }}
             />
           ) : (
             <MapCover
               songHash={map?.song?.songHash ?? ""}
-              width={256}
-              height={256}
+              width={128}
+              height={128}
               className="absolute top-0 left-0 w-full h-full opacity-20 blur-3xl"
             />
           )}
@@ -171,9 +176,9 @@ export default function MapPage() {
           >
             <CDNImage
               src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
-              alt={"Song Cover Art"}
-              width={256}
-              height={256}
+              alt={""}
+              width={128}
+              height={128}
               className="w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square"
               style={{
                 background: `url(${blurData}) center / cover`,

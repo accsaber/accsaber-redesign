@@ -38,8 +38,8 @@ const PlayerAvatar = (props: AvatarProps) => (
         <CDNImage
           src={`avatars/${props.profile.playerId}.jpg`}
           alt={`${props.profile.playerName}'s profile`}
-          width={props.width ?? 120}
-          height={props.height ?? 120}
+          width={props.width ?? 144}
+          height={props.height ?? 144}
           className="w-full h-full m-0"
           loading={props.loading}
         />
