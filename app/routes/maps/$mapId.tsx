@@ -193,7 +193,7 @@ export default function MapPage() {
                 <div className="flex-1 w-full">
                   {map?.song?.songAuthorName} - {map?.song?.songName}
                   {map?.song?.songSubName ? (
-                    <small>{map?.song?.songSubName}</small>
+                    <small> {map?.song?.songSubName}</small>
                   ) : (
                     ""
                   )}
