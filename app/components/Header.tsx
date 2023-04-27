@@ -207,8 +207,12 @@ const Header = () => {
         </div>
       </header>
       <PopoverMenu visible={menuVisible}>
-        <div className="flex p-2">
-          <div className="flex-1"></div>
+        <div className="flex items-center justify-end p-2 gap-2 relative">
+          <ActionSection
+            onClick={() => setMenu(false)}
+            popupRef={popupRef}
+            searchRef={searchRef}
+          />
           <button
             className="p-2 rounded-full headerNav"
             aria-label="close"
@@ -217,6 +221,7 @@ const Header = () => {
             <XIcon className="w-4 h-4" />
           </button>
         </div>
+        <hr className="dark:border-neutral-800" />
         <nav className="flex flex-col flex-1 gap-2 p-2">
           {headerItems.map(({ href, name, match }) => (
             <NavLink
@@ -234,14 +239,6 @@ const Header = () => {
             Wiki
           </a>
         </nav>
-        <hr className="dark:border-neutral-800" />
-        <div className="flex items-center justify-end p-2 relative">
-          <ActionSection
-            onClick={() => setMenu(false)}
-            popupRef={popupRef}
-            searchRef={searchRef}
-          />
-        </div>
       </PopoverMenu>
       <dialog
         ref={(self) => self && (popupRef.current = self)}
