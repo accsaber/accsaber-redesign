@@ -34,8 +34,8 @@ const MapResult = ({
       <div className="text-xl">
         {map.songAuthorName} - {map.songName} <small>{map.songSubName}</small>
       </div>
-      <div className="flex gap-2 text-lg">
-        <DifficultyLabel>{map.difficulty}</DifficultyLabel>
+      <div className="text-lg">
+        <DifficultyLabel>{map.difficulty}</DifficultyLabel>{" "}
         <span className="opacity-70">{map.levelAuthorName}</span>
       </div>
     </div>
