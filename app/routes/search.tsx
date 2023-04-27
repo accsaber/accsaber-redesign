@@ -48,6 +48,9 @@ export function SearchPageBody({
     loaderData.results ?? []
   );
 
+  const formRef = useRef<HTMLFormElement>();
+  const debounce = useRef<ReturnType<typeof setTimeout>>();
+
   const resultsBox = useRef<HTMLDivElement>();
 
   return (
@@ -57,6 +60,7 @@ export function SearchPageBody({
           className="flex overflow-hidden rounded shadow relative"
           method="get"
           action="/search"
+          ref={(r) => (formRef.current = r ?? undefined)}
           onSubmit={async (e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
@@ -92,6 +96,14 @@ export function SearchPageBody({
             defaultValue={query}
             autoComplete={"off"}
             ref={searchRef}
+            onChange={() => {
+              clearTimeout(debounce.current);
+              setResults("loading");
+
+              debounce.current = setTimeout(() => {
+                formRef?.current?.requestSubmit();
+              }, 500);
+            }}
           />
           <button
             type="submit"
@@ -115,8 +127,16 @@ export function SearchPageBody({
 
         <div ref={(self) => self && (resultsBox.current = self)}>
           {results == "loading" ? (
-            <div className="flex items-center justify-center p-6">
-              <LoadingSpinner />
+            <div className="flex items-center justify-start p-6 gap-1">
+              {new Array(3).fill(null).map((_i, n) => (
+                <div
+                  className="w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-600 animate-pulse"
+                  style={{
+                    animationDelay: `${n * 100}ms`,
+                  }}
+                  key={n}
+                ></div>
+              ))}
             </div>
           ) : Array.isArray(results) && results.length > 0 ? (
             results.map((result) =>
