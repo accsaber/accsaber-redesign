@@ -75,9 +75,8 @@ export default function PlayerScoresPage() {
     string,
     number?
   ][] = [
-    [["RankingAsc", "RankingDesc"], ""],
-    [["SongNameAsc", "SongNameDesc"], "Song Name", 2],
-    [null, "Difficulty"],
+    [["RankingAsc", "RankingDesc"], "", 2],
+    [["SongNameAsc", "SongNameDesc"], "Song Name"],
     [null, "Category"],
     [["AccuracyAsc", "AccuracyDesc"], "Accuracy"],
     [null, ""],
@@ -156,9 +155,6 @@ const ScoreLoadingPage = () => {
                 (Math.abs(Math.sin(n * Math.sqrt(5)) * 50) % 50) + 50
               }%`}
             />
-          </td>
-          <td>
-            <BlankBlock width={"3rem"} />
           </td>
           <td>
             <BlankBlock width={`${(Math.sin(n) + 2) * 2}rem`} />

@@ -186,19 +186,18 @@ export default function MapPage() {
               }}
             />
             <div className="flex flex-col gap-1">
-              <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row items-center">
-                <div className="max-w-md overflow-hidden whitespace-nowrap text-ellipsis">
-                  {map?.song?.songAuthorName}
-                </div>{" "}
-                - {map?.song?.songName}
-                {map?.song?.songSubName ? (
-                  <small>{map?.song?.songSubName}</small>
-                ) : (
-                  ""
-                )}
+              <h1 className="flex flex-row gap-2 w-full text-2xl font-bold items-center">
                 <DifficultyLabel>
                   {(map?.difficulty ?? "").toString()}
                 </DifficultyLabel>
+                <div className="flex-1 w-full">
+                  {map?.song?.songAuthorName} - {map?.song?.songName}
+                  {map?.song?.songSubName ? (
+                    <small>{map?.song?.songSubName}</small>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </h1>
               <h2 className="text-xl">{map?.category?.categoryDisplayName}</h2>
               <h2 className="text-xl">

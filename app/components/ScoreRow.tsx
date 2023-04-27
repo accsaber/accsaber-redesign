@@ -46,12 +46,11 @@ export default function ScoreRow({
         </NavLink>
       </td>
       <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-full overflow-hidden">
+        <DifficultyLabel>{score.difficulty ?? ""}</DifficultyLabel>
+        &nbsp;
         <Link prefetch={"intent"} href={`/maps/${score.leaderboardId}`}>
           {score.songAuthorName} - {score.songName}
         </Link>
-      </td>
-      <td>
-        <DifficultyLabel>{score.difficulty ?? ""}</DifficultyLabel>
       </td>
       <td>{score.categoryDisplayName}</td>
       <td>

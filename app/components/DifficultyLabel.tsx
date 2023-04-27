@@ -14,14 +14,12 @@ const DifficultyLabel: React.FC<{ children: string }> = ({ children }) => {
     ["expertplus", "Expert+"],
   ]);
   return (
-    <>
-      <div
-        className={`inline-block rounded-full w-[1em] h-[1em] align-middle -mt-1 ${
-          colours.get(children.toLowerCase().trim()) ?? ""
-        }`}
-      />{" "}
-      {names.get(children.toLowerCase()) ?? children[0].toUpperCase()}
-    </>
+    <div
+      className={`inline-block rounded-full w-[1em] h-[1em] align-middle -mt-1 ${
+        colours.get(children.toLowerCase().trim()) ?? ""
+      }`}
+      title={names.get(children.toLowerCase()) ?? children[0].toUpperCase()}
+    />
   );
 };
 
