@@ -12,6 +12,7 @@ import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import type { PlayerLayoutQuery } from "~/__generated__/gql";
 import { Await, Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
+import steamLogo from "~/images/steam.svg";
 import { useUser } from "./UserContext";
 import { UserPlusIcon } from "@heroicons/react/20/solid";
 import PlayerAvatar from "./PlayerAvatar";
@@ -65,6 +66,14 @@ export default function PlayerHeader({
                 className="h-6"
               />
             </a>
+            {profile.playerId.startsWith("7") && (
+              <a
+                href={`https://steamcommunity.com/profiles/${profile.playerId}`}
+                className="block p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10"
+              >
+                <img src={steamLogo} alt="Profile on Steam" className="h-6" />
+              </a>
+            )}
             <Suspense fallback={<LoadingSpinner className="w-10 h-10 p-2" />}>
               <Await resolve={userPromise ?? Promise.resolve(null)}>
                 {(user) =>
