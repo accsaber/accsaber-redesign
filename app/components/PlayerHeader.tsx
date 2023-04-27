@@ -193,7 +193,8 @@ export default function PlayerHeader({
             </div>
             <div className="text-xl">{profile.hmd}</div>
           </div>
-          <div className="flex items-center justify-center w-72 h-72">
+          <div className="flex items-center justify-center w-72 h-72 flex-col">
+            <noscript>JavaScript is required to show graphs</noscript>
             <Suspense fallback={<LoadingSpinner />}>
               <SkillTriangle
                 categories={categories}
@@ -203,7 +204,8 @@ export default function PlayerHeader({
             </Suspense>
           </div>
         </div>
-        <div className="relative flex items-center justify-center h-64 max-w-screen-lg px-8 pb-12 mx-auto">
+        <div className="relative flex items-center justify-center h-64 max-w-screen-lg px-8 pb-12 mx-auto flex-col">
+          <noscript>JavaScript is required to show graphs</noscript>
           <Suspense fallback={<LoadingSpinner />}>
             <RankGraph history={playerRankHistories?.nodes ?? []} />
           </Suspense>
