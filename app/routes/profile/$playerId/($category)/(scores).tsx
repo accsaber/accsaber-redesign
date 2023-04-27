@@ -89,11 +89,17 @@ export default function PlayerScoresPage() {
 
   const { pathname } = useLocation();
   const { state, location } = useNavigation();
+  const pendingSearch = location?.search
+    ? new URLSearchParams(location.search)
+    : undefined;
+  const pendingPage = pendingSearch?.has("page")
+    ? parseInt(pendingSearch.get("page") ?? "-1")
+    : undefined;
 
   return (
     <div className="flex flex-col gap-8">
       <Pagination
-        currentPage={page}
+        currentPage={pendingPage ?? page}
         pages={Math.ceil((scores?.totalCount ?? 0) / pageSize)}
       />
       <div className="w-full max-w-full overflow-x-auto overflow-y-hidden prose dark:prose-invert">
@@ -129,7 +135,7 @@ export default function PlayerScoresPage() {
         </table>
       </div>
       <Pagination
-        currentPage={page}
+        currentPage={pendingPage ?? page}
         pages={Math.ceil((scores?.totalCount ?? 0) / pageSize)}
       />
     </div>
