@@ -7,7 +7,7 @@ import {
 import { Form, useSearchParams } from "@remix-run/react";
 
 const buttonClass =
-  "p-2 rounded shadow text-inherit disabled:opacity-50 disabled:shadow-none";
+  " bg-white dark:bg-neutral-800 p-2 rounded shadow text-inherit disabled:opacity-50 disabled:shadow-none";
 const Pagination: React.FC<{
   children?: never;
   currentPage: number;
