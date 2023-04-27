@@ -152,18 +152,22 @@ const PageHeader: React.FC<{
             <div className="flex-1" />
           )}
           {actionButton ? (
-            <div className="hidden md:flex">{actionButton}</div>
+            <div className={navigation?.length ? "hidden md:flex" : "flex"}>
+              {actionButton}
+            </div>
           ) : (
             ""
           )}
           <div className="flex-1 md:hidden" />
-          <button
-            onClick={() => setMenu(true)}
-            className="p-3 -mr-2 headerNav md:hidden"
-            aria-label="Page Menu"
-          >
-            <MenuIcon className="w-5 h-5" />
-          </button>
+          {navigation?.length && (
+            <button
+              onClick={() => setMenu(true)}
+              className="p-3 -mr-2 headerNav md:hidden"
+              aria-label="Page Menu"
+            >
+              <MenuIcon className="w-5 h-5" />
+            </button>
+          )}
         </div>
       </div>
       <PopoverMenu visible={menuVisible}>
