@@ -16,7 +16,7 @@ import { gqlClient } from "~/lib/api/gql";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import PlayerAvatar from "@/PlayerAvatar";
 import MapCover from "@/MapCover";
-import { getImaginaryURL } from "@/CDNImage";
+import CDNImage, { getImaginaryURL } from "@/CDNImage";
 
 const pageSize = 25;
 
@@ -37,8 +37,8 @@ const getMapImage = (songHash: string) =>
   fetch(
     getImaginaryURL(
       {
-        width: 32,
-        height: 8,
+        width: 24,
+        height: 24,
         src: `covers/${songHash.toUpperCase()}.png`,
       },
       "webp",
@@ -153,7 +153,7 @@ export default function MapPage() {
             <img
               src={blurData}
               alt=""
-              className="absolute top-0 left-0 w-full h-full opacity-40 blur-xl"
+              className="absolute top-0 left-0 w-full h-full opacity-40 blur-xl object-cover"
             />
           ) : (
             <MapCover
@@ -169,11 +169,15 @@ export default function MapPage() {
               "max-w-screen-lg mx-auto px-4 relative",
             ].join(" ")}
           >
-            <MapCover
-              songHash={map?.song?.songHash ?? ""}
+            <CDNImage
+              src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
+              alt={"Song Cover Art"}
               width={256}
               height={256}
               className="w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square"
+              style={{
+                background: `url(${blurData}) center / cover`,
+              }}
             />
             <div className="flex flex-col gap-1">
               <h1 className="flex flex-col gap-2 text-2xl font-bold md:flex-row items-center">
