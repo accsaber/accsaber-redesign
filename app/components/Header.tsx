@@ -247,7 +247,7 @@ const Header = () => {
         ref={(self) => self && (popupRef.current = self)}
         className="bg-transparent rounded-xl w-full max-w-screen-md h-full"
       >
-        <div className="flex justify-end px-4 -mb-2">
+        <div className="flex justify-end md:px-4 -mb-2">
           <button
             className="p-2 opacity-80 hover:opacity-100 text-white"
             onClick={() => popupRef.current?.close()}
@@ -256,7 +256,10 @@ const Header = () => {
           </button>
         </div>
         <SearchPage
-          close={() => popupRef.current?.close()}
+          close={() => {
+            popupRef.current?.close();
+            setMenu(false);
+          }}
           searchRef={(r) => (searchRef.current = r ?? undefined)}
         />
       </dialog>
