@@ -25,6 +25,7 @@ const PageHeader: React.FC<{
   actionButton?: ReactNode;
   children?: React.ReactNode;
   cdn?: boolean;
+  miniblur?: string;
 }> = ({
   children,
   image,
@@ -33,6 +34,7 @@ const PageHeader: React.FC<{
   navigation,
   actionButton,
   iconRounded,
+  miniblur,
   cdn = true,
 }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -115,6 +117,11 @@ const PageHeader: React.FC<{
                     } h-full aspect-square`}
                     width={32}
                     height={32}
+                    style={{
+                      background: miniblur
+                        ? `url(${miniblur}) center/cover`
+                        : undefined,
+                    }}
                   />
                 ) : (
                   image

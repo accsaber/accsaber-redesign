@@ -108,6 +108,7 @@ export default function MapPage() {
         image={`covers/${map?.song?.songHash.toUpperCase()}.png`}
         transparent
         hideTitleUntilScrolled
+        miniblur={blurData ?? undefined}
         actionButton={
           <div className="flex">
             <a
