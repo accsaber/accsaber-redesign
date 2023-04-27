@@ -6,7 +6,7 @@ import Pagination from "@/Pagination";
 import ScoreRow from "@/ScoreRow";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useNavigation } from "@remix-run/react";
+import { useLoaderData, useLocation, useNavigation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
 
@@ -87,7 +87,8 @@ export default function PlayerScoresPage() {
     [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
   ];
 
-  const { state } = useNavigation();
+  const { pathname } = useLocation();
+  const { state, location } = useNavigation();
 
   return (
     <div className="flex flex-col gap-8">
@@ -112,7 +113,7 @@ export default function PlayerScoresPage() {
               ))}
             </tr>
           </thead>
-          {state === "loading" ? (
+          {state === "loading" && location?.pathname === pathname ? (
             <ScoreLoadingPage />
           ) : (
             <tbody>
