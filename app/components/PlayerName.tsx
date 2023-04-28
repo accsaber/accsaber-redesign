@@ -70,7 +70,7 @@ const PlayerName = ({
         className={
           highestLevel >= 0
             ? "text-black dark:text-transparent dark:bg-gradient-to-br from-green-600 to-blue-500 dark:from-green-500 dark:to-blue-500 dark:bg-clip-text"
-            : "text-black"
+            : ""
         }
       >
         {player.playerName.replace(/^ACC \|/, "")}
