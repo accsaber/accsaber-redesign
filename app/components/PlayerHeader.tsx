@@ -142,18 +142,29 @@ export default function PlayerHeader({
       <div className="relative pb-48 -mb-48 overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
 
-        {miniblur && profile.playerId.startsWith("7") ? (
+        {miniblur && profile.playerId.startsWith("7") && (
           <CDNImage
             width={144}
             height={144}
-            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
+            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl saturate-150"
             alt=""
             src={`avatars/${profile.playerId}.jpg`}
             style={{
               background: `url(${miniblur}) center / cover`,
             }}
           />
-        ) : (
+        )}
+        {miniblur && !profile.playerId.startsWith("7") && (
+          <img
+            width={144}
+            height={144}
+            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
+            alt=""
+            src={miniblur}
+          />
+        )}
+
+        {!miniblur && (
           <div
             className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl"
             style={{
