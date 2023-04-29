@@ -7,7 +7,7 @@ query RankedMapPage($mapId: BigInt!) {
     category {
       categoryDisplayName
     }
-    song: songBySong {
+    song: song {
       songHash
       songName
       songSubName

@@ -16,7 +16,7 @@ const MapRow = ({
     {padLeft ? <td /> : <></>}
     <td className="relative w-10 aspect-square">
       <MapCover
-        songHash={map.songBySong?.songHash ?? ""}
+        songHash={map.song?.songHash ?? ""}
         loading="lazy"
         width={40}
         className="absolute top-0 left-0 m-0"
@@ -26,13 +26,13 @@ const MapRow = ({
 
     <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
       <Link prefetch={"intent"} href={`/maps/${map.leaderboardId}`}>
-        {map.songBySong?.songAuthorName} - {map.songBySong?.songName}
+        {map.song?.songAuthorName} - {map.song?.songName}
       </Link>
     </td>
     <td>
       <DifficultyLabel>{map.difficulty ?? ""}</DifficultyLabel>
     </td>
-    <td>{map?.songBySong?.levelAuthorName}</td>
+    <td>{map?.song?.levelAuthorName}</td>
     <td>{map.category?.categoryDisplayName}</td>
     <td>
       <Complexity>{map.complexity}</Complexity>

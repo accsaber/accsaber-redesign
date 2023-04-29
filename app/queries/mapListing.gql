@@ -1,6 +1,6 @@
 fragment MapRow on BeatMap {
   nodeId
-  songBySong {
+  song {
     songHash
     songName
     songSubName

@@ -5,7 +5,7 @@ fragment ScoreHistoryNode on ScoreDataHistory {
 query ScoreHistory($playerId: BigInt, $leaderboardId: BigInt!) {
   beatMap(leaderboardId: $leaderboardId) {
     maxScore
-    songBySong {
+    song {
       songHash
       songName
       songAuthorName
