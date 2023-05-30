@@ -9,7 +9,7 @@ import {
   PointElement,
   Legend,
 } from "chart.js";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import type { ApDataPointFragment } from "$gql";
 
 export interface CategoryScoreData extends Category {
@@ -26,24 +26,29 @@ const ApGraph = ({
     categoryDisplayName: string;
   }[];
 }) => {
-  Chart.register(LineElement, LinearScale, PointElement, Legend);
-  const colours = ["#34d399", "#2563eb", "#d946ef"];
+  Chart.register(LineElement, LinearScale, PointElement, Legend); // I hate every single thing about this but we get errors otherwise
   const ref = useRef();
+
+  const datasets = useMemo(
+    () =>
+      categories.map((i, n) => {
+        return {
+          label: i.categoryDisplayName,
+          data: data
+            .filter((c) => c.categoryName === i.categoryName)
+            .map(({ ap }, n) => [n + 1, ap]),
+          borderColor: ["#34d399", "#2563eb", "#d946ef"][n],
+        };
+      }),
+    [data, categories]
+  );
 
   return (
     <Line
       ref={ref}
       data={{
         labels: categories.map((i) => i.categoryDisplayName),
-        datasets: categories.map((i, n) => {
-          return {
-            label: i.categoryDisplayName,
-            data: data
-              .filter((c) => c.categoryName === i.categoryName)
-              .map(({ ap }, n) => [n + 1, ap]),
-            borderColor: colours[n],
-          };
-        }),
+        datasets,
       }}
       options={{
         responsive: true,

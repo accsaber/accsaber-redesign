@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useMemo } from "react";
 import PlayerName from "./PlayerName";
 import { language } from "~/lib/api/config";
 import { getHighestLevel } from "~/lib/api/campaign";
@@ -44,7 +44,10 @@ export default function PlayerHeader({
 
   const userPromise = useUser();
 
-  const highestLevel = getHighestLevel(campaignStatus ?? []);
+  const highestLevel = useMemo(
+    () => getHighestLevel(campaignStatus ?? []),
+    [campaignStatus]
+  );
   return (
     <>
       <PageHeader
