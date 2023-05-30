@@ -49,14 +49,19 @@ const Pagination: React.FC<{
   return (
     <div className="flex items-center justify-between text-black dark:text-neutral-300">
       <div className="flex gap-2">
-        <PageLink page={0} label="First Page" currentPage={currentPage}>
+        <PageLink
+          page={1}
+          label="First Page"
+          currentPage={currentPage}
+          disabled={currentPage <= 1}
+        >
           <ChevronDoubleLeftIcon className="w-5 h-5" />
         </PageLink>
         <PageLink
           page={currentPage - 1}
           currentPage={currentPage}
           label="Previous Page"
-          disabled={currentPage <= 0}
+          disabled={currentPage <= 1}
         >
           <ChevronLeftIcon className="w-5 h-5" />
         </PageLink>
