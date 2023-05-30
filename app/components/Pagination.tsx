@@ -22,7 +22,7 @@ const PageLink = (props: {
   disabled?: boolean;
 }) => {
   const [searchParams] = useSearchParams();
-  const targetURL = usePageURL(props.currentPage - 1, searchParams);
+  const targetURL = usePageURL(props.page, searchParams);
   return !props.disabled ? (
     <Link
       to={targetURL}
