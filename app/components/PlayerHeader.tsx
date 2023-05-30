@@ -123,10 +123,10 @@ export default function PlayerHeader({
             label: "Overall",
             isCurrent: category === "overall",
           },
-          ...categories.map((node) => ({
+          ...(categoryStats?.nodes?.filter(Boolean) ?? []).map((node) => ({
             href: `/profile/${profile.playerId}/${node.categoryName}`,
-            label: node.categoryDisplayName?.split(/\b/g)[0] ?? "",
-            isCurrent: category === node.categoryName,
+            label: <span className="capitalize">{node.categoryName}</span>,
+            isCurrent: category == node.categoryName,
           })),
           {
             href: `/profile/${profile.playerId}/ap-graph`,

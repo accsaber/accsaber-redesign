@@ -17,7 +17,7 @@ const PageHeader: React.FC<{
   transparent?: boolean;
   hideTitleUntilScrolled?: boolean;
   navigation?: {
-    label: string;
+    label: React.ReactNode | string;
     href: string;
     isCurrent?: boolean;
   }[];

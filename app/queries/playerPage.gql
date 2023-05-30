@@ -26,6 +26,7 @@ query PlayerLayout($playerId: BigInt!, $category: BigInt!) {
 
   categoryAccSaberPlayers(condition: { playerId: $playerId }) {
     nodes {
+      categoryName
       ...SkillLevel
     }
   }

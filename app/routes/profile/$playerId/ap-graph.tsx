@@ -3,25 +3,26 @@ import { ApGraphPageDocument } from "$gql";
 import ApGraph from "@/ApGraph.client";
 import PlayerAvatar from "@/PlayerAvatar";
 import PageHeader from "@/PageHeader";
-import type { LoaderFunction} from "@remix-run/node";
+import type { LoaderArgs, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
 
-export const loader: LoaderFunction = async ({ params: { playerId } }) => {
+export const loader = async ({ params: { playerId } }: LoaderArgs) => {
   invariant(playerId);
-  const headers = new Headers();
-  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
-  return json(await gqlClient.request(ApGraphPageDocument, { playerId }), {
-    headers,
-  });
+  return await gqlClient.request(ApGraphPageDocument, { playerId });
 };
+
+export const meta: MetaFunction<typeof loader> = (p) => ({
+  title: `${p.data.playerDatum?.playerName}'s AP Graph | AccSaber`,
+});
 
 export default function ApGraphPage() {
   const {
     categories,
     accSaberScores,
+    categoryAccSaberPlayers,
     playerDatum: profile,
   } = useLoaderData<ApGraphPageQuery>();
   return (
@@ -44,11 +45,13 @@ export default function ApGraphPage() {
             label: "Overall",
             isCurrent: false,
           },
-          ...(categories?.nodes ?? [])?.map((ncategory) => ({
-            href: `/profile/${profile?.playerId}/${ncategory.categoryName}`,
-            label: ncategory.categoryDisplayName?.split(/\b/g)[0] ?? "" ?? "",
-            isCurrent: false,
-          })),
+          ...(categoryAccSaberPlayers?.nodes?.filter(Boolean) ?? []).map(
+            (node) => ({
+              href: `/profile/${profile?.playerId}/${node.categoryName}`,
+              label: <span className="capitalize">{node.categoryName}</span>,
+              isCurrent: false,
+            })
+          ),
           {
             href: `/profile/${profile?.playerId}/ap-graph`,
             label: "AP Graph",

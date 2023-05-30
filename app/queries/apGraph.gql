@@ -16,6 +16,12 @@ query ApGraphPage($playerId: BigInt!) {
     }
   }
 
+  categoryAccSaberPlayers(condition: { playerId: $playerId }) {
+    nodes {
+      categoryName
+    }
+  }
+
   accSaberScores(condition: { playerId: $playerId }, orderBy: AP_DESC) {
     nodes {
       ...ApDataPoint
