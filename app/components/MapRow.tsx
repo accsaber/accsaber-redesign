@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@remix-run/react";
 import { language } from "~/lib/api/config";
 import Complexity from "@/Complexity";
 import DifficultyLabel from "@/DifficultyLabel";
@@ -25,7 +25,7 @@ const MapRow = ({
     </td>
 
     <td className="max-w-[10rem] text-ellipsis whitespace-nowrap w-min overflow-hidden">
-      <Link prefetch={"intent"} href={`/maps/${map.leaderboardId}`}>
+      <Link prefetch="intent" to={`/maps/${map.leaderboardId}`}>
         {map.song?.songAuthorName} - {map.song?.songName}
       </Link>
     </td>

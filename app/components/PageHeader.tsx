@@ -71,7 +71,7 @@ const PageHeader: React.FC<{
       >
         <div className="flex items-center max-w-screen-lg gap-4 px-4 mx-auto">
           <Link
-            prefetch={"none"}
+            prefetch={"intent"}
             href={"/"}
             className={[
               "w-12 h-12 aspect-square p-2 flex ",
