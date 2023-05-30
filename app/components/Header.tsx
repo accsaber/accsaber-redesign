@@ -16,6 +16,7 @@ import {
   Form,
   NavLink,
   useLocation,
+  useNavigate,
   useNavigation,
 } from "@remix-run/react";
 import { useUser } from "./UserContext";
@@ -41,6 +42,7 @@ const ActionSection = ({
   searchRef: React.MutableRefObject<HTMLInputElement | undefined>;
 }) => {
   const userPromise = useUser();
+  const nav = useNavigate();
 
   return (
     <>
@@ -65,6 +67,8 @@ const ActionSection = ({
                 <Popover.Button
                   as={NavLink}
                   to={`/profile/${user.playerId}`}
+                  onDoubleClick={() => nav(`/profile/${user.playerId}`)}
+                  prefetch="render"
                   className="flex w-10 h-10 overflow-auto rounded-full aspect-square items-center justify-center"
                 >
                   <CDNImage
