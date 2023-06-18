@@ -2,9 +2,9 @@
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
   serverDependenciesToBundle: ["chartjs-adapter-luxon"],
+  postcss: true,
 
   future: {
-    unstable_postcss: true,
     v2_errorBoundary: true,
   },
 };
