@@ -96,7 +96,7 @@ const getPlayerImage = async (playerId: string) =>
         ).then((res) => res.arrayBuffer())
       ).toString("base64")}`
     : `data:image/svg+xml;base64,${Buffer.from(
-        renderToStaticMarkup(<Avatar name="test" />)
+        renderToStaticMarkup(<Avatar name={playerId} />)
       ).toString("base64")}`;
 
 export const loader = async ({ params }: LoaderArgs) => {
