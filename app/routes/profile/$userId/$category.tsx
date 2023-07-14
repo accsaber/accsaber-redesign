@@ -95,9 +95,7 @@ const getPlayerImage = async (playerId: string) =>
           )
         ).then((res) => res.arrayBuffer())
       ).toString("base64")}`
-    : `data:image/svg+xml;base64,${Buffer.from(
-        renderToStaticMarkup(<Avatar name={playerId} />)
-      ).toString("base64")}`;
+    : `data:image/svg+xml;base64,`;
 
 export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.userId, "Expected User ID");
@@ -215,7 +213,7 @@ const ProfileRoute = () => {
           </PageHeader>
         )}
       </UserContext.Consumer>
-      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
+      <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20 py-8">
         <div
           className="absolute top-0 left-0 object-cover w-full h-full opacity-40 dark:opacity-20 blur-3xl"
           style={{
@@ -224,7 +222,7 @@ const ProfileRoute = () => {
         />
         <div
           className={[
-            "flex gap-6 pt-8 text-neutral-800 dark:text-neutral-200 items-center",
+            "flex gap-6 text-neutral-800 dark:text-neutral-200 items-center",
             "max-w-screen-lg mx-auto px-4 flex-wrap justify-center relative",
           ].join(" ")}
         >
