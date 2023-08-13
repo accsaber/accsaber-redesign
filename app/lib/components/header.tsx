@@ -103,6 +103,12 @@ const Header = () => {
           <a href="https://wiki.accsaber.com" className="headerNav">
             Wiki
           </a>
+          <a
+            href="https://tournament.accchamp.community/"
+            className="headerNav"
+          >
+            Tournament
+          </a>
         </nav>
         <hr className="dark:border-neutral-800" />
         <div className="flex items-center justify-end p-2">
