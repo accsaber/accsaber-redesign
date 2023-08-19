@@ -9,7 +9,11 @@ const SortButton: React.FC<{
   return (
     <Form method="get">
       <input type="hidden" name={name} value={value} />
-      {!query.has("reverse") ? <input type={"hidden"} name="reverse" /> : ""}
+      {query.get(name) !== value || !query.has("reverse") ? (
+        <input type={"hidden"} name="reverse" />
+      ) : (
+        ""
+      )}
       <button
         className="[font:inherit] flex w-full justify-between"
         type="submit"
