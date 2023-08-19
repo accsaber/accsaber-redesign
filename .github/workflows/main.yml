@@ -14,3 +14,10 @@ jobs:
       - uses: superfly/flyctl-actions@1.3
         with:
           args: "deploy --local-only"
+
+      - name: Purge Bunny.net cache
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://api.bunny.net/pullzone/${{ env.BUNNY_ZONE }}/purgeCache"
+          method: "POST"
+          customHeaders: '{"AccessKey": "${{ secrets.BUNNY_KEY }}"}'
