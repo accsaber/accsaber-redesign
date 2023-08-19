@@ -20,6 +20,10 @@ export default function handleRequest(
     "max-age=63072000; includeSubDomains; preload"
   );
   responseHeaders.set("x-content-type-options", "nosniff");
+  responseHeaders.set(
+    "cache-control",
+    "max-age=300, stale-while-revalidate=7200"
+  );
   responseHeaders.set("referrer-policy", "strict-origin");
   responseHeaders.set(
     "permissions-policy",

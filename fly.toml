@@ -24,7 +24,3 @@ min_machines_running = 0
 type = "requests"
 soft_limit = 50
 hard_limit = 75
-
-[[statics]]
-guest_path = "/app/public"
-url_prefix = "/"
