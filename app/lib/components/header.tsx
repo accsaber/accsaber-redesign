@@ -59,12 +59,6 @@ const Header = () => {
             <a href="https://wiki.accsaber.com" className="headerNav">
               Wiki
             </a>
-            <a
-              href="https://tournament.accchamp.community/"
-              className="headerNav"
-            >
-              Tournament
-            </a>
           </nav>
           <nav className="hidden md:flex">
             <ActionSection onClick={() => setMenu(false)} />
@@ -102,12 +96,6 @@ const Header = () => {
           ))}
           <a href="https://wiki.accsaber.com" className="headerNav">
             Wiki
-          </a>
-          <a
-            href="https://tournament.accchamp.community/"
-            className="headerNav"
-          >
-            Tournament
           </a>
         </nav>
         <hr className="dark:border-neutral-800" />
