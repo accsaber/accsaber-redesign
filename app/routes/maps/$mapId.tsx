@@ -14,6 +14,7 @@ import scoresaberLogo from "~/lib/images/scoresaber.svg";
 import DifficultyLabel from "~/lib/components/difficultyLabel";
 import MapCover from "~/lib/components/MapCover";
 import PlayerAvatar from "~/lib/components/PlayerAvatar";
+import { DateTime } from "luxon";
 
 export const meta: MetaFunction = ({
   data,
@@ -186,23 +187,24 @@ const MapLeaderboardPage = () => {
                   title={new Date(score.timeSet).toLocaleString(language)}
                   className="whitespace-nowrap"
                 >
-                  {ms(Date.now() - new Date(score.timeSet).getTime(), {
-                    long: true,
-                  })}{" "}
-                  ago
+                  {DateTime.fromISO(score.timeSet).toRelative()}
                 </td>
-                <td>
+                <td className="tabular-nums text-right">
                   {(score.accuracy * 100).toLocaleString(language, {
                     maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
                   })}
                   %
                 </td>
-                <td>
+                <td className="tabular-nums text-right">
                   {score.ap.toLocaleString(language, {
                     maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
                   })}
                 </td>
-                <td>{score.score}</td>
+                <td className="tabular-nums text-right">
+                  {score.score.toLocaleString()}
+                </td>
               </tr>
             ))}
           </tbody>

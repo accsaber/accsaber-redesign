@@ -6,6 +6,7 @@ import type {
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useTransition } from "@remix-run/react";
+import { DateTime } from "luxon";
 import ms from "ms";
 import React from "react";
 import invariant from "tiny-invariant";
@@ -193,27 +194,27 @@ const Scores = () => {
                   <DifficultyLabel>{score.difficulty}</DifficultyLabel>
                 </td>
                 <td>{score.categoryDisplayName}</td>
-                <td>
+                <td className="tabular-nums text-right">
                   {(score.accuracy * 100).toLocaleString(language, {
                     maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
                   })}
                   %
                 </td>
-                <td>
+                <td className="tabular-nums text-right">
                   {score.ap.toLocaleString(language, {
                     maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
                   })}
                 </td>
-                <td>
+                <td className="tabular-nums text-right">
                   {score.weightedAp?.toLocaleString(language, {
                     maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
                   })}
                 </td>
                 <td title={new Date(score.timeSet).toLocaleString(language)}>
-                  {ms(Date.now() - new Date(score.timeSet).getTime(), {
-                    long: true,
-                  })}{" "}
-                  ago
+                  {DateTime.fromISO(score.timeSet).toRelative()}
                 </td>
                 <td>
                   <Complexity>{score.complexity}</Complexity>
