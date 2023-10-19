@@ -1,12 +1,12 @@
 import { Link, NavLink } from "@remix-run/react";
 import { MouseEventHandler, useState } from "react";
-import logo from "~/lib/images/logo.webp";
 import headerItems from "../headerItems";
 import DarkToggle from "./darkToggle";
 import UserContext from "./userContext";
 import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/solid";
 import PopoverMenu from "./popover";
 import PlayerAvatar from "./PlayerAvatar";
+import Logo from "./Logo";
 
 const ActionSection = ({ onClick }: { onClick: MouseEventHandler }) => (
   <>
@@ -48,7 +48,7 @@ const Header = () => {
             to={"/"}
             className="flex items-center h-12 gap-2 p-2 -mr-2 font-semibold rounded-full hover:bg-black/10"
           >
-            <img src={logo} alt="AccSaber" className="h-8 aspect-square" />
+            <Logo className="h-8" />
           </Link>
           <nav className="flex-1 hidden gap-2 md:flex">
             {headerItems.map(({ href, name }) => (

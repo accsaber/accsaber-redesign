@@ -3,11 +3,11 @@ import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 import React, { createRef, useEffect, useState } from "react";
-import logo from "~/lib/images/logo.webp";
 import PopoverMenu from "./popover";
 import CDNImage from "./CDNImage";
 import { NavLink } from "@remix-run/react";
 import LoadingSpinner from "./LoadingSpinner";
+import Logo from "./Logo";
 
 const PageHeader: React.FC<{
   image?: string | React.ReactElement;
@@ -78,14 +78,10 @@ const PageHeader: React.FC<{
             ].join(" ")}
             aria-label="Home"
           >
-            <img
-              src={logo}
-              alt="Home"
+            <Logo
+              className="h-8 aspect-square"
               aria-hidden={!scrolled}
               aria-label="Go Home"
-              className="h-8 aspect-square"
-              width={32}
-              height={32}
             />
           </Link>
           <div
