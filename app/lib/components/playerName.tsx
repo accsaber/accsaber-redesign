@@ -18,12 +18,12 @@ const levels = [
   { name: "Celestial", icon: "celestial" },
 ];
 
-export const getHighestLevel = (campaignStatus: CampaignStatus[]) =>
-  campaignStatus.reduce(
+export const getHighestLevel = (campaignStatus: CampaignStatus[] = []) =>
+  campaignStatus?.reduce(
     (current, { milestoneId, pathCleared }) =>
       pathCleared ? Math.max(milestoneId ?? 0, current) : current,
     -1
-  );
+  ) ?? -1;
 
 const PlayerName = ({
   children: name,
