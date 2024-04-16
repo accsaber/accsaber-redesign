@@ -31,6 +31,9 @@ export const persistedFetch: typeof fetch = async (input, init) => {
 
   const persistedRequest = new Request(input, {
     ...init,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ ...bodyWithPersistedQuery, query: undefined }),
   });
 

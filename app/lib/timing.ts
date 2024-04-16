@@ -1,4 +1,7 @@
-export const { now } = typeof performance !== "undefined" ? performance : Date;
+
+const now = typeof performance !== "undefined" ?
+  () => performance.now() :
+  () => Date.now();
 
 export const withTiming = (headers: Headers, key = "fetch", label?: string) => {
   const startTime = now();

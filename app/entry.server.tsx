@@ -8,7 +8,9 @@ import NonceContext from "@/NonceContext";
 
 const ABORT_DELAY = 5000;
 
-const { now } = typeof performance !== "undefined" ? performance : Date;
+const now = typeof performance !== "undefined" ?
+  () => performance.now() :
+  () => Date.now();
 
 export default function handleRequest(
   request: Request,

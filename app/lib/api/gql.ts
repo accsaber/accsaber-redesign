@@ -5,7 +5,7 @@ import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { persistedFetch } from "./persistedFetch";
 
 export const gqlClient = new GraphQLClient(config.gqlURL, {
-  fetch: persistedFetch,
+  fetch,
 });
 
 export function useGql<TResult, TVariables>(
