@@ -2,6 +2,7 @@ fragment ApDataPoint on AccSaberScore {
   categoryDisplayName
   categoryName
   ap
+  weightedAp
 }
 
 query ApGraphPage($playerId: BigInt!) {
