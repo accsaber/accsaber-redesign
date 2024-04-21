@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Suspense, lazy, useMemo } from "react";
+import { Suspense, lazy, useMemo, useState, useEffect } from "react";
 import PlayerName from "./PlayerName";
 import { language } from "~/lib/api/config";
 import { getHighestLevel } from "~/lib/api/campaign";
@@ -36,7 +36,7 @@ export default function PlayerHeader({
   playerId: string;
   category: string;
   profile: Player;
-  campaignStatus: CampaignStatus[];
+  campaignStatus: Promise<CampaignStatus[]>;
   queryData: PlayerLayoutQuery;
   miniblur?: string;
 }) {
@@ -44,10 +44,14 @@ export default function PlayerHeader({
 
   const userPromise = useUser();
 
-  const highestLevel = useMemo(
-    () => getHighestLevel(campaignStatus ?? []),
-    [campaignStatus]
-  );
+  const [highestLevel, setHighestLevel] = useState<number>(-1);
+
+  useEffect(() => {
+    campaignStatus?.then((campaignStatus) => {
+      setHighestLevel(getHighestLevel(campaignStatus));
+    });
+  })
+
   return (
     <>
       <PageHeader
@@ -225,9 +229,8 @@ export default function PlayerHeader({
                 <div>
                   <Link
                     prefetch={"none"}
-                    href={`/leaderboards/${category}?page=${
-                      Math.floor(profile.rank / 50) + 1
-                    }`}
+                    href={`/leaderboards/${category}?page=${Math.floor(profile.rank / 50) + 1
+                      }`}
                   >
                     #{profile.rank.toLocaleString(language)}
                   </Link>

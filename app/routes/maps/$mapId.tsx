@@ -18,7 +18,7 @@ import PlayerAvatar from "@/PlayerAvatar";
 import MapCover from "@/MapCover";
 import CDNImage, { getImaginaryURL } from "@/CDNImage";
 
-const pageSize = 25;
+const pageSize = 50;
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => ({
   title: `${data.map.beatMap?.song?.songName} | AccSaber`,

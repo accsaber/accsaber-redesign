@@ -9,6 +9,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData, useLocation, useNavigation } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
+import { now } from "~/lib/timing";
 
 const pageSize = 25;
 
@@ -20,7 +21,6 @@ interface ScoresData {
   playerId: string;
 }
 
-const { now } = typeof performance !== "undefined" ? performance : Date;
 
 export const loader: LoaderFunction = async ({
   params: { playerId, category = "overall" },
@@ -75,16 +75,16 @@ export default function PlayerScoresPage() {
     string,
     number?
   ][] = [
-    [["RankingAsc", "RankingDesc"], "", 2],
-    [["SongNameAsc", "SongNameDesc"], "Song Name"],
-    [null, "Category"],
-    [["AccuracyAsc", "AccuracyDesc"], "Accuracy"],
-    [null, ""],
-    [["ApDesc", "ApAsc"], "AP"],
-    [["WeightedApDesc", "WeightedApAsc"], "Weighted"],
-    [["TimeSetDesc", "TimeSetAsc"], "Time Set"],
-    [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
-  ];
+      [["RankingAsc", "RankingDesc"], "", 2],
+      [["SongNameAsc", "SongNameDesc"], "Song Name"],
+      [null, "Category"],
+      [["AccuracyAsc", "AccuracyDesc"], "Accuracy"],
+      [null, ""],
+      [["ApDesc", "ApAsc"], "AP"],
+      [["WeightedApDesc", "WeightedApAsc"], "Weighted"],
+      [["TimeSetDesc", "TimeSetAsc"], "Time Set"],
+      [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
+    ];
 
   const { pathname } = useLocation();
   const { state, location } = useNavigation();
@@ -151,9 +151,8 @@ const ScoreLoadingPage = () => {
           </td>
           <td className="w-full" colSpan={2}>
             <BlankBlock
-              width={`${
-                (Math.abs(Math.sin(n * Math.sqrt(5)) * 50) % 50) + 50
-              }%`}
+              width={`${(Math.abs(Math.sin(n * Math.sqrt(5)) * 50) % 50) + 50
+                }%`}
             />
           </td>
           <td>

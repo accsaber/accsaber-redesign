@@ -73,7 +73,7 @@ export default function ScoreRow({
         })}
       </td>
       <td title={new Date(score.timeSet).toLocaleString(language)}>
-        {DateTime.fromISO(score.timeSet).toRelative()}
+        {DateTime.fromISO(`${score.timeSet}Z`).toRelative()}
       </td>
       <td>
         <Complexity>{score?.complexity ?? 0}</Complexity>

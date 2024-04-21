@@ -1,4 +1,5 @@
 import type { DetailedHTMLProps, ImgHTMLAttributes } from "react";
+import config from "~/lib/api/config";
 
 const scales = [1, 1.5, 2];
 
@@ -40,27 +41,7 @@ const CDNImage = (props: CDNImageProps) => {
     // eslint-disable-next-line jsx-a11y/alt-text
     <img
       {...props}
-      src={getImaginaryURL(
-        {
-          src: props.src,
-          width: props.width,
-          height: props.height,
-        },
-        "auto"
-      ).toString()}
-      srcSet={scales
-        .map(
-          (scale) =>
-            getImaginaryURL(
-              {
-                src: props.src,
-                width: props.width * scale,
-                height: props.height * scale,
-              },
-              "auto"
-            ) + ` ${scale}x`
-        )
-        .join(", ")}
+      src={new URL(props.src, config.cdnURL).toString()}
     />
   );
 };

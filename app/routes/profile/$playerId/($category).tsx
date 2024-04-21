@@ -4,14 +4,14 @@ import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import { getImaginaryURL } from "@/CDNImage";
 import PlayerHeader from "@/PlayerHeader";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import { defer, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
 import { renderToStaticMarkup } from "react-dom/server";
 import invariant from "tiny-invariant";
 import config from "~/lib/api/config";
-import { getPlayer } from "~/lib/api/fetcher";
+import { getPlayer, json as apiJson } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
 
@@ -28,30 +28,30 @@ export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
     .replace(/\n +/g, "\n"),
   "og:image": profile.playerId.startsWith("7")
     ? getImaginaryURL(
-        {
-          width: 256,
-          height: 256,
-          src: `avatars/${profile.playerId}.jpg`,
-        },
-        "jpeg"
-      ).toString()
+      {
+        width: 256,
+        height: 256,
+        src: `avatars/${profile.playerId}.jpg`,
+      },
+      "jpeg"
+    ).toString()
     : `/api/avatar/${profile.playerId}`,
 });
 
 const getPlayerImage = async (playerId: string) =>
   playerId.startsWith("7")
     ? `data:image/webp;base64,${Buffer.from(
-        await fetch(
-          getImaginaryURL(
-            { src: `avatars/${playerId}.jpg`, width: 32, height: 32 },
-            "webp",
-            "crop"
-          )
-        ).then((res) => res.arrayBuffer())
-      ).toString("base64")}`
+      await fetch(
+        getImaginaryURL(
+          { src: `avatars/${playerId}.jpg`, width: 32, height: 32 },
+          "webp",
+          "crop"
+        )
+      ).then((res) => res.arrayBuffer())
+    ).toString("base64")}`
     : `data:image/svg+xml;base64,${Buffer.from(
-        renderToStaticMarkup(<Avatar name={playerId} variant="beam" square />)
-      ).toString("base64")}`;
+      renderToStaticMarkup(<Avatar name={playerId} variant="beam" square />)
+    ).toString("base64")}`;
 
 export const loader = async ({
   params: { playerId, category = "overall" },
@@ -83,16 +83,18 @@ export const loader = async ({
         category: categoryNumber,
       })
       .then(withTiming(headers, "query", "GraphQL Query")),
-    getPlayerImage(playerId),
+    getPlayerImage(playerId)
   ]);
 
   if (!profile) throw new Response("Profile not found", { status: 404 });
 
-  return json(
+  return defer(
     {
       playerId: profile.playerId,
       profile,
-      campaignStatus: queryData.campaign?.playerCampaignInfo,
+      campaignStatus:
+        apiJson(
+          new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)),
       queryData,
       category,
       blurData,
@@ -110,7 +112,7 @@ export default function PlayerLayout() {
         category={category}
         profile={profile}
         playerId={playerId}
-        campaignStatus={campaignStatus as CampaignStatus[]}
+        campaignStatus={campaignStatus}
         // @ts-ignore
         queryData={queryData}
         miniblur={blurData ?? undefined}
