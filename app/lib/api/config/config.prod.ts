@@ -10,7 +10,10 @@ const productionConfig: ApiConfig = {
       ? "https://campaigns.accsaber.com"
       : "http://campaigns-backend.default.svc/api/",
   cdnURL: "https://cdn.accsaber.com",
-  gqlURL: "https://gql.accsaber.com/graphql",
+  gqlURL:
+    typeof process !== "undefined" && process?.env?.POSTGRAPHILE_SERVICE_HOST
+      ? `http://${process.env.POSTGRAPHILE_SERVICE_HOST}/graphql`
+      : "https://gql.accsaber.com/graphql",
   defaultLocale: "en-AU",
   isBeta: true,
 };
