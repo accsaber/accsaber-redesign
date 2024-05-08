@@ -77,7 +77,7 @@ const ActionSection = ({
                     src={`avatars/${user.playerId}.jpg`}
                   />
                 </Popover.Button>
-                <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 bottom-0 md:bottom-[unset] [writing-mode:horizontal-tb]">
+                <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 [writing-mode:horizontal-tb]">
                   <NavLink
                     to={`/profile/${user.playerId}`}
                     prefetch="render"
