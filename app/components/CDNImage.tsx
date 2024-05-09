@@ -9,19 +9,22 @@ interface CDNSource {
   height: number;
 }
 
-export const getImaginaryURL = (
-  image: CDNSource,
-  format = "auto",
-  action = "thumbnail"
-) => {
+export const getImaginaryURL = (image: CDNSource, format?: string) => {
   const targetURL = new URL(image.src, "https://cdn.accsaber.com");
   const isCDN = targetURL.hostname === "cdn.accsaber.com";
-  const targetPath = new URL(`https://cdn.accsaber.com/imaginary/${action}`);
-  if (!isCDN) targetPath.searchParams.set("url", image.src);
-  else targetPath.searchParams.set("file", targetURL.pathname);
-  targetPath.searchParams.set("width", image.width.toString());
-  targetPath.searchParams.set("height", image.height.toString());
-  targetPath.searchParams.set("type", format);
+
+  const encodedPath = btoa(
+    isCDN
+      ? new URL(targetURL.pathname, "http://accsaber-media/").toString()
+      : targetURL.toString()
+  );
+
+  const targetPath = new URL(
+    `o7d/s:${image.width}:${image.height}/${encodedPath}${
+      format ? `.${format}` : ""
+    }`,
+    config.cdnURL
+  );
 
   return targetPath;
 };
@@ -42,6 +45,19 @@ const CDNImage = (props: CDNImageProps) => {
     <img
       {...props}
       src={new URL(props.src, config.cdnURL).toString()}
+      srcSet={[1, 1.5, 2]
+        .map(
+          (scale) =>
+            `${getImaginaryURL(
+              {
+                src: props.src,
+                width: props.width * scale,
+                height: props.height * scale,
+              },
+              "webp"
+            )} ${scale}x`
+        )
+        .join(", ")}
     />
   );
 };

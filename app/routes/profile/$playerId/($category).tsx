@@ -28,30 +28,30 @@ export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
     .replace(/\n +/g, "\n"),
   "og:image": profile.playerId.startsWith("7")
     ? getImaginaryURL(
-      {
-        width: 256,
-        height: 256,
-        src: `avatars/${profile.playerId}.jpg`,
-      },
-      "jpeg"
-    ).toString()
+        {
+          width: 256,
+          height: 256,
+          src: `avatars/${profile.playerId}.jpg`,
+        },
+        "jpeg"
+      ).toString()
     : `/api/avatar/${profile.playerId}`,
 });
 
 const getPlayerImage = async (playerId: string) =>
   playerId.startsWith("7")
     ? `data:image/webp;base64,${Buffer.from(
-      await fetch(
-        getImaginaryURL(
-          { src: `avatars/${playerId}.jpg`, width: 32, height: 32 },
-          "webp",
-          "crop"
-        )
-      ).then((res) => res.arrayBuffer())
-    ).toString("base64")}`
+        await fetch(
+          getImaginaryURL({
+            src: `avatars/${playerId}.jpg`,
+            width: 32,
+            height: 32,
+          })
+        ).then((res) => res.arrayBuffer())
+      ).toString("base64")}`
     : `data:image/svg+xml;base64,${Buffer.from(
-      renderToStaticMarkup(<Avatar name={playerId} variant="beam" square />)
-    ).toString("base64")}`;
+        renderToStaticMarkup(<Avatar name={playerId} variant="beam" square />)
+      ).toString("base64")}`;
 
 export const loader = async ({
   params: { playerId, category = "overall" },
@@ -83,7 +83,7 @@ export const loader = async ({
         category: categoryNumber,
       })
       .then(withTiming(headers, "query", "GraphQL Query")),
-    getPlayerImage(playerId)
+    getPlayerImage(playerId),
   ]);
 
   if (!profile) throw new Response("Profile not found", { status: 404 });
@@ -92,9 +92,9 @@ export const loader = async ({
     {
       playerId: profile.playerId,
       profile,
-      campaignStatus:
-        apiJson(
-          new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)),
+      campaignStatus: apiJson(
+        new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)
+      ),
       queryData,
       category,
       blurData,
