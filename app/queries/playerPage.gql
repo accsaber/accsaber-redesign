@@ -7,8 +7,11 @@ fragment RankHistoryDay on PlayerRankHistory {
 
 fragment SkillLevel on CategoryAccSaberPlayer {
   skillLevel
+  categoryName
+  categoryByCategoryName {
+    categoryDisplayName
+  }
 }
-
 fragment CategoryInfo on Category {
   categoryName
   categoryDisplayName

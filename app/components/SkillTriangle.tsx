@@ -47,7 +47,9 @@ const SkillTriangle: React.FC<{
         },
       }}
       data={{
-        labels: categories.map((i) => i.categoryDisplayName),
+        labels: skills.map(
+          (i) => i.categoryByCategoryName?.categoryDisplayName ?? i.categoryName
+        ),
         datasets: [
           {
             data: skills.map((i) => i.skillLevel),
