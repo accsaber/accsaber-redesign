@@ -2,6 +2,7 @@ import type { Player } from "~/lib/interfaces/api/player";
 
 import champIcon from "~icons/campaign/champ.webp";
 import elderIcon from "~icons/campaign/elder.webp";
+import celestialIcon from "~icons/campaign/celestial.webp";
 import godIcon from "~icons/campaign/god.webp";
 import mercenaryIcon from "~icons/campaign/mercenary.webp";
 
@@ -19,7 +20,7 @@ const levels = [
     icon: elderIcon,
   },
   { name: "God", icon: godIcon },
-  { name: "Celestial", icon: godIcon },
+  { name: "Celestial", icon: celestialIcon },
 ];
 
 const PlayerName = ({

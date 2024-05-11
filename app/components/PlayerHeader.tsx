@@ -50,7 +50,7 @@ export default function PlayerHeader({
     campaignStatus?.then((campaignStatus) => {
       setHighestLevel(getHighestLevel(campaignStatus));
     });
-  })
+  });
 
   return (
     <>
@@ -198,6 +198,7 @@ export default function PlayerHeader({
                   "border-[#f1c40f] shadow-[#f1c40f]/50",
                   "border-[#1abc9c] shadow-[#1abc9c]/50",
                   "border-[#9c59b6] shadow-[#9c59b6]/50",
+                  "border-[#6931b6] shadow-[#6931b6]/50",
                 ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
               ].join(" ")}
               alt=""
@@ -229,8 +230,9 @@ export default function PlayerHeader({
                 <div>
                   <Link
                     prefetch={"none"}
-                    href={`/leaderboards/${category}?page=${Math.floor(profile.rank / 50) + 1
-                      }`}
+                    href={`/leaderboards/${category}?page=${
+                      Math.floor(profile.rank / 50) + 1
+                    }`}
                   >
                     #{profile.rank.toLocaleString(language)}
                   </Link>

@@ -4,8 +4,6 @@ module.exports = {
   serverDependenciesToBundle: ["chartjs-adapter-luxon"],
   postcss: true,
 
-
-
   future: {
     v2_errorBoundary: true,
     v2_headers: true,
