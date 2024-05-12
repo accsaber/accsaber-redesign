@@ -7,15 +7,17 @@ import { renderToPipeableStream } from "react-dom/server";
 import styles from "./styles/app.css";
 import NonceContext from "@/NonceContext";
 import config from "./lib/api/config";
+import { getDSN } from "./lib/api/config";
 
 export function handleError(error: unknown, { request }: { request: Request }) {
-  if (config.sentryDSN)
+  if (getDSN())
     Sentry.captureRemixServerException(error, "remix.server", request);
 }
 
-if (config.sentryDSN)
+const dsn = getDSN();
+if (dsn)
   Sentry.init({
-    dsn: config.sentryDSN,
+    dsn: dsn,
     tracesSampleRate: 1,
   });
 

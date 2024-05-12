@@ -27,6 +27,7 @@ import { gqlClient } from "./lib/api/gql";
 import { UserContextDocument } from "$gql";
 import { withTiming } from "./lib/timing";
 import { useNonce } from "@/NonceContext";
+import { getDSN } from "./lib/api/config";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -52,30 +53,14 @@ export const loader = async ({ request }: LoaderArgs) => {
         .then((p) => p.playerDatum)
     : Promise.resolve(null);
 
-  return await Promise.race([
-    json(
-      {
-        user: await currentUser,
-        dark: userCookie.dark,
-      },
-      { headers }
-    ),
-    new Promise((resolve) =>
-      setTimeout(
-        () =>
-          resolve(
-            defer(
-              {
-                user: currentUser,
-                dark: userCookie.dark,
-              },
-              { headers }
-            )
-          ),
-        100
-      )
-    ),
-  ]);
+  return json(
+    {
+      user: await currentUser,
+      dark: userCookie.dark,
+      dsn: getDSN(),
+    },
+    { headers }
+  );
 };
 
 export const ErrorBoundary = () => {
@@ -86,7 +71,7 @@ export const ErrorBoundary = () => {
 
 export default function App() {
   const queryClient = new QueryClient({});
-  const { user, dark: darkSetting } = useLoaderData<typeof loader>();
+  const { user, dark: darkSetting, dsn } = useLoaderData<typeof loader>();
   const [dark, setDarkMode] = useState<boolean>(darkSetting ?? false);
 
   const nonce = useNonce();
@@ -103,6 +88,7 @@ export default function App() {
           <head>
             <Meta />
             <LinksBlock />
+            <meta name="sentry-dsn" content={dsn} />
           </head>
           <body
             className={`${

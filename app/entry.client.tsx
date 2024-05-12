@@ -3,10 +3,13 @@ import { RemixBrowser, useLocation, useMatches } from "@remix-run/react";
 import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
 import config from "./lib/api/config";
+import { getDSN } from "./lib/api/config";
 
-if (config.sentryDSN)
+const dsn = getDSN();
+
+if (dsn)
   Sentry.init({
-    dsn: config.sentryDSN,
+    dsn: dsn,
     tracesSampleRate: 1,
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1,

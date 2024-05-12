@@ -5,5 +5,4 @@ export default interface ApiConfig {
   gqlURL: string;
   defaultLocale: string;
   isBeta: boolean;
-  sentryDSN?: string;
 }
