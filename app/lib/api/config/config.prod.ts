@@ -16,6 +16,8 @@ const productionConfig: ApiConfig = {
       : "https://gql.accsaber.com/graphql",
   defaultLocale: "en-AU",
   isBeta: true,
+  sentryDSN:
+    (typeof process !== "undefined" && process?.env?.SENTRY_DSN) || undefined,
 };
 
 export default productionConfig;

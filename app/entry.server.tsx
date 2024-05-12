@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/remix";
 import { PassThrough } from "stream";
 import type { EntryContext } from "@remix-run/node";
 import { Response } from "@remix-run/node";
@@ -5,12 +6,25 @@ import { RemixServer } from "@remix-run/react";
 import { renderToPipeableStream } from "react-dom/server";
 import styles from "./styles/app.css";
 import NonceContext from "@/NonceContext";
+import config from "./lib/api/config";
+
+export function handleError(error: unknown, { request }: { request: Request }) {
+  if (config.sentryDSN)
+    Sentry.captureRemixServerException(error, "remix.server", request);
+}
+
+if (config.sentryDSN)
+  Sentry.init({
+    dsn: config.sentryDSN,
+    tracesSampleRate: 1,
+  });
 
 const ABORT_DELAY = 5000;
 
-const now = typeof performance !== "undefined" ?
-  () => performance.now() :
-  () => Date.now();
+const now =
+  typeof performance !== "undefined"
+    ? () => performance.now()
+    : () => Date.now();
 
 export default function handleRequest(
   request: Request,
