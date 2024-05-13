@@ -10,6 +10,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useCatch,
   useLoaderData,
   useRouteError,
@@ -65,8 +66,55 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const ErrorBoundary = () => {
   const error = useRouteError();
-  captureRemixErrorBoundaryError(error);
-  return <div>Something went wrong</div>;
+
+  const nonce = useNonce();
+  if (!isRouteErrorResponse(error)) {
+    return <div>Something went wrong</div>;
+  }
+  if (error.status !== 404) captureRemixErrorBoundaryError(error);
+
+  return (
+    <html lang="en">
+      <head>
+        <title>{`${error.statusText} | AccSaber`}</title>
+        <Meta />
+        <LinksBlock />
+      </head>
+      <body>
+        <Header hideUser />
+        <div className="p-6 py-16 prose prose-lg dark:prose-invert max-w-screen-lg mx-auto">
+          {error.status === 404 ? (
+            <>
+              <h1 className="font-semibold text-orange-600 dark:text-orange-400">
+                Page not found
+              </h1>
+              <p>Either you've followed a dead link or entered a URL wrong</p>
+              <p>
+                If this page was linked to from AccSaber, please tell us in the
+                #bug-reports channel on discord
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="font-semibold text-orange-600 dark:text-orange-400">
+                {error.statusText}
+              </h1>
+              <p>Something went wrong and we couldn't load this page.</p>
+              <p>
+                We have automatic error logging in place, but if this happens
+                repeatedly please leave instructions to reproduce it in the
+                #bug-reports channel on discord
+              </p>
+            </>
+          )}
+        </div>
+
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
+        <LiveReload />
+      </body>
+    </html>
+  );
 };
 
 export default function App() {
@@ -119,59 +167,5 @@ export default function App() {
         </html>
       </UserContext.Provider>
     </DarkModeContext.Provider>
-  );
-}
-
-export function CatchBoundary() {
-  const caught = useCatch();
-  const nonce = useNonce();
-  return (
-    <html className="h-full">
-      <head>
-        <title>Oops!</title>
-        <Meta />
-        <LinksBlock />
-        <link rel="stylesheet" href={styles} />
-        <link rel="shortcut icon" href={logo} />
-      </head>
-      <body className="flex flex-col h-full dark:bg-neutral-900">
-        <Header />
-        <div className="flex items-center justify-center flex-1 text-4xl">
-          <div className="prose prose-xl dark:prose-invert">
-            {caught.status == 404 ? (
-              <>
-                <h1 className="text-orange-600 dark:text-orange-400">
-                  404: Page not found
-                </h1>
-                <p>
-                  Looks like you've hit a bad route. If you've clicked a bad
-                  link, give one of the devs a shout and they'll look into it{" "}
-                  {":)"}
-                </p>
-              </>
-            ) : (
-              <p>
-                <h1 className="text-red-600 dark:text-red-400">
-                  Error loading page
-                </h1>
-                <p>It looks like something's gone wrong.</p>
-                <p>
-                  If you've set this off with something obscure, let a dev know
-                  and we'll throw it on the pile
-                </p>
-                <p>
-                  If it's something really obvious, please don't, we probably
-                  already know {":)"}
-                </p>
-                <h2>Full error</h2>
-                <pre>{caught.data}</pre>
-              </p>
-            )}
-          </div>
-        </div>
-        <ScrollRestoration nonce={nonce} />
-        <Scripts nonce={nonce} />
-      </body>
-    </html>
   );
 }

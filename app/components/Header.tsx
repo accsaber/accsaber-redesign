@@ -128,7 +128,7 @@ const ActionSection = ({
   );
 };
 
-const Header = () => {
+const Header = (props: { hideUser?: boolean }) => {
   const [menuVisible, setMenu] = useState(false);
   const { pathname } = useLocation();
   const { state } = useNavigation();
@@ -194,20 +194,26 @@ const Header = () => {
               <div className="hidden md:block">Wiki</div>
             </a>
           </nav>
-          <nav className="hidden sm:flex items-center gap-2">
-            <ActionSection
-              onClick={() => setMenu(false)}
-              popupRef={popupRef}
-              searchRef={searchRef}
-            />
-          </nav>
-          <button
-            onClick={() => setMenu(true)}
-            className="p-3 headerNav sm:hidden"
-            aria-label="Show Menu"
-          >
-            <MenuIcon className="w-5 h-5" />
-          </button>
+          {!props.hideUser ? (
+            <>
+              <nav className="hidden sm:flex items-center gap-2">
+                <ActionSection
+                  onClick={() => setMenu(false)}
+                  popupRef={popupRef}
+                  searchRef={searchRef}
+                />
+              </nav>
+              <button
+                onClick={() => setMenu(true)}
+                className="p-3 headerNav sm:hidden"
+                aria-label="Show Menu"
+              >
+                <MenuIcon className="w-5 h-5" />
+              </button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </header>
       <PopoverMenu visible={menuVisible}>
