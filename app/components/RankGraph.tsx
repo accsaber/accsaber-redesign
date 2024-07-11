@@ -87,7 +87,7 @@ const RankGraph: React.FC<{
         elements: {
           line: {
             fill: false,
-            // tension: 0.2,
+            tension: 0.2,
           },
           point: {
             radius: 0,
