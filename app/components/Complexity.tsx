@@ -20,7 +20,12 @@ const Complexity: React.FC<{ children: number }> = ({ children }) => {
           width: (children / 15) * 100 + "%",
         }}
       ></div>
-      <div className="relative">{children}</div>
+      <div className="relative">
+        {children.toLocaleString("en-AU", {
+          maximumFractionDigits: 1,
+          minimumFractionDigits: 1,
+        })}
+      </div>
     </div>
   );
 };

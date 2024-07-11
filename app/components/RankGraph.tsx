@@ -31,6 +31,12 @@ const RankGraph: React.FC<{
             yAxisID: "yAp",
             borderColor: "#22c55e",
           },
+          {
+            data: history.map(({ date, rankedPlays }) => [date, rankedPlays]),
+            label: "Ranked Plays",
+            yAxisID: "yPlays",
+            borderColor: "#7e7e7e55",
+          },
         ],
       }}
       color={"red"}
@@ -56,9 +62,14 @@ const RankGraph: React.FC<{
             grid: {
               display: false,
             },
-            ticks: {
-              display: false,
+            position: "right",
+            title: {
+              display: true,
+              text: "AP",
             },
+          },
+          yPlays: {
+            display: false,
           },
           y: {
             type: "linear",
@@ -66,12 +77,17 @@ const RankGraph: React.FC<{
             ticks: {
               precision: 0,
             },
+            title: {
+              display: true,
+              text: "Rank",
+            },
           },
         },
 
         elements: {
           line: {
             fill: false,
+            // tension: 0.2,
           },
           point: {
             radius: 0,
