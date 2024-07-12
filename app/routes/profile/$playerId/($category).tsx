@@ -76,7 +76,7 @@ export const loader = async ({
       ? -1
       : ["true", "standard", "tech"].indexOf(category) + 1;
 
-  const [profile, queryData, blurData] = await Promise.all([
+  const [profile, queryData, blurData, campaignStatus] = await Promise.all([
     getPlayer(playerId, category)
       .then(withTiming(headers, "fetch", "Get Player"))
       .catch(() => {
@@ -93,19 +93,21 @@ export const loader = async ({
       })
       .then(withTiming(headers, "query", "GraphQL Query")),
     getPlayerImage(playerId),
+    apiJson<CampaignStatus[]>(
+      new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)
+    ).then(withTiming(headers, "fetch", "Get Campaign Level")),
   ]);
 
   if (!profile) throw new Response("Profile not found", { status: 404 });
 
-  const peakRank = queryData.peak?.nodes[0]?.ranking;
+  const peakRank =
+    queryData.playerPeakRanks?.nodes[0]?.peakRanking ?? undefined;
 
-  return defer(
+  return json(
     {
       playerId: profile.playerId,
       profile,
-      campaignStatus: apiJson(
-        new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)
-      ),
+      campaignStatus,
       queryData,
       category,
       peakRank,

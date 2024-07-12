@@ -39,7 +39,7 @@ export default function PlayerHeader({
   category: string;
   profile: Player;
   peakRank?: number;
-  campaignStatus: Promise<CampaignStatus[]>;
+  campaignStatus: CampaignStatus[];
   queryData: PlayerLayoutQuery;
   miniblur?: string;
 }) {
@@ -47,13 +47,9 @@ export default function PlayerHeader({
 
   const userPromise = useUser();
 
-  const [highestLevel, setHighestLevel] = useState<number>(-1);
-
-  useEffect(() => {
-    campaignStatus?.then((campaignStatus) => {
-      setHighestLevel(getHighestLevel(campaignStatus));
-    });
-  });
+  const highestLevel = useMemo(() => {
+    return getHighestLevel(campaignStatus);
+  }, [campaignStatus]);
 
   return (
     <>

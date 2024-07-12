@@ -27,19 +27,15 @@ query PlayerLayout($playerId: BigInt!, $category: BigInt!, $historyDays: Int!) {
       ...RankHistoryDay
     }
   }
-  peak: playerRankHistories(
-    condition: { playerId: $playerId, categoryId: $category }
-    first: 1
-    orderBy: RANKING_ASC
-  ) {
-    nodes {
-      ranking
-    }
-  }
   categoryAccSaberPlayers(condition: { playerId: $playerId }) {
     nodes {
       categoryName
       ...SkillLevel
+    }
+  }
+  playerPeakRanks(condition: { playerId: $playerId, categoryId: $category }) {
+    nodes {
+      peakRanking
     }
   }
   categories {
