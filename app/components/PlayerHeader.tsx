@@ -17,7 +17,7 @@ import { useUser } from "./UserContext";
 import { StarIcon, UserPlusIcon } from "@heroicons/react/20/solid";
 import PlayerAvatar from "./PlayerAvatar";
 import CDNImage from "./CDNImage";
-import { TrophyIcon } from "@heroicons/react/24/outline";
+import { StarIcon as TrophyIcon } from "@heroicons/react/24/outline";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
 const RankGraph = lazy(() => import("@/RankGraph"));
@@ -268,15 +268,10 @@ export default function PlayerHeader({
                         </div>
                       </>
                     ) : (
-                      <>
-                        <StarIcon
-                          className="h-5 text-yellow-600 dark:text-yellow-400 cursor-help "
-                          title="Currently at peak rank"
-                        />
-                        <div className="text-yellow-600 dark:text-yellow-400 text-lg">
-                          Peak Rank
-                        </div>
-                      </>
+                      <StarIcon
+                        className="h-5 cursor-help dark:text-[gold] dark:bg-transparent"
+                        title="Currently at peak rank"
+                      />
                     )}
                   </>
                 )}
