@@ -29,6 +29,7 @@ import { UserContextDocument } from "$gql";
 import { withTiming } from "./lib/timing";
 import { useNonce } from "@/NonceContext";
 import { getDSN } from "./lib/api/config";
+import { getPlayer } from "./lib/api/fetcher";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -48,15 +49,14 @@ export const loader = async ({ request }: LoaderArgs) => {
   const headers = new Headers();
 
   const currentUser = userCookie.userId
-    ? gqlClient
-        .request(UserContextDocument, { playerId: userCookie.userId })
-        .then(withTiming(headers, "playerData", "Get current user info"))
-        .then((p) => p.playerDatum)
-    : Promise.resolve(null);
+    ? await getPlayer(userCookie.userId).then(
+        withTiming(headers, "playerData", "Get current user info")
+      )
+    : null;
 
   return json(
     {
-      user: await currentUser,
+      user: currentUser,
       dark: userCookie.dark,
       dsn: getDSN(),
     },
@@ -131,7 +131,7 @@ export default function App() {
         setDarkMode,
       }}
     >
-      <UserContext.Provider value={(user as Promise<Player>) ?? null}>
+      <UserContext.Provider value={user ?? null}>
         <html lang="en" className="h-full">
           <head>
             <Meta />

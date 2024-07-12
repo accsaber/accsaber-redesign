@@ -1,7 +1,7 @@
 import type { Player } from "$interfaces/api/player";
 import { createContext, useContext } from "react";
 
-const UserContext = createContext<Promise<Player> | null>(null);
+const UserContext = createContext<Player | null>(null);
 
 export default UserContext;
 

@@ -41,7 +41,7 @@ const ActionSection = ({
   popupRef: React.MutableRefObject<HTMLDialogElement | undefined>;
   searchRef: React.MutableRefObject<HTMLInputElement | undefined>;
 }) => {
-  const userPromise = useUser();
+  const user = useUser();
   const nav = useNavigate();
 
   return (
@@ -59,71 +59,65 @@ const ActionSection = ({
         <SearchIcon className="w-6 h-6" />
       </NavLink>
       <DarkToggle />
-      <Suspense fallback={<LoadingSpinner className="w-10 h-10 p-1" />}>
-        <Await resolve={userPromise}>
-          {(user) =>
-            user ? (
-              <Popover className="relative flex items-start justify-center">
-                <Popover.Button
-                  as={NavLink}
-                  to={`/profile/${user.playerId}`}
-                  onDoubleClick={() => nav(`/profile/${user.playerId}`)}
-                  prefetch="render"
-                  className="flex w-10 h-10 overflow-auto rounded-full aspect-square items-center justify-center"
-                >
-                  <CDNImage
-                    width={40}
-                    height={40}
-                    src={`avatars/${user.playerId}.jpg`}
-                  />
-                </Popover.Button>
-                <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 [writing-mode:horizontal-tb]">
-                  <NavLink
-                    to={`/profile/${user.playerId}`}
-                    prefetch="render"
-                    className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
-                  >
-                    {({ isPending }) => (
-                      <>
-                        {isPending ? (
-                          <LoadingSpinner className="h-6 w-6" />
-                        ) : (
-                          <UserIcon className="h-6" />
-                        )}
-                        My Profile
-                      </>
-                    )}
-                  </NavLink>
-                  <Form
-                    action={`/settings/logout`}
-                    method="post"
-                    replace
-                    reloadDocument
-                  >
-                    <button
-                      type="submit"
-                      className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
-                    >
-                      <LogoutIcon className="w-6 h-6" />
-                      Log out
-                    </button>
-                  </Form>
-                </Popover.Panel>
-              </Popover>
-            ) : (
-              <NavLink
-                to="/register"
-                className="flex items-center headerNav justify-center relative group"
-                onClick={onClick}
+      {user ? (
+        <Popover className="relative flex items-start justify-center">
+          <Popover.Button
+            as={NavLink}
+            to={`/profile/${user.playerId}`}
+            onDoubleClick={() => nav(`/profile/${user.playerId}`)}
+            prefetch="render"
+            className="flex w-10 h-10 overflow-auto rounded-full aspect-square items-center justify-center"
+          >
+            <CDNImage
+              width={40}
+              height={40}
+              src={`avatars/${user.playerId}.jpg`}
+            />
+          </Popover.Button>
+          <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 [writing-mode:horizontal-tb]">
+            <NavLink
+              to={`/profile/${user.playerId}`}
+              prefetch="render"
+              className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
+            >
+              {({ isPending }) => (
+                <>
+                  {isPending ? (
+                    <LoadingSpinner className="h-6 w-6" />
+                  ) : (
+                    <UserIcon className="h-6" />
+                  )}
+                  My Profile
+                </>
+              )}
+            </NavLink>
+            <Form
+              action={`/settings/logout`}
+              method="post"
+              replace
+              reloadDocument
+            >
+              <button
+                type="submit"
+                className="px-4 py-3 hover:bg-neutral-200 flex gap-2 items-center w-full"
               >
-                <UserPlusIcon className="w-6 h-6" />
+                <LogoutIcon className="w-6 h-6" />
+                Log out
+              </button>
+            </Form>
+          </Popover.Panel>
+        </Popover>
+      ) : (
+        <NavLink
+          to="/register"
+          className="flex items-center headerNav justify-center relative group"
+          onClick={onClick}
+        >
+          <UserPlusIcon className="w-6 h-6" />
 
-                <div className="tooltip group-hover:translate-x-0">Sign up</div>
-              </NavLink>
-            )
-          }
-        </Await>
-      </Suspense>
+          <div className="tooltip group-hover:translate-x-0">Sign up</div>
+        </NavLink>
+      )}
     </>
   );
 };
