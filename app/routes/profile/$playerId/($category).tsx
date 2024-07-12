@@ -55,6 +55,7 @@ const getPlayerImage = async (playerId: string) =>
 
 export const loader = async ({
   params: { playerId, category = "overall" },
+  request: { url },
 }: LoaderArgs) => {
   invariant(playerId, "Missing Player Id");
   // This is the stupidest bug I have ever fixed
@@ -62,6 +63,13 @@ export const loader = async ({
     throw new Response("Profile not found", { status: 404 });
   const headers = new Headers();
   headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
+
+  const { searchParams } = new URL(url);
+
+  const historyDays = Math.max(
+    parseInt(searchParams.get("historyDays")!) || 30,
+    1
+  );
 
   const categoryNumber =
     category === "overall"
@@ -81,12 +89,15 @@ export const loader = async ({
       .request(PlayerLayoutDocument, {
         playerId,
         category: categoryNumber,
+        historyDays,
       })
       .then(withTiming(headers, "query", "GraphQL Query")),
     getPlayerImage(playerId),
   ]);
 
   if (!profile) throw new Response("Profile not found", { status: 404 });
+
+  const peakRank = queryData.peak?.nodes[0]?.ranking;
 
   return defer(
     {
@@ -97,14 +108,22 @@ export const loader = async ({
       ),
       queryData,
       category,
+      peakRank,
       blurData,
     },
     { headers }
   );
 };
 export default function PlayerLayout() {
-  const { campaignStatus, category, profile, queryData, playerId, blurData } =
-    useLoaderData<typeof loader>();
+  const {
+    campaignStatus,
+    category,
+    profile,
+    queryData,
+    playerId,
+    blurData,
+    peakRank,
+  } = useLoaderData<typeof loader>();
 
   return (
     <main>
@@ -112,6 +131,7 @@ export default function PlayerLayout() {
         category={category}
         profile={profile}
         playerId={playerId}
+        peakRank={peakRank}
         campaignStatus={campaignStatus}
         // @ts-ignore
         queryData={queryData}

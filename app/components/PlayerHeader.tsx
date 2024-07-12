@@ -14,9 +14,10 @@ import { Await, Form } from "@remix-run/react";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import steamLogo from "~/images/steam.svg";
 import { useUser } from "./UserContext";
-import { UserPlusIcon } from "@heroicons/react/20/solid";
+import { StarIcon, UserPlusIcon } from "@heroicons/react/20/solid";
 import PlayerAvatar from "./PlayerAvatar";
 import CDNImage from "./CDNImage";
+import { TrophyIcon } from "@heroicons/react/24/outline";
 
 const SkillTriangle = lazy(() => import("@/SkillTriangle"));
 const RankGraph = lazy(() => import("@/RankGraph"));
@@ -26,6 +27,7 @@ export default function PlayerHeader({
   category = "overall",
   profile,
   campaignStatus,
+  peakRank,
   miniblur,
   queryData: {
     playerRankHistories,
@@ -36,6 +38,7 @@ export default function PlayerHeader({
   playerId: string;
   category: string;
   profile: Player;
+  peakRank?: number;
   campaignStatus: Promise<CampaignStatus[]>;
   queryData: PlayerLayoutQuery;
   miniblur?: string;
@@ -146,21 +149,15 @@ export default function PlayerHeader({
           {profile.playerName}&apos;s Profile
         </div>
       </PageHeader>
-      <div className="relative pb-48 -mb-48 overflow-hidden bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
+      <div className="relative pb-12 -mb-12 overflow-hidden  bg-neutral-100 dark:bg-black/20 text-neutral-800 dark:text-neutral-200">
         <div className="h-16" />
 
-        {miniblur && profile.playerId.startsWith("7") && (
-          <CDNImage
-            width={144}
-            height={144}
-            className="absolute top-0 left-0 object-center object-cover w-full h-full blur-3xl saturate-150"
-            alt=""
-            src={`avatars/${profile.playerId}.jpg`}
-            style={{
-              background: `url(${miniblur}) center / cover`,
-            }}
-          />
-        )}
+        <div
+          className="absolute object-center object-cover -inset-10 bottom-0 blur-2xl saturate-150"
+          style={{
+            background: `url(${miniblur}) center / cover`,
+          }}
+        />
         {miniblur && !profile.playerId.startsWith("7") && (
           <img
             width={144}
@@ -226,7 +223,7 @@ export default function PlayerHeader({
               <h1 className="text-2xl font-semibold">
                 <PlayerName highestLevel={highestLevel}>{profile}</PlayerName>
               </h1>
-              <div className="flex flex-1 gap-1 text-2xl">
+              <div className="flex flex-1 gap-1 items-center text-2xl">
                 <div>
                   <Link
                     prefetch={"none"}
@@ -256,6 +253,32 @@ export default function PlayerHeader({
                   </div>
                 ) : (
                   ""
+                )}
+                {peakRank && (
+                  <>
+                    <div className="h-7 bg-current opacity-20 w-[1px] mx-1"></div>
+                    {peakRank < profile.rank ? (
+                      <>
+                        <TrophyIcon
+                          className="h-5 opacity-75"
+                          title="Peak rank"
+                        />
+                        <div className="opacity-75 text-lg">
+                          #{peakRank.toLocaleString(language)}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <StarIcon
+                          className="h-5 text-yellow-600 dark:text-yellow-400 cursor-help "
+                          title="Currently at peak rank"
+                        />
+                        <div className="text-yellow-600 dark:text-yellow-400 text-lg">
+                          Peak Rank
+                        </div>
+                      </>
+                    )}
+                  </>
                 )}
               </div>
             </div>

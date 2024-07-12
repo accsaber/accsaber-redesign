@@ -12,28 +12,36 @@ fragment SkillLevel on CategoryAccSaberPlayer {
     categoryDisplayName
   }
 }
+
 fragment CategoryInfo on Category {
   categoryName
   categoryDisplayName
 }
 
-query PlayerLayout($playerId: BigInt!, $category: BigInt!) {
+query PlayerLayout($playerId: BigInt!, $category: BigInt!, $historyDays: Int!) {
   playerRankHistories(
     condition: { playerId: $playerId, categoryId: $category }
-    last: 30
+    last: $historyDays
   ) {
     nodes {
       ...RankHistoryDay
     }
   }
-
+  peak: playerRankHistories(
+    condition: { playerId: $playerId, categoryId: $category }
+    first: 1
+    orderBy: RANKING_ASC
+  ) {
+    nodes {
+      ranking
+    }
+  }
   categoryAccSaberPlayers(condition: { playerId: $playerId }) {
     nodes {
       categoryName
       ...SkillLevel
     }
   }
-
   categories {
     nodes {
       ...CategoryInfo

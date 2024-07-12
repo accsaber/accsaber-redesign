@@ -9,7 +9,7 @@ const productionConfig: ApiConfig = {
     typeof window !== "undefined"
       ? "https://campaigns.accsaber.com"
       : "http://campaigns-backend.default.svc/api/",
-  cdnURL: "https://cdn.accsaber.com",
+  cdnURL: "https://media.accsaber.com",
   gqlURL:
     typeof process !== "undefined" && process?.env?.POSTGRAPHILE_SERVICE_HOST
       ? `http://${process.env.POSTGRAPHILE_SERVICE_HOST}/graphql`
