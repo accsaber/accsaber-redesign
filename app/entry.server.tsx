@@ -61,10 +61,23 @@ export default function handleRequest(
           responseHeaders.append("X-Frame-Options", "SAMEORIGIN");
           responseHeaders.append("X-Content-Type-Options", "nosniff");
           responseHeaders.append("Referrer-policy", "same-origin");
+
+          const dsnHost = dsn ? new URL(dsn).origin : null;
           if (process.env.NODE_ENV == "production")
             responseHeaders.append(
               "Content-Security-Policy",
-              `default-src 'self' https://gql.accsaber.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'nonce-${nonce}'; object-src 'none'; base-uri 'self';`
+              [
+                "default-src 'self' https://gql.accsaber.com",
+                "img-src 'self' data: https:",
+                "style-src 'self' 'unsafe-inline'",
+                `script-src 'self' 'strict-dynamic' 'nonce-${nonce}'`,
+                "object-src 'none'",
+                "base-uri 'self'",
+                dsnHost &&
+                  `connect-src 'self' https://gql.accsaber.com ${dsnHost}`,
+              ]
+                .filter(Boolean)
+                .join("; ")
             );
           responseHeaders.append("permissions-policy", "autoplay=(self)");
           responseHeaders.append(
