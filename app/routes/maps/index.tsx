@@ -9,6 +9,7 @@ import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { useRef } from "react";
 import config from "~/lib/api/config";
 import { gqlClient } from "~/lib/api/gql";
+import { metaV1 } from "@remix-run/v1-meta";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const { searchParams } = new URL(request.url);
@@ -26,10 +27,11 @@ export const loader: LoaderFunction = async ({ request }) => {
   );
 };
 
-export const meta: MetaFunction = () => ({
-  title: "AccSaber Ranked Maps",
-  description: "Every ranked map on AccSaber",
-});
+export const meta: MetaFunction = (a) =>
+  metaV1(a, {
+    title: "AccSaber Ranked Maps",
+    description: "Every ranked map on AccSaber",
+  });
 
 export default function RankedMapsPage() {
   const { beatMaps: maps, categories } = useLoaderData<RankedMapsQuery>();

@@ -3,20 +3,21 @@ import { ApGraphPageDocument } from "$gql";
 import ApGraph from "@/ApGraph.client";
 import PlayerAvatar from "@/PlayerAvatar";
 import PageHeader from "@/PageHeader";
-import type { LoaderArgs, LoaderFunction, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
+import { metaV1 } from "@remix-run/v1-meta";
 
-export const loader = async ({ params: { playerId } }: LoaderArgs) => {
+export const loader = async ({ params: { playerId } }: LoaderFunctionArgs) => {
   invariant(playerId);
   return await gqlClient.request(ApGraphPageDocument, { playerId });
 };
 
-export const meta: MetaFunction<typeof loader> = (p) => ({
-  title: `${p.data.playerDatum?.playerName}'s AP Graph | AccSaber`,
-});
+export const meta: MetaFunction<typeof loader> = (p) =>
+  metaV1(p, {
+    title: `${p.data?.playerDatum?.playerName}'s AP Graph | AccSaber`,
+  });
 
 export default function ApGraphPage() {
   const {

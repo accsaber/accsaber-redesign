@@ -24,12 +24,7 @@ const PageLink = (props: {
   const [searchParams] = useSearchParams();
   const targetURL = usePageURL(props.page, searchParams);
   return !props.disabled ? (
-    <Link
-      to={targetURL}
-      aria-label="Previous Page"
-      className={buttonClass(false)}
-      prefetch="intent"
-    >
+    <Link to={targetURL} className={buttonClass(false)} prefetch="viewport">
       {props.children}
     </Link>
   ) : (

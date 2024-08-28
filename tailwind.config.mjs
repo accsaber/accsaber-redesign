@@ -1,5 +1,5 @@
 /**  @ts-ignore */
-module.exports = {
+export default {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
   darkMode: "class",
   theme: {

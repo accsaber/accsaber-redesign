@@ -4,7 +4,7 @@ import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
 import { getImaginaryURL } from "@/CDNImage";
 import PlayerHeader from "@/PlayerHeader";
-import { defer, LoaderArgs, MetaFunction } from "@remix-run/node";
+import { defer, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import Avatar from "boring-avatars";
@@ -14,29 +14,33 @@ import config from "~/lib/api/config";
 import { getPlayer, json as apiJson } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
+import { metaV1 } from "@remix-run/v1-meta";
 
-export const meta: MetaFunction<typeof loader> = ({ data: { profile } }) => ({
-  title: `${profile.playerName}'s Profile | AccSaber`,
-  description: `
-  Rank: #${profile.rank}
-  AP: ${profile.ap.toLocaleString(config.defaultLocale, {
+export const meta: MetaFunction<typeof loader> = (args) =>
+  metaV1(args, {
+    title: `${args.data?.profile?.playerName}'s Profile | AccSaber`,
+    description: `
+  Rank: #${args.data?.profile?.rank}
+  AP: ${args.data?.profile?.ap.toLocaleString(config.defaultLocale, {
     maximumFractionDigits: 2,
   })}
-  ${profile.rankedPlays.toLocaleString(config.defaultLocale)} Ranked Plays
-  ${profile.hmd}`
-    .trim()
-    .replace(/\n +/g, "\n"),
-  "og:image": profile.playerId.startsWith("7")
-    ? getImaginaryURL(
-        {
-          width: 256,
-          height: 256,
-          src: `avatars/${profile.playerId}.jpg`,
-        },
-        "jpeg"
-      ).toString()
-    : `/api/avatar/${profile.playerId}`,
-});
+  ${args.data?.profile?.rankedPlays.toLocaleString(
+    config.defaultLocale
+  )} Ranked Plays
+  ${args.data?.profile?.hmd}`
+      .trim()
+      .replace(/\n +/g, "\n"),
+    "og:image": args.data?.profile?.playerId.startsWith("7")
+      ? getImaginaryURL(
+          {
+            width: 256,
+            height: 256,
+            src: `avatars/${args.data?.profile?.playerId}.jpg`,
+          },
+          "jpeg"
+        ).toString()
+      : `/api/avatar/${args.data?.profile?.playerId}`,
+  });
 
 const getPlayerImage = async (playerId: string) =>
   playerId.startsWith("7")
@@ -49,14 +53,20 @@ const getPlayerImage = async (playerId: string) =>
           })
         ).then((res) => res.arrayBuffer())
       ).toString("base64")}`
-    : `data:image/svg+xml;base64,${Buffer.from(
-        renderToStaticMarkup(<Avatar name={playerId} variant="beam" square />)
-      ).toString("base64")}`;
+    : `data:image/svg+xml;base64,${
+        playerId
+          ? Buffer.from(
+              renderToStaticMarkup(
+                <Avatar name={playerId} variant="beam" square />
+              )
+            ).toString("base64")
+          : ""
+      }`;
 
 export const loader = async ({
   params: { playerId, category = "overall" },
   request: { url },
-}: LoaderArgs) => {
+}: LoaderFunctionArgs) => {
   invariant(playerId, "Missing Player Id");
   // This is the stupidest bug I have ever fixed
   if (category == "scores")

@@ -5,7 +5,7 @@ import DifficultyLabel from "@/DifficultyLabel";
 import LoadingSpinner from "@/LoadingSpinner";
 import PageHeader from "@/PageHeader";
 import Pagination from "@/Pagination";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { Link, NavLink, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -17,21 +17,23 @@ import scoresaberLogo from "~/images/scoresaber.svg";
 import PlayerAvatar from "@/PlayerAvatar";
 import MapCover from "@/MapCover";
 import CDNImage, { getImaginaryURL } from "@/CDNImage";
+import { metaV1 } from "@remix-run/v1-meta";
 
 const pageSize = 50;
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => ({
-  title: `${data.map.beatMap?.song?.songName} | AccSaber`,
-  description: `${data.map.beatMap?.song?.songName}: A ranked ${data.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
-  "og:image": getImaginaryURL(
-    {
-      width: 256,
-      height: 256,
-      src: `covers/${data.map.beatMap?.song?.songHash.toUpperCase()}.png`,
-    },
-    "jpeg"
-  ).toString(),
-});
+export const meta: MetaFunction<typeof loader> = (args) =>
+  metaV1(args, {
+    title: `${args.data?.map.beatMap?.song?.songName} | AccSaber`,
+    description: `${args.data?.map.beatMap?.song?.songName}: A ranked ${args.data?.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
+    "og:image": getImaginaryURL(
+      {
+        width: 256,
+        height: 256,
+        src: `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.png`,
+      },
+      "jpeg"
+    ).toString(),
+  });
 
 const getMapImage = (songHash: string) =>
   fetch(
@@ -41,15 +43,14 @@ const getMapImage = (songHash: string) =>
         height: 24,
         src: `covers/${songHash.toUpperCase()}.png`,
       },
-      "webp",
-      "crop"
+      "webp"
     )
   ).then((res) => res.arrayBuffer());
 
 export const loader = async ({
   params: { mapId },
   request: { url },
-}: LoaderArgs) => {
+}: LoaderFunctionArgs) => {
   const { searchParams } = new URL(url);
   invariant(mapId);
 

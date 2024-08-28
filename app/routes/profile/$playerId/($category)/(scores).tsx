@@ -1,4 +1,4 @@
-import type { PlayerScoresPageQuery } from "$gql";
+import type { PlayerScoresPageQuery, ScoreRowFragment } from "$gql";
 import { AccSaberScoresOrderBy, PlayerScoresPageDocument } from "$gql";
 import BlankBlock from "@/BlankBlock";
 import GQLSortButton from "@/GQLSortButton";
@@ -20,7 +20,6 @@ interface ScoresData {
   scores: PlayerScoresPageQuery["accSaberScores"];
   playerId: string;
 }
-
 
 export const loader: LoaderFunction = async ({
   params: { playerId, category = "overall" },
@@ -75,16 +74,16 @@ export default function PlayerScoresPage() {
     string,
     number?
   ][] = [
-      [["RankingAsc", "RankingDesc"], "", 2],
-      [["SongNameAsc", "SongNameDesc"], "Song Name"],
-      [null, "Category"],
-      [["AccuracyAsc", "AccuracyDesc"], "Accuracy"],
-      [null, ""],
-      [["ApDesc", "ApAsc"], "AP"],
-      [["WeightedApDesc", "WeightedApAsc"], "Weighted"],
-      [["TimeSetDesc", "TimeSetAsc"], "Time Set"],
-      [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
-    ];
+    [["RankingAsc", "RankingDesc"], "", 2],
+    [["SongNameAsc", "SongNameDesc"], "Song Name"],
+    [["CategoryDisplayNameAsc", "CategoryDisplayNameDesc"], "Category"],
+    [["AccuracyAsc", "AccuracyDesc"], "Accuracy"],
+    [null, ""],
+    [["ApDesc", "ApAsc"], "AP"],
+    [["WeightedApDesc", "WeightedApAsc"], "Weighted"],
+    [["TimeSetDesc", "TimeSetAsc"], "Time Set"],
+    [["ComplexityAsc", "ComplexityDesc"], "Complexity"],
+  ];
 
   const { pathname } = useLocation();
   const { state, location } = useNavigation();
@@ -118,19 +117,15 @@ export default function PlayerScoresPage() {
               ))}
             </tr>
           </thead>
-          {state === "loading" && location?.pathname === pathname ? (
-            <ScoreLoadingPage />
-          ) : (
-            <tbody>
-              {scores?.nodes.map((score) => (
-                <ScoreRow
-                  playerId={playerId}
-                  score={score}
-                  key={score.scoreId}
-                />
-              ))}
-            </tbody>
-          )}
+          <tbody>
+            {scores?.nodes.map((score) => (
+              <ScoreRow
+                playerId={playerId}
+                score={score as ScoreRowFragment}
+                key={score.scoreId}
+              />
+            ))}
+          </tbody>
         </table>
       </div>
       <Pagination
@@ -140,41 +135,3 @@ export default function PlayerScoresPage() {
     </div>
   );
 }
-
-const ScoreLoadingPage = () => {
-  return (
-    <tbody>
-      {new Array(pageSize).fill(0).map((_i, n) => (
-        <tr key={n}>
-          <td>
-            <BlankBlock width={"1.5rem"} />
-          </td>
-          <td className="w-full" colSpan={2}>
-            <BlankBlock
-              width={`${(Math.abs(Math.sin(n * Math.sqrt(5)) * 50) % 50) + 50
-                }%`}
-            />
-          </td>
-          <td>
-            <BlankBlock width={`${(Math.sin(n) + 2) * 2}rem`} />
-          </td>
-          <td colSpan={2}>
-            <BlankBlock width={"3rem"} />
-          </td>
-          <td>
-            <BlankBlock width={"2rem"} />
-          </td>
-          <td>
-            <BlankBlock width={"3rem"} />
-          </td>
-          <td>
-            <BlankBlock width={"4rem"} />
-          </td>
-          <td>
-            <BlankBlock width={"3rem"} />
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  );
-};

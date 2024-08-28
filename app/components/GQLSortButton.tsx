@@ -1,4 +1,4 @@
-import { Form, useTransition } from "@remix-run/react";
+import { Link, useSearchParams, useNavigation } from "@remix-run/react";
 import LoadingSpinner from "./LoadingSpinner";
 
 const GQLSortButton = ({
@@ -11,7 +11,7 @@ const GQLSortButton = ({
   currentValue?: string;
 }) => {
   const value = currentValue ? values.indexOf(currentValue) ?? 0 : 0;
-  const transition = useTransition();
+  const transition = useNavigation();
 
   const transitionParams =
     transition && new URLSearchParams(transition.location?.search);
@@ -49,23 +49,25 @@ const GQLSortButton = ({
       </svg>
     );
 
+  const [target] = useSearchParams();
+  target.set("sortBy", inputValue);
+  target.delete("page");
+
   return (
-    <Form method="get" replace>
-      <input type="hidden" name={"sortBy"} value={inputValue} />
-      <button
-        className="[font:inherit] flex w-full justify-between"
-        type="submit"
-      >
-        {children}
-        <div>
-          {transitionParams?.get("sortBy") == inputValue ? (
-            <LoadingSpinner className="h-6" />
-          ) : (
-            icon
-          )}
-        </div>
-      </button>
-    </Form>
+    <Link
+      to={`?${target}`}
+      className="flex w-full justify-between no-underline"
+      prefetch="intent"
+    >
+      {children}
+      <div>
+        {transitionParams?.get("sortBy") == inputValue ? (
+          <LoadingSpinner className="h-6" />
+        ) : (
+          icon
+        )}
+      </div>
+    </Link>
   );
 };
 

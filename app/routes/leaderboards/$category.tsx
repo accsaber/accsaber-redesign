@@ -2,19 +2,20 @@ import { CategoryLeaderboardDocument } from "$gql";
 import PageHeader from "@/PageHeader";
 import Pagination from "@/Pagination";
 import PlayerRow from "@/PlayerRow";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { gqlClient } from "~/lib/api/gql";
 import { withTiming } from "~/lib/timing";
+import { metaV1 } from "@remix-run/v1-meta";
 
 export const pageSize = 50;
 
 export const loader = async ({
   params: { category = "overall" },
   request,
-}: LoaderArgs) => {
+}: LoaderFunctionArgs) => {
   invariant(category);
   const { searchParams } = new URL(request.url);
   const headers = new Headers();
@@ -48,18 +49,19 @@ export const categoryMap = new Map([
   ["tech", "Tech Acc"],
 ]);
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return {
-    title: `AccSaber ${
-      categoryMap.get(data.category) ?? data.category
-    } leaderboard`,
+export const meta: MetaFunction<typeof loader> = (args) =>
+  metaV1(args, {
+    title: args.data
+      ? `AccSaber ${
+          categoryMap.get(args.data?.category) ?? args.data?.category
+        } leaderboard`
+      : "AccSaber",
     description: `${
-      data.totalCount
-    } Beat Saber players, ranked by their ${categoryMap.get(
-      data.category
-    )} scores`,
-  };
-};
+      args.data?.totalCount
+    } Beat Saber players, ranked by their ${
+      args.data?.category ? categoryMap.get(args.data?.category) : ""
+    } scores`,
+  });
 
 export default function LeaderboardsPage() {
   const { category, categories, page, pages, standings } =

@@ -1,17 +1,20 @@
 import { captureRemixErrorBoundaryError } from "@sentry/remix";
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import styles from "~/styles/app.css";
+import styles from "~/styles/app.css?url";
 import {
   Links as LinksBlock,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
-  useCatch,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
@@ -30,19 +33,21 @@ import { withTiming } from "./lib/timing";
 import { useNonce } from "@/NonceContext";
 import { getDSN } from "./lib/api/config";
 import { getPlayer } from "./lib/api/fetcher";
+import { metaV1 } from "@remix-run/v1-meta";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "AccSaber",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta: MetaFunction = (a) =>
+  metaV1(a, {
+    charset: "utf-8",
+    title: "AccSaber",
+    viewport: "width=device-width,initial-scale=1",
+  });
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
   { rel: "shortcut icon", href: logo },
 ];
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const userCookie: { userId?: string; dark?: boolean } =
     (await user.parse(cookieHeader)) || {};
@@ -111,7 +116,6 @@ export const ErrorBoundary = () => {
 
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
-        <LiveReload />
       </body>
     </html>
   );
@@ -162,7 +166,6 @@ export default function App() {
             </QueryClientProvider>
             <ScrollRestoration nonce={nonce} />
             <Scripts nonce={nonce} />
-            <LiveReload />
           </body>
         </html>
       </UserContext.Provider>

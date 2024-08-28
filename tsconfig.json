@@ -2,12 +2,16 @@
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
+
+    "types": ["@remix-run/node", "vite/client"],
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "module": "es2020",
     "target": "ES2019",
     "strict": true,
     "allowJs": true,
@@ -17,6 +21,7 @@
       "$gql": ["./app/__generated__/gql"],
       "next/link": ["./app/components/NextLink"],
       "@/*": ["./app/components/*"],
+      "boring-avatars": ["./app/components/BoringAvatar"],
       "$interfaces/*": ["./app/lib/interfaces/*"],
       "~icons/*": ["./public/icons/*"],
       "~/*": ["./app/*"]
