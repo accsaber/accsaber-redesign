@@ -25,7 +25,7 @@ export const meta: MetaFunction<typeof loader> = (args) =>
     maximumFractionDigits: 2,
   })}
   ${args.data?.profile?.rankedPlays.toLocaleString(
-    config.defaultLocale
+    config.defaultLocale,
   )} Ranked Plays
   ${args.data?.profile?.hmd}`
       .trim()
@@ -37,7 +37,7 @@ export const meta: MetaFunction<typeof loader> = (args) =>
             height: 256,
             src: `avatars/${args.data?.profile?.playerId}.jpg`,
           },
-          "jpeg"
+          "jpeg",
         ).toString()
       : `/api/avatar/${args.data?.profile?.playerId}`,
   });
@@ -50,15 +50,15 @@ const getPlayerImage = async (playerId: string) =>
             src: `avatars/${playerId}.jpg`,
             width: 32,
             height: 32,
-          })
-        ).then((res) => res.arrayBuffer())
+          }),
+        ).then((res) => res.arrayBuffer()),
       ).toString("base64")}`
     : `data:image/svg+xml;base64,${
         playerId
           ? Buffer.from(
               renderToStaticMarkup(
-                <Avatar name={playerId} variant="beam" square />
-              )
+                <Avatar name={playerId} variant="beam" square />,
+              ),
             ).toString("base64")
           : ""
       }`;
@@ -78,7 +78,7 @@ export const loader = async ({
 
   const historyDays = Math.max(
     parseInt(searchParams.get("historyDays")!) || 30,
-    1
+    1,
   );
 
   const categoryNumber =
@@ -104,8 +104,10 @@ export const loader = async ({
       .then(withTiming(headers, "query", "GraphQL Query")),
     getPlayerImage(playerId),
     apiJson<CampaignStatus[]>(
-      new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)
-    ).then(withTiming(headers, "fetch", "Get Campaign Level")),
+      new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL),
+    )
+      .then(withTiming(headers, "fetch", "Get Campaign Level"))
+      .catch(() => []),
   ]);
 
   if (!profile) throw new Response("Profile not found", { status: 404 });
@@ -123,7 +125,7 @@ export const loader = async ({
       peakRank,
       blurData,
     },
-    { headers }
+    { headers },
   );
 };
 export default function PlayerLayout() {
