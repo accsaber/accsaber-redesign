@@ -31,21 +31,21 @@ export const meta: MetaFunction<typeof loader> = (args) =>
         height: 256,
         src: `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.png`,
       },
-      "jpeg"
+      "jpeg",
     ).toString(),
   });
 
-const getMapImage = (songHash: string) =>
-  fetch(
-    getImaginaryURL(
-      {
-        width: 24,
-        height: 24,
-        src: `covers/${songHash.toUpperCase()}.png`,
-      },
-      "webp"
-    )
-  ).then((res) => res.arrayBuffer());
+const getMapImage = async (songHash: string) => null;
+// fetch(
+//   getImaginaryURL(
+//     {
+//       width: 24,
+//       height: 24,
+//       src: `covers/${songHash.toUpperCase()}.png`,
+//     },
+//     "webp",
+//   ),
+// ).then((res) => res.arrayBuffer());
 
 export const loader = async ({
   params: { mapId },
@@ -60,7 +60,7 @@ export const loader = async ({
   const [map, allLeaderboard] = await Promise.all([
     gqlClient.request(RankedMapPageDocument, { mapId }),
     json<MapLeaderboardPlayer[]>(
-      `map-leaderboards/${encodeURIComponent(mapId)}`
+      `map-leaderboards/${encodeURIComponent(mapId)}`,
     ).catch((e) => {
       throw new Response("Map not found", { status: e.status });
     }),
@@ -90,7 +90,7 @@ export const loader = async ({
         ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
         : null,
     },
-    { headers }
+    { headers },
   );
 };
 

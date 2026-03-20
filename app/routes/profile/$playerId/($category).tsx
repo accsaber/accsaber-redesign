@@ -43,25 +43,15 @@ export const meta: MetaFunction<typeof loader> = (args) =>
   });
 
 const getPlayerImage = async (playerId: string) =>
-  playerId.startsWith("7")
-    ? `data:image/webp;base64,${Buffer.from(
-        await fetch(
-          getImaginaryURL({
-            src: `avatars/${playerId}.jpg`,
-            width: 32,
-            height: 32,
-          }),
-        ).then((res) => res.arrayBuffer()),
-      ).toString("base64")}`
-    : `data:image/svg+xml;base64,${
-        playerId
-          ? Buffer.from(
-              renderToStaticMarkup(
-                <Avatar name={playerId} variant="beam" square />,
-              ),
-            ).toString("base64")
-          : ""
-      }`;
+  `data:image/svg+xml;base64,${
+    playerId
+      ? Buffer.from(
+          renderToStaticMarkup(
+            <Avatar name={playerId} variant="beam" square />,
+          ),
+        ).toString("base64")
+      : ""
+  }`;
 
 export const loader = async ({
   params: { playerId, category = "overall" },
