@@ -1,22 +1,13 @@
 import type ApiConfig from "../../interfaces/config";
 
 const productionConfig: ApiConfig = {
-  apiURL:
-    typeof window !== "undefined"
-      ? "https://api.accsaber.com"
-      : "http://accsaber-backend.default.svc",
-  campaignsURL:
-    typeof window !== "undefined"
-      ? "https://campaigns.accsaber.com"
-      : "http://campaigns-backend.default.svc/api/",
-  cdnURL: "https://fastly.accsaber.com",
-  publicURL: "https://fastly.accsaber.com/_frontend",
-  gqlURL:
-    typeof process !== "undefined" && process?.env?.POSTGRAPHILE_SERVICE_HOST
-      ? `http://${process.env.POSTGRAPHILE_SERVICE_HOST}/graphql`
-      : "https://gql.accsaber.com/graphql",
+  apiURL: "https://api.h2.accsaber.com",
+  campaignsURL: typeof "https://campaigns.h2.accsaber.com",
+  cdnURL: "https://cdn.accsaber.com",
+  publicURL: "https://cdn.accsaber.com/_frontend",
+  gqlURL: "https://gql.h2.accsaber.com/graphql",
   defaultLocale: "en-AU",
-  isBeta: true,
+  isBeta: false,
 };
 
 export default productionConfig;
