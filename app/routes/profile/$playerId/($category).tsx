@@ -67,7 +67,7 @@ export const loader = async ({
       ? -1
       : ["true", "standard", "tech"].indexOf(category) + 1;
 
-  const [profile, queryData, blurData, campaignStatus] = await Promise.all([
+  const [profile, queryData, campaignStatus] = await Promise.all([
     getPlayer(playerId, category)
       .then(withTiming(headers, "fetch", "Get Player"))
       .catch(() => {
@@ -83,7 +83,6 @@ export const loader = async ({
         historyDays,
       })
       .then(withTiming(headers, "query", "GraphQL Query")),
-    getPlayerImage(playerId),
     apiJson<CampaignStatus[]>(
       new URL(`0/player-campaign-infos/${playerId}`, config.campaignsURL)
     )
@@ -104,21 +103,13 @@ export const loader = async ({
       queryData,
       category,
       peakRank,
-      blurData,
     },
     { headers }
   );
 };
 export default function PlayerLayout() {
-  const {
-    campaignStatus,
-    category,
-    profile,
-    queryData,
-    playerId,
-    blurData,
-    peakRank,
-  } = useLoaderData<typeof loader>();
+  const { campaignStatus, category, profile, queryData, playerId, peakRank } =
+    useLoaderData<typeof loader>();
 
   return (
     <main>
@@ -130,7 +121,6 @@ export default function PlayerLayout() {
         campaignStatus={campaignStatus.filter(Boolean)}
         // @ts-ignore
         queryData={queryData}
-        miniblur={blurData ?? undefined}
       />
       <div className="relative max-w-screen-lg py-8 mx-auto">
         <Outlet />

@@ -26,12 +26,10 @@ export const meta: MetaFunction<typeof loader> = (args) =>
     title: `${args.data?.map.beatMap?.song?.songName} | AccSaber`,
     description: `${args.data?.map.beatMap?.song?.songName}: A ranked ${args.data?.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
     "og:image": new URL(
-      `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.webp`,
+      `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}`,
       config.cdnURL
     ).toString(),
   });
-
-const getMapImage = async (songHash: string) => null;
 
 export const loader = async ({
   params: { mapId },
@@ -52,10 +50,6 @@ export const loader = async ({
     }),
   ]);
 
-  const blurData = map.beatMap?.song?.songHash
-    ? await getMapImage(map.beatMap?.song?.songHash)
-    : "";
-
   const page = parseInt(searchParams.get("page") ?? "1");
   const pages = Math.ceil(allLeaderboard.length / pageSize);
 
@@ -72,9 +66,6 @@ export const loader = async ({
       pageSize,
       map,
       leaderboard,
-      blurData: blurData
-        ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
-        : null,
     },
     { headers }
   );
@@ -86,16 +77,14 @@ export default function MapPage() {
     leaderboard,
     page,
     pages,
-    blurData,
   } = useLoaderData<typeof loader>();
 
   return (
     <>
       <PageHeader
-        image={`covers/${map?.song?.songHash.toUpperCase()}.webp`}
+        image={`covers/${map?.song?.songHash.toUpperCase()}`}
         transparent
         hideTitleUntilScrolled
-        miniblur={blurData ?? undefined}
         actionButton={
           <div className="flex">
             <a
@@ -137,25 +126,12 @@ export default function MapPage() {
 
       <main>
         <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
-          {blurData ? (
-            <CDNImage
-              src={`covers/${map?.song?.songHash.toUpperCase()}.webp`}
-              alt={""}
-              width={128}
-              height={128}
-              className="absolute top-0 left-0 w-full h-full opacity-40 object-cover blur-xl"
-              style={{
-                background: `url(${blurData}) center / cover`,
-              }}
-            />
-          ) : (
-            <MapCover
-              songHash={map?.song?.songHash ?? ""}
-              width={128}
-              height={128}
-              className="absolute top-0 left-0 w-full h-full opacity-20 blur-3xl"
-            />
-          )}
+          <MapCover
+            songHash={map?.song?.songHash ?? ""}
+            width={128}
+            height={128}
+            className="absolute top-0 left-0 w-full h-full opacity-20 blur-3xl"
+          />
           <div
             className={[
               "flex flex-col md:flex-row gap-8 py-16 text-neutral-800 dark:text-neutral-200 items-center",
@@ -163,14 +139,11 @@ export default function MapPage() {
             ].join(" ")}
           >
             <CDNImage
-              src={`covers/${map?.song?.songHash.toUpperCase()}.webp`}
+              src={`covers/${map?.song?.songHash.toUpperCase()}`}
               alt={""}
               width={128}
               height={128}
               className="size-44 overflow-hidden rounded-lg shadow-lg aspect-square"
-              style={{
-                background: `url(${blurData}) center / cover`,
-              }}
             />
             <div className="flex flex-col gap-1">
               <h1 className="flex flex-row gap-2 w-full text-2xl font-bold items-center">

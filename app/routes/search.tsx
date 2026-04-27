@@ -2,13 +2,12 @@ import PlayerResult from "@/PlayerResult";
 import MapResult from "@/MapResult";
 import type { LoaderFunction } from "@remix-run/node";
 import { json as jsonResponse } from "@remix-run/node";
-import { search } from "./api/search";
+import { search } from "./site-api/search";
 import { Form, useLoaderData, useLocation } from "@remix-run/react";
 import type { Player } from "$interfaces/api/player";
 import type { RankedMap } from "$interfaces/api/ranked-map";
 import type { LegacyRef } from "react";
 import { useRef, useState } from "react";
-import LoadingSpinner from "@/LoadingSpinner";
 import { json } from "~/lib/api/fetcher";
 
 interface SearchData {
@@ -77,7 +76,7 @@ export function SearchPageBody({
 
             const data = await json<SearchData>(
               new URL(
-                `/api/search?query=${encodeURIComponent(
+                `/site-api/search?query=${encodeURIComponent(
                   formData.get("q")?.toString() ?? ""
                 )}`,
                 location.href

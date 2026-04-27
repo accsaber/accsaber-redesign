@@ -146,7 +146,7 @@ export default function ScoreHistoryButton({
         <div className="flex flex-col gap-4">
           <div className="flex items-center h-10 gap-3">
             <Image
-              src={`https://cdn.accsaber.com/covers/${score.songHash?.toUpperCase()}.webp`}
+              src={`https://cdn.accsaber.com/covers/${score.songHash?.toUpperCase()}`}
               className="w-10 h-10 rounded"
               loading="lazy"
               alt="Cover art"

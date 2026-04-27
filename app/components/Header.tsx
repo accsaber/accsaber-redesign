@@ -68,11 +68,7 @@ const ActionSection = ({
             prefetch="render"
             className="flex w-10 h-10 overflow-auto rounded-full aspect-square items-center justify-center"
           >
-            <CDNImage
-              width={40}
-              height={40}
-              src={`avatars/${user.playerId}.webp`}
-            />
+            <CDNImage width={40} height={40} src={`avatars/${user.playerId}`} />
           </Popover.Button>
           <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 [writing-mode:horizontal-tb]">
             <NavLink
