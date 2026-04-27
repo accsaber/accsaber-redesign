@@ -171,8 +171,6 @@ const Header = (props: { hideUser?: boolean }) => {
               >
                 <div className="md:hidden">{icon}</div>
                 <div className="hidden md:block">{name}</div>
-
-                <div className="tooltip top-8">{name}</div>
               </NavLink>
             ))}
           </nav>
