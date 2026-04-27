@@ -30,7 +30,7 @@ export const meta: MetaFunction<typeof loader> = (args) =>
       .trim()
       .replace(/\n +/g, "\n"),
     "og:image": new URL(
-      args.data?.profile?.playerId || "0",
+      `avatars/${args.data?.profile?.playerId}`,
       config.cdnURL
     ).toString(),
   });

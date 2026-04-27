@@ -32,16 +32,6 @@ export const meta: MetaFunction<typeof loader> = (args) =>
   });
 
 const getMapImage = async (songHash: string) => null;
-// fetch(
-//   getImaginaryURL(
-//     {
-//       width: 24,
-//       height: 24,
-//       src: `covers/${songHash.toUpperCase()}.png`,
-//     },
-//     "webp",
-//   ),
-// ).then((res) => res.arrayBuffer());
 
 export const loader = async ({
   params: { mapId },
