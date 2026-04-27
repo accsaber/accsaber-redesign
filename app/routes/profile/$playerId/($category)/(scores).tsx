@@ -33,7 +33,6 @@ export const loader: LoaderFunction = async ({
   const page = parseInt(searchParams.get("page") ?? "1");
 
   const headers = new Headers();
-  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
   const started = now();
 
   const { accSaberScores: scores } = await gqlClient.request(

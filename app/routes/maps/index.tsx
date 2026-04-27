@@ -15,8 +15,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const { searchParams } = new URL(request.url);
 
   const headers = new Headers();
-  headers.append("Cache-Control", "max-age=60, stale-while-revalidate=6400");
-
   const sortByParam = (searchParams.get("sortBy") ??
     "DateRankedDesc") as keyof typeof BeatMapsOrderBy;
   return json(
