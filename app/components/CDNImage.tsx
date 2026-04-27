@@ -9,30 +9,11 @@ interface CDNSource {
   height: number;
 }
 
-export const getImaginaryURL = (image: CDNSource, format?: string) => {
-  const targetURL = new URL(image.src, "https://cdn.accsaber.com");
-  const isCDN = targetURL.hostname === "cdn.accsaber.com";
-
-  const encodedPath = btoa(
-    isCDN
-      ? new URL(targetURL.pathname, "http://accsaber-media/").toString()
-      : targetURL.toString(),
-  );
-
-  const targetPath = new URL(
-    `o7d/s:${image.width}:${image.height}/${encodedPath}${
-      format ? `.${format}` : ""
-    }`,
-    config.cdnURL,
-  );
-
-  return targetPath;
-};
-
-interface CDNImageProps extends DetailedHTMLProps<
-  ImgHTMLAttributes<HTMLImageElement>,
-  HTMLImageElement
-> {
+interface CDNImageProps
+  extends DetailedHTMLProps<
+    ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  > {
   src: string;
   width: number;
   height: number;

@@ -10,13 +10,13 @@ import { json as jsonResponse } from "@remix-run/node";
 import { Link, NavLink, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
-import { language } from "~/lib/api/config";
+import config, { language } from "~/lib/api/config";
 import { json } from "~/lib/api/fetcher";
 import { gqlClient } from "~/lib/api/gql";
 import scoresaberLogo from "~/images/scoresaber.svg";
 import PlayerAvatar from "@/PlayerAvatar";
 import MapCover from "@/MapCover";
-import CDNImage, { getImaginaryURL } from "@/CDNImage";
+import CDNImage from "@/CDNImage";
 import { metaV1 } from "@remix-run/v1-meta";
 
 const pageSize = 50;
@@ -25,13 +25,9 @@ export const meta: MetaFunction<typeof loader> = (args) =>
   metaV1(args, {
     title: `${args.data?.map.beatMap?.song?.songName} | AccSaber`,
     description: `${args.data?.map.beatMap?.song?.songName}: A ranked ${args.data?.map.beatMap?.category?.categoryDisplayName} map on AccSaber`,
-    "og:image": getImaginaryURL(
-      {
-        width: 256,
-        height: 256,
-        src: `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.webp`,
-      },
-      "jpeg"
+    "og:image": new URL(
+      `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.webp`,
+      config.cdnURL
     ).toString(),
   });
 

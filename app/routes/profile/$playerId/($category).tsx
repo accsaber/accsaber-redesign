@@ -2,7 +2,6 @@ import type { PlayerLayoutQuery } from "$gql";
 import { PlayerLayoutDocument } from "$gql";
 import type { Player } from "$interfaces/api/player";
 import type CampaignStatus from "$interfaces/campaign/campaignStatus";
-import { getImaginaryURL } from "@/CDNImage";
 import PlayerHeader from "@/PlayerHeader";
 import { defer, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -30,16 +29,10 @@ export const meta: MetaFunction<typeof loader> = (args) =>
   ${args.data?.profile?.hmd}`
       .trim()
       .replace(/\n +/g, "\n"),
-    "og:image": args.data?.profile?.playerId.startsWith("7")
-      ? getImaginaryURL(
-          {
-            width: 256,
-            height: 256,
-            src: `avatars/${args.data?.profile?.playerId}.webp`,
-          },
-          "jpeg"
-        ).toString()
-      : `/api/avatar/${args.data?.profile?.playerId}`,
+    "og:image": new URL(
+      args.data?.profile?.playerId || "0",
+      config.cdnURL
+    ).toString(),
   });
 
 const getPlayerImage = async (playerId: string) =>
@@ -134,7 +127,7 @@ export default function PlayerLayout() {
         profile={profile}
         playerId={playerId}
         peakRank={peakRank}
-        campaignStatus={campaignStatus}
+        campaignStatus={campaignStatus.filter(Boolean)}
         // @ts-ignore
         queryData={queryData}
         miniblur={blurData ?? undefined}
