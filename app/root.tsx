@@ -85,7 +85,7 @@ export const ErrorBoundary = () => {
         <Meta />
         <LinksBlock />
       </head>
-      <body>
+      <body className="antialiased">
         <Header hideUser />
         <div className="p-6 py-16 prose prose-lg dark:prose-invert max-w-screen-lg mx-auto">
           {error.status === 404 ? (
@@ -147,7 +147,7 @@ export default function App() {
               dark
                 ? `dark graphiql-dark bg-neutral-900 text-white`
                 : `graphiql-light bg-white text-neutral-900`
-            } overflow-auto flex flex-col`}
+            } overflow-auto flex flex-col antialiased`}
           >
             <Header />
             <QueryClientProvider client={queryClient}>

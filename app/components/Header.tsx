@@ -171,18 +171,10 @@ const Header = (props: { hideUser?: boolean }) => {
               >
                 <div className="md:hidden">{icon}</div>
                 <div className="hidden md:block">{name}</div>
+
+                <div className="tooltip top-8">{name}</div>
               </NavLink>
             ))}
-            <a
-              href="https://wiki.accsaber.com"
-              className="headerNav flex gap-2 relative group"
-              aria-label="Wiki"
-            >
-              <div className="md:hidden">
-                <BookOpenIcon className="w-6 h-6" />
-              </div>
-              <div className="hidden md:block">Wiki</div>
-            </a>
           </nav>
           {!props.hideUser ? (
             <>
@@ -235,9 +227,6 @@ const Header = (props: { hideUser?: boolean }) => {
               {name}
             </NavLink>
           ))}
-          <a href="https://wiki.accsaber.com" className="headerNav">
-            Wiki
-          </a>
         </nav>
       </PopoverMenu>
       <dialog

@@ -1,4 +1,9 @@
-import { ChartBarSquareIcon, MapIcon } from "@heroicons/react/24/outline";
+import {
+  ChartBarSquareIcon,
+  MapIcon,
+  BookOpenIcon,
+  BeakerIcon,
+} from "@heroicons/react/24/outline";
 import type HeaderItem from "./interfaces/components/header/item";
 
 const headerItems: HeaderItem[] = [
@@ -13,6 +18,16 @@ const headerItems: HeaderItem[] = [
     href: "/maps",
     icon: <MapIcon className="w-6 h-6" />,
     match: /^\/maps.*$/,
+  },
+  {
+    name: "Wiki",
+    href: "https://wiki.accsaber.com/",
+    icon: <BookOpenIcon className="w-6 h-6" />,
+  },
+  {
+    name: "Rank Requests",
+    href: "https://ranking.accsaber.com/",
+    icon: <BeakerIcon className="w-6 h-6" />,
   },
 ];
 
