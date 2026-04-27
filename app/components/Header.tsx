@@ -71,7 +71,7 @@ const ActionSection = ({
             <CDNImage
               width={40}
               height={40}
-              src={`avatars/${user.playerId}.jpg`}
+              src={`avatars/${user.playerId}.webp`}
             />
           </Popover.Button>
           <Popover.Panel className="bg-white text-neutral-900 absolute right-0 rounded shadow-lg z-20 overflow-hidden flex flex-col w-48 [writing-mode:horizontal-tb]">

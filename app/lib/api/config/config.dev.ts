@@ -1,12 +1,13 @@
 import type ApiConfig from "../../interfaces/config";
 
 const developmentConfig: ApiConfig = {
-  apiURL: "https://api.accsaber.com",
-  campaignsURL: "https://campaigns.accsaber.com",
-  cdnURL: "https://cdn.accsaber.com",
-  gqlURL: "https://gql.accsaber.com/graphql",
+  apiURL: "https://api.h2.accsaber.com",
+  campaignsURL: "https://campaigns.h2.accsaber.com",
+  cdnURL: "https://accsaber.com/media/",
+  publicURL: "https://cdn.accsaber.com/_frontend",
+  gqlURL: "https://gql.h2.accsaber.com/graphql",
   defaultLocale: "en-AU",
-  isBeta: true,
+  isBeta: false,
 };
 
 export default developmentConfig;

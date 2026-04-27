@@ -62,7 +62,7 @@ export default function PlayerHeader({
               height={144}
               className={"w-8 h-8 rounded-full relative overflow-hidden"}
               alt=""
-              src={`avatars/${profile.playerId}.jpg`}
+              src={`avatars/${profile.playerId}.webp`}
               style={{
                 background: `url(${miniblur}) center / cover`,
               }}
@@ -189,7 +189,7 @@ export default function PlayerHeader({
                 ][highestLevel] ?? "border-neutral-400 dark:border-neutral-600",
               ].join(" ")}
               alt=""
-              src={`avatars/${profile.playerId}.jpg`}
+              src={`avatars/${profile.playerId}.webp`}
               style={{
                 background: `url(${miniblur}) center / cover`,
               }}

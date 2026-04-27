@@ -25,7 +25,7 @@ const MapCover = (props: CoverProps) => {
 
       <foreignObject width={120} height={120} x={0} y={0}>
         <CDNImage
-          src={`covers/${props.songHash.toUpperCase()}.png`}
+          src={`covers/${props.songHash.toUpperCase()}.webp`}
           alt={props.alt ?? ""}
           width={props.width ?? 120}
           height={props.height ?? 120}

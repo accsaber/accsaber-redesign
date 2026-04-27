@@ -29,9 +29,9 @@ export const meta: MetaFunction<typeof loader> = (args) =>
       {
         width: 256,
         height: 256,
-        src: `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.png`,
+        src: `covers/${args.data?.map.beatMap?.song?.songHash.toUpperCase()}.webp`,
       },
-      "jpeg",
+      "jpeg"
     ).toString(),
   });
 
@@ -60,7 +60,7 @@ export const loader = async ({
   const [map, allLeaderboard] = await Promise.all([
     gqlClient.request(RankedMapPageDocument, { mapId }),
     json<MapLeaderboardPlayer[]>(
-      `map-leaderboards/${encodeURIComponent(mapId)}`,
+      `map-leaderboards/${encodeURIComponent(mapId)}`
     ).catch((e) => {
       throw new Response("Map not found", { status: e.status });
     }),
@@ -90,7 +90,7 @@ export const loader = async ({
         ? `data:image/webp;base64,${Buffer.from(blurData).toString("base64")}`
         : null,
     },
-    { headers },
+    { headers }
   );
 };
 
@@ -106,7 +106,7 @@ export default function MapPage() {
   return (
     <>
       <PageHeader
-        image={`covers/${map?.song?.songHash.toUpperCase()}.png`}
+        image={`covers/${map?.song?.songHash.toUpperCase()}.webp`}
         transparent
         hideTitleUntilScrolled
         miniblur={blurData ?? undefined}
@@ -153,7 +153,7 @@ export default function MapPage() {
         <div className="relative overflow-hidden bg-neutral-100 dark:bg-black/20">
           {blurData ? (
             <CDNImage
-              src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
+              src={`covers/${map?.song?.songHash.toUpperCase()}.webp`}
               alt={""}
               width={128}
               height={128}
@@ -172,16 +172,16 @@ export default function MapPage() {
           )}
           <div
             className={[
-              "flex flex-col md:flex-row gap-6 py-16 text-neutral-800 dark:text-neutral-200 items-center",
+              "flex flex-col md:flex-row gap-8 py-16 text-neutral-800 dark:text-neutral-200 items-center",
               "max-w-screen-lg mx-auto px-4 relative",
             ].join(" ")}
           >
             <CDNImage
-              src={`covers/${map?.song?.songHash.toUpperCase()}.png`}
+              src={`covers/${map?.song?.songHash.toUpperCase()}.webp`}
               alt={""}
               width={128}
               height={128}
-              className="w-32 h-32 overflow-hidden rounded-lg shadow-lg aspect-square"
+              className="size-44 overflow-hidden rounded-lg shadow-lg aspect-square"
               style={{
                 background: `url(${blurData}) center / cover`,
               }}

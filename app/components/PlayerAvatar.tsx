@@ -37,7 +37,7 @@ const PlayerAvatar = (props: AvatarProps) => {
       {props.profile.playerId.startsWith("7") && (
         <foreignObject width={120} height={120} x={0} y={0}>
           <CDNImage
-            src={`avatars/${props.profile.playerId}.jpg`}
+            src={`avatars/${props.profile.playerId}.webp`}
             alt={`${props.profile.playerName}'s profile`}
             width={props.width ?? 144}
             height={props.height ?? 144}
